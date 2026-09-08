@@ -20,7 +20,7 @@ export default function SearachBar() {
         }
     })
     return (
-        <div className="w-screen flex justify-center items-center h-16">
+        <div className="w-screen flex justify-center items-center h-16 relative bottom-10 ">
             <form className="w-[90%] p-2 flex gap-2 h-full justify-between items-center  bg-white  rounded-xl  shadow-md">
                 <div className="flex gap-3 items-center">
 
