@@ -9,7 +9,12 @@ import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { MapPin, Briefcase, Calendar, CircleDollarSign, UsersRound, ChevronDown, Search } from "lucide-react"
 import { Button } from "../ui/button"
-export default function SearachBar() {
+interface SearchBarProps {
+  bottomPosition?: string;
+}
+export default function SearachBar({
+  bottomPosition,
+}: SearchBarProps) {
     const form = useForm({
         defaultValues: {
             destination: "",
@@ -20,8 +25,12 @@ export default function SearachBar() {
         }
     })
     return (
-        <div className="w-screen flex justify-center items-center h-16 relative bottom-10 ">
-            <form className="w-[90%] p-2 flex gap-2 h-full justify-between items-center  bg-white  rounded-xl  shadow-md">
+<div
+  className="w-screen flex justify-center items-center h-19 relative z-10"
+  style={{
+    bottom: `${bottomPosition}rem`,
+  }}
+>                <form className="w-[90%] p-2 flex gap-2 px-5 h-full justify-between items-center  bg-white    rounded-3xl  shadow-md">
                 <div className="flex gap-3 items-center">
 
                     <MapPin className="text-primary" size={30}/>
@@ -116,8 +125,8 @@ export default function SearachBar() {
                     />
                 </div>
                 <Separator orientation="vertical" className="mx-4" />
-                <Button className="cursor-pointer rounded-full px-5 py-6 text-base font-semibold">
-                    <Search   size={32} />
+                <Button className="cursor-pointer rounded-full px-5 py-6 text-lg font-semibold">
+                    <Search    strokeWidth={3}  className="h-4.5! w-4.5!" />
                     Search
                 </Button>
             </form>

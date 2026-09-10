@@ -128,3 +128,315 @@
    
   }
 }
+
+
+/* ============================================================
+   TRAVEL MAP MARKER
+============================================================ */
+/* ============================================================
+   EXPLORE MAP
+============================================================ */
+
+.explore-map {
+  background: #f8fbfa;
+}
+
+
+/* Remove Leaflet default appearance */
+
+.explore-map .leaflet-control-attribution {
+  display: none;
+}
+
+
+/* ============================================================
+   DESTINATION MARKER
+============================================================ */
+
+.travel-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+
+.travel-marker-wrapper {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+
+/* Soft outer circle */
+
+.travel-marker-ring {
+  position: absolute;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 9999px;
+
+  background: rgba(32, 199, 181, 0.14);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+
+/* Main dot */
+
+.travel-marker-dot {
+  position: relative;
+
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9999px;
+
+  background: #20c7b5;
+
+  border: 3px solid white;
+
+  box-shadow:
+    0 3px 12px rgba(32, 199, 181, 0.35);
+
+  z-index: 2;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Small center */
+
+.travel-marker-inner {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 9999px;
+
+  background: white;
+}
+
+
+/* Hover */
+
+.travel-marker-wrapper:hover
+.travel-marker-dot {
+  transform: scale(1.25);
+
+  box-shadow:
+    0 5px 20px rgba(32, 199, 181, 0.45);
+}
+
+
+.travel-marker-wrapper:hover
+.travel-marker-ring {
+  transform: scale(1.3);
+
+  background: rgba(32, 199, 181, 0.20);
+}
+.travel-map-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+
+.travel-marker-pulse {
+  position: relative;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Outer circle */
+
+.travel-marker-pulse::before {
+  content: "";
+
+  position: absolute;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 9999px;
+
+  background: hsl(var(--primary) / 0.2);
+
+  animation: travel-marker-pulse 2s infinite;
+}
+
+
+/* Actual location dot */
+
+.travel-marker-dot {
+  position: relative;
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 9999px;
+
+  background: hsl(var(--primary));
+
+  border: 3px solid white;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35);
+
+  z-index: 2;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Hover */
+
+.travel-marker-pulse:hover .travel-marker-dot {
+  transform: scale(1.35);
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+
+/* Pulse animation */
+
+@keyframes travel-marker-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   DESTINATION MARKER
+============================================================ */
+
+.custom-map-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+
+/* Marker container */
+
+.destination-marker {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   ACTUAL LOCATION DOT
+============================================================ */
+
+.destination-marker-dot {
+  position: relative;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 9999px;
+
+  background: #31C4af;
+
+  border: 3px solid #31C4af;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35);
+
+  z-index: 2;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Hover */
+
+.destination-marker:hover .destination-marker-dot {
+  transform: scale(1.4);
+
+  box-shadow:
+    0 3px 14px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ============================================================
+   PULSE
+============================================================ */
+
+.destination-marker-pulse {
+  position: absolute;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 9999px;
+
+  background: hsl(var(--primary) / 0.2);
+
+  animation: destination-pulse 2s infinite;
+}
+
+
+@keyframes destination-pulse {
+
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+
+}

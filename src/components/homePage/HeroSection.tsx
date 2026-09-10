@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     ArrowRight,
     ChevronLeft,
@@ -12,7 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Oswald } from "next/font/google";
-
+const SLIDE_DURATION = 3000;
 // ============================================================
 // FONT
 // ============================================================
@@ -59,14 +59,7 @@ const destinations = [
         description:
             "Relax beside beautiful beaches and discover unforgettable coastal destinations.",
     },
-    {
-        id: 5,
-        name: "RAJASTHAN",
-        image: "/images/hero/heroImage-1.png",
-        background: "/images/hero/heroImage-1.png",
-        description:
-            "Experience royal palaces, colorful culture and the timeless beauty of Rajasthan.",
-    },
+
 ];
 
 // ============================================================
@@ -111,7 +104,7 @@ export default function HeroSection() {
                 (current) =>
                     (current + 1) % destinations.length
             );
-        }, 6500);
+        }, SLIDE_DURATION);
 
         return () => clearInterval(interval);
     }, []);
@@ -143,7 +136,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 bg-black">
                 {destinations.map((destination, index) => (
                     <motion.div
-                        key={destination.background}
+                        key={destination.id}
                         initial={false}
                         animate={{
                             opacity:
@@ -158,12 +151,11 @@ export default function HeroSection() {
                         }}
                         transition={{
                             opacity: {
-                                duration: 0.8,
+                                duration: 0.5,
                                 ease: "easeInOut",
                             },
-
                             scale: {
-                                duration: 1.3,
+                                duration: 0.7,
                                 ease: "easeOut",
                             },
                         }}
@@ -181,15 +173,6 @@ export default function HeroSection() {
                             className="object-cover"
                         />
 
-                        {/* Main overlay */}
-
-                        <div
-                            className="
-                                absolute
-                                inset-0
-                                bg-black/1
-                            "
-                        />
 
                         {/* Bottom gradient */}
 
@@ -243,11 +226,12 @@ export default function HeroSection() {
 
                 <div
                     className="
-                        flex
-                        flex-1
-                        items-center
-                        lg:items-center
-                    "
+                    flex
+                    flex-1
+                    items-center
+                    lg:items-center
+                    lg:w-[54%]
+                "
                 >
                     <motion.div
                         key={activeDestination.id}
@@ -296,29 +280,22 @@ export default function HeroSection() {
 
                         <h1
                             className={`
-                                ${oswald.className}
+        ${oswald.className}
+        max-w-[700px]
+        text-[32px]
+        font-semibold
+        uppercase
+        leading-[0.95]
+        tracking-[0.5px]
+        text-white
 
-                                max-w-[650px]
-
-                                text-[54px]
-                                font-semibold
-                                uppercase
-                                leading-[0.95]
-                                tracking-[0.5px]
-                                text-white
-
-                                sm:text-[70px]
-
-                                md:text-[80px]
-
-                                lg:text-[86px]
-
-                                xl:text-[92px]
-                            `}
+        sm:text-[58px]
+        md:text-[68px]
+        lg:text-[74px]
+        xl:text-[80px]
+    `}
                         >
-                            Discover
-                            <br />
-                            Incredible India!
+                            Discover <br /> Incredible India!
                         </h1>
 
                         {/* ==========================================
@@ -358,7 +335,7 @@ export default function HeroSection() {
                             {/* Explore Destination */}
 
                             <Button
-                                 
+
                                 className="
                                     h-10
                                     rounded-full
@@ -376,21 +353,21 @@ export default function HeroSection() {
                                     sm:text-[15px]
                                 "
                             >
-                                     Explore Destination
+                                Explore Destination
 
-                                    <ArrowRight
-                                        className="
+                                <ArrowRight
+                                    className="
                                             ml-2
                                             h-4
                                             w-4
                                         "
-                                    />
-                             </Button>
+                                />
+                            </Button>
 
                             {/* View Packages */}
 
                             <Button
-                                    
+
                                 variant="outline"
                                 className="
                                     h-10
@@ -427,44 +404,44 @@ export default function HeroSection() {
 
                 <div
                     className="
-                        relative
-                        mt-10
-                        h-[300px]
-                        w-full
+                            relative
+                            mt-10
+                            h-[300px]
+                            w-full
 
-                        lg:absolute
-                        lg:right-[-30px]
-                        lg:top-1/2
-                        lg:mt-0
-                        lg:h-[430px]
-                        lg:w-[57%]
-                        lg:-translate-y-1/2
+                            lg:absolute
+                           lg:right-[-10px]
+                            lg:top-1/2
+                            lg:mt-0
+                            lg:h-[430px]
+                            lg:w-[48%]
+                            lg:-translate-y-1/2
 
-                        xl:right-[-50px]
-                        xl:w-[58%]
-                    "
+                           xl:right-[-20px]
+                           xl:w-[47%]
+                        "
                 >
                     {/* ==============================================
-                        DOT PATTERN
-                    ============================================== */}
+                            DOT PATTERN
+                        ============================================== */}
 
                     <div
                         className="
-                            pointer-events-none
-                            absolute
-                            -left-3
-                            -top-6
-                            z-0
-                            hidden
-                            h-[145px]
-                            w-[200px]
-                            opacity-90
+                                pointer-events-none
+                                absolute
+                                -left-3
+                                -top-6
+                                z-0
+                                hidden
+                                h-[185px]
+                                w-[200px]
+                                opacity-90
 
-                            sm:block
+                                sm:block
 
-                            lg:-left-7
-                            lg:-top-8
-                        "
+                                lg:-left-9
+                                lg:-top-0
+                            "
                         style={{
                             backgroundImage:
                                 "radial-gradient(circle, white 3px, transparent 3px)",
@@ -473,182 +450,135 @@ export default function HeroSection() {
                     />
 
                     {/* ==============================================
-                        DESTINATION CARDS
-                    ============================================== */}
-
+                            DESTINATION CARDS
+                        ============================================== */}
                     <div className="absolute inset-0 overflow-visible">
-                        {destinations.map(
-                            (destination, index) => {
-                                const relativeIndex =
-                                    (index -
-                                        activeIndex +
-                                        destinations.length) %
-                                    destinations.length;
+                        {destinations.map((destination, index) => {
+                            const relativeIndex =
+                                (index -
+                                    activeIndex -
+                                    1 +
+                                    destinations.length) %
+                                destinations.length;
 
-                                /*
-                                 * 0 = ACTIVE
-                                 * 1 = SMALL
-                                 * 2 = SMALL
-                                 * 3 = SMALL
-                                 */
-
-                                if (relativeIndex > 3) {
-                                    return null;
-                                }
-
-                                // ===================================
-                                // CARD POSITIONS
-                                // ===================================
-
-                                const cardPositions = [
-                                    // ACTIVE
-                                    {
-                                        left: "0%",
-                                        top: "20px",
-                                        width: "235px",
-                                        height: "350px",
-                                        zIndex: 40,
-                                    },
-
-                                    // SMALL 1
-                                    {
-                                        left: "250px",
-                                        top: "60px",
-                                        width: "155px",
-                                        height: "285px",
-                                        zIndex: 30,
-                                    },
-
-                                    // SMALL 2
-                                    {
-                                        left: "420px",
-                                        top: "60px",
-                                        width: "155px",
-                                        height: "285px",
-                                        zIndex: 20,
-                                    },
-
-                                    // SMALL 3
-                                    {
-                                        left: "590px",
-                                        top: "60px",
-                                        width: "155px",
-                                        height: "285px",
-                                        zIndex: 10,
-                                    },
-                                ];
-
-                                const position =
-                                    cardPositions[
-                                        relativeIndex
-                                    ];
-
-                                const isActive =
-                                    relativeIndex === 0;
-
-                                return (
-                                    <motion.div
-                                        key={
-                                            destination.id
-                                        }
-                                        initial={false}
-                                        animate={{
-                                            left: position.left,
-                                            top: position.top,
-                                            width: position.width,
-                                            height: position.height,
-                                            opacity: 1,
-                                        }}
-                                        transition={{
-                                            duration: 0.7,
-                                            ease: [
-                                                0.22,
-                                                1,
-                                                0.36,
-                                                1,
-                                            ],
-                                        }}
-                                        className="
-                                            absolute
-                                            overflow-hidden
-                                            rounded-[22px]
-                                            border
-                                            border-white/15
-                                            shadow-[0_10px_35px_rgba(0,0,0,0.22)]
-                                        "
-                                        style={{
-                                            zIndex:
-                                                position.zIndex,
-                                        }}
-                                    >
-                                        {/* IMAGE */}
-
-                                        <Image
-                                            src={
-                                                destination.image
-                                            }
-                                            alt={
-                                                destination.name
-                                            }
-                                            fill
-                                            sizes="235px"
-                                            className="
-                                                object-cover
-                                                transition-transform
-                                                duration-700
-                                                hover:scale-105
-                                            "
-                                        />
-
-                                        {/* CARD GRADIENT */}
-
-                                        <div
-                                            className="
-                                                absolute
-                                                inset-0
-                                                bg-gradient-to-t
-                                                from-black/75
-                                                via-black/10
-                                                to-transparent
-                                            "
-                                        />
-
-                                        {/* DESTINATION NAME */}
-
-                                        <div
-                                            className="
-                                                absolute
-                                                bottom-5
-                                                left-4
-                                                right-3
-                                            "
-                                        >
-                                            <h2
-                                                className={`
-                                                    ${oswald.className}
-
-                                                    font-semibold
-                                                    uppercase
-                                                    leading-none
-                                                    tracking-[0.5px]
-                                                    text-white
-
-                                                    ${
-                                                        isActive
-                                                            ? "text-[32px]"
-                                                            : "text-[22px]"
-                                                    }
-                                                `}
-                                            >
-                                                {
-                                                    destination.name
-                                                }
-                                            </h2>
-                                        </div>
-                                    </motion.div>
-                                );
+                            // Hide cards outside the 4 visible slots
+                            if (relativeIndex > 3) {
+                                return null;
                             }
-                        )}
+
+                            const cardPositions = [
+                                // ACTIVE
+                                {
+                                    left: "0%",
+                                    top: "35px",
+                                    width: "235px",
+                                    height: "320px",
+                                    zIndex: 40,
+                                },
+                                // SMALL 1
+                                {
+                                    left: "249px",
+                                    top: "60px",
+                                    width: "187px",
+                                    height: "280px",
+                                    zIndex: 30,
+                                },
+                                // SMALL 2
+                                {
+                                    left: "450px",
+                                    top: "60px",
+                                    width: "187px",
+                                    height: "280px",
+                                    zIndex: 20,
+                                },
+                                // SMALL 3
+                                {
+                                    left: "650px",
+                                    top: "60px",
+                                    width: "187px",
+                                    height: "280px",
+                                    zIndex: 10,
+                                },
+                            ];
+
+                            const position = cardPositions[relativeIndex];
+                            const isActive = relativeIndex === 0;
+
+                            return (
+                                <motion.div
+                                    key={destination.id}
+                                    initial={
+                                        relativeIndex === 0
+                                            ? {
+                                                opacity: 0,
+                                                x: 80,
+                                            }
+                                            : false
+                                    }
+                                    animate={{
+                                        left: position.left,
+                                        top: position.top,
+                                        width: position.width,
+                                        height: position.height,
+                                        opacity: 1,
+                                        x: 0,
+                                    }}
+                                    transition={{
+                                        duration: relativeIndex === 0 ? 0.7 : relativeIndex === 3 ? 0 : 0.7,
+                                        ease: [0.22, 1, 0.36, 1],
+                                    }}
+                                    className="
+                    absolute
+                    overflow-hidden
+                    rounded-[22px]
+                    border
+                    border-white/15
+                    shadow-[0_10px_35px_rgba(0,0,0,0.22)]
+                "
+                                    style={{
+                                        zIndex: position.zIndex,
+                                    }}
+                                >
+                                    {/* IMAGE */}
+                                    <Image
+                                        src={destination.image}
+                                        alt={destination.name}
+                                        fill
+                                        sizes="235px"
+                                        className="
+                        object-cover
+                        transition-transform
+                        duration-700
+                        hover:scale-105
+                    "
+                                    />
+
+                                    {/* DESTINATION NAME */}
+                                    <div
+                                        className="
+                        absolute
+                        bottom-5
+                        left-4
+                        right-3
+                    "
+                                    >
+                                        <h2
+                                            className={`
+                            ${oswald.className}
+                            font-semibold
+                            uppercase
+                            leading-none
+                            tracking-[0.5px]
+                            text-white
+                            ${isActive ? "text-[32px]" : "text-[22px]"}
+                        `}
+                                        >
+                                            {destination.name}
+                                        </h2>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -660,14 +590,13 @@ export default function HeroSection() {
                     className="
                         relative
                         z-50
-                        mt-6
-                        flex
+                         flex
                         items-center
                         justify-end
                         gap-3
-
+                        bottom-20
                         lg:mt-0
-                        lg:ml-[50%]
+                        lg:ml-[53%]
                         lg:justify-start
                     "
                 >
@@ -691,9 +620,9 @@ export default function HeroSection() {
                             shadow-none
                             backdrop-blur-sm
 
-                            hover:bg-white
-                            hover:text-black
-
+                            hover:bg-primary
+                            hover:text-white
+                            hover:border-primary
                             sm:h-10
                             sm:w-10
                         "
@@ -707,11 +636,13 @@ export default function HeroSection() {
 
                     <Button
                         type="button"
+
                         variant="outline"
                         size="icon"
                         onClick={nextSlide}
                         aria-label="Next destination"
                         className="
+                            
                             h-9
                             w-9
                             rounded-full
@@ -720,9 +651,9 @@ export default function HeroSection() {
                             text-white
                             shadow-none
                             backdrop-blur-sm
-
-                            hover:bg-white
-                            hover:text-black
+                            hover:bg-primary
+                            hover:text-white
+                            hover:border-primary
 
                             sm:h-10
                             sm:w-10
@@ -761,7 +692,7 @@ export default function HeroSection() {
                                 width: "100%",
                             }}
                             transition={{
-                                duration: 6.5,
+                                duration: SLIDE_DURATION / 1000,
                                 ease: "linear",
                             }}
                             className="

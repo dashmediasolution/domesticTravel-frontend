@@ -2,13 +2,6 @@
 
 import { useState } from "react";
 
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-} from "@vnedyalk0v/react19-simple-maps";
-
-const geoUrl = "/maps/countries-110m.json";
 
 import {
     Headphones,
@@ -20,9 +13,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
+import Image from "next/image";
 
 
- 
 
 const features = [
     {
@@ -47,7 +40,8 @@ const features = [
     },
 ];
 
-
+ 
+ 
 export default function ExploreIndia() {
 
     const [selectedCountry, setSelectedCountry] =
@@ -125,7 +119,7 @@ export default function ExploreIndia() {
 
 
                     <Button
-                         
+
                         className="
                             mt-5
                             h-9
@@ -151,79 +145,16 @@ export default function ExploreIndia() {
                     ACTUAL WORLD MAP
                 =========================================== */}
 
-                <div
-                    className="
-                        relative
-                        flex
-                        w-full
-                        items-center
-                        justify-center
-                    "
-                >
-<ComposableMap
-  projection="geoEqualEarth"
-  projectionConfig={{
-    scale: 145,
-  }}
->
-  <Geographies geography={geoUrl}>
-    {({ geographies }) =>
-      geographies.map((geo) => (
-        <Geography
-          key={geo.rsmKey}
-          geography={geo}
-          style={{
-            default: {
-              fill: "#B9D9D7",
-              stroke: "#FFFFFF",
-              strokeWidth: 0.5,
-              outline: "none",
-            },
-            hover: {
-              fill: "#20BFAF",
-              stroke: "#FFFFFF",
-              outline: "none",
-            },
-            pressed: {
-              fill: "#08736F",
-              outline: "none",
-            },
-          }}
-        />
-      ))
-    }
-  </Geographies>
-</ComposableMap>
-
-
-                    {/* ======================================
-                        COUNTRY TOOLTIP
-                    ======================================= */}
-
-                    {selectedCountry && (
-                        <div
-                            className="
-                                pointer-events-none
-                                absolute
-                                left-1/2
-                                top-5
-                                -translate-x-1/2
-                                rounded-full
-                                bg-[#00383B]
-                                px-4
-                                py-2
-                                text-sm
-                                font-medium
-                                text-white
-                                shadow-lg
-                            "
-                        >
-                            {selectedCountry}
-                        </div>
-                    )}
-
-                </div>
-
+               <div className="relative h-[400px] w-full">
+    <Image
+        src="/images/world map.png"
+        alt="Wander India travel map"
+        fill
+        priority
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
+        className="object-contain cursor-pointer"
+    />
+</div>
 
                 {/* ==========================================
                     RIGHT FEATURES CARD
@@ -233,7 +164,7 @@ export default function ExploreIndia() {
                     className="
                         w-full
                         rounded-[24px]
-                        border-0
+                        border-none
                         bg-white
                         p-6
                         shadow-[0_2px_15px_rgba(0,0,0,0.10)]

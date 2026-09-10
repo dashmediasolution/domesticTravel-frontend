@@ -15,7 +15,7 @@ export default function WhyChooseUs() {
     ];
 
     return (
-        <section className="w-full overflow-hidden bg-white px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
+        <section className="w-full overflow-hidden bg-white p-5 sm:px-8 lg:px-12 ">
             <div
                 className="
                     mx-auto
@@ -196,29 +196,23 @@ export default function WhyChooseUs() {
 
                 <div
                     className="
-                        relative
-                        mx-auto
-                        h-[420px]
-                        w-full
-                        max-w-[600px]
-                        sm:h-[500px]
-                        lg:h-[540px]
-                        xl:h-[570px]
-                    "
+    relative
+    mx-auto
+    h-[420px]
+    w-full
+    max-w-[600px]
+    sm:h-[500px]
+    lg:h-[540px]
+    xl:h-[570px]
+  "
                 >
                     <Image
                         src="/images/phoneImage1.png"
                         alt="Wander India travel app"
                         fill
                         priority
-                        sizes="
-                            (max-width: 640px) 100vw,
-                            (max-width: 1024px) 80vw,
-                            50vw
-                        "
-                        className="
-                            object-contain
-                        "
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
+                        className="object-contain"
                     />
                 </div>
             </div>

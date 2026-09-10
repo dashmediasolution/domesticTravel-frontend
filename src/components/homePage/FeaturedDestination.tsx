@@ -12,9 +12,9 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Star, Bookmark, IndianRupee } from "lucide-react";
+import { Star, Bookmark, IndianRupee, ArrowUpRight } from "lucide-react";
 import { MdOutlineArrowOutward } from "react-icons/md";
-
+import { Button } from "../ui/button";
 const featured = [
     {
         destination: "RISHIKESH",
@@ -77,13 +77,37 @@ const featured = [
 export function FeaturedDestination() {
     const [state, setState] = useState("india")
     return (
-        <section className="w-full px-4 sm:px-6 lg:px-8">
+        <section className="w-full px-4 sm:px-6 lg:px-8 flex justify-between flex-col rounded-[24px]">
+            <div className="mb-7 mx-auto flex justify-between max-w-7xl w-full " >
+
+                <h2
+                    className="
+                            text-[24px]
+                            font-medium
+                            tracking-[-0.5px]
+                            text-black
+                            sm:text-[25px]
+                        "
+                >
+                    Featured Destinations
+
+                </h2>
+
+
+                <Button type="button" variant="outline" className="   hidden h-11 rounded-full border-primary px-5 text-[15px]
+                            font-normal text-primary hover:bg-primary   hover:text-white sm:flex">
+                 View all destinations
+                    <ArrowUpRight className="ml-2 h-5 w-5" />
+                </Button>
+
+            </div>
+
             <Carousel
                 opts={{
                     align: "start",
                     loop: true,
                 }}
-        className="mx-auto w-full max-w-7xl rounded-[24px]"
+                className="mx-auto w-full flex justify-center  max-w-7xl  flex-col  rounded-[24px]"
             >
                 <CarouselContent className="-ml-4">
                     {featured.map((item) => (
@@ -291,7 +315,7 @@ export function FeaturedDestination() {
                             onClick={() => {
                                 setState("india");
 
-                           
+
                             }}
                             className={`
                                 rounded-full
@@ -318,7 +342,7 @@ export function FeaturedDestination() {
                             onClick={() => {
                                 setState("international");
 
-                          
+
                             }}
                             className={`
                                 rounded-full
@@ -343,9 +367,10 @@ export function FeaturedDestination() {
                             className="
                             static
                             translate-y-0
+                            text-[#7B84A6]
                             size-9
                             rounded-full
-                            bg-gray-200
+                            bg-[#F6F7F9]
                             hover:bg-primary
                             hover:text-white
                         "
@@ -357,7 +382,8 @@ export function FeaturedDestination() {
                             translate-y-0
                             size-9
                             rounded-full
-                            bg-gray-200
+                             text-[#7B84A6]
+                            bg-[#F6F7F9]
                             hover:bg-primary
                             hover:text-white
                         "

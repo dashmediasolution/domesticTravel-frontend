@@ -74,7 +74,7 @@ export default function Home() {
   return (
     <div className="flex gap-5 flex-col">
       <HeroSection />
-      <SearachBar />
+      <SearachBar bottomPosition="3.5"/>
       <FeaturedDestination />
       <BrowseByCategory />
       <BannerCarousel banners={firstBanner} />
