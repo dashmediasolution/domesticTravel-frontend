@@ -67,9 +67,9 @@ export default function TravelStories() {
 const router = useRouter();
 
     return (
-        <section className="w-full px-6 py-10 sm:px-8 lg:px-12">
+        <section className="w-full px-6 py-10   ">
 
-            <div className="mx-auto w-full max-w-[1344px]">
+            <div className="mx-auto w-[95%]">
 
 
                 <div className="mb-6 flex items-center justify-between">

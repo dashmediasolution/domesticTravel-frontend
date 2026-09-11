@@ -4,6 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import SearachBar from "@/components/homePage/SerachBar";
+import PackagesByDestination from "@/components/destination/PackagesByDestination";
+import TravelInformation from "@/components/packagess/TravelInformation";
+import { BestPackageByDestination } from "@/components/packagess/BestPackageByDestination";
+import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
+import Itinerary from "@/components/packagess/Itinerary";
+import BlogSection from "@/components/BlogSection";
+import WeatherForecast from "@/components/WheatherForcast";
+import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
 import {
   ArrowLeft,
@@ -32,7 +40,7 @@ import {
   Umbrella,
   Caravan,
   Bike,
-   Mountain,
+  Mountain,
   Ship,
   Fish,
   Camera,
@@ -84,34 +92,46 @@ const mountainActivities = [
 // DESTINATION DATA
 // ============================================================
 
-const destination = {
-  name: "Manali",
-
-  subtitle: "The Valley of Snow & Adventure",
-
-  location: "Himachal Pradesh",
-
-  rating: "4.9",
-
-  reviews: "1.2K+ Reviews",
-
-  packages: "120+ Packages",
-
-  weather: "-2°C to 23°C",
-
-  altitude: "2,050 m",
-
-  idealTrip: "3-6 Days",
-
-  budget: "$7,000-$15,000",
-
-  description:
-    "Surrounded by snow-capped peaks, pine forests and breathtaking valleys, Manali is perfect for adventure, nature lovers and peaceful getaways.",
-
-  heroImage: "/images/manali1.png",
+ 
+const bestTimeToVisit = {
+  months: ["Mar", "Apr"],
+  seasons: [
+    {
+      name: "Winter",
+      months: "Dec - Feb",
+      description: "Snowfall, cozy stays, perfect for snow activities.",
+      icon: "winter" as const,
+    },
+    {
+      name: "Summer",
+      months: "Mar - Jun",
+      description: "Pleasant weather, ideal for sightseeing and adventure.",
+      icon: "summer" as const,
+    },
+    {
+      name: "Monsoon",
+      months: "Jul - Sep",
+      description: "Lush green views, less crowded.",
+      icon: "monsoon" as const,
+    },
+  ],
 };
+const travelInfo = [
+  { label: "Nearest Airport", value: "Bhunter Airport (50 km)", icon: "airport" as const },
+  { label: "Nearest Railway Station", value: "Joginder Nagar (120 km)", icon: "railway" as const },
+  { label: "Local Transport", value: "Train, Buses, Bikes Available", icon: "transport" as const },
+  { label: "Languages Spoken", value: "Hindi, English, Pahadi", icon: "language" as const },
+  { label: "Permits Required", value: "Rohtang Pass Permit (If Applicable)", icon: "permit" as const },
+  { label: "Currency", value: "Indian Rupee (INR)", icon: "currency" as const },
+];
 
-
+const packingItems = [
+  { label: "Warm Clothes (Even in Summer)", icon: "clothes" as const },
+  { label: "Sunglasses & Sunscreen", icon: "sunglasses" as const },
+  { label: "Comfortable Shoes", icon: "shoes" as const },
+  { label: "Power Bank & ID Proof", icon: "powerbank" as const },
+  { label: "Personal Medicines", icon: "medicine" as const },
+];
 // ============================================================
 // GALLERY
 // ============================================================
@@ -132,21 +152,18 @@ const gallery = [
     title: "Deos Village",
     location: "Himachal Pradesh",
   },
+    {
+    src: "/images/destination/image-3.png",
+    title: "Himalayan Valley",
+    location: "Himachal Pradesh",
+  },
   {
     src: "/images/destination/image-1.png",
     title: "Mountain Escape",
     location: "Manali",
   },
-  {
-    src: "/images/destination/image-3.png",
-    title: "Himalayan Valley",
-    location: "Himachal Pradesh",
-  },
-  {
-    src: "/images/destination/image-3.png",
-    title: "Himalayan Valley",
-    location: "Himachal Pradesh",
-  },
+
+
 ];
 
 
@@ -183,8 +200,48 @@ const activities = [
 
 
 
+const itinerary = [
+  {
+    day: 1,
+    title: "Arrival in Manali & Local Sightseeing",
+    description: "Arrive in Manali, check into your hotel and explore the local attractions.",
+  },
+  {
+    day: 2,
+    title: "Solang Valley & Atal Tunnel Excursion",
+    description: "Enjoy the scenic beauty of Solang Valley and visit Atal Tunnel.",
+  },
+  {
+    day: 3,
+    title: "Rohtang Pass (If Permitted) & Adventure Activities",
+    description: "Visit Rohtang Pass depending on weather and permit availability.",
+  },
+  {
+    day: 4,
+    title: "Old Manali, Hidimba Temple & Shopping",
+    description: "Explore Old Manali, visit Hidimba Temple and enjoy local shopping.",
+  },
+  {
+    day: 5,
+    title: "Departure from Manali",
+    description: "Check out from the hotel and depart from Manali.",
+  },
+];
 
-
+const destination = {
+  name: "Manali",
+  subtitle: "The Valley of Snow & Adventure",
+  heroImage: "/images/manali.png",
+  rating: "4.8",
+  reviews: "2.4k",
+  packages: "120+ Packages",
+  location: "Himachal Pradesh",
+  description:
+    "Discover breathtaking mountains, peaceful valleys and unforgettable adventures in one of India's most beautiful destinations.",
+  weather: "10°C - 25°C",
+  idealTrip: "4 - 6 Days",
+  budget: "₹7000 - ₹15000",
+};
 export default function DestinationPage() {
   const [activeImage, setActiveImage] = useState<number | null>(null);
 
@@ -216,664 +273,195 @@ export default function DestinationPage() {
 
   return (
     <main className="w-screen bg-white">
-
-
-      <section className="relative w-full h-[80vh] overflow-hidden">
-  <Image
-    src={destination.heroImage}
-    alt={destination.name}
-    fill
-    priority
-    className="object-cover"
-  />
-        <div
-          className="
-        absolute
-        inset-0
-        bg-linear-to-tr from-black/80 via-black/10 via-50% to-transparent
-        w-full
-            z-10
-          "
-        />
-        <div
-          className="
-            relative
-            z-20
-            mx-auto
-            flex
-            min-h-155
-            max-w-7xl
-            items-center
-         
-            
-          "
-        >
-
-          <div className=" flex flex-col gap-2 text-white">
-            <h1
-              className="
-                text-6xl
-                font-medium
-                italic
-                tracking-[-0.04em]
-                sm:text-7xl
-                lg:text-[120px]
-                uppercase
-              "
-
-            >
-              {destination.name}
-            </h1>
-
-
-            {/* Subtitle */}
-
-            <p
-              className="
-                mt-1
-                text-base
-                font-semibold
-                 md:text-xl
-                 
-              "
-            >
-              {destination.subtitle}
-            </p>
-         
-
-            {/* Stats */}
-
-            <div
-              className="
-                mt-3
-                flex
-                flex-wrap
-                items-center
-                gap-x-4
-                gap-y-2
-                text-xs
-                sm:text-sm
-                w-full
-              "
-            >
-
-              <div className="flex items-center gap-2 text-lg">
-
-                <div className="flex gap-1 text-amber-400">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="fill-amber-400  " />))}
-                </div>
-
-                <span>
-                  {destination.rating}
-                </span>
-
-                <span className="opacity-80">
-                  ({destination.reviews})
-                </span>
-
-              </div>
-
-
-              <span className="opacity-50">
-                |
-              </span>
-
-
-              <div className="flex items-center gap-1.5 text-lg">
-                <CalendarDays className="h-5! w-5! text-primary" />
-                {destination.packages}
-              </div>
-
-
-              <span className="opacity-50">
-                |
-              </span>
-
-
-              <div className="flex items-center gap-1.5 text-lg">
-                <MapPin className="h-5! w-5! text-primary" />
-
-                {destination.location}
-              </div>
-
-            </div>
-
-
-            {/* Description */}
-
-            <p
-              className="
-                mt-3
-                max-w-[480px]
-                 leading-5
-                text-white/85
-                sm:text-[15px]
-                md:text-[20px]
-              "
-            >
-              {destination.description}
-            </p>
-
-            <div className="flex gap-2 w-full mt-4">
-              <div className="bg-white flex px-2  gap-2 justify-center items-center  rounded-lg">
-                <MapPin className="text-primary" />
-                <div>
-                  <p className="text-[#ACB1B7] text-sm">State</p>
-                  <p className="text-black leading-4 text-[14px]">{destination.name}</p>
-                </div>
-              </div>
-               <div className="bg-white flex p-2 gap-2 justify-center items-center  rounded-lg">
-                <MapPin className="text-primary" />
-                <div>
-                  <p className="text-[#ACB1B7] text-sm">Weather</p>
-                  <p className="text-black leading-4 text-[14px]">{destination.weather}</p>
-                </div>
-              </div>
-               <div className="bg-white flex p-2 gap-2 justify-center items-center  rounded-lg">
-                <MapPin className="text-primary" />
-                <div>
-                  <p className="text-[#ACB1B7] text-sm">Ideal Trip</p>
-                  <p className="text-black leading-4 text-[14px]">{destination.idealTrip}</p>
-                </div>
-              </div>
-               <div className="bg-white flex p-2 gap-2 justify-center items-center  rounded-lg">
-                <MapPin className="text-primary" />
-                <div>
-                  <p className="text-[#ACB1B7] text-sm">Budget</p>
-                  <p className="text-black leading-4 text-[14px]">{destination.budget}</p>
-                </div>
-              </div>
-            </div>
-            {/* Buttons */}
-
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-
-              <Link
-                href="/packages"
-                className="
-                  rounded-full
-                  bg-primary
-                  px-5
-                  py-1.5
-                  text-xs
-                  font-medium
-                  text-white
-                  transition
-                  hover:opacity-90
-                  sm:text-sm
-                  md:text-lg
-                "
-              >
-                Explore Packages
-              </Link>
-
-
-              <button
-                type="button"
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  text-xs
-                  font-medium
-                  text-white
-                  sm:text-sm
-                "
-              >
-
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-white
-                    bg-black/20
-                  "
-                >
-                  <Play
-                    className="ml-0.5 h-3.5 w-3.5 fill-white"
-                  />
-                </span>
-
-                Watch Video
-
-              </button>
-
-            </div>
-
-          </div>
-
-
-
-
-            </div>
-
-      </section>
+ <DestinationHero destination={destination} />
       <SearachBar bottomPosition="2" />
 
-      {/* ======================================================
-          OVERVIEW + GALLERY
-      ======================================================= */}
 
-      <section
-        className="
-          mx-auto
-          max-w-7xl
-          px-5
-          pb-16
-          pt-20
-          sm:px-8
-          lg:px-10
-        "
-      >
-
-        <div
-          className="
-            grid
-            gap-10
-            lg:grid-cols-[0.85fr_1.5fr]
-            lg:gap-12
-          "
-        >
+      <section className="mx-auto w-[95%] px-4 pb-16 pt-20 sm:px-6 lg:px-8">
+        <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
 
           {/* ==================================================
-              OVERVIEW
-          =================================================== */}
+        OVERVIEW
+    =================================================== */}
 
-          <div>
+          <div className="w-full lg:w-[45%]">
 
-            <p
-              className="
-                text-xs
-                font-medium
-                uppercase
-                tracking-wider
-                text-primary
-              "
-            >
+            <p className="text-xs font-medium uppercase tracking-wider text-primary">
               Discover
             </p>
 
-            <h2
-              className="
-                mt-1
-                text-2xl
-                font-semibold
-                tracking-tight
-                text-black
-              "
-            >
+            <h2 className="mt-1 text-2xl font-semibold tracking-tight text-black">
               Overview
             </h2>
 
-
-            <p
-              className="
-                mt-3
-                max-w-[390px]
-                text-sm
-                leading-5
-                text-gray-400
-              "
-            >
-              Manali, nestled in the Kullu Valley of
-              Himachal Pradesh, is one of India's most
-              popular hill stations. From adventure
-              activities in Solang Valley and
-              breathtaking views of Rohtang Pass to
-              the calm vibes of Old Manali, this
-              destination has something for every
-              traveler.
+            <p className="mt-3 w-full text-[18px] leading-6 text-gray-400 ">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, esse ut officia cumque aspernatur provident pariatur nihil ea dicta voluptatibus tenetur, nobis labore totam. Eius deleniti accusamus sed rerum cupiditate!
+              Quis omnis vero enim in eligendi dicta modi commodi earum deserunt nostrum odit mollitia, quae nobis molestiae provident fugiat cumque possimus id, voluptate perferendis soluta accusantium? Fugiat magnam nemo ducimus.
             </p>
-
 
             {/* Activities */}
 
-            <div
-              className="
-                mt-6
-                grid
-                grid-cols-2
-                gap-x-6
-                gap-y-5
-              "
-            >
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
 
               {activities.map((activity) => {
                 const Icon = activity.icon;
 
                 return (
-                  <div
-                    key={activity.title}
-                    className="flex items-center gap-2.5"
-                  >
-
-                    <span
-                      className="
-                        flex
-                        h-8
-                        w-8
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-primary/10
-                        text-primary
-                      "
-                    >
-
+                  <div key={activity.title} className="flex items-center gap-2.5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <Icon className="h-4 w-4" />
-
                     </span>
 
-                    <span
-                      className="
-                        text-xs
-                        font-medium
-                        text-gray-700
-                      "
-                    >
+                    <span className="text-base font-semibold text-gray-700 sm:text-lg">
                       {activity.title}
                     </span>
-
                   </div>
                 );
               })}
 
             </div>
-
           </div>
+          <div className="grid w-full grid-cols-12 gap-2.5 lg:w-[55%]">
 
 
-          {/* ==================================================
-              MODERN GALLERY
-          =================================================== */}
-
-          <div>
-
-            <div className="mb-4 flex items-center justify-between">
-
-              <div>
-
-                <p
-                  className="
-                    text-xs
-                    font-medium
-                    uppercase
-                    tracking-wider
-                    text-primary
-                  "
-                >
-                  Moments
-                </p>
-
-                <h2
-                  className="
-                    mt-1
-                    text-2xl
-                    font-semibold
-                    tracking-tight
-                  "
-                >
-                  Explore Manali
-                </h2>
-
-              </div>
-
-
-              <button
-                type="button"
-                onClick={() => openGallery(0)}
-                className="
-                  hidden
-                  items-center
-                  gap-1
-                  text-xs
-                  font-medium
-                  text-primary
-                  sm:flex
-                "
-              >
-                View Gallery
-
-                <ArrowRight className="h-4 w-4" />
-
-              </button>
-
-            </div>
-
-
-            {/* Gallery Grid */}
-
-            <div
-              className="
-                grid
-                grid-cols-2
-                gap-2.5
-                sm:grid-cols-4
-                sm:grid-rows-2
-              "
+            <button
+              type="button"
+              onClick={() => openGallery(0)}
+              className="group relative col-span-12 h-65 overflow-hidden rounded-[20px] text-left sm:h-75 lg:col-span-7 lg:h-[305px]"
             >
+              <Image
+                src={gallery[0].src}
+                alt={gallery[0].title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
 
-              {/* BIG IMAGE */}
+ 
+              <div className="absolute bottom-4 left-4 text-white">
+                <span className="mb-1 block text-[10px] font-medium uppercase tracking-wider text-white/70">
+                  Featured
+                </span>
 
+                <h3 className="text-lg font-semibold sm:text-xl">
+                  {gallery[0].title}
+                </h3>
+              </div>
+            </button>
+
+
+
+            <div className="col-span-12 grid grid-cols-2 gap-2.5 lg:col-span-5">
+
+              {/* First / Large Right Image */}
               <button
                 type="button"
-                onClick={() => openGallery(0)}
-                className="
-                  group
-                  relative
-                  col-span-2
-                  row-span-2
-                  min-h-[280px]
-                  overflow-hidden
-                  rounded-[18px]
-                  text-left
-                  sm:min-h-[310px]
-                "
+                onClick={() => openGallery(1)}
+                className="group relative col-span-2 h-[150px] overflow-hidden rounded-[20px] text-left"
               >
-
                 <Image
-                  src={gallery[0].src}
-                  alt={gallery[0].title}
+                  src={gallery[1].src}
+                  alt={gallery[1].title}
                   fill
-                  className="
-                    object-cover
-                    transition
-                    duration-700
-                    group-hover:scale-105
-                  "
+                  sizes="(max-width: 1024px) 100vw, 25vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    bg-gradient-to-t
-                    from-black/60
-                    via-transparent
-                    to-transparent
-                    opacity-70
-                  "
-                />
-
-
-                <div
-                  className="
-                    absolute
-                    bottom-4
-                    left-4
-                    text-white
-                  "
-                >
-
-                  <p className="text-xs text-white/70">
-                    Explore
+ 
+                <div className="absolute bottom-3 left-3 text-white">
+                  <p className="text-xs font-medium">
+                    {gallery[1].title}
                   </p>
-
-                  <p className="text-sm font-medium">
-                    {gallery[0].title}
-                  </p>
-
                 </div>
-
               </button>
 
 
-              {/* SMALL IMAGES */}
-
-              {gallery.slice(1, 5).map((image, index) => {
-
-                const actualIndex = index + 1;
+              {/* Second + Third Images */}
+              {gallery.slice(2, 4).map((image, index) => {
+                const actualIndex = index + 2;
 
                 return (
                   <button
                     key={image.src}
                     type="button"
                     onClick={() => openGallery(actualIndex)}
-                    className="
-                      group
-                      relative
-                      min-h-[145px]
-                      overflow-hidden
-                      rounded-[18px]
-                      text-left
-                    "
+                    className="group relative h-[145px] overflow-hidden rounded-[20px] text-left"
                   >
-
                     <Image
                       src={image.src}
                       alt={image.title}
                       fill
-                      className="
-                        object-cover
-                        transition
-                        duration-500
-                        group-hover:scale-110
-                      "
+                      sizes="(max-width: 1024px) 50vw, 12vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
-
-                    {/* Hover */}
-
-                    <div
-                      className="
-                        absolute
-                        inset-0
-                        bg-black/0
-                        transition
-                        duration-300
-                        group-hover:bg-black/20
-                      "
-                    />
-
-
-                    <div
-                      className="
-                        absolute
-                        bottom-3
-                        left-3
-                        right-3
-                        translate-y-2
-                        opacity-0
-                        transition
-                        duration-300
-                        group-hover:translate-y-0
-                        group-hover:opacity-100
-                      "
-                    >
-
-                      <span
-                        className="
-                          text-[10px]
-                          font-medium
-                          text-white
-                        "
-                      >
+ 
+                    <div className="absolute bottom-3 left-3 text-white">
+                      <p className="text-xs font-medium">
                         {image.title}
-                      </span>
-
+                      </p>
                     </div>
-
                   </button>
                 );
               })}
 
+            </div>
 
-              {/* MORE BUTTON */}
 
-              <button
-                type="button"
-                onClick={() => openGallery(5)}
-                className="
-                  group
-                  relative
-                  min-h-[145px]
-                  overflow-hidden
-                  rounded-[18px]
-                  bg-primary
-                "
-              >
+            {/* ==================================================
+      BOTTOM IMAGES — 2 × 2
+  ================================================== */}
+            <div className="col-span-12 grid grid-cols-3 gap-2.5">
 
-                <Image
-                  src={gallery[5].src}
-                  alt={gallery[5].title}
-                  fill
-                  className="
-                    object-cover
-                    opacity-60
-                    transition
-                    duration-500
-                    group-hover:scale-110
-                  "
-                />
+              {gallery.slice(3, 7).map((image, index) => {
+                const actualIndex = index + 3;
+                const isWide = index % 2 === 1;
+                const isLast = index === 3;
 
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    flex
-                    items-center
-                    justify-center
-                    bg-black/20
-                  "
-                >
-
-                  <span
-                    className="
-                      rounded-full
-                      bg-primary
-                      px-4
-                      py-2
-                      text-[11px]
-                      font-medium
-                      text-white
-                      shadow-lg
-                    "
+                return (
+                  <button
+                    key={image.src}
+                    type="button"
+                    onClick={() => openGallery(actualIndex)}
+                    className={`
+                        group
+                        relative
+                        h-[110px]
+                        overflow-hidden
+                        rounded-[18px]
+                        text-left
+                        sm:h-[130px]
+                        ${isWide ? "col-span-2" : "col-span-1"}
+                      `}
                   >
-                    View Gallery
-                  </span>
+                    <Image
+                      src={image.src}
+                      alt={image.title}
+                      fill
+                      sizes={isWide ? "(max-width: 640px) 66vw, 40vw" : "(max-width: 640px) 33vw, 20vw"}
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                </div>
+                    <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/30" />
 
-              </button>
+                    {isLast && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/25">
+                        <div className="flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-3 py-2 text-xs font-medium text-white backdrop-blur-md">
+                          View all
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </div>
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
 
             </div>
 
           </div>
-
         </div>
-
       </section>
-
-
-      {/* ======================================================
-          GALLERY LIGHTBOX
-      ======================================================= */}
 
       <Dialog
         open={activeImage !== null}
@@ -1058,11 +646,41 @@ export default function DestinationPage() {
         </DialogContent>
 
       </Dialog>
+      <div className="flex flex-col gap-18 w-full justify-center items-center">
+        <PackagesByDestination destination={"Manali"} />
         <ThingsToDo
-      title="Best Experiences in the Mountains"
-      activities={mountainActivities}
-    />
-      <Memories />
+          title="Best Experiences in the Mountains"
+          activities={mountainActivities}
+        />
+        <div className="flex gap-5 w-full justify-center items-center mb-12">
+
+          <Itinerary
+            title="Itinerary"
+            subtitle="Suggested 4 Nights / 5 Days"
+            days={itinerary}
+            onButtonClick={() => console.log("View detailed itinerary")}
+          />
+          <BestTimeToVisit
+            months={bestTimeToVisit.months}
+            seasons={bestTimeToVisit.seasons}
+          />
+        </div>
+        <BestPackageByDestination />
+        <TravelInformation
+          destination="Manali"
+          latitude={32.2432}
+          longitude={77.1892}
+          travelInfo={travelInfo}
+          packingItems={packingItems}
+        />
+        <WeatherForecast
+          destination="Manali"
+          latitude={32.2432}
+          longitude={77.1892}
+        />
+        <BlogSection/>
+        <Memories />
+      </div>
     </main>
   );
 }

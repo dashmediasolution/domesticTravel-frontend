@@ -10,10 +10,10 @@ import { Input } from "@/components/ui/input"
 import { MapPin, Briefcase, Calendar, CircleDollarSign, UsersRound, ChevronDown, Search } from "lucide-react"
 import { Button } from "../ui/button"
 interface SearchBarProps {
-  bottomPosition?: string;
+    bottomPosition?: string;
 }
 export default function SearachBar({
-  bottomPosition,
+    bottomPosition,
 }: SearchBarProps) {
     const form = useForm({
         defaultValues: {
@@ -25,15 +25,15 @@ export default function SearachBar({
         }
     })
     return (
-<div
-  className="w-screen flex justify-center items-center h-19 relative z-10"
-  style={{
-    bottom: `${bottomPosition}rem`,
-  }}
->                <form className="w-[90%] p-2 flex gap-2 px-5 h-full justify-between items-center  bg-white    rounded-3xl  shadow-md">
+        <div
+            className="w-full flex justify-center items-center h-19 relative z-10"
+            style={{
+                bottom: `${bottomPosition}rem`,
+            }}
+        >                <form className="w-[90%] p-2 flex gap-2   h-full justify-between items-center  bg-white    rounded-3xl  shadow-md">
                 <div className="flex gap-3 items-center">
 
-                    <MapPin className="text-primary" size={30}/>
+                    <MapPin className="text-primary" size={30} />
                     <Controller
                         name="destination"
                         control={form.control}
@@ -51,7 +51,7 @@ export default function SearachBar({
                 </div>
                 <Separator orientation="vertical" className="mx-4" />
                 <div className="flex gap-3 items-center">
-                    <Briefcase className="text-primary" size={30}/>
+                    <Briefcase className="text-primary" size={30} />
                     <Controller
                         name="packageType"
                         control={form.control}
@@ -69,7 +69,7 @@ export default function SearachBar({
                 </div>
                 <Separator orientation="vertical" className="mx-4" />
                 <div className="flex gap-3 items-center">
-                    <Calendar className="text-primary" size={30}/>
+                    <Calendar className="text-primary" size={30} />
 
                     <Controller
                         name="travelMonth"
@@ -88,7 +88,7 @@ export default function SearachBar({
                 </div>
                 <Separator orientation="vertical" className="mx-4" />
                 <div className="flex gap-3 items-center">
-                    <UsersRound className="text-primary" size={30}/>
+                    <UsersRound className="text-primary" size={30} />
 
                     <Controller
                         name="travellers"
@@ -126,7 +126,7 @@ export default function SearachBar({
                 </div>
                 <Separator orientation="vertical" className="mx-4" />
                 <Button className="cursor-pointer rounded-full px-5 py-6 text-lg font-semibold">
-                    <Search    strokeWidth={3}  className="h-4.5! w-4.5!" />
+                    <Search strokeWidth={3} className="h-4.5! w-4.5!" />
                     Search
                 </Button>
             </form>

@@ -57,7 +57,7 @@ export default function BannerCarousel({
 
     return (
         <section className={`w-full px-4 sm:px-6 lg:px-8 ${className}`}>
-            <div className="mx-auto w-full max-w-full">
+            <div className="mx-auto w-[95%]">
 
                 {/* Carousel */}
                 <Carousel

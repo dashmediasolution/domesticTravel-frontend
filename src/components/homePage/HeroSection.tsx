@@ -118,6 +118,7 @@ export default function HeroSection() {
                 overflow-hidden
                 bg-black
 
+
                 sm:min-h-[760px]
 
                 lg:h-[calc(100vh-72px)]
@@ -226,9 +227,12 @@ export default function HeroSection() {
 
                 <div
                     className="
+                    h-full
                     flex
                     flex-1
-                    items-center
+                    flex-col
+                    items-start
+                    justify-center
                     lg:items-center
                     lg:w-[54%]
                 "
@@ -323,15 +327,20 @@ export default function HeroSection() {
                             BUTTONS
                         ========================================== */}
 
+                    </motion.div>
+
                         <div
                             className="
-                                mt-6
+                                 mt-6
                                 flex
                                 flex-wrap
-                                items-center
+                                items-start
+                                justify-start
+                                ml-15
+                                w-full
                                 gap-3
                             "
-                        >
+                         >
                             {/* Explore Destination */}
 
                             <Button
@@ -394,7 +403,6 @@ export default function HeroSection() {
                                 </Link>
                             </Button>
                         </div>
-                    </motion.div>
                 </div>
 
                 {/* ==================================================
@@ -596,7 +604,7 @@ export default function HeroSection() {
                         gap-3
                         bottom-20
                         lg:mt-0
-                        lg:ml-[53%]
+                        lg:ml-[55%]
                         lg:justify-start
                     "
                 >

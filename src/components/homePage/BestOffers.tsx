@@ -155,7 +155,7 @@ export default function BestOffers() {
                 lg:py-12
             "
         >
-            <div className="mx-auto w-full max-w-[1344px]">
+            <div className="mx-auto w-[95%]">
 
                 {/* =====================================================
                     HEADER

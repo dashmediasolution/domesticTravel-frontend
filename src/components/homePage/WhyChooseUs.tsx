@@ -20,8 +20,7 @@ export default function WhyChooseUs() {
                 className="
                     mx-auto
                     grid
-                    w-full
-                    max-w-[1344px]
+                    w-[95%]
                     items-center
                     gap-10
                     lg:grid-cols-[1.05fr_0.95fr]

@@ -164,7 +164,7 @@ export default function UpcomingPackages() {
     return (
         <section className="w-full px-6 py-10 sm:px-8 lg:px-12">
 
-            <div className="mx-auto w-full max-w-[1344px]">
+            <div className="mx-auto w-[95%]">
 
            
 

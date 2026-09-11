@@ -36,7 +36,7 @@ export default function BrowseByCategory() {
 
     return (
         <section className="w-full px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto w-[95%]">
 
                 {/* Heading */}
                 <h2 className="mb-8   text-3xl tracking-wide text-[#153E3C] font-semibold  ">

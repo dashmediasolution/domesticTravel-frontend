@@ -55,8 +55,7 @@ export default function ExploreIndia() {
                 className="
                     mx-auto
                     grid
-                    w-full
-                    max-w-[1344px]
+                    w-[95%]
                     grid-cols-1
                     items-center
                     gap-10

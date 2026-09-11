@@ -79,7 +79,7 @@ const reasons = [
 export default function WhyTravelWithUs() {
     return (
         <section className="w-full px-4 py-8 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-[1344px]">
+            <div className="mx-auto w-[95%]">
                 
                 {/* Heading */}
                 <h2
