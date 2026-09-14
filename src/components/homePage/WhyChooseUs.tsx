@@ -15,50 +15,78 @@ export default function WhyChooseUs() {
     ];
 
     return (
-        <section className="w-full overflow-hidden bg-white p-5 sm:px-8 lg:px-12 ">
+        <section
+            className="
+                w-full
+                overflow-hidden
+                bg-white
+                px-3
+                py-8
+
+                sm:px-5
+                sm:py-10
+
+                md:px-6
+
+                lg:px-12
+                lg:py-12
+            "
+        >
             <div
                 className="
                     mx-auto
                     grid
-                    w-[95%]
+                    w-full
+                    max-w-[1400px]
                     items-center
-                    gap-10
+                    gap-8
+
+                    sm:gap-10
+
                     lg:grid-cols-[1.05fr_0.95fr]
                     lg:gap-8
+
                     xl:gap-12
                 "
             >
-                {/* =====================================================
-                    LEFT CONTENT
-                ===================================================== */}
-
+                {/* LEFT CONTENT */}
                 <div className="w-full">
                     {/* Eyebrow */}
                     <h3
                         className="
-                            text-[22px]
+                            text-[18px]
                             font-medium
                             leading-[1.2]
-                            tracking-[-0.5px]
+                            tracking-[-0.4px]
                             text-black
-                            sm:text-[24px]
+
+                            sm:text-[21px]
+
+                            md:text-[23px]
+
                             lg:text-[25px]
                         "
                     >
                         Why Choose Wander - India?
                     </h3>
 
-                    {/* Main heading */}
+                    {/* Main Heading */}
                     <h2
                         className="
-                            mt-6
+                            mt-3
                             max-w-[520px]
-                            text-[36px]
+                            text-[30px]
                             font-medium
                             leading-[1.08]
-                            tracking-[-1.5px]
+                            tracking-[-1px]
                             text-black
-                            sm:text-[42px]
+
+                            sm:mt-5
+                            sm:text-[36px]
+
+                            md:text-[42px]
+
+                            lg:mt-6
                             lg:text-[46px]
                         "
                     >
@@ -71,14 +99,22 @@ export default function WhyChooseUs() {
                     {/* Description */}
                     <p
                         className="
-                            mt-4
+                            mt-3
                             max-w-[600px]
-                            text-[16px]
+                            text-[13px]
                             font-normal
-                            leading-[23px]
+                            leading-[20px]
                             text-[#A7ADB8]
-                            sm:text-[18px]
-                            sm:leading-[25px]
+
+                            sm:mt-4
+                            sm:text-[15px]
+                            sm:leading-[23px]
+
+                            md:text-[17px]
+                            md:leading-[24px]
+
+                            lg:text-[18px]
+                            lg:leading-[25px]
                         "
                     >
                         Plan, book and explore with ease. From handpicked
@@ -86,18 +122,17 @@ export default function WhyChooseUs() {
                         dreams simple, secure and unforgettable.
                     </p>
 
-                    {/* =================================================
-                        FEATURES
-                    ================================================= */}
-
+                    {/* FEATURES */}
                     <div
                         className="
-                            mt-7
+                            mt-5
                             grid
                             grid-cols-1
-                            gap-4
+                            gap-2.5
+
+                            sm:mt-7
                             sm:grid-cols-2
-                            sm:gap-5
+                            sm:gap-4
                         "
                     >
                         {features.map((feature, index) => (
@@ -107,30 +142,35 @@ export default function WhyChooseUs() {
                                 className="
                                     group
                                     flex
-                                    min-h-[72px]
+                                    min-h-[58px]
                                     w-full
                                     items-center
                                     justify-between
-                                    rounded-[15px]
+                                    rounded-[13px]
                                     border
                                     border-[#2FC2B0]
                                     bg-white
-                                    px-3
-                                    py-3
+                                    px-2.5
+                                    py-2
                                     transition-all
                                     duration-300
                                     hover:bg-[#F5FFFD]
                                     hover:shadow-[0_6px_20px_rgba(47,194,176,0.12)]
+
+                                    sm:min-h-[66px]
+                                    sm:rounded-[15px]
+                                    sm:px-3
+                                    sm:py-3
                                 "
                             >
-                                {/* Icon + text */}
-                                <div className="flex min-w-0 items-center gap-3">
+                                {/* Icon + Text */}
+                                <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                                     {/* Icon */}
                                     <div
                                         className="
                                             flex
-                                            h-11
-                                            w-11
+                                            h-9
+                                            w-9
                                             shrink-0
                                             items-center
                                             justify-center
@@ -139,16 +179,28 @@ export default function WhyChooseUs() {
                                             transition-all
                                             duration-300
                                             group-hover:bg-[#2FC2B0]
+
+                                            sm:h-10
+                                            sm:w-10
+
+                                            lg:h-11
+                                            lg:w-11
                                         "
                                     >
                                         <Tag
                                             className="
-                                                h-6
-                                                w-6
+                                                h-4.5
+                                                w-4.5
                                                 text-[#2FC2B0]
                                                 transition-colors
                                                 duration-300
                                                 group-hover:text-white
+
+                                                sm:h-5
+                                                sm:w-5
+
+                                                lg:h-6
+                                                lg:w-6
                                             "
                                             strokeWidth={1.8}
                                         />
@@ -157,12 +209,17 @@ export default function WhyChooseUs() {
                                     {/* Text */}
                                     <span
                                         className="
+                                            min-w-0
                                             truncate
-                                            text-[14px]
+                                            text-[12px]
                                             font-medium
                                             leading-tight
                                             text-black
-                                            sm:text-[15px]
+
+                                            sm:text-[13px]
+
+                                            md:text-[14px]
+
                                             lg:text-[16px]
                                         "
                                     >
@@ -174,13 +231,16 @@ export default function WhyChooseUs() {
                                 <ArrowRight
                                     className="
                                         ml-2
-                                        h-5
-                                        w-5
+                                        h-4
+                                        w-4
                                         shrink-0
                                         text-[#2FC2B0]
                                         transition-transform
                                         duration-300
                                         group-hover:translate-x-1
+
+                                        sm:h-5
+                                        sm:w-5
                                     "
                                     strokeWidth={1.8}
                                 />
@@ -189,28 +249,33 @@ export default function WhyChooseUs() {
                     </div>
                 </div>
 
-                {/* =====================================================
-                    RIGHT SIDE IMAGE
-                ===================================================== */}
-
+                {/* RIGHT IMAGE */}
                 <div
                     className="
-    relative
-    mx-auto
-    h-[420px]
-    w-full
-    max-w-[600px]
-    sm:h-[500px]
-    lg:h-[540px]
-    xl:h-[570px]
-  "
+                        relative
+                        mx-auto
+                        h-[300px]
+                        w-full
+                        max-w-[360px]
+
+                        sm:h-[400px]
+                        sm:max-w-[480px]
+
+                        md:h-[460px]
+                        md:max-w-[540px]
+
+                        lg:h-[540px]
+                        lg:max-w-[600px]
+
+                        xl:h-[570px]
+                    "
                 >
                     <Image
                         src="/images/phoneImage1.png"
                         alt="Wander India travel app"
                         fill
                         priority
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
+                      sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 55vw, 50vw"
                         className="object-contain"
                     />
                 </div>

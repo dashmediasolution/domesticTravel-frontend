@@ -1,3 +1,4 @@
+ 
 "use client";
 
 import {
@@ -78,17 +79,17 @@ const reasons = [
 
 export default function WhyTravelWithUs() {
     return (
-        <section className="w-full px-4 py-8 sm:px-6 lg:px-8">
-            <div className="mx-auto w-[95%]">
-                
+        <section className="w-full px-3 py-6 sm:px-5 sm:py-8 lg:px-8">
+            <div className="mx-auto w-full max-w-[1400px]">
                 {/* Heading */}
                 <h2
                     className="
-                        mb-5
-                        text-2xl
+                        mb-4
+                        text-[19px]
                         font-semibold
                         tracking-tight
                         text-black
+                        sm:mb-5
                         sm:text-[25px]
                     "
                 >
@@ -102,14 +103,17 @@ export default function WhyTravelWithUs() {
                         w-full
                         flex-col
                         overflow-hidden
-                        rounded-[24px]
+                        rounded-[18px]
                         bg-white
-                        px-6
-                        py-7
+                        px-4
+                        py-2
                         shadow-[0_2px_12px_rgba(0,0,0,0.10)]
-                        sm:px-8
+                        sm:rounded-[22px]
+                        sm:px-6
+                        sm:py-4
                         lg:flex-row
                         lg:items-center
+                        lg:rounded-[24px]
                         lg:px-6
                         lg:py-7
                     "
@@ -125,35 +129,51 @@ export default function WhyTravelWithUs() {
                                     min-w-0
                                     flex-1
                                     items-center
-                                    font-semibold
-                                    gap-4
-                                    py-4
+                                    gap-3
+                                    py-3
+                                    sm:gap-4
+                                    sm:py-4
                                     lg:py-0
                                     ${
                                         index !== reasons.length - 1
-                                            ? "border-b border-gray-300 lg:border-b-0 lg:border-r"
+                                            ? "border-b border-gray-200 lg:border-b-0 lg:border-r"
                                             : ""
                                     }
                                     ${
                                         index !== 0
-                                            ? "lg:pl-7"
+                                            ? "lg:pl-6"
                                             : "lg:pl-0"
                                     }
                                     ${
                                         index !== reasons.length - 1
-                                            ? "lg:pr-7"
+                                            ? "lg:pr-6"
                                             : "lg:pr-0"
                                     }
                                 `}
                             >
                                 {/* Icon */}
-                                <div className="flex shrink-0 items-center justify-center">
+                                <div
+                                    className="
+                                        flex
+                                        h-9
+                                        w-9
+                                        shrink-0
+                                        items-center
+                                        justify-center
+                                        sm:h-10
+                                        sm:w-10
+                                    "
+                                >
                                     <Icon
                                         strokeWidth={2}
                                         className="
-                                            h-10
-                                            w-10
+                                            h-7
+                                            w-7
                                             text-primary
+                                            sm:h-8
+                                            sm:w-8
+                                            lg:h-10
+                                            lg:w-10
                                         "
                                     />
                                 </div>
@@ -163,10 +183,12 @@ export default function WhyTravelWithUs() {
                                     <h3
                                         className="
                                             whitespace-nowrap
-                                            text-base
+                                            text-[13px]
                                             font-semibold
-                                            leading-5
+                                            leading-4
                                             text-black
+                                            sm:text-base
+                                            sm:leading-5
                                         "
                                     >
                                         {reason.title}
@@ -174,11 +196,16 @@ export default function WhyTravelWithUs() {
 
                                     <p
                                         className="
-                                            mt-1
-                                            text-[16px]
+                                            mt-0.5
+                                            text-[11px]
                                             font-normal
-                                            leading-[18px]
+                                            leading-[14px]
                                             text-[#A7ADB8]
+                                            sm:mt-1
+                                            sm:text-[14px]
+                                            sm:leading-[17px]
+                                            lg:text-[16px]
+                                            lg:leading-[18px]
                                         "
                                     >
                                         {reason.description}
@@ -192,3 +219,4 @@ export default function WhyTravelWithUs() {
         </section>
     );
 }
+ 

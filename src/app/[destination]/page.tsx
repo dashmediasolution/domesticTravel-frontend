@@ -231,7 +231,7 @@ const itinerary = [
 const destination = {
   name: "Manali",
   subtitle: "The Valley of Snow & Adventure",
-  heroImage: "/images/manali.png",
+  heroImage: "/images/manali1.png",
   rating: "4.8",
   reviews: "2.4k",
   packages: "120+ Packages",
@@ -272,12 +272,12 @@ export default function DestinationPage() {
 
 
   return (
-    <main className="w-screen bg-white">
+    <main className="w-screen   bg-white">
  <DestinationHero destination={destination} />
       <SearachBar bottomPosition="2" />
 
 
-      <section className="mx-auto w-[95%] px-4 pb-16 pt-20 sm:px-6 lg:px-8">
+      <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2   lg:px-8">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
 
           {/* ==================================================
@@ -294,25 +294,25 @@ export default function DestinationPage() {
               Overview
             </h2>
 
-            <p className="mt-3 w-full text-[18px] leading-6 text-gray-400 ">
+            <p className="mt-3 w-full text-md md:text-[18px] leading-6 text-gray-400 ">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, esse ut officia cumque aspernatur provident pariatur nihil ea dicta voluptatibus tenetur, nobis labore totam. Eius deleniti accusamus sed rerum cupiditate!
               Quis omnis vero enim in eligendi dicta modi commodi earum deserunt nostrum odit mollitia, quae nobis molestiae provident fugiat cumque possimus id, voluptate perferendis soluta accusantium? Fugiat magnam nemo ducimus.
             </p>
 
             {/* Activities */}
 
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 w-full  ">
 
               {activities.map((activity) => {
                 const Icon = activity.icon;
 
                 return (
-                  <div key={activity.title} className="flex items-center gap-2.5">
+                  <div key={activity.title} className="flex items-center w-fit gap-2.5">
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <Icon className="h-4 w-4" />
                     </span>
 
-                    <span className="text-base font-semibold text-gray-700 sm:text-lg">
+                    <span className="text-sm font-semibold text-gray-700 md:text-lg">
                       {activity.title}
                     </span>
                   </div>
@@ -652,19 +652,19 @@ export default function DestinationPage() {
           title="Best Experiences in the Mountains"
           activities={mountainActivities}
         />
-        <div className="flex gap-5 w-full justify-center items-center mb-12">
+<div className="mb-8 flex w-full flex-col gap-8 px-3 sm:px-5 md:px-6 lg:mb-12 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+    <Itinerary
+        title="Itinerary"
+        subtitle="Suggested 4 Nights / 5 Days"
+        days={itinerary}
+        onButtonClick={() => console.log("View detailed itinerary")}
+    />
 
-          <Itinerary
-            title="Itinerary"
-            subtitle="Suggested 4 Nights / 5 Days"
-            days={itinerary}
-            onButtonClick={() => console.log("View detailed itinerary")}
-          />
-          <BestTimeToVisit
-            months={bestTimeToVisit.months}
-            seasons={bestTimeToVisit.seasons}
-          />
-        </div>
+    <BestTimeToVisit
+        months={bestTimeToVisit.months}
+        seasons={bestTimeToVisit.seasons}
+    />
+</div>
         <BestPackageByDestination />
         <TravelInformation
           destination="Manali"

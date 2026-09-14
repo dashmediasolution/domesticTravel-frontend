@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-
+  
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -439,4 +439,10 @@
     opacity: 0;
   }
 
+}
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

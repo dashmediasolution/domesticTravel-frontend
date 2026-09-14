@@ -1,3 +1,4 @@
+ 
 "use client";
 
 import { CloudRain, Flame, Snowflake } from "lucide-react";
@@ -16,7 +17,20 @@ interface BestTimeToVisitProps {
     className?: string;
 }
 
-const allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const allMonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+];
 
 const seasonStyles = {
     winter: {
@@ -36,34 +50,192 @@ const seasonStyles = {
     },
 };
 
-export default function BestTimeToVisit({ months, seasons, className }: BestTimeToVisitProps) {
+export default function BestTimeToVisit({
+    months,
+    seasons,
+    className,
+}: BestTimeToVisitProps) {
     return (
-        <section className={cn("w-[51%]", className)}>
-            <h2 className="mb-6 font-heading text-2xl font-semibold">Best Time to Visit</h2>
+        <section
+            className={cn(
+                "w-full lg:w-[51%]",
+                className
+            )}
+        >
+            {/* Heading */}
+            <h2
+                className="
+                    mb-3
+                    text-[18px]
+                    font-semibold
+                    tracking-tight
+                    sm:mb-5
+                    sm:text-[22px]
+                    lg:mb-6
+                    lg:text-2xl
+                "
+            >
+                Best Time to Visit
+            </h2>
 
-            <div className="mb-8 flex gap-4 overflow-x-auto scrollbar-none">
+            {/* Months */}
+            <div
+                className="
+                    mb-5
+                    flex
+                    w-full
+                    gap-1.5
+                    overflow-x-auto
+                    pb-1
+                    scrollbar-none
+                    sm:mb-7
+                    sm:gap-3
+                    lg:mb-8
+                    lg:gap-4
+                "
+            >
                 {allMonths.map((month) => {
                     const isBestMonth = months.includes(month);
 
                     return (
-                        <div key={month} className={cn("shrink-0 rounded-lg px-3 py-2 text-base font-medium", isBestMonth ? "bg-teal-500 text-white" : "bg-neutral-100 text-foreground")}>
+                        <div
+                            key={month}
+                            className={cn(
+                                `
+                                    flex
+                                    h-7
+                                    min-w-[38px]
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-md
+                                    px-2
+                                    text-[10px]
+                                    font-medium
+                                    sm:h-9
+                                    sm:min-w-[45px]
+                                    sm:rounded-lg
+                                    sm:text-sm
+                                    lg:text-base
+                                `,
+                                isBestMonth
+                                    ? "bg-teal-500 text-white"
+                                    : "bg-neutral-100 text-foreground"
+                            )}
+                        >
                             {month}
                         </div>
                     );
                 })}
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            {/* Season Cards */}
+            <div
+                className="
+                    grid
+                    grid-cols-2
+                    gap-2.5
+                    sm:gap-4
+                    lg:grid-cols-3
+                    lg:gap-6
+                "
+            >
                 {seasons.map((season) => {
                     const style = seasonStyles[season.icon];
                     const Icon = style.component;
 
                     return (
-                        <div key={season.name} style={{ borderColor: style.border }} className="min-h-[287px] rounded-[24px] border bg-white p-6 shadow-sm">
-                            <Icon size={32} strokeWidth={2} style={{ color: style.icon }} className="mb-3" />
-                         <h3 className="font-heading text-3xl font-bold" style={{ color: style.icon }}>{season.name}</h3>
-                            <p className="mt-1 text-xl text-slate-600">{season.months}</p>
-                            <p className="mt-5 max-w-[250px] text-lg leading-9 text-slate-600">{season.description}</p>
+                        <div
+                            key={season.name}
+                            style={{
+                                borderColor: style.border,
+                            }}
+                            className="
+                                min-h-[165px]
+                                overflow-hidden
+                                rounded-[14px]
+                                border
+                                bg-white
+                                p-3
+                                shadow-sm
+                                sm:min-h-[220px]
+                                sm:rounded-[20px]
+                                sm:p-5
+                                lg:min-h-[287px]
+                                lg:rounded-[24px]
+                                lg:p-6
+                            "
+                        >
+                            {/* Icon */}
+                            <Icon
+                                strokeWidth={2}
+                                className="
+                                    mb-1.5
+                                    h-5
+                                    w-5
+                                    sm:mb-3
+                                    sm:h-7
+                                    sm:w-7
+                                    lg:h-8
+                                    lg:w-8
+                                "
+                                style={{
+                                    color: style.icon,
+                                }}
+                            />
+
+                            {/* Season */}
+                            <h3
+                                className="
+                                    font-heading
+                                    text-[18px]
+                                    font-bold
+                                    leading-tight
+                                    sm:text-[25px]
+                                    lg:text-3xl
+                                "
+                                style={{
+                                    color: style.icon,
+                                }}
+                            >
+                                {season.name}
+                            </h3>
+
+                            {/* Months */}
+                            <p
+                                className="
+                                    mt-0.5
+                                    text-[10px]
+                                    leading-4
+                                    text-slate-600
+                                    sm:mt-1
+                                    sm:text-sm
+                                    lg:text-xl
+                                "
+                            >
+                                {season.months}
+                            </p>
+
+                            {/* Description */}
+                            <p
+                                className="
+                                    mt-2
+                                    line-clamp-3
+                                    text-[10px]
+                                    leading-[14px]
+                                    text-slate-600
+                                    sm:mt-4
+                                    sm:text-sm
+                                    sm:leading-5
+                                    lg:mt-5
+                                    lg:line-clamp-none
+                                    lg:max-w-[250px]
+                                    lg:text-lg
+                                    lg:leading-9
+                                "
+                            >
+                                {season.description}
+                            </p>
                         </div>
                     );
                 })}
@@ -71,3 +243,4 @@ export default function BestTimeToVisit({ months, seasons, className }: BestTime
         </section>
     );
 }
+ 

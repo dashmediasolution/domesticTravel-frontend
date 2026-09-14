@@ -35,16 +35,63 @@ export default function BrowseByCategory() {
     const [activeCategory, setActiveCategory] = useState("Beaches");
 
     return (
-        <section className="w-full px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mx-auto w-[95%]">
+        <section
+            className="
+                w-full
+                px-3
+                md:py-8
+
+                sm:px-5
+                sm:py-10
+
+                md:px-6
+                md:py-12
+
+                lg:px-8
+                lg:py-14
+            "
+        >
+            <div className="mx-auto w-full max-w-[1400px]">
 
                 {/* Heading */}
-                <h2 className="mb-8   text-3xl tracking-wide text-[#153E3C] font-semibold  ">
+                <h2
+                    className="
+                        mb-5
+                        text-2xl
+                        font-semibold
+                        tracking-wide
+                        text-[#153E3C]
+
+                        sm:mb-6
+                        sm:text-[26px]
+
+                        md:mb-7
+                        md:text-[28px]
+
+                        lg:mb-8
+                        lg:text-3xl
+                    "
+                >
                     Browse by Category
                 </h2>
 
                 {/* Categories */}
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                <div
+                    className="
+                        grid
+                        grid-cols-4
+                        gap-2
+
+                        sm:grid-cols-4
+                        sm:gap-3
+
+                        md:grid-cols-4
+                        md:gap-4
+
+                        lg:grid-cols-6
+                        lg:gap-5
+                    "
+                >
                     {categories.map((category) => {
                         const Icon = category.icon;
                         const isActive =
@@ -59,40 +106,85 @@ export default function BrowseByCategory() {
                                 className={`
                                     group
                                     flex
+                                    min-h-[82px]
                                     cursor-pointer
                                     flex-col
                                     items-center
                                     justify-center
-                                    gap-2
-                                    px-4
-                                    py-5
-                                    text-sm
-                                    font-semibold
-                                    shadow-[0_0_7px_rgba(0,0,0,0.12)]                                 
+                                    gap-1
+                                    rounded-tl-[14px]
+                                    rounded-br-[14px]
+                                    px-1
+                                    py-2
+                                    text-center
+                                    shadow-[0_0_7px_rgba(0,0,0,0.12)]
                                     transition-all
                                     duration-300
-                                    rounded-tl-[24px] rounded-br-[24px]
                                     ease-in-out
-                                    ${isActive
-                                        ? "  bg-primary text-white"
-                                        : "  bg-white text-black  hover:bg-primary hover:text-white"
+
+                                    sm:min-h-[100px]
+                                    sm:gap-1.5
+                                    sm:rounded-tl-[18px]
+                                    sm:rounded-br-[18px]
+                                    sm:px-2
+                                    sm:py-3
+
+                                    md:min-h-[120px]
+                                    md:gap-2
+                                    md:rounded-tl-[22px]
+                                    md:rounded-br-[22px]
+
+                                    lg:min-h-[140px]
+                                    lg:rounded-tl-[24px]
+                                    lg:rounded-br-[24px]
+
+                                    ${
+                                        isActive
+                                            ? "bg-primary text-white"
+                                            : "bg-white text-black hover:bg-primary hover:text-white"
                                     }
                                 `}
                             >
                                 <Icon
                                     className={`
-                                        h-8
-                                        w-8
+                                        h-5
+                                        w-5
+                                        shrink-0
                                         transition-all
                                         duration-300
-                                        ${isActive
-                                            ? "text-white"
-                                            : "text-primary group-hover:text-white"
+
+                                        sm:h-6
+                                        sm:w-6
+
+                                        md:h-7
+                                        md:w-7
+
+                                        lg:h-8
+                                        lg:w-8
+
+                                        ${
+                                            isActive
+                                                ? "text-white"
+                                                : "text-primary group-hover:text-white"
                                         }
                                     `}
                                 />
 
-                                <span className="text-xl font-normal">{category.name}</span>
+                                <span
+                                    className="
+                                        text-[10px]
+                                        font-normal
+                                        leading-tight
+
+                                        sm:text-xs
+
+                                        md:text-sm
+
+                                        lg:text-xl
+                                    "
+                                >
+                                    {category.name}
+                                </span>
                             </div>
                         );
                     })}

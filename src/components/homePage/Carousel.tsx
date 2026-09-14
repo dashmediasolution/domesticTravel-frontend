@@ -29,7 +29,7 @@ interface BannerCarouselProps {
 export default function BannerCarousel({
     banners,
     autoPlayDelay = 2500,
-    height = "h-[340px]",
+    height,
     className = "",
 }: BannerCarouselProps) {
     const [api, setApi] = useState<CarouselApi>();
@@ -56,8 +56,19 @@ export default function BannerCarousel({
     }
 
     return (
-        <section className={`w-full px-4 sm:px-6 lg:px-8 ${className}`}>
-            <div className="mx-auto w-[95%]">
+        <section
+            className={`
+                w-full
+                px-3
+                py-4
+                sm:px-5
+                sm:py-6
+                md:px-6
+                lg:px-8
+                ${className}
+            `}
+        >
+            <div className="mx-auto w-full max-w-[1400px]">
 
                 {/* Carousel */}
                 <Carousel
@@ -88,46 +99,36 @@ export default function BannerCarousel({
                                         className={`
                                             relative
                                             w-full
-                                            ${height}
+                                            ${
+                                                height ??
+                                                "h-[150px] sm:h-[200px] md:h-[260px] lg:h-[340px]"
+                                            }
                                             cursor-pointer
                                             overflow-hidden
-                                            rounded-[36px]
+                                            rounded-[20px]
+                                            sm:rounded-[24px]
+                                            md:rounded-[28px]
+                                            lg:rounded-[36px]
                                         `}
                                     >
                                         <Image
                                             src={banner.image}
-                                            alt={banner.title ?? "Travel banner"}
+                                            alt={
+                                                banner.title ??
+                                                "Travel banner"
+                                            }
                                             fill
                                             priority
-                                            className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                                             sizes="100vw"
+                                            className="
+                                                object-cover
+                                                transition-transform
+                                                duration-700
+                                                hover:scale-[1.02]
+                                            "
                                         />
 
-                                        {banner.title && (
-                                            <div
-                                                className="
-                                                    absolute
-                                                    inset-0
-                                                    flex
-                                                    items-center
-                                                    px-6
-                                                    sm:px-10
-                                                    lg:px-16
-                                                "
-                                            >
-                                                <h2
-                                                    className="
-                                                        max-w-xl
-                                                        text-3xl
-                                                        text-white
-                                                        sm:text-4xl
-                                                        lg:text-5xl
-                                                    "
-                                                >
-                                                    {banner.title}
-                                                </h2>
-                                            </div>
-                                        )}
+                                      
                                     </div>
                                 </Link>
                             </CarouselItem>
@@ -136,7 +137,20 @@ export default function BannerCarousel({
                 </Carousel>
 
                 {/* Dots */}
-                <div className="mt-5 flex items-center justify-center gap-2">
+                <div
+                    className="
+                        mt-3
+                        flex
+                        items-center
+                        justify-center
+                        gap-1.5
+
+                        sm:mt-4
+                        sm:gap-2
+
+                        md:mt-5
+                    "
+                >
                     {banners.map((banner, index) => (
                         <button
                             key={banner.id}
@@ -144,21 +158,23 @@ export default function BannerCarousel({
                             aria-label={`Go to slide ${index + 1}`}
                             onClick={() => api?.scrollTo(index)}
                             className={`
-                                h-2.5
+                                h-1.5
                                 rounded-full
                                 transition-all
                                 duration-300
                                 ease-in-out
+
+                                sm:h-2
+
                                 ${
                                     current === index
-                                        ? "w-8 bg-primary"
-                                        : "w-2.5 bg-gray-300 hover:bg-primary/50"
+                                        ? "w-6 bg-primary sm:w-8"
+                                        : "w-1.5 bg-gray-300 hover:bg-primary/50 sm:w-2"
                                 }
                             `}
                         />
                     ))}
                 </div>
-
             </div>
         </section>
     );

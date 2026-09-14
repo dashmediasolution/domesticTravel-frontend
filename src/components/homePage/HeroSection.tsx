@@ -113,26 +113,20 @@ export default function HeroSection() {
         <section
             className="
                 relative
-                min-h-[720px]
+                min-h-[40vh]
                 w-full
                 overflow-hidden
                 bg-black
 
 
-                sm:min-h-[760px]
+                sm:min-h-[40vh]
 
                 lg:h-[calc(100vh-72px)]
                 lg:min-h-[650px]
                 lg:max-h-[900px]
             "
         >
-            {/* ======================================================
-                BACKGROUND
-                ------------------------------------------------------
-                All backgrounds remain mounted.
-                Only opacity changes.
-                This prevents the black flash.
-            ====================================================== */}
+
 
             <div className="absolute inset-0 bg-black">
                 {destinations.map((destination, index) => (
@@ -203,7 +197,7 @@ export default function HeroSection() {
                     z-10
                     mx-auto
                     flex
-                    min-h-[720px]
+                    min-h-[40vh]
                     w-full
                     max-w-[1440px]
                     flex-col
@@ -233,10 +227,34 @@ export default function HeroSection() {
                     flex-col
                     items-start
                     justify-center
-                    lg:items-center
-                    lg:w-[54%]
+                     lg:w-[54%]
+                    relative
+                    mb:0
+                    bottom-8
+                    gap-4
                 "
                 >
+                    {/* ==========================================
+                            EYEBROW
+                        ========================================== */}
+
+                    <p
+                        className="
+                                 text-[13px]
+                                font-normal
+                                w-fit
+                                tracking-[-0.2px]
+                                text-white
+                           
+                                sm:text-[15px]
+                            "
+                    >
+                        EXPLORE. EXPERIENCE.
+                        <span className="text-[#2FC2B0]">
+                            {" "}
+                            REMEMBER
+                        </span>
+                    </p>
                     <motion.div
                         key={activeDestination.id}
                         initial={{
@@ -254,29 +272,12 @@ export default function HeroSection() {
                         className="
                             w-full
                             max-w-[650px]
+                            flex
+                            flex-col
+                            gap-2
                         "
                     >
-                        {/* ==========================================
-                            EYEBROW
-                        ========================================== */}
 
-                        <p
-                            className="
-                                mb-5
-                                text-[13px]
-                                font-normal
-                                tracking-[-0.2px]
-                                text-white
-
-                                sm:text-[15px]
-                            "
-                        >
-                            EXPLORE. EXPERIENCE.
-                            <span className="text-[#2FC2B0]">
-                                {" "}
-                                REMEMBER
-                            </span>
-                        </p>
 
                         {/* ==========================================
                             HEADING
@@ -286,17 +287,17 @@ export default function HeroSection() {
                             className={`
         ${oswald.className}
         max-w-[700px]
-        text-[32px]
+        text-[29px]
         font-semibold
         uppercase
-        leading-[0.95]
+        leading-[1.1]
         tracking-[0.5px]
         text-white
-
-        sm:text-[58px]
-        md:text-[68px]
-        lg:text-[74px]
-        xl:text-[80px]
+                    
+        sm:text-[38px]
+        md:text-[50px]
+        lg:text-[60px]
+        xl:text-[70px]
     `}
                         >
                             Discover <br /> Incredible India!
@@ -308,11 +309,12 @@ export default function HeroSection() {
 
                         <p
                             className="
-                                mt-6
+                           
                                 max-w-[470px]
                                 text-[15px]
                                 font-normal
-                                leading-[1.45]
+                                leading-[1.3]
+                                md:leading-[1.45]
                                 text-white
 
                                 sm:text-[17px]
@@ -329,80 +331,82 @@ export default function HeroSection() {
 
                     </motion.div>
 
-                        <div
+                    <div
+                        className="
+         flex
+        w-full
+        flex-row
+        items-start
+        justify-start
+        gap-2
+        relative
+        md:gap-6
+        md:top-4
+    "
+                    >
+                        {/* Explore Destination */}
+                        <Button
                             className="
-                                 mt-6
-                                flex
-                                flex-wrap
-                                items-start
-                                justify-start
-                                ml-15
-                                w-full
-                                gap-3
-                            "
-                         >
-                            {/* Explore Destination */}
+            h-9
+            shrink-0
+            rounded-full
+            bg-[#2FC2B0]
+            px-3
+            text-[12px]
+            font-medium
+            text-white
+            shadow-none
+            hover:bg-[#25AD9D]
 
-                            <Button
+            sm:h-10
+            sm:px-4
+            sm:text-[13px]
+            md:text-[17px]
+        "
+                        >
+                            Explore Destination
 
+                            <ArrowRight
                                 className="
-                                    h-10
-                                    rounded-full
-                                    bg-[#2FC2B0]
-                                    px-4
-                                    text-[14px]
-                                    font-medium
-                                    text-white
-                                    shadow-none
+                ml-1
+                h-3.5
+                w-3.5
+                sm:ml-2
+                sm:h-4
+                sm:w-4
+            "
+                            />
+                        </Button>
 
-                                    hover:bg-[#25AD9D]
+                        {/* View Packages */}
+                        <Button
+                            variant="outline"
+                            className="
+            h-9
+            shrink-0
+            rounded-full
+            border-white
+            bg-transparent
+            px-3
+            text-[12px]
+            font-normal
+            text-white
+            shadow-none
+            backdrop-blur-sm
+            hover:bg-white
+            hover:text-black
 
-                                    sm:h-11
-                                    sm:px-5
-                                    sm:text-[15px]
-                                "
-                            >
-                                Explore Destination
-
-                                <ArrowRight
-                                    className="
-                                            ml-2
-                                            h-4
-                                            w-4
-                                        "
-                                />
-                            </Button>
-
-                            {/* View Packages */}
-
-                            <Button
-
-                                variant="outline"
-                                className="
-                                    h-10
-                                    rounded-full
-                                    border-white
-                                    bg-transparent
-                                    px-4
-                                    text-[14px]
-                                    font-normal
-                                    text-white
-                                    shadow-none
-                                    backdrop-blur-sm
-
-                                    hover:bg-white
-                                    hover:text-black
-
-                                    sm:h-11
-                                    sm:px-5
-                                    sm:text-[15px]
-                                "
-                            >
-                                <Link href="/packages">
-                                    View Packages
-                                </Link>
-                            </Button>
-                        </div>
+            sm:h-10
+            sm:px-4
+            sm:text-[13px]
+               md:text-[17px]
+        "
+                        >
+                            <Link href="/packages">
+                                View Packages
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* ==================================================
@@ -416,7 +420,8 @@ export default function HeroSection() {
                             mt-10
                             h-[300px]
                             w-full
-
+                            hidden
+                            lg:flex
                             lg:absolute
                            lg:right-[-10px]
                             lg:top-1/2
@@ -598,7 +603,8 @@ export default function HeroSection() {
                     className="
                         relative
                         z-50
-                         flex
+                           hidden
+                            lg:flex
                         items-center
                         justify-end
                         gap-3

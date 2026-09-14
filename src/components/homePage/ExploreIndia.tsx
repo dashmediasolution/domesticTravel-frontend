@@ -1,21 +1,11 @@
+ 
 "use client";
 
-import { useState } from "react";
-
-
-import {
-    Headphones,
-    MapPin,
-    MapPinned,
-    Tags,
-} from "lucide-react";
-
+import { Headphones, MapPin, MapPinned, Tags } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-
-
 
 const features = [
     {
@@ -40,59 +30,67 @@ const features = [
     },
 ];
 
- 
- 
 export default function ExploreIndia() {
-
-    const [selectedCountry, setSelectedCountry] =
-        useState<string | null>(null);
-
-
     return (
-        <section className="w-full bg-white px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
-
+        <section
+            className="
+                w-full
+                bg-white
+                px-3
+                py-8
+                sm:px-5
+                sm:py-10
+                md:px-6
+                lg:px-12
+                lg:py-16
+            "
+        >
             <div
                 className="
                     mx-auto
                     grid
-                    w-[95%]
+                    w-full
+                    max-w-[1400px]
                     grid-cols-1
                     items-center
-                    gap-10
+                    gap-7
+                    sm:gap-9
+                    md:gap-10
                     lg:grid-cols-[0.85fr_1.55fr_0.9fr]
                     lg:gap-8
                 "
             >
+                {/* LEFT CONTENT */}
 
-                {/* ==========================================
-                    LEFT CONTENT
-                =========================================== */}
-
-                <div className="z-10">
-
+                <div className="z-10 w-full">
                     <p
                         className="
-                            text-[17px]
+                            text-[13px]
                             font-normal
-                            tracking-[-0.2px]
+                            tracking-[-0.1px]
                             text-[#20BFAF]
+                            sm:text-[15px]
+                            lg:text-[17px]
                         "
                     >
                         EXPLORE INDIA
                     </p>
 
-
                     <h2
                         className="
-                            mt-4
+                            mt-2.5
                             max-w-[330px]
-                            text-[44px]
+                            text-[32px]
                             font-medium
-                            leading-[1.08]
-                            tracking-[-1.5px]
+                            leading-[1.05]
+                            tracking-[-1px]
                             text-black
-                            sm:text-[48px]
+                            sm:mt-3
+                            sm:text-[40px]
+                            md:text-[44px]
+                            lg:mt-4
                             lg:text-[50px]
+                            lg:tracking-[-1.5px]
                         "
                     >
                         Explore India
@@ -100,15 +98,18 @@ export default function ExploreIndia() {
                         on Map
                     </h2>
 
-
                     <p
                         className="
                             mt-3
                             max-w-[390px]
-                            text-[20px]
+                            text-[14px]
                             font-normal
-                            leading-[30px]
+                            leading-[21px]
                             text-[#A7ADB8]
+                            sm:text-[17px]
+                            sm:leading-[25px]
+                            lg:text-[20px]
+                            lg:leading-[30px]
                         "
                     >
                         Hover over a state to discover top
@@ -116,65 +117,80 @@ export default function ExploreIndia() {
                         experiences.
                     </p>
 
-
                     <Button
-
-                        className="
-                            mt-5
+                         className="
+                            mt-4
                             h-9
                             rounded-full
                             bg-[#2FC2B0]
-                            px-5
-                            text-[14px]
+                            px-4
+                            text-[12px]
                             font-medium
                             text-white
                             shadow-none
                             hover:bg-[#25AD9D]
+                            sm:mt-5
+                            sm:h-10
+                            sm:px-5
+                            sm:text-[14px]
                         "
                     >
                         <Link href="/explore-map">
                             Explore Map
                         </Link>
                     </Button>
-
                 </div>
 
+                {/* MAP */}
 
-                {/* ==========================================
-                    ACTUAL WORLD MAP
-                =========================================== */}
+                <div
+                    className="
+                        relative
+                        mx-auto
+                        h-[230px]
+                        w-full
+                        max-w-[430px]
+                        sm:h-[300px]
+                        sm:max-w-[520px]
+                        md:h-[350px]
+                        md:max-w-[600px]
+                        lg:h-[400px]
+                        lg:max-w-none
+                    "
+                >
+                    <Image
+                        src="/images/world map.png"
+                        alt="Wander India travel map"
+                        fill
+                        priority
+                        sizes="
+                            (max-width: 640px) 100vw,
+                            (max-width: 1024px) 80vw,
+                            50vw
+                        "
+                        className="cursor-pointer object-contain"
+                    />
+                </div>
 
-               <div className="relative h-[400px] w-full">
-    <Image
-        src="/images/world map.png"
-        alt="Wander India travel map"
-        fill
-        priority
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
-        className="object-contain cursor-pointer"
-    />
-</div>
-
-                {/* ==========================================
-                    RIGHT FEATURES CARD
-                =========================================== */}
+                {/* FEATURES CARD */}
 
                 <Card
                     className="
                         w-full
-                        rounded-[24px]
+                        rounded-[18px]
                         border-none
                         bg-white
-                        p-6
+                        p-4
                         shadow-[0_2px_15px_rgba(0,0,0,0.10)]
+                        sm:rounded-[22px]
+                        sm:p-5
+                        md:p-6
+                        lg:rounded-[24px]
                         lg:p-7
                     "
                 >
-
-                    <div className="flex flex-col gap-5">
-
+                    <div className="flex flex-col gap-4 sm:gap-5">
                         {features.map((feature) => {
-
                             const Icon = feature.icon;
 
                             return (
@@ -183,68 +199,82 @@ export default function ExploreIndia() {
                                     className="
                                         flex
                                         items-center
-                                        gap-4
+                                        gap-3
+                                        sm:gap-4
                                     "
                                 >
+                                    {/* Icon */}
 
                                     <div
                                         className="
                                             flex
-                                            h-9
-                                            w-9
+                                            h-8
+                                            w-8
                                             shrink-0
                                             items-center
                                             justify-center
                                             text-[#20BFAF]
+                                            sm:h-9
+                                            sm:w-9
                                         "
                                     >
                                         <Icon
-                                            className="h-8 w-8"
+                                            className="
+                                                h-6
+                                                w-6
+                                                sm:h-7
+                                                sm:w-7
+                                                lg:h-8
+                                                lg:w-8
+                                            "
                                             strokeWidth={1.8}
                                         />
                                     </div>
 
+                                    {/* Text */}
 
                                     <div className="min-w-0">
-
                                         <h3
                                             className="
-                                                text-[18px]
+                                                text-[13px]
                                                 font-medium
-                                                leading-[22px]
-                                                tracking-[-0.3px]
+                                                leading-[17px]
+                                                tracking-[-0.2px]
                                                 text-black
+                                                sm:text-[15px]
+                                                sm:leading-[20px]
+                                                lg:text-[18px]
+                                                lg:leading-[22px]
+                                                lg:tracking-[-0.3px]
                                             "
                                         >
                                             {feature.title}
                                         </h3>
 
-
                                         <p
                                             className="
-                                                mt-1
-                                                text-[16px]
+                                                mt-0.5
+                                                text-[11px]
                                                 font-normal
-                                                leading-[20px]
+                                                leading-[15px]
                                                 text-[#A7ADB8]
+                                                sm:mt-1
+                                                sm:text-[13px]
+                                                sm:leading-[18px]
+                                                lg:text-[16px]
+                                                lg:leading-[20px]
                                             "
                                         >
                                             {feature.description}
                                         </p>
-
                                     </div>
-
                                 </div>
                             );
-
                         })}
-
                     </div>
-
                 </Card>
-
             </div>
-
         </section>
     );
 }
+ 
