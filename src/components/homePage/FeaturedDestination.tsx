@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
     Carousel,
     CarouselContent,
@@ -20,6 +21,13 @@ import { MdOutlineArrowOutward } from "react-icons/md";
 import { Button } from "../ui/button";
 
 const featured = [
+        {
+        destination: "Manali",
+        textColor: "#ffffff",
+        startingPrice: "1,75,000",
+        rating: "4.7",
+        imageUrl: "/images/manali1.png",
+    },
     {
         destination: "RISHIKESH",
         textColor: "#FAAE2B",
@@ -80,7 +88,7 @@ const featured = [
 
 export function FeaturedDestination() {
     const [state, setState] = useState("india");
-
+    const router = useRouter()
     return (
         <section className="w-full px-3 sm:px-5 md:px-6 lg:px-8 relative bottom-8 md:bottom-3">
             <div className="mx-auto w-full max-w-[1440px]">
@@ -145,7 +153,7 @@ export function FeaturedDestination() {
                                 <CarouselItem
                                     key={item.destination}
                                     className="basis-auto pl-2 sm:pl-2.5 md:pl-3 lg:pl-4"
-                                >
+                                onClick={()=>{router.push("/manali")}} >
                                     <Card
                                         className="
                                             group

@@ -446,3 +446,16 @@
   font-weight: 400;
   font-style: normal;
 }
+.input-group-focus {
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+}
+
+.input-group-focus:hover {
+  border-color: var(--border) !important;
+}
+
+.input-group-focus:focus-within {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px var(--primary) !important;
+}
