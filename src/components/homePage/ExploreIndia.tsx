@@ -1,4 +1,4 @@
- 
+
 "use client";
 
 import { Headphones, MapPin, MapPinned, Tags } from "lucide-react";
@@ -118,7 +118,7 @@ export default function ExploreIndia() {
                     </p>
 
                     <Button
-                         className="
+                        className="
                             mt-4
                             h-9
                             rounded-full
@@ -160,15 +160,10 @@ export default function ExploreIndia() {
                 >
                     <Image
                         src="/images/world map.png"
-                        alt="Wander India travel map"
+                        alt="World map"
                         fill
                         priority
-                        sizes="
-                            (max-width: 640px) 100vw,
-                            (max-width: 1024px) 80vw,
-                            50vw
-                        "
-                        className="cursor-pointer object-contain"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
                     />
                 </div>
 
@@ -277,4 +272,4 @@ export default function ExploreIndia() {
         </section>
     );
 }
- 
+

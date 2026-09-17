@@ -9,7 +9,6 @@ import {
     CircleDollarSign,
     UsersRound,
     Search,
-    X,
 } from "lucide-react"
 
 import {
@@ -28,13 +27,21 @@ interface SearchBarProps {
     bottomPosition?: string
 }
 
+interface SearchFormValues {
+    destination: string
+    packageType: string
+    travelMonth: string
+    travellers: string
+    budget: string
+}
+
 export default function SearachBar({
     bottomPosition,
 }: SearchBarProps) {
 
     const [open, setOpen] = useState(false)
 
-    const form = useForm({
+    const form = useForm<SearchFormValues>({
         defaultValues: {
             destination: "",
             packageType: "",
@@ -44,7 +51,7 @@ export default function SearachBar({
         },
     })
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: SearchFormValues) => {
         console.log(data)
         setOpen(false)
     }

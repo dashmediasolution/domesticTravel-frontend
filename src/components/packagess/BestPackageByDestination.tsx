@@ -1,3 +1,4 @@
+ 
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -9,50 +10,41 @@ import {
 import { Bookmark, Star } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
+import { useRouter } from "next/navigation";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+
 interface PackageProps {
     title: string;
-    duration: string;
+    duration?: string;
     price: string;
     image: string;
     rating: string;
-    tag: string,
-     color?: string;
+    tag?: string;
+    color?: string;
 }
 
-const packages: PackageProps[] = [
-    {
-        title: "Manali Explorer",
-        duration: "3 Nights / 4 Days",
-        price: "₹8,999 / person",
-        image: "/images/manali1.png",
-        rating: "4.8",
-        tag: "Best Seller"
-    },
-    {
-        title: "Manali Adventure",
-        duration: "4 Nights / 5 Days",
-        price: "₹11,999 / person",
-        image: "/images/manali1.png",
-        rating: "4.8",
-        tag: "Value for Money"
-    },
-    {
-        title: "Manali Escape",
-        duration: "5 Nights / 6 Days",
-        price: "₹14,999 / person",
-        image: "/images/manali1.png",
-        rating: "4.8",
-        tag: "Premium"
-    },
-    {
-        title: "Manali Premium",
-        duration: "6 Nights / 7 Days",
-        price: "₹18,999 / person",
-        image: "/images/manali1.png",
-        rating: "4.8",
-        tag: "Family Pack"
-    },
-];
+interface DestinationPackage {
+    id: string;
+    name: string;
+    imageUrl: string;
+    textColor: string;
+    startingPrice: string;
+    rating: string;
+}
+
+interface BestPackageByDestinationProps {
+    location: string;
+    packages: DestinationPackage[];
+}
+
+const toSlug = (value: string) =>
+    value.toLowerCase().trim().replace(/\s+/g, "-");
 
 export function Package({
     title,
@@ -60,12 +52,11 @@ export function Package({
     price,
     image,
     rating,
-    tag, 
-    color
+    tag,
+    color,
 }: PackageProps) {
     return (
-        <Card className="group relative w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0 shadow-[0_4px_18px_rgba(0,0,0,0.08)]">
-          
+        <Card className="group relative w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0  mb-2">
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                     src={image}
@@ -75,45 +66,93 @@ export function Package({
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                <Badge className="absolute left-4 top-4 z-10 rounded-full   px-3 py-3 text-sm font-medium text-white 
-                shadow-sm backdrop-blur-sm" style={{ backgroundColor: color }}>
-                    {tag}
-                </Badge>
+                {tag && (
+                    <Badge
+                        className="
+                            absolute
+                            left-4
+                            top-4
+                            z-10
+                            rounded-full
+                            px-3
+                            py-3
+                            text-sm
+                            font-medium
+                            text-white
+                            shadow-sm
+                            backdrop-blur-sm
+                        "
+                        style={{
+                            backgroundColor: color,
+                        }}
+                    >
+                        {tag}
+                    </Badge>
+                )}
 
                 <button
                     type="button"
                     aria-label={`Bookmark ${title}`}
-                    className="absolute right-4 top-4 z-10      transition-all hover:scale-105 "
+                    className="
+                        absolute
+                        right-4
+                        top-4
+                        z-10
+                        transition-all
+                        hover:scale-105
+                    "
                 >
                     <Bookmark
                         size={30}
                         strokeWidth={1.8}
-                        className="text-white hover:fill-primary hover:text-primary cursor-pointer"
+                        className="
+                            cursor-pointer
+                            text-white
+                            hover:fill-primary
+                            hover:text-primary
+                        "
                     />
                 </button>
             </div>
 
-            {/* Content */}
-            <CardHeader className="gap-1 px-5 pt-0 ">
-                <CardTitle className="flex  justify-between font-heading text-xl  font-semibold">
+            <CardHeader className="gap-1 px-5 pt-0">
+                <CardTitle className="flex justify-between font-heading text-lg font-semibold">
                     {title}
-                    <div className="flex  ">
-                        <Star className="text-amber-400 mr-2 fill-amber-400" /> <span>{rating}</span>/5
+
+                    <div className="flex items-center">
+                        <Star className="mr-2 fill-amber-400 text-amber-400" />
+                        <span>{rating}</span>
+                        /5
                     </div>
                 </CardTitle>
 
-                <CardDescription className="text-lg">
-                    {duration}
-                </CardDescription>
+                {duration && (
+                    <CardDescription className="text-lg">
+                        {duration}
+                    </CardDescription>
+                )}
             </CardHeader>
 
-            {/* Footer */}
-            <CardFooter className="flex items-center justify-between gap-4 bg-white border-t-0 px-5 pb-3 pt-2">
-                <span className="whitespace-nowrap md:text-xl font-semibold   sm:text-base">
+            <CardFooter className="flex items-center justify-between gap-4 border-t-0 bg-white px-5 pb-3 pt-0">
+                <span className="whitespace-nowrap font-semibold sm:text-base md:text-md">
                     {price}
                 </span>
 
-                <Button className="rounded-full px-5 text-lg py-5 text-primary bg-white border-primary">
+                <Button
+                    variant="outline"
+                    className="
+                        rounded-full
+                        border-primary
+                        bg-white
+                        px-4
+                        py-4
+                        text-md
+                        text-primary
+                        cursor-pointer
+                        hover:bg-primary
+                        hover:text-white
+                    "
+                >
                     View Details
                 </Button>
             </CardFooter>
@@ -121,38 +160,103 @@ export function Package({
     );
 }
 
-export function BestPackageByDestination() {
-    const colors=[
-         "#FF9D00" ,"#1A9C5C" ,"#723FB9","#FF03C0"
-    ]
+export function BestPackageByDestination({
+    location,
+    packages,
+}: BestPackageByDestinationProps) {
+    const colors = [
+        "#FF9D00",
+        "#1A9C5C",
+        "#723FB9",
+        "#FF03C0",
+    ];
+    const router = useRouter()
+
     return (
         <section className="flex w-screen justify-center">
             <div className="w-[94%]">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="font-heading text-xl font-semibold sm:text-2xl">
-                        Best Packages
+                        Best Packages in {location}
                     </h2>
 
-                    <Button variant="ghost" className="text-primary">
+                    <Button
+                        variant="ghost"
+                        className="text-primary"
+                    >
                         View all
                     </Button>
                 </div>
 
-                <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {packages.map((item, index) => (
-                        <Package
-                            key={`${item.title}-${index}`}
-                            title={item.title}
-                            duration={item.duration}
-                            price={item.price}
-                            image={item.image}
-                            rating={item.rating}
-                            tag={item.tag}
-                            color={colors[index]}
+                <div className="relative">
+                    <Carousel
+                        opts={{
+                            align: "start",
+                            loop: false,
+                        }}
+                        className="w-full"
+                    >
+                        <CarouselContent className="-ml-5">
+                            {packages.map((item, index) => (
+                                <CarouselItem
+                                    key={item.id}
+                                    className="
+                                        pl-5
+                                        basis-full
+                                        sm:basis-1/2
+                                        lg:basis-1/3
+                                        xl:basis-1/4
+                                    "
+                                    onClick={() => {
+                                        router.push(
+                                            `/package/${toSlug(location)}/${toSlug(item.name)}`
+                                        );
+                                    }}
+                                >
+                                    <Package
+                                        title={item.name}
+                                        price={`${item.startingPrice} / person`}
+                                        image={item.imageUrl}
+                                        rating={item.rating}
+                                        color={
+                                            colors[index % colors.length]
+                                        }
+                                        tag={
+                                            index === 0
+                                                ? "Best Seller"
+                                                : index === 1
+                                                  ? "Value for Money"
+                                                  : index === 2
+                                                    ? "Premium"
+                                                    : "Popular"
+                                        }
+                                    />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+
+                        <CarouselPrevious
+                            className="
+                                -left-4
+                                h-10
+                                w-10
+               
+                              
+                            "
                         />
-                    ))}
+
+                        <CarouselNext
+                            className="
+                                -right-4
+                                h-10
+                                w-10
+                          
+                            "
+                        />
+                    </Carousel>
                 </div>
             </div>
         </section>
     );
 }
+ 

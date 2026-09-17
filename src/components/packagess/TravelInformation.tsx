@@ -1,3 +1,4 @@
+ 
 "use client";
 
 import {
@@ -19,12 +20,12 @@ import { cn } from "@/lib/utils";
 interface TravelInfo {
     label: string;
     value: string;
-    icon: "airport" | "railway" | "transport" | "language" | "permit" | "currency";
+    icon: string;
 }
 
 interface PackingItem {
     label: string;
-    icon: "clothes" | "sunglasses" | "shoes" | "powerbank" | "medicine";
+    icon: string;
 }
 
 interface TravelInformationProps {
@@ -68,7 +69,12 @@ export default function TravelInformation({
     const googleMapEmbedUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=12&output=embed`;
 
     return (
-        <section className={cn("grid w-[94%] grid-cols-1 gap-5 lg:grid-cols-[1.3fr_0.9fr_0.85fr]", className)}>
+        <section
+            className={cn(
+                "grid w-[94%] grid-cols-1 gap-5 lg:grid-cols-[1.3fr_0.9fr_0.85fr]",
+                className
+            )}
+        >
             {/* Travel Information */}
             <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
                 <h2 className="mb-5 font-heading text-2xl font-semibold">
@@ -77,11 +83,23 @@ export default function TravelInformation({
 
                 <div className="space-y-5">
                     {travelInfo.map((item, index) => {
-                        const Icon = travelIcons[item.icon];
+                        const Icon =
+                            travelIcons[
+                                item.icon as keyof typeof travelIcons
+                            ];
+
+                        if (!Icon) return null;
 
                         return (
-                            <div key={`${item.label}-${index}`} className="flex items-center gap-3">
-                                <Icon size={30} strokeWidth={1.8} className="shrink-0 text-primary" />
+                            <div
+                                key={`${item.label}-${index}`}
+                                className="flex items-center gap-3"
+                            >
+                                <Icon
+                                    size={30}
+                                    strokeWidth={1.8}
+                                    className="shrink-0 text-primary"
+                                />
 
                                 <span className="min-w-0 text-lg font-medium text-foreground">
                                     {item.label}
@@ -104,11 +122,23 @@ export default function TravelInformation({
 
                 <div className="space-y-5">
                     {packingItems.map((item, index) => {
-                        const Icon = packingIcons[item.icon];
+                        const Icon =
+                            packingIcons[
+                                item.icon as keyof typeof packingIcons
+                            ];
+
+                        if (!Icon) return null;
 
                         return (
-                            <div key={`${item.label}-${index}`} className="flex items-center gap-3">
-                                <Icon size={30} strokeWidth={1.8} className="shrink-0 text-[#16C6B2]" />
+                            <div
+                                key={`${item.label}-${index}`}
+                                className="flex items-center gap-3"
+                            >
+                                <Icon
+                                    size={30}
+                                    strokeWidth={1.8}
+                                    className="shrink-0 text-[#16C6B2]"
+                                />
 
                                 <span className="text-lg font-medium text-foreground">
                                     {item.label}
@@ -134,7 +164,27 @@ export default function TravelInformation({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View ${destination} on Google Maps`}
-                    className="absolute bottom-5 right-5 z-10 flex items-center gap-2 rounded-full bg-[#25C6B7] px-5 py-3 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#18b5a6]"
+                    className="
+                        absolute
+                        bottom-5
+                        right-5
+                        z-10
+                        flex
+                        items-center
+                        gap-2
+                        rounded-full
+                        bg-[#25C6B7]
+                        px-5
+                        py-3
+                        text-sm
+                        font-medium
+                        text-white
+                        shadow-lg
+                        transition-all
+                        duration-200
+                        hover:scale-105
+                        hover:bg-[#18b5a6]
+                    "
                 >
                     <MapPin size={17} />
                     {mapLabel}
@@ -143,3 +193,4 @@ export default function TravelInformation({
         </section>
     );
 }
+ 

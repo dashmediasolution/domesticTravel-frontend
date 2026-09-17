@@ -1,14 +1,18 @@
- 
 "use client";
 
-import { CloudRain, Flame, Snowflake } from "lucide-react";
+import {
+    CloudRain,
+    Flame,
+    Snowflake,
+    Flower2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Season {
     name: string;
     months: string;
     description: string;
-    icon: "winter" | "summer" | "monsoon";
+    icon: "winter" | "summer" | "monsoon" | "spring";
 }
 
 interface BestTimeToVisitProps {
@@ -48,6 +52,11 @@ const seasonStyles = {
         icon: "#484ACA",
         component: CloudRain,
     },
+    spring: {
+        border: "#F4C2D7",
+        icon: "#C43D73",
+        component: Flower2,
+    },
 };
 
 export default function BestTimeToVisit({
@@ -56,13 +65,7 @@ export default function BestTimeToVisit({
     className,
 }: BestTimeToVisitProps) {
     return (
-        <section
-            className={cn(
-                "w-full lg:w-[51%]",
-                className
-            )}
-        >
-            {/* Heading */}
+        <section className={cn("w-full lg:w-[51%] h-full" , className)}>
             <h2
                 className="
                     mb-3
@@ -78,13 +81,13 @@ export default function BestTimeToVisit({
                 Best Time to Visit
             </h2>
 
-            {/* Months */}
             <div
                 className="
                     mb-5
                     flex
                     w-full
-                    gap-1.5
+                    h-full
+                    gap-1
                     overflow-x-auto
                     pb-1
                     scrollbar-none
@@ -92,6 +95,7 @@ export default function BestTimeToVisit({
                     sm:gap-3
                     lg:mb-8
                     lg:gap-4
+                    
                 "
             >
                 {allMonths.map((month) => {
@@ -109,7 +113,7 @@ export default function BestTimeToVisit({
                                     items-center
                                     justify-center
                                     rounded-md
-                                    px-2
+                                    px-0.5
                                     text-[10px]
                                     font-medium
                                     sm:h-9
@@ -129,7 +133,6 @@ export default function BestTimeToVisit({
                 })}
             </div>
 
-            {/* Season Cards */}
             <div
                 className="
                     grid
@@ -163,10 +166,9 @@ export default function BestTimeToVisit({
                                 sm:p-5
                                 lg:min-h-[287px]
                                 lg:rounded-[24px]
-                                lg:p-6
+                                lg:px-6
                             "
                         >
-                            {/* Icon */}
                             <Icon
                                 strokeWidth={2}
                                 className="
@@ -184,7 +186,6 @@ export default function BestTimeToVisit({
                                 }}
                             />
 
-                            {/* Season */}
                             <h3
                                 className="
                                     font-heading
@@ -201,7 +202,6 @@ export default function BestTimeToVisit({
                                 {season.name}
                             </h3>
 
-                            {/* Months */}
                             <p
                                 className="
                                     mt-0.5
@@ -216,22 +216,21 @@ export default function BestTimeToVisit({
                                 {season.months}
                             </p>
 
-                            {/* Description */}
                             <p
                                 className="
                                     mt-2
                                     line-clamp-3
                                     text-[10px]
-                                    leading-[14px]
+                                    leading-2
                                     text-slate-600
                                     sm:mt-4
                                     sm:text-sm
                                     sm:leading-5
-                                    lg:mt-5
+                                    lg:mt-4
                                     lg:line-clamp-none
                                     lg:max-w-[250px]
                                     lg:text-lg
-                                    lg:leading-9
+                                    lg:leading-7
                                 "
                             >
                                 {season.description}
@@ -243,4 +242,3 @@ export default function BestTimeToVisit({
         </section>
     );
 }
- 

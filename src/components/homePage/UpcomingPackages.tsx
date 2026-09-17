@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation"
 import {
     ArrowUpRight,
     ChevronLeft,
@@ -18,11 +18,11 @@ import {
 } from "@/components/ui/carousel";
 
 import { Button } from "@/components/ui/button";
-
+import { packageData } from "@/constants/packagesData";
 type PackageType = "domestic" | "international";
 
 interface TravelPackage {
-    id: number;
+    name: string;
     destination: string;
     duration: string;
     price: string;
@@ -30,114 +30,45 @@ interface TravelPackage {
     trending?: boolean;
 }
 
-const domesticPackages: TravelPackage[] = [
-    {
-        id: 1,
-        destination: "Sri Lanka",
-        duration: "6 D - Package",
-        price: "$44,999",
-        image: "/images/packageImages/image-1.png",
-        trending: true,
-    },
-    {
-        id: 2,
-        destination: "Japan",
-        duration: "7 D - Package",
-        price: "$44,999",
-        image: "/images/packageImages/image-2.png",
-        trending: true,
-    },
-    {
-        id: 3,
-        destination: "Philippines",
-        duration: "3 D - Package",
-        price: "$44,999",
-        image: "/images/packageImages/image-3.png",
-        trending: true,
-    },
-    {
-        id: 4,
-        destination: "Bhutan",
-        duration: "9 D - Package",
-        price: "$44,999",
-        image: "/images/packageImages/image-4.png",
-        trending: true,
-    },
-    {
-        id: 5,
-        destination: "Nepal",
-        duration: "6 D - Package",
-        price: "$49,999",
-        image: "/images/packageImages/image-5.png",
-        trending: true,
-    },
-    {
-        id: 6,
-        destination: "Eurpe",
-        duration: "5 D - Package",
-        price: "$39,999",
-        image: "/images/packageImages/image-6.png",
-        trending: true,
-    },
-];
 
 const internationalPackages: TravelPackage[] = [
     {
-        id: 101,
+        name: "SRILANKA",
         destination: "Sri Lanka",
         duration: "6 D - Package",
         price: "$44,999",
         image: "/images/packages/srilanka.jpg",
         trending: true,
     },
-    {
-        id: 102,
-        destination: "Japan",
-        duration: "7 D - Package",
-        price: "$44,999",
-        image: "/images/packages/japan.jpg",
-        trending: true,
-    },
-    {
-        id: 103,
-        destination: "Philippines",
-        duration: "3 D - Package",
-        price: "$44,999",
-        image: "/images/packages/philippines.jpg",
-        trending: true,
-    },
-    {
-        id: 104,
-        destination: "Bhutan",
-        duration: "9 D - Package",
-        price: "$44,999",
-        image: "/images/packages/bhutan.jpg",
-        trending: true,
-    },
-    {
-        id: 105,
-        destination: "Bali",
-        duration: "6 D - Package",
-        price: "$54,999",
-        image: "/images/packages/bali.jpg",
-        trending: true,
-    },
-    {
-        id: 106,
-        destination: "Dubai",
-        duration: "5 D - Package",
-        price: "$49,999",
-        image: "/images/packages/dubai.jpg",
-        trending: true,
-    },
+
 ];
 
 export default function UpcomingPackages() {
+    const router = useRouter();
+
     const [packageType, setPackageType] =
         useState<PackageType>("domestic");
 
     const [api, setApi] = useState<CarouselApi>();
 
+    const domesticPackages: TravelPackage[] = packageData.flatMap(
+        (destination) => {
+            const firstPackage = destination.packages?.[0];
+
+            if (!firstPackage) return [];
+
+            return [
+                {
+                    name: firstPackage.name,
+                    destination: destination.name,
+                    duration: firstPackage.duration,
+                    price: firstPackage.startingPrice,
+                    image: firstPackage.heroImage,
+                    trending: true,
+                },
+            ];
+        }
+    );
     const packages =
         packageType === "domestic"
             ? domesticPackages
@@ -275,7 +206,7 @@ export default function UpcomingPackages() {
                     >
                         {packages.map((item) => (
                             <CarouselItem
-                                key={item.id}
+                                key={item.name}
                                 className="
                                     basis-[88%]
                                     pl-2.5
@@ -289,6 +220,19 @@ export default function UpcomingPackages() {
                                     lg:basis-1/4
                                     lg:pl-5
                                 "
+                                onClick={() => {
+                                    const destinationSlug = item.destination
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-");
+
+                                    const packageSlug = item.name
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-");
+
+                                    item.destination === item.name
+                                        ? router.push(`/package/${packageSlug}`)
+                                        : router.push(`/package/${destinationSlug}/${packageSlug}`);
+                                }}
                             >
                                 {/* PACKAGE CARD */}
                                 <div
@@ -452,7 +396,7 @@ export default function UpcomingPackages() {
                                                 lg:text-[36px]
                                             "
                                         >
-                                            {item.destination}
+                                            {item.name}
                                         </h3>
 
                                         {/* STARTING FROM */}
@@ -652,10 +596,9 @@ export default function UpcomingPackages() {
                                 lg:px-5
                                 lg:text-[15px]
 
-                                ${
-                                    packageType === "domestic"
-                                        ? "bg-primary text-white shadow-sm"
-                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                ${packageType === "domestic"
+                                    ? "bg-primary text-white shadow-sm"
+                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
                                 }
                             `}
                         >
@@ -684,10 +627,9 @@ export default function UpcomingPackages() {
                                 lg:px-5
                                 lg:text-[15px]
 
-                                ${
-                                    packageType === "international"
-                                        ? "bg-primary text-white shadow-sm"
-                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                ${packageType === "international"
+                                    ? "bg-primary text-white shadow-sm"
+                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
                                 }
                             `}
                         >

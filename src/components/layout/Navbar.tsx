@@ -188,107 +188,7 @@ export default function Navbar() {
                             <Phone className="h-5 w-5" />
                         </Button>
 
-                      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-
-                            <DialogTrigger
-                                render={
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        className={`
-                                        h-10
-                                        cursor-pointer
-                                        rounded-full
-                                        border
-                                        bg-transparent
-                                        px-5
-                                        text-[15px]
-                                        font-medium
-                                        shadow-none
-                                        transition-all
-                                        duration-200
-                                        hover:border-primary
-                                        hover:bg-primary
-                                        hover:text-white
-                                        ${scrolled
-                                                ? "border-black/20 text-black"
-                                                : "border-white text-white"
-                                            }
-                                     `}
-                                    >
-                                        Login / Sign up
-                                    </Button>
-                                }
-                            />
-
-                            <DialogContent className="w-[90vw] max-w-3xl! p-0 overflow-hidden">
-                                <div className="flex min-h-137.5 w-full">
-
-                                    {/* Image */}
-                                    <div className="w-1/2">
-                                        <Image
-                                            src="/images/signup.png"
-                                            alt="Signup image"
-                                            width={600}
-                                            height={600}
-                                            className="h-full w-full object-cover"
-                                            priority
-                                        />
-                                    </div>
-
-                                    {/* Login / Signup */}
-                                    <div className="w-1/2 p-8">
-                                        <DialogHeader>
-                                            <DialogTitle className="border-b pb-2">
-                                                <Button
-                                                    variant="link"
-                                                    className={authForm === "login" ? "text-primary " : "text-gray-400"}
-                                                    onClick={() => setAuthForm("login")}
-                                                >
-                                                    Login
-                                                </Button>
-
-                                                <Button variant="link"
-                                                    className={authForm === "signin" ? "text-primary" : "text-gray-400"}
-                                                    onClick={() => setAuthForm("signin")}>
-                                                    Sign Up
-                                                </Button>
-                                            </DialogTitle>
-
-                                            <DialogDescription>
-                                                <span className="text-2xl font-bold text-black">
-                                                    {authForm === "login" ? "Welcome Back!"  
-                                                        :
-                                                        " Create Your Account!"}
-                                                </span>
-
-                                                <p>
-                                                    {authForm === "login" ?
-                                                        "Login to your account and continue your journey."
-                                                        :
-                                                        "Sign up to start your journey and explore amazing destinations."
-                                                    }
-                                                </p>
-                                            </DialogDescription>
-                                        </DialogHeader>
-
-                                        <div className="mt-6">
-                                                {authForm === "login" ? <Login /> :
-                                                    <Signup onSuccessCallback={onSuccessHandler} />
-}
-                                            <p>Don't have an account ?
-                                                <Button variant="link" className="text-primary cursor-pointer"
-                                                    onClick={() => changeHandler()}>
-                                                    {authForm === "login" ? "sign Up" : "sign In"}
-                                                </Button>
-                                            </p>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                    
 
                     </div>
 
@@ -383,27 +283,7 @@ export default function Navbar() {
 
                             <div className="my-2 h-px w-full bg-black/10" />
 
-                            <Link
-                                href="/login"
-                                onClick={() =>
-                                    setMobileMenuOpen(false)
-                                }
-                                className="
-                                flex
-                                min-h-12
-                                items-center
-                                rounded-xl
-                                px-3
-                                text-[15px]
-                                font-medium
-                                text-black
-                                transition-colors
-                                hover:bg-black/5
-                                hover:text-primary
-                            "
-                            >
-                                Login / Sign up
-                            </Link>
+                        
 
                             <div className="mt-2 flex gap-2">
                                 <Button
