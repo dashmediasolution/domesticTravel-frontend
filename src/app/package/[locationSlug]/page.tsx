@@ -116,8 +116,7 @@ export default function PackageDestination() {
             gallery.length
         );
     };
-    console.log(selectedPackage)
-    const gallery = selectedPackage?.gallery
+     const gallery = selectedPackage?.gallery
     
     return (
         <main className="w-full bg-white flex flex-col justify-center items-center gap-10">
@@ -321,7 +320,7 @@ export default function PackageDestination() {
                         {selectedPackage.itinerary.length > 0 && (
                             <Itinerary
                                 title="Itinerary"
-                                subtitle={`Suggested ${"sdfsdf"}`}
+                                subtitle={""}
                                 days={selectedPackage.itinerary}
                                 onButtonClick={() =>
                                     router.push(`/destinations/${selectedPackage.name}/itinerary`)

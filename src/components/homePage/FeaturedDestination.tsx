@@ -369,10 +369,9 @@ export function FeaturedDestination() {
 
                                     lg:text-[15px]
 
-                                    ${
-                                        state === "india"
-                                            ? "bg-primary text-white shadow-sm"
-                                            : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                    ${state === "india"
+                                        ? "bg-primary text-white shadow-sm"
+                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
                                     }
                                 `}
                             >
@@ -401,10 +400,9 @@ export function FeaturedDestination() {
 
                                     lg:text-[15px]
 
-                                    ${
-                                        state === "international"
-                                            ? "bg-primary text-white shadow-sm"
-                                            : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                    ${state === "international"
+                                        ? "bg-primary text-white shadow-sm"
+                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
                                     }
                                 `}
                             >
@@ -467,9 +465,18 @@ function getStartingPrice(item: (typeof featuredDestination)[number]) {
 function getDestinationTextColor(name: string) {
     switch (name) {
         case "Himachal Pradesh":
-            return "#FAAE2B";
+            return "#023020";
 
         case "Ladakh":
+            return "#FFFFFF";
+
+        case "Uttarakhand":
+            return "#DEF4FC";
+
+        case "Rajasthan":
+            return "#FAAE2B";
+
+        case "Tamil Nadu":
             return "#FFFFFF";
 
         case "Kerala":

@@ -5,6 +5,8 @@ import {
     Flame,
     Snowflake,
     Flower2,
+    Leaf,
+    Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +14,13 @@ interface Season {
     name: string;
     months: string;
     description: string;
-    icon: "winter" | "summer" | "monsoon" | "spring";
+    icon:
+        | "winter"
+        | "summer"
+        | "monsoon"
+        | "spring"
+        | "autumn"
+        | "festival";
 }
 
 interface BestTimeToVisitProps {
@@ -57,6 +65,16 @@ const seasonStyles = {
         icon: "#C43D73",
         component: Flower2,
     },
+    autumn: {
+        border: "#F3D4A5",
+        icon: "#B86B00",
+        component: Leaf,
+    },
+    festival: {
+        border: "#E7C7F5",
+        icon: "#8B3FB5",
+        component: Sparkles,
+    },
 };
 
 export default function BestTimeToVisit({
@@ -65,7 +83,12 @@ export default function BestTimeToVisit({
     className,
 }: BestTimeToVisitProps) {
     return (
-        <section className={cn("w-full lg:w-[51%] h-full" , className)}>
+        <section
+            className={cn(
+                "h-full w-full lg:w-[51%]",
+                className
+            )}
+        >
             <h2
                 className="
                     mb-3
@@ -85,8 +108,8 @@ export default function BestTimeToVisit({
                 className="
                     mb-5
                     flex
-                    w-full
                     h-full
+                    w-full
                     gap-1
                     overflow-x-auto
                     pb-1
@@ -95,7 +118,6 @@ export default function BestTimeToVisit({
                     sm:gap-3
                     lg:mb-8
                     lg:gap-4
-                    
                 "
             >
                 {allMonths.map((month) => {
@@ -221,7 +243,7 @@ export default function BestTimeToVisit({
                                     mt-2
                                     line-clamp-3
                                     text-[10px]
-                                    leading-2
+                                    leading-4
                                     text-slate-600
                                     sm:mt-4
                                     sm:text-sm

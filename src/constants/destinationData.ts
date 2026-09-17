@@ -11,26 +11,7 @@ import {
     Waves,
     MapPin,
     CalendarDays,
-    Plane,
-    TrainFront,
-    Bus,
-    Languages,
-    FileCheck,
-    IndianRupee,
-    Shirt,
-    Sun,
-    Footprints,
-    BatteryCharging,
-    Pill,
-    Mountain,
-    Landmark,
-    Heart,
-    Palmtree,
-    Ship,
-
-    Camera,
-    Church,
-    Building2,
+  
     Waves as Water,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -39,16 +20,17 @@ type TravelInfoIcon =
     | "airport"
     | "railway"
     | "transport"
-    | "language"
+    | "language" 
     | "permit"
     | "currency";
 
-type PackingItemIcon =
+    type PackingItemIcon =
     | "clothes"
-    | "sunglasses"
     | "shoes"
-    | "powerbank"
-    | "medicine";
+    | "camera"
+    | "medicines"
+    | "documents"| "sunglasses" | "powerbank"|"medicine" 
+    | "umbrella";
 
 export interface Destination {
     name: string;
@@ -69,7 +51,11 @@ export interface Destination {
         text: string;
         icon: LucideIcon;
     }[];
-
+    attractions?: {
+        name: string;
+        stat: string;
+        image: string;
+    }[];
     bestTimeToVisit?: {
         months: string[];
         seasons: {
@@ -120,7 +106,7 @@ interface DestinationPackage {
 
 interface FeaturedDestination {
     destination: Destination;
-    packages: DestinationPackage[];
+    packages?: DestinationPackage[];
 }
 
 export const featuredDestination: FeaturedDestination[] = [
@@ -183,7 +169,44 @@ export const featuredDestination: FeaturedDestination[] = [
             /* ============================================================
                BEST TIME TO VISIT
             ============================================================ */
-
+             attractions :[
+                {
+                  name: "Manali",
+                  stat: "Himalayan Paradise",
+                  image:
+                    "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                  name: "Shimla",
+                  stat: "Queen of Hills",
+                  image:
+                    "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                  name: "Spiti Valley",
+                  stat: "Land of High Passes",
+                  image:
+                    "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                  name: "Dharamshala",
+                  stat: "Mountain & Monasteries",
+                  image:
+                  "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=2560&q=80",
+                },
+                {
+                  name: "Khajjiar",
+                  stat: "Mini Switzerland",
+                  image:
+                  "https://images.unsplash.com/photo-1714381639586-80d1f04dfb0e?auto=format&fit=crop&w=3840&q=90",
+                },
+                {
+                  name: "Solang Valley",
+                  stat: "Adventure's Hub",
+                  image:
+                    "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&w=1600&q=85",
+                },
+              ],
             bestTimeToVisit: {
                 months: ["Mar", "Apr"],
 
@@ -381,7 +404,8 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "manali",
                 name: "Manali",
-                imageUrl: "/images/featuredImages/image_1.png",
+                imageUrl:  "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1800&q=90",
+
                 textColor: "#FAAE2B",
                 startingPrice: "₹17,500",
                 rating: "4.7",
@@ -389,7 +413,8 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "shimla",
                 name: "Shimla",
-                imageUrl: "/images/featuredImages/image_2.png",
+                imageUrl: "https://images.unsplash.com/photo-1657894736581-ccc35d62d9e2?auto=format&fit=crop&w=3840&q=90",
+
                 textColor: "#FFFFFF",
                 startingPrice: "₹15,000",
                 rating: "4.8",
@@ -887,7 +912,7 @@ export const featuredDestination: FeaturedDestination[] = [
             gallery: [
                 {
                     src:
-                        "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1706963336286-029a26cd7810?auto=format&fit=crop&w=3840&q=90",
                     title: "Rishikesh",
                     location: "Uttarakhand",
                 },
@@ -899,7 +924,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 },
                 {
                     src:
-                        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1706468630738-b0ded0c5fc25?auto=format&fit=crop&w=3840&q=90",
                     title: "Nainital",
                     location: "Uttarakhand",
                 },

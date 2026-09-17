@@ -3,17 +3,24 @@
 import Image from "next/image"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
-const attractions = [
-    { name: "Old Manali", stat: "Charnming and Colorfull", image: "/images/packageImages/old manali.png" },
-    { name: "Jogini Waterfall", stat: "Nature’s Beauty", image: "/images/packageImages/jogini.png" },
-    { name: "Solang Valley", stat: "NAdventure’s Hub", image: "/images/packageImages/solang.png" },
-    { name: "Atal Tunnel", stat: "Engineering Marvel", image: "/images/packageImages/atal tunnel.png" },
-    { name: "Rohtang Pass", stat: "Maintain Peaks", image: "/images/packageImages/rohtang pass.png" },
-    { name: "Hidimba Temple", stat: "Ancient Heritage", image: "/images/packageImages/hidimba temple.png" },
- ]
+ 
 
-export default function PackagesByDestination({ destination }: { destination: string }) {
-    return (
+ interface Attraction {
+    name: string;
+    stat: string;
+    image: string;
+  }
+  
+  interface PackagesByDestinationProps {
+    destination: string;
+    attractions: Attraction[];
+  }
+  
+  export default function PackagesByDestination({
+    destination,
+    attractions,
+  }: PackagesByDestinationProps) {
+        return (
         <section className="flex w-full flex-col items-center gap-8  ">
             <div className="flex w-[90%] flex-col gap-2">
                  <h2 className="font-heading text-3xl font-semibold tracking-tight">Top Attractions in {destination}</h2>

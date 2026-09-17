@@ -33,7 +33,7 @@ export default function Itinerary({
     buttonText = "View Detailed Itinerary",
     onButtonClick,
     className,
-    previewDays = 6,
+    previewDays = 5,
 }: ItineraryProps) {
     const previewItems = days.slice(0, previewDays);
     const hasMoreDays = days.length > previewDays;

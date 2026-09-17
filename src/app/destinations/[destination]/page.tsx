@@ -74,6 +74,8 @@ const router = useRouter();
 
   const bestTimeToVisit = destination.bestTimeToVisit;
 
+  const attractions = destination.attractions ?? []
+
   const travelInfo = destination.travelInfo ?? [];
 
   const packingItems = destination.packingItems ?? [];
@@ -537,6 +539,7 @@ const router = useRouter();
 
         <PackagesByDestination
           destination={destination.name}
+          attractions = {attractions}
         />
 
 
