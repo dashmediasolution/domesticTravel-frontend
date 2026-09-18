@@ -135,7 +135,7 @@ export default function UpcomingPackages() {
                     >
                         Browse Upcoming Packages
                     </h2>
-
+{/* 
                     <Button
                         type="button"
                         variant="outline"
@@ -181,7 +181,7 @@ export default function UpcomingPackages() {
                                 lg:w-5
                             "
                         />
-                    </Button>
+                    </Button> */}
                 </div>
 
                 {/* CAROUSEL */}

@@ -315,7 +315,7 @@ export default function DestinationHero({
               md:mt-5
             "
           >
-           {!pathname.startsWith("/package") && (
+           {/* {!pathname.startsWith("/package") && (
   <Link
     href={`/packages/${destination.name
       .toLowerCase()
@@ -338,7 +338,7 @@ export default function DestinationHero({
   >
     Explore Packages
   </Link>
-)}
+)} */}
 
  
 

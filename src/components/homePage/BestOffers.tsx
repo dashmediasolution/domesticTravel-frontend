@@ -176,7 +176,7 @@ export default function BestOffers() {
         Get best offers for you
     </h2>
 
-    <Button
+    {/* <Button
         type="button"
         variant="outline"
         className="
@@ -201,7 +201,7 @@ export default function BestOffers() {
         </span>
 
         <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:ml-2 sm:h-5 sm:w-5" />
-    </Button>
+    </Button> */}
 </div>
 
                 {/* =====================================================

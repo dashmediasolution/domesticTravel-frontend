@@ -13,14 +13,12 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { name: "Beaches", icon: Waves },
-  { name: "Mountains", icon: Mountain },
+   { name: "Mountains", icon: Mountain },
+  { name: "Nature", icon: Trees },
   { name: "Desert", icon: Sun },
   { name: "Lakes", icon: Droplets },
   { name: "Adventure", icon: Compass },
-  { name: "Camping", icon: Tent },
-  { name: "Spiritual", icon: Church },
-  { name: "Nature", icon: Trees },
+   { name: "Spiritual", icon: Church },
 ];
 
 export default function BrowseByCategory() {
