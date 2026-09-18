@@ -173,8 +173,8 @@ export function BestPackageByDestination({
     const router = useRouter()
 
     return (
-        <section className="flex w-screen justify-center">
-            <div className="w-[94%]">
+        <section className="flex w-full justify-center">
+            <div className="w-[90%]">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="font-heading text-xl font-semibold sm:text-2xl">
                         Best Packages in {location}

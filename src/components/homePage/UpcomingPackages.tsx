@@ -523,9 +523,7 @@ export default function UpcomingPackages() {
                                                         md:h-10
                                                         md:w-10
                                                     "
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                    }}
+                                                    
                                                 >
                                                     <ArrowUpRight
                                                         className="

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, Timer } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import {
     Carousel,
     CarouselContent,
@@ -24,58 +24,57 @@ interface Offer {
     price: string;
     priceSuffix: string;
     image: string;
+    redirect?:string
 }
 
 const domesticOffers: Offer[] = [
-    {
-        id: 1,
-        destination: "KASHMIR",
-        subtitle: "Sun, Sand & Good Vibes",
-        discount: "25% OFF",
-        endsIn: "Ends in 02 D",
-        price: "$7,499",
-        priceSuffix: "/person",
-        image: "/images/offers/image-1.png",
-    },
-    {
+     {
         id: 2,
-        destination: "HAWA MAHAL",
-        subtitle: "Sun, Sand & Good Vibes",
+        destination: "Meghalaya",
+        subtitle: "The Abode of Clouds",
         discount: "25% OFF",
         endsIn: "Ends in 02 D",
-        price: "$7,499",
+        price: "₹24,000",
         priceSuffix: "/person",
-        image: "/images/offers/image-2.png",
+        redirect:"/package/meghalaya/",
+        image:  "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
+  
     {
         id: 3,
-        destination: "DARJEELING",
+        destination: "JAIPUR",
         subtitle: "Sun, Sand & Good Vibes",
         discount: "25% OFF",
         endsIn: "Ends in 02 D",
-        price: "$7,499",
+        price: "₹10,999",
         priceSuffix: "/person",
-        image: "/images/offers/image-3.png",
+        redirect:"/package/rajasthan/jaipur",
+        image:  "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
     },
     {
         id: 4,
-        destination: "GOA",
+        destination: "MUSSOORIE",
         subtitle: "Sun, Sand & Good Vibes",
         discount: "25% OFF",
         endsIn: "Ends in 02 D",
-        price: "$6,999",
+        price: "₹13,499",
         priceSuffix: "/person",
-        image: "/images/offers/image-4.png",
+        redirect:"/package/uttarakhand/mussoorie",
+        image: "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=3840&q=90",
+
     },
     {
         id: 5,
-        destination: "MANALI",
+        destination: "KASOL",
         subtitle: "Sun, Sand & Good Vibes",
         discount: "25% OFF",
         endsIn: "Ends in 02 D",
-        price: "$8,499",
+        price: "₹12,999",
         priceSuffix: "/person",
-        image: "/images/offers/image-5.png",
+        redirect:"/package/himachal-pradesh/kasol",
+        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=80",
+
     },
 ];
 
@@ -125,7 +124,7 @@ const internationalOffers: Offer[] = [
 export default function BestOffers() {
     const [offerType, setOfferType] =
         useState<OfferType>("domestic");
-
+    const router = useRouter()
     const [api, setApi] = useState<CarouselApi>();
 
     const offers =
@@ -151,11 +150,11 @@ export default function BestOffers() {
                 px-5
                 md:py-10
                 sm:px-8
-                lg:px-12
+             
                 lg:py-12
             "
         >
-            <div className="mx-auto w-[95%]">
+            <div className="mx-auto w-[99%]">
 
                 {/* =====================================================
                     HEADER
@@ -516,6 +515,7 @@ export default function BestOffers() {
 
                                 lg:text-[14px]
                             "
+                            onClick={()=>router.push(offer.redirect ?? "/")}
                         >
                             <span className="whitespace-nowrap hidden md:block">
                                 Explore Now

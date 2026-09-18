@@ -85,7 +85,7 @@ export default function BestTimeToVisit({
     return (
         <section
             className={cn(
-                "h-full w-full lg:w-[51%]",
+                "h-full w-full",
                 className
             )}
         >

@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import ThingsToDo from "@/components/ThingsToDo";
 import Image from "next/image";
 import { useState } from "react";
+import TravelersReviews from "@/components/Reviews";
 export default function PackageDestination() {
     const pathname = usePathname();
     const router = useRouter()
@@ -130,10 +131,14 @@ export default function PackageDestination() {
                 </div>
             </section>
      {selectedPackage.activities.length > 0 && (
+           <div className="w-[91%]">
+
           <ThingsToDo
             title={`Best Experiences in ${selectedPackage.name}`}
             activities={selectedPackage.activities}
           />
+                          </div>
+
         )}
 
             <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
@@ -161,7 +166,7 @@ export default function PackageDestination() {
                             >
                                 <Image
                                     src={gallery[0].src}
-                                    alt={gallery[0].alt}
+                                    alt={"gallery"}
                                     fill
                                     priority
                                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -193,7 +198,7 @@ export default function PackageDestination() {
                                     >
                                         <Image
                                             src={gallery[1].src}
-                                            alt={gallery[1].alt}
+                                            alt={"gallery"}
                                             fill
                                             sizes="(max-width: 1024px) 100vw, 25vw"
                                             className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -221,7 +226,7 @@ export default function PackageDestination() {
                                                 >
                                                     <Image
                                                         src={image.src}
-                                                        alt={image.alt}
+                                                        alt={"gallery"}
                                                         fill
                                                         sizes="(max-width: 1024px) 50vw, 12vw"
                                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -278,7 +283,7 @@ export default function PackageDestination() {
                                                 >
                                                     <Image
                                                         src={image.src}
-                                                        alt={image.alt}
+                                                        alt="gallery"
                                                         fill
                                                         sizes={
                                                             isWide
@@ -364,6 +369,11 @@ export default function PackageDestination() {
                         longitude={selectedPackage.longitude}
                     />
                 )}
+                                  <div className="w-[95%]">
+                                 
+                                                     <TravelersReviews/>
+                                                     </div>
+
             <TravelStories />
 
             <Memories />

@@ -10,6 +10,7 @@ import {
   Play,
   Star,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface Destination {
   name: string;
@@ -32,6 +33,8 @@ interface DestinationHeroProps {
 export default function DestinationHero({
   destination,
 }: DestinationHeroProps) {
+  const pathname = usePathname();
+
   return (
     <section
       className="
@@ -67,9 +70,9 @@ export default function DestinationHero({
           inset-0
           z-10
           bg-linear-to-tr
-          from-black/85
+          from-black/50
           via-black/20
-          via-55%
+          via-30%
           to-transparent
         "
       />
@@ -312,28 +315,32 @@ export default function DestinationHero({
               md:mt-5
             "
           >
-            <Link
-              href={`/packages/${destination.name
-                .toLowerCase()
-                .replace(/\s+/g, "-")}`}
-              className="
-                rounded-full
-                bg-primary
-                px-4
-                py-2
-                text-[11px]
-                font-medium
-                text-white
-                transition
-                hover:opacity-90
-                sm:px-5
-                sm:py-2.5
-                sm:text-sm
-                md:text-base
-              "
-            >
-              Explore Packages
-            </Link>
+           {!pathname.startsWith("/package") && (
+  <Link
+    href={`/packages/${destination.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}`}
+    className="
+      rounded-full
+      bg-primary
+      px-4
+      py-2
+      text-[11px]
+      font-medium
+      text-white
+      transition
+      hover:opacity-90
+      sm:px-5
+      sm:py-2.5
+      sm:text-sm
+      md:text-base
+    "
+  >
+    Explore Packages
+  </Link>
+)}
+
+ 
 
             <button
               type="button"
@@ -346,10 +353,12 @@ export default function DestinationHero({
                 text-white
                 transition-opacity
                 hover:opacity-80
+          
                 sm:gap-2
+                cursor-pointer
                 sm:text-sm
               "
-            >
+             >
               <span
                 className="
                   flex

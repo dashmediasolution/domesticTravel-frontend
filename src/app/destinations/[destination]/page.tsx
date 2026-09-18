@@ -13,6 +13,7 @@ import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
 import Itinerary from "@/components/packagess/Itinerary";
 import BlogSection from "@/components/BlogSection";
 import WeatherForecast from "@/components/WheatherForcast";
+import TravelersReviews from "@/components/Reviews";
 import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
 import ThingsToDo from "@/components/ThingsToDo";
@@ -33,7 +34,7 @@ import { featuredDestination } from "@/constants/destinationData";
 
 export default function DestinationPage() {
   const [activeImage, setActiveImage] = useState<number | null>(null);
-const router = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
 
 
@@ -114,7 +115,7 @@ const router = useRouter();
       gallery.length
     );
   };
-
+  console.log(attractions)
   return (
     <main className="w-screen bg-white">
 
@@ -539,22 +540,26 @@ const router = useRouter();
 
         <PackagesByDestination
           destination={destination.name}
-          attractions = {attractions}
+          attractions={attractions}
         />
 
 
         {activities.length > 0 && (
-          <ThingsToDo
-            title={`Best Experiences in ${destination.name}`}
-            activities={activities}
-          />
+          <div className="w-[91%]">
+
+            <ThingsToDo
+              title={`Best Experiences in ${destination.name}`}
+              activities={activities}
+            />
+          </div>
+
         )}
 
 
 
         {(itinerary.length > 0 ||
           bestTimeToVisit) && (
-            <div className="mb-8 flex max-h-130   w-full flex-col gap-8 px-3 sm:px-5 md:px-6 lg:mb-12 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            <div className="mb-8 flex max-h-130   w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:mb-12 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
 
               {itinerary.length > 0 && (
                 <Itinerary
@@ -568,10 +573,13 @@ const router = useRouter();
               )}
 
               {bestTimeToVisit && (
-                <BestTimeToVisit
-                  months={bestTimeToVisit.months}
-                  seasons={bestTimeToVisit.seasons}
-                />
+                <div className="w-[60%]">
+
+                  <BestTimeToVisit
+                    months={bestTimeToVisit.months}
+                    seasons={bestTimeToVisit.seasons}
+                  />
+                </div>
               )}
 
             </div>
@@ -620,7 +628,10 @@ const router = useRouter();
         {/* ==================================================
             BLOG
         ================================================== */}
+        <div className="w-[95%]">
 
+          <TravelersReviews />
+        </div>
         <BlogSection />
 
         {/* ==================================================

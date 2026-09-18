@@ -16,8 +16,7 @@ export interface StatItem {
 }
 
 export interface CategoryHeroData {
-  breadcrumbs: BreadcrumbItem[];
-  tagline: string;
+   tagline: string;
   titleTop: string;
   titleBottom: string;
   description: string;
@@ -38,8 +37,7 @@ export const CategoryHeroSection: React.FC<
   const config = props.data ? props.data : (props as CategoryHeroData);
 
   const {
-    breadcrumbs = [],
-    tagline,
+     tagline,
     titleTop,
     titleBottom,
     description,

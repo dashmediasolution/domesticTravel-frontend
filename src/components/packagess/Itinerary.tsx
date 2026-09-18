@@ -39,7 +39,7 @@ export default function Itinerary({
     const hasMoreDays = days.length > previewDays;
 
     return (
-        <section className={`w-full lg:w-[40%] ${className ?? ""}`}>
+        <section className={`w-full   ${className ?? ""}`}>
             <div className="mb-3 flex flex-wrap items-baseline gap-1 sm:mb-5">
                 <h2 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
                     {title}

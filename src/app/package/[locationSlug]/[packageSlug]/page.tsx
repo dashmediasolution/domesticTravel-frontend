@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import TravelStories from "@/components/homePage/TravelStories";
 import Memories from "@/components/Memories";
 import Gallery from "@/components/packagess/Galary";
+import TravelersReviews from "@/components/Reviews";
 import { packageData } from "@/constants/packagesData";
 import Itinerary from "@/components/packagess/Itinerary";
 import Image from "next/image";
@@ -129,10 +130,13 @@ export default function PackageDestination() {
                 </div>
             </section>
             {selectedPackage.activities.length > 0 && (
-          <ThingsToDo
-            title={`Best Experiences in ${selectedPackage.name}`}
-            activities={selectedPackage.activities}
-          />
+                <div className="w-[91%]">
+
+                    <ThingsToDo
+                      title={`Best Experiences in ${selectedPackage.name}`}
+                      activities={selectedPackage.activities}
+                    />
+                </div>
         )}
 
             <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
@@ -160,7 +164,7 @@ export default function PackageDestination() {
                             >
                                 <Image
                                     src={gallery[0].src}
-                                    alt={gallery[0].alt}
+                                    alt={gallery[0].alt ?? ""}
                                     fill
                                     priority
                                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -192,7 +196,7 @@ export default function PackageDestination() {
                                     >
                                         <Image
                                             src={gallery[1].src}
-                                            alt={gallery[1].alt}
+                                            alt={gallery[1].alt ?? ""}
                                             fill
                                             sizes="(max-width: 1024px) 100vw, 25vw"
                                             className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -220,7 +224,7 @@ export default function PackageDestination() {
                                                 >
                                                     <Image
                                                         src={image.src}
-                                                        alt={image.alt}
+                                                       alt={image.alt ?? ""}
                                                         fill
                                                         sizes="(max-width: 1024px) 50vw, 12vw"
                                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -277,7 +281,7 @@ export default function PackageDestination() {
                                                 >
                                                     <Image
                                                         src={image.src}
-                                                        alt={image.alt}
+                                                        alt={image.alt ?? ""}
                                                         fill
                                                         sizes={
                                                             isWide
@@ -312,9 +316,11 @@ export default function PackageDestination() {
             </section>
        {(selectedPackage.itinerary.length > 0 ||
           selectedPackage.bestTimeToVisit) && (
-            <div className="  flex w-full flex-col gap-8    lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            <div className="  flex w-[95    %] flex-col gap-8    lg:flex-row lg:items-start lg:justify-center lg:gap-5">
 
               {selectedPackage.itinerary.length > 0 && (
+                <div  className="sm:full md:w-[38%]">
+
                 <Itinerary
                   title="Itinerary"
                   subtitle={""}
@@ -323,13 +329,16 @@ export default function PackageDestination() {
                     router.push(`/destinations/${selectedPackage.name}/itinerary`)
                   }
                 />
+                 </div>
               )}
 
               {selectedPackage.bestTimeToVisit && (
-                <BestTimeToVisit
-                  months={selectedPackage.bestTimeToVisit.months}
-                  seasons={selectedPackage.bestTimeToVisit.seasons}
-                />
+                <div className="w-[50%]">
+                    <BestTimeToVisit
+                      months={selectedPackage.bestTimeToVisit.months}
+                      seasons={selectedPackage.bestTimeToVisit.seasons}
+                    />
+                     </div>
               )}
 
             </div>
@@ -361,6 +370,10 @@ export default function PackageDestination() {
                         longitude={selectedPackage.longitude}
                       />
                     )}
+                    <div className="w-[95%]">
+
+                    <TravelersReviews/>
+                    </div>
             <TravelStories />
 
             <Memories />

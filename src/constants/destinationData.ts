@@ -11,7 +11,7 @@ import {
     Waves,
     MapPin,
     CalendarDays,
-  
+
     Waves as Water,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -20,16 +20,16 @@ type TravelInfoIcon =
     | "airport"
     | "railway"
     | "transport"
-    | "language" 
+    | "language"
     | "permit"
     | "currency";
 
-    type PackingItemIcon =
+type PackingItemIcon =
     | "clothes"
     | "shoes"
     | "camera"
     | "medicines"
-    | "documents"| "sunglasses" | "powerbank"|"medicine" 
+    | "documents" | "sunglasses" | "powerbank" | "medicine"
     | "umbrella";
 
 export interface Destination {
@@ -169,44 +169,44 @@ export const featuredDestination: FeaturedDestination[] = [
             /* ============================================================
                BEST TIME TO VISIT
             ============================================================ */
-             attractions :[
+            attractions: [
                 {
-                  name: "Manali",
-                  stat: "Himalayan Paradise",
-                  image:
-                    "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85",
+                    name: "Manali",
+                    stat: "Himalayan Paradise",
+                    image:
+                        "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85",
                 },
                 {
-                  name: "Shimla",
-                  stat: "Queen of Hills",
-                  image:
-                    "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1600&q=85",
+                    name: "Shimla",
+                    stat: "Queen of Hills",
+                    image:
+                        "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1600&q=85",
                 },
                 {
-                  name: "Spiti Valley",
-                  stat: "Land of High Passes",
-                  image:
-                    "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+                    name: "Spiti Valley",
+                    stat: "Land of High Passes",
+                    image:
+                        "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
                 },
                 {
-                  name: "Dharamshala",
-                  stat: "Mountain & Monasteries",
-                  image:
-                  "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=2560&q=80",
+                    name: "Dharamshala",
+                    stat: "Mountain & Monasteries",
+                    image:
+                        "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=2560&q=80",
                 },
                 {
-                  name: "Khajjiar",
-                  stat: "Mini Switzerland",
-                  image:
-                  "https://images.unsplash.com/photo-1714381639586-80d1f04dfb0e?auto=format&fit=crop&w=3840&q=90",
+                    name: "Khajjiar",
+                    stat: "Mini Switzerland",
+                    image:
+                        "https://images.unsplash.com/photo-1714381639586-80d1f04dfb0e?auto=format&fit=crop&w=3840&q=90",
                 },
                 {
-                  name: "Solang Valley",
-                  stat: "Adventure's Hub",
-                  image:
-                    "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&w=1600&q=85",
+                    name: "Solang Valley",
+                    stat: "Adventure's Hub",
+                    image:
+                        "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&w=1600&q=85",
                 },
-              ],
+            ],
             bestTimeToVisit: {
                 months: ["Mar", "Apr"],
 
@@ -404,7 +404,7 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "manali",
                 name: "Manali",
-                imageUrl:  "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1800&q=90",
+                imageUrl: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1800&q=90",
 
                 textColor: "#FAAE2B",
                 startingPrice: "₹17,500",
@@ -465,7 +465,7 @@ export const featuredDestination: FeaturedDestination[] = [
         destination: {
             name: "Ladakh",
             subtitle: "The Land of High Passes",
-            heroImage: "/images/featuredImages/image_2.png",
+            heroImage: "https://images.unsplash.com/photo-1593118845043-359e5f628214?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             rating: "4.9",
             reviews: "3.1k",
             packagesCount: "80+ Packages",
@@ -481,7 +481,44 @@ export const featuredDestination: FeaturedDestination[] = [
             /* ============================================================
                ACTIVITIES
             ============================================================ */
-
+            attractions: [
+                {
+                    name: "Leh",
+                    stat: "Heart of Ladakh",
+                    image:
+                        "https://images.unsplash.com/photo-1617824077840-0d7a0cd13448?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+                {
+                    name: "Pangong Lake",
+                    stat: "Iconic Blue Lake",
+                    image:
+                        "https://images.unsplash.com/photo-1606857090627-27ca46667290?q=80&w=867&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+                {
+                    name: "Nubra Valley",
+                    stat: "High-Altitude Desert",
+                    image:
+                        "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Khardung La",
+                    stat: "Legendary Mountain Pass",
+                    image:
+                        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Tso Moriri",
+                    stat: "Pristine Alpine Lake",
+                    image:
+                        "https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Zanskar Valley",
+                    stat: "Remote Himalayan Wilderness",
+                    image:
+                        "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+                },
+            ],
             activities: [
                 {
                     text: "Trekking",
@@ -617,33 +654,38 @@ export const featuredDestination: FeaturedDestination[] = [
                GALLERY
             ============================================================ */
 
+
             gallery: [
                 {
-                    src: "/images/destination/image-1.png",
+                    src: "https://images.unsplash.com/photo-1606857090627-27ca46667290?q=80&w=867&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                     title: "Pangong Lake",
                     location: "Ladakh",
                 },
                 {
-                    src: "/images/destination/image-2.png",
+                    src: "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=1600&q=85",
                     title: "Nubra Valley",
                     location: "Ladakh",
                 },
                 {
-                    src: "/images/destination/image-3.png",
+                    src: "https://images.unsplash.com/photo-1768728410262-2de655bfc5dd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bGVoJTIwcGFsYWNlfGVufDB8MHwwfHx8MA%3D%3D",
                     title: "Leh Palace",
                     location: "Leh, Ladakh",
                 },
                 {
-                    src: "/images/destination/image-1.png",
+                    src: "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
                     title: "Khardung La",
                     location: "Ladakh",
                 },
                 {
-                    src: "/images/destination/image-2.png",
+                    src: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=85",
                     title: "Magnetic Hill",
                     location: "Leh, Ladakh",
                 },
             ],
+
+
+
+
 
             /* ============================================================
                DESTINATION CATEGORIES
@@ -730,43 +772,43 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "leh",
                 name: "Leh",
-                imageUrl: "/images/featuredImages/image_2.png",
+                imageUrl: "https://images.unsplash.com/photo-1617824077840-0d7a0cd13448?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹18,000",
                 rating: "4.8",
             },
-            {
-                id: "nubra-valley",
-                name: "Nubra Valley",
-                imageUrl: "/images/featuredImages/image_3.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹21,000",
-                rating: "4.9",
-            },
-            {
-                id: "pangong",
-                name: "Pangong Lake",
-                imageUrl: "/images/featuredImages/image_4.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹20,500",
-                rating: "4.9",
-            },
-            {
-                id: "tso-moriri",
-                name: "Tso Moriri",
-                imageUrl: "/images/featuredImages/image_6.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹23,000",
-                rating: "4.8",
-            },
-            {
-                id: "zanskar",
-                name: "Zanskar Valley",
-                imageUrl: "/images/featuredImages/image_7.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹25,000",
-                rating: "4.9",
-            },
+            // {
+            //     id: "nubra-valley",
+            //     name: "Nubra Valley",
+            //     imageUrl: "/images/featuredImages/image_3.png",
+            //     textColor: "#FFFFFF",
+            //     startingPrice: "₹21,000",
+            //     rating: "4.9",
+            // },
+            // {
+            //     id: "pangong",
+            //     name: "Pangong Lake",
+            //     imageUrl: "/images/featuredImages/image_4.png",
+            //     textColor: "#FFFFFF",
+            //     startingPrice: "₹20,500",
+            //     rating: "4.9",
+            // },
+            // {
+            //     id: "tso-moriri",
+            //     name: "Tso Moriri",
+            //     imageUrl: "/images/featuredImages/image_6.png",
+            //     textColor: "#FFFFFF",
+            //     startingPrice: "₹23,000",
+            //     rating: "4.8",
+            // },
+            // {
+            //     id: "zanskar",
+            //     name: "Zanskar Valley",
+            //     imageUrl: "/images/featuredImages/image_7.png",
+            //     textColor: "#FFFFFF",
+            //     startingPrice: "₹25,000",
+            //     rating: "4.9",
+            // },
         ],
     },
 
@@ -824,7 +866,44 @@ export const featuredDestination: FeaturedDestination[] = [
                     icon: Bike,
                 },
             ],
-
+            attractions: [
+                {
+                    name: "Nainital",
+                    stat: "Lake City",
+                    image:
+                        "https://images.unsplash.com/photo-1643263904933-2aa9fb29bd81?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+                {
+                    name: "Mussoorie",
+                    stat: "Queen of Hills",
+                    image:
+                        "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Rishikesh",
+                    stat: "Yoga & Adventure",
+                    image:
+                        "https://images.unsplash.com/photo-1614605670899-47ecba60bf2a?q=80&w=1572&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+                {
+                    name: "Mussoorie",
+                    stat: "Mountain Retreat",
+                    image:
+                        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Auli",
+                    stat: "Skiing Paradise",
+                    image:
+                        "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Kedarnath",
+                    stat: "Sacred Himalayan Shrine",
+                    image:
+                        "https://images.unsplash.com/photo-1612438214708-f428a707dd4e?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+            ],
             bestTimeToVisit: {
                 months: ["Mar", "Apr", "May", "Oct", "Nov"],
 
@@ -833,21 +912,21 @@ export const featuredDestination: FeaturedDestination[] = [
                         name: "Winter",
                         months: "Dec - Feb",
                         description:
-                            "Cold weather and snowfall in higher regions make this season ideal for snow experiences and peaceful mountain escapes.",
+                            "Cold weather and snowfall create perfect snow experiences.",
                         icon: "winter",
                     },
                     {
                         name: "Summer",
                         months: "Mar - Jun",
                         description:
-                            "Pleasant temperatures, clear mountain views and comfortable conditions make summer ideal for sightseeing and adventure.",
+                            "Pleasant temperatures and clear views suit sightseeing.",
                         icon: "summer",
                     },
                     {
                         name: "Monsoon",
                         months: "Jul - Sep",
                         description:
-                            "The mountains become lush and green with beautiful waterfalls, although heavy rainfall can affect travel in some areas.",
+                            "Lush mountains and waterfalls, despite occasional heavy rainfall.",
                         icon: "monsoon",
                     },
                 ],
@@ -912,7 +991,7 @@ export const featuredDestination: FeaturedDestination[] = [
             gallery: [
                 {
                     src:
-                    "https://images.unsplash.com/photo-1706963336286-029a26cd7810?auto=format&fit=crop&w=3840&q=90",
+                        "https://images.unsplash.com/photo-1706963336286-029a26cd7810?auto=format&fit=crop&w=3840&q=90",
                     title: "Rishikesh",
                     location: "Uttarakhand",
                 },
@@ -924,7 +1003,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 },
                 {
                     src:
-                    "https://images.unsplash.com/photo-1706468630738-b0ded0c5fc25?auto=format&fit=crop&w=3840&q=90",
+                        "https://images.unsplash.com/photo-1706468630738-b0ded0c5fc25?auto=format&fit=crop&w=3840&q=90",
                     title: "Nainital",
                     location: "Uttarakhand",
                 },
@@ -1032,7 +1111,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 id: "rishikesh",
                 name: "Rishikesh",
                 imageUrl:
-                    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1614605670899-47ecba60bf2a?q=80&w=1572&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹12,500",
                 rating: "4.8",
@@ -1050,7 +1129,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 id: "nainital",
                 name: "Nainital",
                 imageUrl:
-                    "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1643263904933-2aa9fb29bd81?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹13,500",
                 rating: "4.7",
@@ -1059,9 +1138,18 @@ export const featuredDestination: FeaturedDestination[] = [
                 id: "kedarnath",
                 name: "Kedarnath",
                 imageUrl:
-                    "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1623952146070-f13fc902f769?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹16,000",
+                rating: "4.9",
+            },
+             {
+                id: "Jim Corbett",
+                name: "Jim Corbett",
+                imageUrl:"https://images.unsplash.com/photo-1765375906788-3526ea224645?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                   
+                textColor: "#FFFFFF",
+                startingPrice: "₹13,999",
                 rating: "4.9",
             },
         ],
@@ -1070,7 +1158,7 @@ export const featuredDestination: FeaturedDestination[] = [
         destination: {
             name: "Rajasthan",
             subtitle: "The Land of Kings, Forts & Royal Heritage",
-            heroImage: "/images/destination/rajesthan.jpg",
+            heroImage: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
             rating: "4.8",
             reviews: "2.8k",
             packagesCount: "100+ Packages",
@@ -1086,7 +1174,44 @@ export const featuredDestination: FeaturedDestination[] = [
             /* ============================================================
                ACTIVITIES
             ============================================================ */
-
+            attractions: [
+                {
+                    name: "Jaipur",
+                    stat: "Pink City",
+                    image:
+                        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Udaipur",
+                    stat: "City of Lakes",
+                    image:
+                        "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Jaisalmer",
+                    stat: "Golden City",
+                    image:
+                        "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Jodhpur",
+                    stat: "Blue City",
+                    image:
+                        "https://images.unsplash.com/photo-1592639296346-560c37a0f711?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Pushkar",
+                    stat: "Sacred Desert Town",
+                    image:
+                        "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Ranthambore",
+                    stat: "Wildlife & Safari",
+                    image:
+                        "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1600&q=85",
+                },
+            ],
             activities: [
                 {
                     text: "Desert Safari",
@@ -1224,27 +1349,27 @@ export const featuredDestination: FeaturedDestination[] = [
 
             gallery: [
                 {
-                    src: "/images/destination/image-1.png",
+                    src: "https://images.unsplash.com/photo-1606298855672-3efb63017be8?auto=format&fit=crop&w=1600&q=85",
                     title: "City Palace",
                     location: "Udaipur",
                 },
                 {
-                    src: "/images/destination/image-2.png",
+                    src: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=85",
                     title: "Amber Fort",
                     location: "Jaipur",
                 },
                 {
-                    src: "/images/destination/image-3.png",
+                    src: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
                     title: "Jaisalmer Fort",
                     location: "Jaisalmer",
                 },
                 {
-                    src: "/images/destination/image-1.png",
+                    src: "https://images.unsplash.com/photo-1699949958644-64499c608946?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bGFrZSUyMHBpY2hvbGF8ZW58MHx8MHx8fDA%3D",
                     title: "Lake Pichola",
                     location: "Udaipur",
                 },
                 {
-                    src: "/images/destination/image-2.png",
+                    src: "https://images.unsplash.com/photo-1602858659965-ea6f743b7679?q=80&w=1693&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                     title: "Thar Desert",
                     location: "Jaisalmer",
                 },
@@ -1341,7 +1466,7 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "udaipur",
                 name: "Udaipur",
-                imageUrl: "/images/featuredImages/image_1.png",
+                imageUrl: "https://images.unsplash.com/photo-1706961121527-4017856774c7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FAAE2B",
                 startingPrice: "₹15,000",
                 rating: "4.8",
@@ -1349,7 +1474,7 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "jaipur",
                 name: "Jaipur",
-                imageUrl: "/images/featuredImages/image_2.png",
+                imageUrl: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹12,500",
                 rating: "4.7",
@@ -1357,536 +1482,578 @@ export const featuredDestination: FeaturedDestination[] = [
             {
                 id: "jaisalmer",
                 name: "Jaisalmer",
-                imageUrl: "/images/featuredImages/image_3.png",
+                imageUrl: "https://images.unsplash.com/photo-1602858659965-ea6f743b7679?q=80&w=1693&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 textColor: "#FFFFFF",
                 startingPrice: "₹16,500",
                 rating: "4.9",
             },
         ],
     },
-  {
-    destination: {
-        name: "Tamil Nadu",
-        subtitle: "The Land of Temples, Hills & Culture",
+    {
+        destination: {
+            name: "Tamil Nadu",
+            subtitle: "The Land of Temples, Hills & Culture",
 
-        heroImage:
-            "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=2400&q=90",
+            heroImage:
+                "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=2400&q=90",
 
-        rating: "4.8",
-        reviews: "2.5k",
-        packagesCount: "120+ Packages",
-        location: "Tamil Nadu",
+            rating: "4.8",
+            reviews: "2.5k",
+            packagesCount: "120+ Packages",
+            location: "Tamil Nadu",
 
-        description:
-            "Explore magnificent temples, misty hill stations, beautiful beaches, rich traditions and vibrant culture in the diverse land of Tamil Nadu.",
+            description:
+                "Explore magnificent temples, misty hill stations, beautiful beaches, rich traditions and vibrant culture in the diverse land of Tamil Nadu.",
 
-        weather: "18°C - 35°C",
-        idealTrip: "5 - 8 Days",
-        budget: "₹9000 - ₹20000",
+            weather: "18°C - 35°C",
+            idealTrip: "5 - 8 Days",
+            budget: "₹9000 - ₹20000",
 
-        activities: [
-            {
-                text: "Hill Trekking",
-                icon: PersonStanding,
-            },
-            {
-                text: "Nature Walks",
-                icon: TentTree,
-            },
-            {
-                text: "Beach Activities",
-                icon: Waves,
-            },
-            {
-                text: "Temple Tours",
-                icon: MapPin,
-            },
-            {
-                text: "Wildlife Safari",
-                icon: Caravan,
-            },
-            {
-                text: "Boating",
-                icon: Waves,
-            },
-            {
-                text: "Biking",
-                icon: Bike,
-            },
-            {
-                text: "Cultural Tours",
-                icon: Sparkles,
-            },
-        ],
-
-        bestTimeToVisit: {
-            months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-
-            seasons: [
+            attractions: [
                 {
-                    name: "Winter",
-                    months: "Oct - Feb",
-                    description:
-                        "Pleasant temperatures and comfortable weather make winter ideal for exploring temples, hill stations, beaches and cultural attractions.",
-                    icon: "winter",
+                    name: "Ooty",
+                    stat: "Queen of Hill Stations",
+                    image:
+                        "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1600&q=85",
                 },
                 {
-                    name: "Summer",
-                    months: "Mar - Jun",
-                    description:
-                        "Warm weather is suitable for coastal destinations and sightseeing, while hill stations such as Ooty and Kodaikanal offer cooler escapes.",
-                    icon: "summer",
+                    name: "Kodaikanal",
+                    stat: "Princess of Hills",
+                    image:
+                        "https://images.unsplash.com/photo-1665481193520-86e5eaba1af6?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 },
                 {
-                    name: "Monsoon",
-                    months: "Jul - Sep",
+                    name: "Chennai",
+                    stat: "Gateway to South India",
+                    image: "https://images.unsplash.com/photo-1644852037516-95c8fba481f9?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                {
+                    name: "Madurai",
+                    stat: "Temple City",
+                    image:
+                        "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1600&q=85",
+                },
+                {
+                    name: "Rameswaram",
+                    stat: "Sacred Island Town",
+                    image:
+                        "https://images.unsplash.com/photo-1719306135948-8be84c0d791d?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                },
+                {
+                    name: "Kanyakumari",
+                    stat: "Land's End of India",
+                    image:
+                        "https://images.unsplash.com/photo-1610902552120-c577dbde88a8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2FueWFrdW1hcml8ZW58MHx8MHx8fDA%3D",
+                },
+            ],
+            activities: [
+                {
+                    text: "Hill Trekking",
+                    icon: PersonStanding,
+                },
+                {
+                    text: "Nature Walks",
+                    icon: TentTree,
+                },
+                {
+                    text: "Beach Activities",
+                    icon: Waves,
+                },
+                {
+                    text: "Temple Tours",
+                    icon: MapPin,
+                },
+                {
+                    text: "Wildlife Safari",
+                    icon: Caravan,
+                },
+                {
+                    text: "Boating",
+                    icon: Waves,
+                },
+                {
+                    text: "Biking",
+                    icon: Bike,
+                },
+                {
+                    text: "Cultural Tours",
+                    icon: Sparkles,
+                },
+            ],
+
+            bestTimeToVisit: {
+                months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+
+                seasons: [
+                    {
+                        name: "Winter",
+                        months: "Oct - Feb",
+                        description:
+                            "Pleasant weather makes winter ideal for exploration.",
+                        icon: "winter",
+                    },
+                    {
+                        name: "Summer",
+                        months: "Mar - Jun",
+                        description:
+                            "Warm weather suits beaches and hill stations.",
+                        icon: "summer",
+                    },
+                    {
+                        name: "Monsoon",
+                        months: "Jul - Sep",
+                        description:
+                            "Rain brings lush greenery and beautiful landscapes.",
+                        icon: "monsoon",
+                    },
+                ],
+            },
+
+            travelInfo: [
+                {
+                    label: "Nearest Airport",
+                    value: "Chennai International Airport",
+                    icon: "airport",
+                },
+                {
+                    label: "Nearest Railway Station",
+                    value: "Chennai Central Railway Station",
+                    icon: "railway",
+                },
+                {
+                    label: "Local Transport",
+                    value: "Buses, Taxis, Rental Cars & Bikes",
+                    icon: "transport",
+                },
+                {
+                    label: "Languages Spoken",
+                    value: "Tamil, English, Hindi",
+                    icon: "language",
+                },
+                {
+                    label: "Permits Required",
+                    value: "Required for Certain Protected & Wildlife Areas",
+                    icon: "permit",
+                },
+                {
+                    label: "Currency",
+                    value: "Indian Rupee (INR)",
+                    icon: "currency",
+                },
+            ],
+
+            packingItems: [
+                {
+                    label: "Light Cotton Clothes",
+                    icon: "clothes",
+                },
+                {
+                    label: "Sunglasses & Sunscreen",
+                    icon: "sunglasses",
+                },
+                {
+                    label: "Comfortable Walking Shoes",
+                    icon: "shoes",
+                },
+                {
+                    label: "Power Bank & ID Proof",
+                    icon: "powerbank",
+                },
+                {
+                    label: "Personal Medicines",
+                    icon: "medicine",
+                },
+            ],
+
+            gallery: [
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1800&q=90",
+                    title: "Ooty",
+                    location: "Tamil Nadu",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
+                    title: "Kodaikanal",
+                    location: "Tamil Nadu",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
+                    title: "Madurai",
+                    location: "Tamil Nadu",
+                },
+
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1800&q=90",
+                    title: "Tamil Nadu Landscape",
+                    location: "Tamil Nadu",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1644852037516-95c8fba481f9?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    title: "Chennai",
+                    location: "Tamil Nadu",
+                },
+            ],
+
+            categories: [
+                {
+                    title: "Hill Stations",
+                    icon: Sparkles,
+                },
+                {
+                    title: "Nature",
+                    icon: Waves,
+                },
+                {
+                    title: "Temples",
+                    icon: MapPin,
+                },
+                {
+                    title: "Culture",
+                    icon: Sparkles,
+                },
+                {
+                    title: "Wildlife",
+                    icon: Caravan,
+                },
+                {
+                    title: "Weekend Trips",
+                    icon: CalendarDays,
+                },
+            ],
+
+            itinerary: [
+                {
+                    day: 1,
+                    title: "Arrival in Chennai",
                     description:
-                        "Rain brings lush greenery to the hills and countryside, creating beautiful landscapes, although occasional heavy showers may affect travel.",
-                    icon: "monsoon",
+                        "Arrive in Chennai, check into your hotel and explore Marina Beach, Kapaleeshwarar Temple and the vibrant city atmosphere.",
+                },
+                {
+                    day: 2,
+                    title: "Chennai to Ooty",
+                    description:
+                        "Travel towards the Nilgiri Hills and arrive in Ooty. Spend the evening exploring the town and enjoying the cool mountain weather.",
+                },
+                {
+                    day: 3,
+                    title: "Ooty Sightseeing",
+                    description:
+                        "Visit Ooty Lake, Botanical Garden, Doddabetta Peak and enjoy the scenic beauty of the Nilgiri Mountains.",
+                },
+                {
+                    day: 4,
+                    title: "Ooty to Kodaikanal",
+                    description:
+                        "Travel towards Kodaikanal through scenic landscapes and settle into the peaceful hill station surrounded by forests and valleys.",
+                },
+                {
+                    day: 5,
+                    title: "Kodaikanal Sightseeing",
+                    description:
+                        "Explore Kodaikanal Lake, Coaker's Walk, Bryant Park, Pillar Rocks and other scenic viewpoints around the hill station.",
+                },
+                {
+                    day: 6,
+                    title: "Kodaikanal to Madurai",
+                    description:
+                        "Travel down from the hills towards Madurai and explore the city's historic streets, markets and traditional Tamil culture.",
+                },
+                {
+                    day: 7,
+                    title: "Madurai Temple & Cultural Tour",
+                    description:
+                        "Visit the magnificent Meenakshi Amman Temple, Thirumalai Nayakkar Palace and experience the rich heritage of Madurai.",
+                },
+                {
+                    day: 8,
+                    title: "Departure from Tamil Nadu",
+                    description:
+                        "Complete your Tamil Nadu journey and depart from Madurai or Chennai for your onward destination with memorable experiences.",
                 },
             ],
         },
 
-        travelInfo: [
+        packages: [
             {
-                label: "Nearest Airport",
-                value: "Chennai International Airport",
-                icon: "airport",
+                id: "ooty",
+                name: "Ooty",
+                imageUrl:
+                    "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1800&q=90",
+                textColor: "#FFFFFF",
+                startingPrice: "₹12,000",
+                rating: "4.8",
             },
             {
-                label: "Nearest Railway Station",
-                value: "Chennai Central Railway Station",
-                icon: "railway",
-            },
-            {
-                label: "Local Transport",
-                value: "Buses, Taxis, Rental Cars & Bikes",
-                icon: "transport",
-            },
-            {
-                label: "Languages Spoken",
-                value: "Tamil, English, Hindi",
-                icon: "language",
-            },
-            {
-                label: "Permits Required",
-                value: "Required for Certain Protected & Wildlife Areas",
-                icon: "permit",
-            },
-            {
-                label: "Currency",
-                value: "Indian Rupee (INR)",
-                icon: "currency",
-            },
-        ],
-
-        packingItems: [
-            {
-                label: "Light Cotton Clothes",
-                icon: "clothes",
-            },
-            {
-                label: "Sunglasses & Sunscreen",
-                icon: "sunglasses",
-            },
-            {
-                label: "Comfortable Walking Shoes",
-                icon: "shoes",
-            },
-            {
-                label: "Power Bank & ID Proof",
-                icon: "powerbank",
-            },
-            {
-                label: "Personal Medicines",
-                icon: "medicine",
-            },
-        ],
-
-      gallery: [
-    {
-        src:
-            "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1800&q=90",
-        title: "Ooty",
-        location: "Tamil Nadu",
-    },
-    {
-        src:
-            "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-        title: "Kodaikanal",
-        location: "Tamil Nadu",
-    },
-    {
-        src:
-            "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-        title: "Madurai",
-        location: "Tamil Nadu",
-    },
- 
-    {
-        src:
-            "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1800&q=90",
-        title: "Tamil Nadu Landscape",
-        location: "Tamil Nadu",
-    },
-    
-],
-
-        categories: [
-            {
-                title: "Hill Stations",
-                icon: Sparkles,
-            },
-            {
-                title: "Nature",
-                icon: Waves,
-            },
-            {
-                title: "Temples",
-                icon: MapPin,
-            },
-            {
-                title: "Culture",
-                icon: Sparkles,
-            },
-            {
-                title: "Wildlife",
-                icon: Caravan,
-            },
-            {
-                title: "Weekend Trips",
-                icon: CalendarDays,
-            },
-        ],
-
-        itinerary: [
-            {
-                day: 1,
-                title: "Arrival in Chennai",
-                description:
-                    "Arrive in Chennai, check into your hotel and explore Marina Beach, Kapaleeshwarar Temple and the vibrant city atmosphere.",
-            },
-            {
-                day: 2,
-                title: "Chennai to Ooty",
-                description:
-                    "Travel towards the Nilgiri Hills and arrive in Ooty. Spend the evening exploring the town and enjoying the cool mountain weather.",
-            },
-            {
-                day: 3,
-                title: "Ooty Sightseeing",
-                description:
-                    "Visit Ooty Lake, Botanical Garden, Doddabetta Peak and enjoy the scenic beauty of the Nilgiri Mountains.",
-            },
-            {
-                day: 4,
-                title: "Ooty to Kodaikanal",
-                description:
-                    "Travel towards Kodaikanal through scenic landscapes and settle into the peaceful hill station surrounded by forests and valleys.",
-            },
-            {
-                day: 5,
-                title: "Kodaikanal Sightseeing",
-                description:
-                    "Explore Kodaikanal Lake, Coaker's Walk, Bryant Park, Pillar Rocks and other scenic viewpoints around the hill station.",
-            },
-            {
-                day: 6,
-                title: "Kodaikanal to Madurai",
-                description:
-                    "Travel down from the hills towards Madurai and explore the city's historic streets, markets and traditional Tamil culture.",
-            },
-            {
-                day: 7,
-                title: "Madurai Temple & Cultural Tour",
-                description:
-                    "Visit the magnificent Meenakshi Amman Temple, Thirumalai Nayakkar Palace and experience the rich heritage of Madurai.",
-            },
-            {
-                day: 8,
-                title: "Departure from Tamil Nadu",
-                description:
-                    "Complete your Tamil Nadu journey and depart from Madurai or Chennai for your onward destination with memorable experiences.",
-            },
-        ],
-    },
-
-    packages: [
-        {
-            id: "ooty",
-            name: "Ooty",
-            imageUrl:
-               "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1800&q=90",
-            textColor: "#FFFFFF",
-            startingPrice: "₹12,000",
-            rating: "4.8",
-        },
-        {
-            id: "kodaikanal",
-            name: "Kodaikanal",
-            imageUrl:
-                "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-            textColor: "#FFFFFF",
-            startingPrice: "₹13,500",
-            rating: "4.8",
-        },
-        {
-            id: "madurai",
-            name: "Madurai",
-            imageUrl:
-               "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-            textColor: "#FFFFFF",
-            startingPrice: "₹10,500",
-            rating: "4.7",
-        },
-    ],
-},
-
-  {
-    destination: {
-        name: "Kerala",
-        subtitle: "God's Own Country",
-
-         heroImage: "/images/featuredImages/image_6.png",
-          
-        rating: "4.9",
-        reviews: "3.1k",
-        packagesCount: "180+ Packages",
-        location: "Kerala",
-
-        description:
-            "Discover serene backwaters, lush green hills, beautiful beaches, wildlife sanctuaries and rich cultural traditions in the enchanting land of Kerala.",
-
-        weather: "23°C - 32°C",
-        idealTrip: "5 - 8 Days",
-        budget: "₹10000 - ₹22000",
-
-        activities: [
-            {
-                text: "Backwater Cruise",
-                icon: Waves,
-            },
-            {
-                text: "Trekking",
-                icon: PersonStanding,
-            },
-            {
-                text: "Houseboat Stay",
-                icon: Caravan,
-            },
-            {
-                text: "Beach Activities",
-                icon: Umbrella,
-            },
-            {
-                text: "Wildlife Safari",
-                icon: Caravan,
-            },
-            {
-                text: "Tea Plantation",
-                icon: Sparkles,
-            },
-            {
-                text: "Ayurveda",
-                icon: Sparkles,
-            },
-            {
-                text: "Biking",
-                icon: Bike,
-            },
-        ],
-
-        bestTimeToVisit: {
-            months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-
-            seasons: [
-                {
-                    name: "Winter",
-                    months: "Oct - Feb",
-                    description:
-                        "Pleasant temperatures, comfortable weather and clear skies make winter ideal for exploring Kerala's beaches, backwaters, hill stations and cultural attractions.",
-                    icon: "winter",
-                },
-                {
-                    name: "Summer",
-                    months: "Mar - May",
-                    description:
-                        "Warm and humid conditions are perfect for relaxing along the coast, while Kerala's hill stations provide a cooler escape.",
-                    icon: "summer",
-                },
-                {
-                    name: "Monsoon",
-                    months: "Jun - Sep",
-                    description:
-                        "Fresh greenery, misty hills and rejuvenated waterfalls transform Kerala into a lush tropical paradise, while the season is also popular for Ayurveda experiences.",
-                    icon: "monsoon",
-                },
-            ],
-        },
-
-        travelInfo: [
-            {
-                label: "Nearest Airport",
-                value: "Cochin International Airport",
-                icon: "airport",
-            },
-            {
-                label: "Nearest Railway Station",
-                value: "Ernakulam Junction Railway Station",
-                icon: "railway",
-            },
-            {
-                label: "Local Transport",
-                value: "Buses, Taxis, Rental Cars, Auto Rickshaws & Bikes",
-                icon: "transport",
-            },
-            {
-                label: "Languages Spoken",
-                value: "Malayalam, English, Hindi, Tamil",
-                icon: "language",
-            },
-            {
-                label: "Permits Required",
-                value: "Required for Certain Protected & Wildlife Areas",
-                icon: "permit",
-            },
-           
-        ],
-
-        packingItems: [
-            {
-                label: "Light Cotton Clothes",
-                icon: "clothes",
-            },
-            {
-                label: "Sunglasses & Sunscreen",
-                icon: "sunglasses",
-            },
-            {
-                label: "Comfortable Walking Shoes",
-                icon: "shoes",
-            },
-            {
-                label: "Umbrella & Light Rain Jacket",
-                icon: "umbrella",
-            },
-            {
-                label: "Power Bank & ID Proof",
-                icon: "powerbank",
-            },
-        ],
-
-        gallery: [
-            {
-                src:
-                    "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1800&q=90",
-                title: "Alleppey",
-                location: "Kerala",
-            },
-            {
-                src:
-                    "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&w=1800&q=90",
-                title: "Munnar",
-                location: "Kerala",
-            },
-            {
-                src:
+                id: "kodaikanal",
+                name: "Kodaikanal",
+                imageUrl:
                     "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-                title: "Wayanad",
-                location: "Kerala",
+                textColor: "#FFFFFF",
+                startingPrice: "₹13,500",
+                rating: "4.8",
             },
             {
-                src:
-                    "https://images.unsplash.com/photo-1532664189809-02133fee698d?auto=format&fit=crop&w=1800&q=90",
-                title: "Kovalam",
-                location: "Kerala",
-            },
-            {
-                src:
-                     "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2400&q=90",
-
-                title: "Thekkady",
-                location: "Kerala",
-            },
-        ],
-
-        categories: [
-            {
-                title: "Backwaters",
-                icon: Waves,
-            },
-            {
-                title: "Hill Stations",
-                icon: Sparkles,
-            },
-            {
-                title: "Beaches",
-                icon: Umbrella,
-            },
-            {
-                title: "Wildlife",
-                icon: Caravan,
-            },
-            {
-                title: "Culture",
-                icon: MapPin,
-            },
-            {
-                title: "Ayurveda",
-                icon: Sparkles,
-            },
-        ],
-
-        itinerary: [
-            {
-                day: 1,
-                title: "Arrival in Kochi",
-                description:
-                    "Arrive in Kochi, check into your hotel and explore Fort Kochi, Chinese fishing nets, St. Francis Church and the historic waterfront.",
-            },
-            {
-                day: 2,
-                title: "Kochi to Munnar",
-                description:
-                    "Travel through scenic mountain roads towards Munnar, stopping at waterfalls, tea plantations and beautiful viewpoints along the way.",
-            },
-            {
-                day: 3,
-                title: "Munnar Sightseeing",
-                description:
-                    "Explore Munnar's tea gardens, Eravikulam National Park, Mattupetty Dam and Echo Point while enjoying the cool mountain climate.",
-            },
-            {
-                day: 4,
-                title: "Munnar to Thekkady",
-                description:
-                    "Drive through the lush Western Ghats towards Thekkady and explore the surrounding forests and spice plantations.",
-            },
-            {
-                day: 5,
-                title: "Thekkady Wildlife Experience",
-                description:
-                    "Enjoy a wildlife experience around Periyar National Park with options for boating, nature walks and exploring the spice-growing region.",
-            },
-            {
-                day: 6,
-                title: "Thekkady to Alleppey",
-                description:
-                    "Travel towards Alleppey and board a traditional Kerala houseboat for a relaxing journey through the beautiful backwaters.",
-            },
-            {
-                day: 7,
-                title: "Alleppey to Kovalam",
-                description:
-                    "Leave the backwaters and travel towards Kovalam, where you can relax on the beach and enjoy the peaceful coastal atmosphere.",
-            },
-            {
-                day: 8,
-                title: "Departure from Kerala",
-                description:
-                    "Enjoy a relaxed morning in Kovalam before departing for your onward destination with unforgettable memories of Kerala.",
+                id: "madurai",
+                name: "Madurai",
+                imageUrl:
+                    "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
+                textColor: "#FFFFFF",
+                startingPrice: "₹10,500",
+                rating: "4.7",
             },
         ],
     },
-},
+
+    {
+        destination: {
+            name: "Kerala",
+            subtitle: "God's Own Country",
+
+            heroImage: "/images/featuredImages/image_6.png",
+
+            rating: "4.9",
+            reviews: "3.1k",
+            packagesCount: "180+ Packages",
+            location: "Kerala",
+
+            description:
+                "Discover serene backwaters, lush green hills, beautiful beaches, wildlife sanctuaries and rich cultural traditions in the enchanting land of Kerala.",
+
+            weather: "23°C - 32°C",
+            idealTrip: "5 - 8 Days",
+            budget: "₹10000 - ₹22000",
+
+            activities: [
+                {
+                    text: "Backwater Cruise",
+                    icon: Waves,
+                },
+                {
+                    text: "Trekking",
+                    icon: PersonStanding,
+                },
+                {
+                    text: "Houseboat Stay",
+                    icon: Caravan,
+                },
+                {
+                    text: "Beach Activities",
+                    icon: Umbrella,
+                },
+                {
+                    text: "Wildlife Safari",
+                    icon: Caravan,
+                },
+                {
+                    text: "Tea Plantation",
+                    icon: Sparkles,
+                },
+                {
+                    text: "Ayurveda",
+                    icon: Sparkles,
+                },
+                {
+                    text: "Biking",
+                    icon: Bike,
+                },
+            ],
+
+            bestTimeToVisit: {
+                months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+
+                seasons: [
+                    {
+                        name: "Winter",
+                        months: "Oct - Feb",
+                        description:
+                            "Pleasant weather makes winter ideal for exploring Kerala's diverse attractions.",
+                        icon: "winter",
+                    },
+                    {
+                        name: "Summer",
+                        months: "Mar - May",
+                        description:
+                            "Warm days are perfect for beaches and refreshing hill escapes.",
+                        icon: "summer",
+                    },
+                    {
+                        name: "Monsoon",
+                        months: "Jun - Sep",
+                        description:
+                            "Monsoon rains bring lush greenery, waterfalls and rejuvenated landscapes.",
+                             icon: "monsoon",
+                    },
+                ],
+            },
+
+            travelInfo: [
+                {
+                    label: "Nearest Airport",
+                    value: "Cochin International Airport",
+                    icon: "airport",
+                },
+                {
+                    label: "Nearest Railway Station",
+                    value: "Ernakulam Junction Railway Station",
+                    icon: "railway",
+                },
+                {
+                    label: "Local Transport",
+                    value: "Buses, Taxis, Rental Cars, Auto Rickshaws & Bikes",
+                    icon: "transport",
+                },
+                {
+                    label: "Languages Spoken",
+                    value: "Malayalam, English, Hindi, Tamil",
+                    icon: "language",
+                },
+                {
+                    label: "Permits Required",
+                    value: "Required for Certain Protected & Wildlife Areas",
+                    icon: "permit",
+                },
+
+            ],
+
+            packingItems: [
+                {
+                    label: "Light Cotton Clothes",
+                    icon: "clothes",
+                },
+                {
+                    label: "Sunglasses & Sunscreen",
+                    icon: "sunglasses",
+                },
+                {
+                    label: "Comfortable Walking Shoes",
+                    icon: "shoes",
+                },
+                {
+                    label: "Umbrella & Light Rain Jacket",
+                    icon: "umbrella",
+                },
+                {
+                    label: "Power Bank & ID Proof",
+                    icon: "powerbank",
+                },
+            ],
+
+            gallery: [
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1800&q=90",
+                    title: "Alleppey",
+                    location: "Kerala",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&w=1800&q=90",
+                    title: "Munnar",
+                    location: "Kerala",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
+                    title: "Wayanad",
+                    location: "Kerala",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1532664189809-02133fee698d?auto=format&fit=crop&w=1800&q=90",
+                    title: "Kovalam",
+                    location: "Kerala",
+                },
+                {
+                    src:
+                        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2400&q=90",
+
+                    title: "Thekkady",
+                    location: "Kerala",
+                },
+            ],
+
+            categories: [
+                {
+                    title: "Backwaters",
+                    icon: Waves,
+                },
+                {
+                    title: "Hill Stations",
+                    icon: Sparkles,
+                },
+                {
+                    title: "Beaches",
+                    icon: Umbrella,
+                },
+                {
+                    title: "Wildlife",
+                    icon: Caravan,
+                },
+                {
+                    title: "Culture",
+                    icon: MapPin,
+                },
+                {
+                    title: "Ayurveda",
+                    icon: Sparkles,
+                },
+            ],
+
+            itinerary: [
+                {
+                    day: 1,
+                    title: "Arrival in Kochi",
+                    description:
+                        "Arrive in Kochi, check into your hotel and explore Fort Kochi, Chinese fishing nets, St. Francis Church and the historic waterfront.",
+                },
+                {
+                    day: 2,
+                    title: "Kochi to Munnar",
+                    description:
+                        "Travel through scenic mountain roads towards Munnar, stopping at waterfalls, tea plantations and beautiful viewpoints along the way.",
+                },
+                {
+                    day: 3,
+                    title: "Munnar Sightseeing",
+                    description:
+                        "Explore Munnar's tea gardens, Eravikulam National Park, Mattupetty Dam and Echo Point while enjoying the cool mountain climate.",
+                },
+                {
+                    day: 4,
+                    title: "Munnar to Thekkady",
+                    description:
+                        "Drive through the lush Western Ghats towards Thekkady and explore the surrounding forests and spice plantations.",
+                },
+                {
+                    day: 5,
+                    title: "Thekkady Wildlife Experience",
+                    description:
+                        "Enjoy a wildlife experience around Periyar National Park with options for boating, nature walks and exploring the spice-growing region.",
+                },
+                {
+                    day: 6,
+                    title: "Thekkady to Alleppey",
+                    description:
+                        "Travel towards Alleppey and board a traditional Kerala houseboat for a relaxing journey through the beautiful backwaters.",
+                },
+                {
+                    day: 7,
+                    title: "Alleppey to Kovalam",
+                    description:
+                        "Leave the backwaters and travel towards Kovalam, where you can relax on the beach and enjoy the peaceful coastal atmosphere.",
+                },
+                {
+                    day: 8,
+                    title: "Departure from Kerala",
+                    description:
+                        "Enjoy a relaxed morning in Kovalam before departing for your onward destination with unforgettable memories of Kerala.",
+                },
+            ],
+        },
+    },
 ];

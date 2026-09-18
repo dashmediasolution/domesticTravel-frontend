@@ -1,5 +1,3 @@
-"use client";
-
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,8 +14,8 @@ interface ThingsToDoProps {
 
 export default function ThingsToDo({ title, activities, className }: ThingsToDoProps) {
     return (
-        <section className={cn("flex w-screen justify-center", className)}>
-            <div className="flex w-[94%] flex-col gap-5">
+        <section className={cn("flex w-full justify-center", className)}>
+            <div className="flex w-full flex-col gap-5">
                 <div className="flex items-center justify-between px-3">
                     <h2 className=" font-semibold text-foreground sm:text-lg md:text-2xl">
                         {title}
@@ -28,7 +26,7 @@ export default function ThingsToDo({ title, activities, className }: ThingsToDoP
                     </button>
                 </div>
 
-                <div className="w-full px-3 py-2">
+                <div className="w-full py-2">
                     <div className="grid w-full grid-cols-2 gap-4 border-b pb-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8">
                         {activities.map((activity, index) => {
                             const Icon = activity.icon;
