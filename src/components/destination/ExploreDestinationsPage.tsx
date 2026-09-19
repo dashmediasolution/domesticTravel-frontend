@@ -17,25 +17,42 @@ import {
 
 const toSlug = (value: string) => value.toLowerCase().trim().replace(/\s+/g, "-");
 
-export default function ExploreDestinationsPage() {
-    const [search, setSearch] = useState("");
+export default function ExploreDestinationsPage({
+    initialSearch = "",
+}: {
+    initialSearch?: string;
+}) {
+    const [search, setSearch] = useState(initialSearch);
     const [category, setCategory] = useState("All");
     const [packagePage, setPackagePage] = useState(1);
 
-    const destinationCards = packageData.map((group) => {
+    const destinationNames = Array.from(
+        new Set([
+            ...featuredDestination.map((item) => item.destination.name),
+            ...packageData.map((item) => item.name),
+        ])
+    );
+
+    const destinationCards = destinationNames.map((name) => {
         const featured = featuredDestination.find(
-            (item) => toSlug(item.destination.name) === toSlug(group.name)
+            (item) => toSlug(item.destination.name) === toSlug(name)
         );
-        const firstPackage = group.packages[0];
+        const packageGroup = packageData.find(
+            (item) => toSlug(item.name) === toSlug(name)
+        );
+        const firstPackage = packageGroup?.packages[0];
+        const destination = featured?.destination;
 
         return {
-            name: group.name,
-            image: featured?.destination.heroImage ?? firstPackage.heroImage,
-            subtitle: featured?.destination.subtitle ?? firstPackage.subtitle,
-            rating: featured?.destination.rating ?? firstPackage.rating,
-            packages: group.packages.length,
-            categories: Array.from(new Set(group.packages.map((item) => item.category))),
-            href: featured ? `/destinations/${toSlug(group.name)}` : `/package/${toSlug(group.name)}`,
+            name,
+            image: destination?.heroImage ?? firstPackage?.heroImage ?? "/images/explore.png",
+            subtitle: destination?.subtitle ?? firstPackage?.subtitle ?? "Explore this destination",
+            rating: destination?.rating ?? firstPackage?.rating ?? "4.8",
+            packages: packageGroup?.packages.length ?? 0,
+            categories: Array.from(new Set(packageGroup?.packages.map((item) => item.category) ?? [])),
+            href: destination
+                ? `/destinations/${toSlug(name)}`
+                : `/package/${toSlug(name)}`,
         };
     });
 

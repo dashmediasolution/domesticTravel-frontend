@@ -1,7 +1,7 @@
  "use client";
 
 import Link from "next/link";
-import { Menu, Search, Phone, X } from "lucide-react";
+import { Menu, Search, Phone, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
@@ -22,6 +22,8 @@ import { FaRegBuilding, FaUmbrellaBeach } from "react-icons/fa";
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [categoriesOpen, setCategoriesOpen] = useState(false);
+    const [destinationsOpen, setDestinationsOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -552,14 +554,24 @@ export default function Navbar() {
 
                             {/* Categories */}
                             <div className="mt-2 rounded-xl bg-gray-50 p-3">
-                                <div className="mb-2 flex items-center gap-2 px-2">
+                                <button
+                                    type="button"
+                                    aria-expanded={categoriesOpen}
+                                    onClick={() => setCategoriesOpen((open) => !open)}
+                                    className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left hover:bg-white"
+                                >
+                                    <span className="flex items-center gap-2">
                                     <FaUmbrellaBeach className="h-5 w-5" />
                                     <span className="font-medium">
                                         Categories
                                     </span>
-                                </div>
+                                    </span>
+                                    <ChevronDown
+                                        className={`h-5 w-5 transition-transform ${categoriesOpen ? "rotate-180" : ""}`}
+                                    />
+                                </button>
 
-                                <div className="grid grid-cols-2 gap-1">
+                                {categoriesOpen && <div className="mt-2 grid grid-cols-2 gap-1">
                                     {categories.map((category,index) => (
                                         <Link
                                             key={index}
@@ -580,19 +592,29 @@ export default function Navbar() {
                                             {category.icon} {category.name}
                                         </Link>
                                     ))}
-                                </div>
+                                </div>}
                             </div>
 
                             {/* Destinations */}
                             <div className="mt-2 rounded-xl bg-gray-50 p-3">
-                                <div className="mb-2 flex items-center gap-2 px-2">
+                                <button
+                                    type="button"
+                                    aria-expanded={destinationsOpen}
+                                    onClick={() => setDestinationsOpen((open) => !open)}
+                                    className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left hover:bg-white"
+                                >
+                                    <span className="flex items-center gap-2">
                                     <FiMapPin className="h-5 w-5" />
                                     <span className="font-medium">
                                         Destinations
                                     </span>
-                                </div>
+                                    </span>
+                                    <ChevronDown
+                                        className={`h-5 w-5 transition-transform ${destinationsOpen ? "rotate-180" : ""}`}
+                                    />
+                                </button>
 
-                                <div className="grid grid-cols-2 gap-1">
+                                {destinationsOpen && <div className="mt-2 grid grid-cols-2 gap-1">
                                     {destinations.map((destination,index) => (
                                         <Link
                                             key={index}
@@ -613,7 +635,7 @@ export default function Navbar() {
                                             {destination.name}
                                         </Link>
                                     ))}
-                                </div>
+                                </div>}
                             </div>
 
                             <div className="my-3 h-px w-full bg-black/10" />
