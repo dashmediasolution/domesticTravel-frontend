@@ -27,37 +27,45 @@ const oswald = Oswald({
 // ============================================================
 
 const destinations = [
-    {
-        id: 1,
-        name: "ISLANDS",
-        image: "/images/hero/heroImage-1.png",
-        background: "/images/hero/heroImage-1.png",
-        description:
-            "From serene backwaters to towering Himalayas, explore the beauty, culture and diversity of India like never before.",
-    },
+
     {
         id: 2,
-        name: "KERALA",
-        image: "/images/hero/heroImage-2.png",
-        background: "/images/hero/heroImage-2.png",
+        name: "Meghalaya",
+        image: "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        background: "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        redirect: "/package/meghalaya",
         description:
-            "Discover lush backwaters, tropical beaches and unforgettable experiences across God's Own Country.",
+            "Explore misty hills, lush forests, dramatic waterfalls and peaceful villages in the enchanting landscapes of Northeast India.",
+    },
+    {
+        id: 1,
+        name: "Jaipur",
+        image: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        background: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        redirect: "/package/rajasthan/jaipur",
+        description:
+            "Discover the vibrant Pink City filled with magnificent forts, royal palaces, colorful markets and the rich heritage of Rajasthan.",
     },
     {
         id: 3,
-        name: "MALDIVES",
-        image: "/images/hero/heroImage-3.png",
-        background: "/images/hero/heroImage-3.png",
+        name: "Tamil Nadu",
+        redirect: "/destinations/tamil-nadu",
+        image: "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        background: "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         description:
-            "Escape to crystal-clear waters, beautiful islands and peaceful tropical experiences.",
+            "Discover misty mountains, lush tea gardens, serene lakes and cool weather in the beautiful hill station of Ooty.",
     },
     {
         id: 4,
-        name: "BEACHES",
-        image: "/images/hero/heroImage-4.png",
-        background: "/images/hero/heroImage-4.png",
+        name: "Goa",
+        image: "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        redirect: "/package/goa",
+        background: "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
         description:
-            "Relax beside beautiful beaches and discover unforgettable coastal destinations.",
+            "Relax along golden beaches, explore vibrant coastal culture and enjoy unforgettable sunsets, nightlife and adventures.",
     },
 
 ];
@@ -164,6 +172,8 @@ export default function HeroSection() {
                             alt=""
                             fill
                             priority={index === 0}
+                            loading={index === 0 ? "eager" : "lazy"}
+                            quality={75}
                             sizes="100vw"
                             className="object-cover"
                         />
@@ -331,20 +341,8 @@ export default function HeroSection() {
 
                     </motion.div>
 
-                    <div
-                        className="
-         flex
-        w-full
-        flex-row
-        items-start
-        justify-start
-        gap-2
-        relative
-        md:gap-6
-        md:top-4
-    "
-                    >
-                        {/* Explore Destination */}
+                    {/* Explore Destination */}
+                    <Link href="/explore-destinations">
                         <Button
                             className="
             h-9
@@ -357,7 +355,6 @@ export default function HeroSection() {
             text-white
             shadow-none
             hover:bg-[#25AD9D]
-
             sm:h-10
             sm:px-4
             sm:text-[13px]
@@ -365,7 +362,6 @@ export default function HeroSection() {
         "
                         >
                             Explore Destination
-
                             <ArrowRight
                                 className="
                 ml-1
@@ -377,9 +373,10 @@ export default function HeroSection() {
             "
                             />
                         </Button>
+                    </Link>
 
-                        {/* View Packages */}
-                        <Button
+                    {/* View Packages */}
+                    {/* <Button
                             variant="outline"
                             className="
             h-9
@@ -405,8 +402,7 @@ export default function HeroSection() {
                             <Link href="/packages">
                                 View Packages
                             </Link>
-                        </Button>
-                    </div>
+                        </Button> */}
                 </div>
 
                 {/* ==================================================
@@ -543,6 +539,7 @@ export default function HeroSection() {
                                     className="
                     absolute
                     overflow-hidden
+                     
                     rounded-[22px]
                     border
                     border-white/15
@@ -553,19 +550,23 @@ export default function HeroSection() {
                                     }}
                                 >
                                     {/* IMAGE */}
-                                    <Image
-                                        src={destination.image}
-                                        alt={destination.name}
-                                        fill
-                                        sizes="235px"
-                                        className="
-                        object-cover
-                        transition-transform
-                        duration-700
-                        hover:scale-105
-                    "
-                                    />
-
+                                    <Link href={destination.redirect}>
+                                        <Image
+                                            src={destination.image}
+                                            alt={destination.name}
+                                            fill
+                                            priority={isActive}
+                                            loading={isActive ? "eager" : "lazy"}
+                                            quality={75}
+                                            sizes="235px"
+                                            className="
+                                            object-cover
+                                            transition-transform
+                                            duration-700
+                                            hover:scale-105
+                                        "
+                                        />
+                                    </Link>
                                     {/* DESTINATION NAME */}
                                     <div
                                         className="

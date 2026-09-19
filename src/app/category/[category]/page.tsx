@@ -761,17 +761,16 @@ export default async function CategoryPage({
 
                 {heroData?.bestTimeToVisit && heroData?.whyVisit && (
                     <section className="mx-auto w-full ">
-                        <div className="flex w-full justify-between gap-10">
+                        <div className="flex w-full justify-between items-end gap-10">
                             <BestTimeToVisit
                                 months={heroData.bestTimeToVisit.months}
                                 seasons={heroData.bestTimeToVisit.seasons}
                             />
-
-                            <WhyVisit
+                             <WhyVisit
                                 title={heroData.whyVisit.title}
                                 highlights={heroData.whyVisit.highlights}
                             />
-                        </div>
+                         </div>
                     </section>
                 )}
             </section>

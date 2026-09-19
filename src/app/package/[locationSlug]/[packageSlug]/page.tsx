@@ -9,6 +9,7 @@ import Memories from "@/components/Memories";
 import Gallery from "@/components/packagess/Galary";
 import TravelersReviews from "@/components/Reviews";
 import { packageData } from "@/constants/packagesData";
+import InclusionsExclusions from "@/components/packagess/InclusionExclusion";
 import Itinerary from "@/components/packagess/Itinerary";
 import Image from "next/image";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
@@ -133,15 +134,15 @@ export default function PackageDestination() {
                 <div className="w-[91%]">
 
                     <ThingsToDo
-                      title={`Best Experiences in ${selectedPackage.name}`}
-                      activities={selectedPackage.activities}
+                        title={`Best Experiences in ${selectedPackage.name}`}
+                        activities={selectedPackage.activities}
                     />
                 </div>
-        )}
+            )}
 
             <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
-               <div className="font-semibold text-3xl mb-5">
-                 {selectedPackage.name} Gallery
+                <div className="font-semibold text-3xl mb-5">
+                    {selectedPackage.name} Gallery
                 </div>
                 <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
 
@@ -224,7 +225,7 @@ export default function PackageDestination() {
                                                 >
                                                     <Image
                                                         src={image.src}
-                                                       alt={image.alt ?? ""}
+                                                        alt={image.alt ?? ""}
                                                         fill
                                                         sizes="(max-width: 1024px) 50vw, 12vw"
                                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -314,66 +315,74 @@ export default function PackageDestination() {
 
                 </div>
             </section>
-       {(selectedPackage.itinerary.length > 0 ||
-          selectedPackage.bestTimeToVisit) && (
-            <div className="  flex w-[95    %] flex-col gap-8    lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            {(selectedPackage.itinerary.length > 0 ||
+                selectedPackage.bestTimeToVisit) && (
+                    <div className="  flex w-[93%] flex-col gap-8    lg:flex-row lg:items-start lg:justify-between lg:gap-5">
 
-              {selectedPackage.itinerary.length > 0 && (
-                <div  className="sm:full md:w-[38%]">
+                        {selectedPackage.itinerary.length > 0 && (
+                            <div className="sm:full md:w-[44%]">
 
-                <Itinerary
-                  title="Itinerary"
-                  subtitle={""}
-                  days={selectedPackage.itinerary}
-                  onButtonClick={() =>
-                    router.push(`/destinations/${selectedPackage.name}/itinerary`)
-                  }
-                />
-                 </div>
-              )}
+                                <Itinerary
+                                    title="Itinerary"
+                                    subtitle={""}
+                                    days={selectedPackage.itinerary}
+                                    onButtonClick={() =>
+                                        router.push(
+                                            `/destinations/${locationSlug}/itinerary?package=${packageSlug}`
+                                        )
+                                    }
+                                />
+                            </div>
+                        )}
 
-              {selectedPackage.bestTimeToVisit && (
-                <div className="w-[50%]">
-                    <BestTimeToVisit
-                      months={selectedPackage.bestTimeToVisit.months}
-                      seasons={selectedPackage.bestTimeToVisit.seasons}
-                    />
-                     </div>
-              )}
+                        {selectedPackage.bestTimeToVisit && (
+                            <div className="md:full lg:w-[55%]">
+                                <BestTimeToVisit
+                                    months={selectedPackage.bestTimeToVisit.months}
+                                    seasons={selectedPackage.bestTimeToVisit.seasons}
+                                />
+                            </div>
+                        )}
 
-            </div>
-          )}
+                    </div>
+                )}
 
             {selectedPackage.travelInfo.length > 0 && (
-                    <TravelInformation
-                      destination={selectedPackage.name}
-                      latitude={
+                <TravelInformation
+                    destination={selectedPackage.name}
+                    latitude={
                         selectedPackage.latitude ?? 32.2432
-                      }
-                      longitude={
+                    }
+                    longitude={
                         selectedPackage.longitude ?? 77.1892
-                      }
-                      travelInfo={selectedPackage.travelInfo}
-                      packingItems={selectedPackage.packingItems}
-                    />
-                  )}
-          
-                  {/* ==================================================
+                    }
+                    travelInfo={selectedPackage.travelInfo}
+                    packingItems={selectedPackage.packingItems}
+                />
+            )}
+
+            {/* ==================================================
                       WEATHER
                   ================================================== */}
-          
-                  {selectedPackage.latitude &&
-                    selectedPackage.longitude && (
-                      <WeatherForecast
+
+            {selectedPackage.latitude &&
+                selectedPackage.longitude && (
+                    <WeatherForecast
                         destination={selectedPackage.name}
                         latitude={selectedPackage.latitude}
                         longitude={selectedPackage.longitude}
-                      />
-                    )}
-                    <div className="w-[95%]">
+                    />
+                )}
+            <div className="w-[93%] flex flex-col gap-12">
+                <InclusionsExclusions
+                    inclusions={selectedPackage?.inclusions ?? []}
+                    exclusions={selectedPackage?.exclusions ?? []}
+                    title={selectedPackage?.whyVisit?.title}
+                    highlights={selectedPackage?.whyVisit?.highlights}
+                />
 
-                    <TravelersReviews/>
-                    </div>
+                <TravelersReviews />
+            </div>
             <TravelStories />
 
             <Memories />

@@ -435,30 +435,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹12,500",
                 rating: "4.7",
             },
-            {
-                id: "spiti-valley",
-                name: "Spiti Valley",
-                imageUrl: "/images/featuredImages/image_6.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹22,000",
-                rating: "4.9",
-            },
-            {
-                id: "kufri",
-                name: "Kufri",
-                imageUrl: "/images/featuredImages/image_8.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹13,500",
-                rating: "4.5",
-            },
-            {
-                id: "kasauli",
-                name: "Kasauli",
-                imageUrl: "/images/featuredImages/image_1.png",
-                textColor: "#FFFFFF",
-                startingPrice: "₹11,500",
-                rating: "4.6",
-            },
+       
         ],
     },
     {
@@ -1495,7 +1472,7 @@ export const featuredDestination: FeaturedDestination[] = [
             subtitle: "The Land of Temples, Hills & Culture",
 
             heroImage:
-                "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=2400&q=90",
+                "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
             rating: "4.8",
             reviews: "2.5k",
@@ -1788,24 +1765,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹12,000",
                 rating: "4.8",
             },
-            {
-                id: "kodaikanal",
-                name: "Kodaikanal",
-                imageUrl:
-                    "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-                textColor: "#FFFFFF",
-                startingPrice: "₹13,500",
-                rating: "4.8",
-            },
-            {
-                id: "madurai",
-                name: "Madurai",
-                imageUrl:
-                    "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1800&q=90",
-                textColor: "#FFFFFF",
-                startingPrice: "₹10,500",
-                rating: "4.7",
-            },
+            
         ],
     },
 

@@ -537,12 +537,12 @@ export default function DestinationPage() {
       <div className="flex w-full flex-col items-center justify-center gap-18">
 
 
-
+             {attractions.length > 0 && (
         <PackagesByDestination
           destination={destination.name}
           attractions={attractions}
-        />
-
+        />)
+             }
 
         {activities.length > 0 && (
           <div className="w-[91%]">
@@ -559,7 +559,7 @@ export default function DestinationPage() {
 
         {(itinerary.length > 0 ||
           bestTimeToVisit) && (
-            <div className="mb-8 flex max-h-130   w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:mb-12 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            <div className="mb-8 flex    w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6   lg:flex-row lg:items-start lg:justify-center lg:gap-5">
 
               {itinerary.length > 0 && (
                 <Itinerary
@@ -567,13 +567,17 @@ export default function DestinationPage() {
                   subtitle={""}
                   days={itinerary}
                   onButtonClick={() =>
-                    router.push(`/destinations/${destination.name}/itinerary`)
+                    router.push(
+                      `/destinations/${destination.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}/itinerary`
+                    )
                   }
                 />
               )}
 
               {bestTimeToVisit && (
-                <div className="w-[60%]">
+                <div className="lg:w-[60%] md:full">
 
                   <BestTimeToVisit
                     months={bestTimeToVisit.months}
@@ -588,11 +592,13 @@ export default function DestinationPage() {
         {/* ==================================================
             BEST PACKAGES
         ================================================== */}
+          {packages.length > 0 && 
 
         <BestPackageByDestination
           location={destination.name}
           packages={packages}
         />
+        }
 
         {/* ==================================================
             TRAVEL INFORMATION

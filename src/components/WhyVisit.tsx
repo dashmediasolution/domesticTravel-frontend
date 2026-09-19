@@ -10,7 +10,7 @@ export default function WhyVisit({
      highlights,
 }: WhyVisitProps) {
     return (
-        <section className="w-[50%] h-fit mt-10 rounded-[28px] border bg-white p-6 sm:p-7 lg:p-6">
+        <section className="w-[100%] h-fit  rounded-[28px] border bg-white p-6 sm:p-7 lg:p-6">
             <div className="mb-6">
                 <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-[#2FC2B0]">
                     Explore More

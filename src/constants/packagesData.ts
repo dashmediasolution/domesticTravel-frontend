@@ -39,7 +39,7 @@ import {
     Heart,
     Palmtree,
     Ship,
-    Sailboat, Fish,CarFront,PawPrint,Bird,
+    Sailboat, Fish, CarFront, PawPrint, Bird,
     Camera,
     Church,
     Building2,
@@ -57,8 +57,37 @@ export const packageData = [
                 name: "Ooty",
                 category: "Nature",
                 subtitle: "The Queen of Hill Stations",
+                whyVisit: {
+                    title: "Why Visit Ooty?",
+                    description:
+                        "Escape to misty hills, peaceful tea gardens and refreshing mountain landscapes in the charming Nilgiri hills.",
+                    highlights: [
+                        "Misty Nilgiri mountains",
+                        "Beautiful tea plantations",
+                        "Scenic lakes & viewpoints",
+                        "Pleasant hill-station climate",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
-                heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1800&q=90",
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage: "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 gallery: [
                     {
                         src:
@@ -80,11 +109,7 @@ export const packageData = [
                             "https://images.unsplash.com/photo-1654099602420-c90791787b79?auto=format&fit=crop&w=2400&q=90",
                         alt: "Ooty Lake surrounded by green hills",
                     },
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1690440646057-6ce1cbca5024?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Ooty Botanical Garden",
-                    },
+                   
                     {
                         src:
                             "https://images.unsplash.com/photo-1683665446527-0bfa0d7a8822?auto=format&fit=crop&w=2400&q=90",
@@ -290,500 +315,560 @@ export const packageData = [
         ],
     },
     {
-    name: "Kashmir",
+        name: "Kashmir",
 
-    packages: [
-        {
-            name: "Kashmir",
-            category: "Nature",
-            subtitle: "The Paradise of Lakes & Mountains",
-
-            heroImage:
-                "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1800&q=90",
-
-            gallery: [
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Snow-covered mountains and valley landscape in Kashmir",
+        packages: [
+            {
+                name: "Kashmir",
+                category: "Nature",
+                subtitle: "The Paradise of Lakes & Mountains",
+                // Kashmir
+                whyVisit: {
+                    title: "Why Visit Kashmir?",
+                    description:
+                        "Discover breathtaking valleys, snow-covered mountains and serene lakes surrounded by the timeless beauty of Kashmir.",
+                    highlights: [
+                        "Snow-covered Himalayan peaks",
+                        "Beautiful Dal Lake & houseboats",
+                        "Scenic valleys & meadows",
+                        "Rich Kashmiri culture & cuisine",
+                    ],
                 },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1706353222367-d0b0fb602f07?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGthc2htaXJ8ZW58MHwwfDB8fHww",
-                    alt: "Dal Lake surrounded by mountains in Srinagar",
-                },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Beautiful green valley and Himalayan mountains in Kashmir",
-                },
-              
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1735993807544-9a5ea42405ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGthc2htaXJ8ZW58MHwwfDB8fHww",
-                    alt: "Scenic valley and alpine landscape of Pahalgam",
-                },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Traditional Shikara boat on Dal Lake in Kashmir",
-                },
-            ],
-
-            rating: "4.8",
-            reviews: "2.5k",
-
-            location: "Srinagar, Kashmir",
-            latitude: 34.0837,
-            longitude: 74.7973,
-
-            description:
-                "Experience the breathtaking beauty of Kashmir with serene lakes, snow-covered mountains, lush valleys, traditional houseboats, scenic gardens and unforgettable adventures across Srinagar, Gulmarg and Pahalgam.",
-
-            weather: "-5°C - 30°C",
-            idealTrip: "5 - 8 Days",
-            budget: "₹20,000 - ₹45,000",
-
-            duration: "6 Days / 5 Nights",
-            startingPrice: "₹19,999",
-            originalPrice: "₹26,999",
-            offerPrice: "₹19,999",
-            saveAmount: "₹7,000",
-            discount: "26%",
-            validTill: "30 September 2026",
-            groupSize: "2 - 16 People",
-            bestTime: "March - June, October - February",
-
-            highlights: [
-                "Dal Lake",
-                "Gulmarg",
-                "Pahalgam",
-                "Sonamarg",
-                "Shikara Ride",
-                "Mughal Gardens",
-            ],
-
-            activities: [
-                {
-                    text: "Shikara Ride",
-                    icon: Ship,
-                },
-                {
-                    text: "Gondola Ride",
-                    icon: CableCar,
-                },
-                {
-                    text: "Mountain Trekking",
-                    icon: Mountain,
-                },
-                {
-                    text: "Skiing",
-                    icon: Snowflake,
-                },
-                {
-                    text: "Valley Sightseeing",
-                    icon: Camera,
-                },
-                {
-                    text: "Houseboat Stay",
-                    icon: Home,
-                },
-                {
-                    text: "Nature Walk",
-                    icon: TreePine,
-                },
-                {
-                    text: "Photography",
-                    icon: Camera,
-                },
-            ],
-
-            bestTimeToVisit: {
-                months: [
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                    "Jan",
-                    "Feb",
+                inclusions: [
+                    "4 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Private Airport / Bus Transfers",
+                    "All Sightseeing as per Itinerary",
+                    "English / Hindi Speaking Driver",
+                    "Entry Tickets as per Itinerary",
+                    "All Applicable Taxes",
                 ],
 
-                seasons: [
+                exclusions: [
+                    "Flights / Train Tickets",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Adventure Activity Charges",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage:
+                    "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1800&q=90",
+
+                gallery: [
                     {
-                        name: "Winter",
-                        months: "Dec - Feb",
-                        description:
-                            "Cold temperatures and snowfall transform Kashmir into a winter wonderland, making it ideal for snow activities, skiing and experiencing snow-covered landscapes.",
-                        icon: "winter" as const,
+                        src:
+                            "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Snow-covered mountains and valley landscape in Kashmir",
                     },
                     {
-                        name: "Summer",
-                        months: "Mar - Jun",
-                        description:
-                            "Pleasant temperatures, blooming gardens and clear mountain views make summer a comfortable time for sightseeing, valley exploration and outdoor activities.",
-                        icon: "summer" as const,
+                        src:
+                            "https://images.unsplash.com/photo-1706353222367-d0b0fb602f07?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGthc2htaXJ8ZW58MHwwfDB8fHww",
+                        alt: "Dal Lake surrounded by mountains in Srinagar",
                     },
                     {
-                        name: "Monsoon",
-                        months: "Jul - Sep",
-                        description:
-                            "Kashmir generally receives less rainfall than many other parts of India. Green valleys and pleasant landscapes make this a peaceful period for sightseeing.",
-                        icon: "monsoon" as const,
+                        src:
+                            "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Beautiful green valley and Himalayan mountains in Kashmir",
+                    },
+
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1735993807544-9a5ea42405ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGthc2htaXJ8ZW58MHwwfDB8fHww",
+                        alt: "Scenic valley and alpine landscape of Pahalgam",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Traditional Shikara boat on Dal Lake in Kashmir",
                     },
                 ],
-            },
 
-            travelInfo: [
-                {
-                    label: "Nearest Airport",
-                    value: "Srinagar International Airport",
-                    icon: "airport",
-                },
-                {
-                    label: "Nearest Railway Station",
-                    value: "Srinagar Railway Station",
-                    icon: "railway",
-                },
-                {
-                    label: "Local Transport",
-                    value: "Taxis, Buses, Rental Cars & Local Cabs",
-                    icon: "transport",
-                },
-                {
-                    label: "Languages Spoken",
-                    value: "Kashmiri, Hindi, Urdu & English",
-                    icon: "language",
-                },
-                {
-                    label: "Permits Required",
-                    value: "Generally Not Required",
-                    icon: "permit",
-                },
-                {
-                    label: "Currency",
-                    value: "Indian Rupee (INR)",
-                    icon: "currency",
-                },
-            ],
+                rating: "4.8",
+                reviews: "2.5k",
 
-            packingItems: [
-                {
-                    label: "Warm Clothes & Layers",
-                    icon: "clothes",
-                },
-                {
-                    label: "Winter Jacket",
-                    icon: "clothes",
-                },
-                {
-                    label: "Comfortable Walking Shoes",
-                    icon: "shoes",
-                },
-                {
-                    label: "Sunglasses & Sunscreen",
-                    icon: "sunglasses",
-                },
-                {
-                    label: "Power Bank & ID Proof",
-                    icon: "powerbank",
-                },
-                {
-                    label: "Personal Medicines",
-                    icon: "medicine",
-                },
-            ],
+                location: "Srinagar, Kashmir",
+                latitude: 34.0837,
+                longitude: 74.7973,
 
-            itinerary: [
-                {
-                    day: 1,
-                    title: "Arrival in Srinagar",
-                    description:
-                        "Arrive in Srinagar and check into your hotel or traditional houseboat. Relax beside Dal Lake and enjoy an evening Shikara ride while taking in the surrounding Himalayan scenery.",
-                },
-                {
-                    day: 2,
-                    title: "Srinagar Sightseeing",
-                    description:
-                        "Explore Srinagar's famous attractions including Mughal Gardens, Nishat Garden, Shalimar Garden and the beautiful Dal Lake. Enjoy the evening exploring the local markets and traditional Kashmiri handicrafts.",
-                },
-                {
-                    day: 3,
-                    title: "Gulmarg Excursion",
-                    description:
-                        "Travel to Gulmarg, one of Kashmir's most scenic mountain destinations. Enjoy the famous Gondola ride and explore the surrounding meadows and mountain landscapes. During winter, optional snow activities and skiing can be enjoyed.",
-                },
-                {
-                    day: 4,
-                    title: "Pahalgam Valley Exploration",
-                    description:
-                        "Drive towards Pahalgam through beautiful countryside and mountain landscapes. Explore the Lidder River, Betaab Valley and surrounding scenic areas before relaxing in the peaceful Himalayan environment.",
-                },
-                {
-                    day: 5,
-                    title: "Sonamarg Excursion",
-                    description:
-                        "Visit Sonamarg, known for its spectacular mountain scenery and alpine landscapes. Enjoy the valley views, take a leisurely walk and explore the surrounding natural beauty before returning to Srinagar.",
-                },
-                {
-                    day: 6,
-                    title: "Leisure & Departure",
-                    description:
-                        "Enjoy breakfast and some free time in Srinagar for shopping and exploring local markets. Check out from the hotel and begin your onward journey with unforgettable memories of Kashmir.",
-                },
-            ],
-        },
-    ],
-},
-{
-    name: "Meghalaya",
+                description:
+                    "Experience the breathtaking beauty of Kashmir with serene lakes, snow-covered mountains, lush valleys, traditional houseboats, scenic gardens and unforgettable adventures across Srinagar, Gulmarg and Pahalgam.",
 
-    packages: [
-        {
-            name: "Meghalaya",
-            category: "Nature",
-            subtitle: "The Abode of Clouds, Waterfalls & Living Root Bridges",
+                weather: "-5°C - 30°C",
+                idealTrip: "5 - 8 Days",
+                budget: "₹20,000 - ₹45,000",
 
-            heroImage:
-                "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                duration: "6 Days / 5 Nights",
+                startingPrice: "₹19,999",
+                originalPrice: "₹26,999",
+                offerPrice: "₹19,999",
+                saveAmount: "₹7,000",
+                discount: "26%",
+                validTill: "30 September 2026",
+                groupSize: "2 - 16 People",
+                bestTime: "March - June, October - February",
 
-            gallery: [
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Misty green mountains and valleys of Meghalaya",
-                },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Lush green forest landscape in Meghalaya",
-                },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Dense green forest and natural landscape of Meghalaya",
-                },
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Mountain landscape surrounded by clouds in Meghalaya",
-                },
-              
-                {
-                    src:
-                        "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
-                    alt: "Tropical waterfall and lush vegetation in Meghalaya",
-                },
-            ],
-
-            rating: "4.8",
-            reviews: "2.1k",
-
-            location: "Shillong, Meghalaya",
-            latitude: 25.5788,
-            longitude: 91.8933,
-
-            description:
-                "Explore Meghalaya's misty hills, spectacular waterfalls, crystal-clear rivers, ancient living root bridges and peaceful villages across Shillong, Cherrapunji, Dawki and Mawlynnong.",
-
-            weather: "12°C - 25°C",
-            idealTrip: "5 - 7 Days",
-            budget: "₹15,000 - ₹30,000",
-
-            duration: "6 Days / 5 Nights",
-            startingPrice: "₹16,999",
-            originalPrice: "₹22,999",
-            offerPrice: "₹16,999",
-            saveAmount: "₹6,000",
-            discount: "26%",
-            validTill: "30 September 2026",
-            groupSize: "2 - 16 People",
-            bestTime: "October - May",
-
-            highlights: [
-                "Shillong",
-                "Cherrapunji",
-                "Dawki",
-                "Mawlynnong",
-                "Living Root Bridges",
-                "Nohkalikai Falls",
-            ],
-
-            activities: [
-                {
-                    text: "Trekking",
-                    icon: PersonStanding,
-                },
-                {
-                    text: "Waterfall Exploring",
-                    icon: Waves,
-                },
-                {
-                    text: "Caving",
-                    icon: Mountain,
-                },
-                {
-                    text: "River Activities",
-                    icon: Ship,
-                },
-                {
-                    text: "Nature Walk",
-                    icon: TreePine,
-                },
-                {
-                    text: "Camping",
-                    icon: TentTree,
-                },
-                {
-                    text: "Photography",
-                    icon: Camera,
-                },
-                {
-                    text: "Village Exploration",
-                    icon: Home,
-                },
-            ],
-
-            bestTimeToVisit: {
-                months: [
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
+                highlights: [
+                    "Dal Lake",
+                    "Gulmarg",
+                    "Pahalgam",
+                    "Sonamarg",
+                    "Shikara Ride",
+                    "Mughal Gardens",
                 ],
 
-                seasons: [
+                activities: [
                     {
-                        name: "Winter",
-                        months: "Nov - Feb",
-                        description:
-                            "Cool and pleasant weather with misty mornings, comfortable sightseeing conditions and beautiful views of Meghalaya's hills and valleys.",
-                        icon: "winter" as const,
+                        text: "Shikara Ride",
+                        icon: Ship,
                     },
                     {
-                        name: "Summer",
-                        months: "Mar - May",
-                        description:
-                            "Mild temperatures and refreshing greenery make this a comfortable season for waterfalls, trekking, sightseeing and exploring villages.",
-                        icon: "summer" as const,
+                        text: "Gondola Ride",
+                        icon: CableCar,
                     },
                     {
-                        name: "Monsoon",
-                        months: "Jun - Sep",
+                        text: "Mountain Trekking",
+                        icon: Mountain,
+                    },
+                    {
+                        text: "Skiing",
+                        icon: Snowflake,
+                    },
+                    {
+                        text: "Valley Sightseeing",
+                        icon: Camera,
+                    },
+                    {
+                        text: "Houseboat Stay",
+                        icon: Home,
+                    },
+                    {
+                        text: "Nature Walk",
+                        icon: TreePine,
+                    },
+                    {
+                        text: "Photography",
+                        icon: Camera,
+                    },
+                ],
+
+                bestTimeToVisit: {
+                    months: [
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Oct",
+                        "Nov",
+                        "Dec",
+                        "Jan",
+                        "Feb",
+                    ],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "Dec - Feb",
+                            description:
+                                "Cold temperatures and snowfall create a beautiful winter wonderland in Kashmir.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "Mar - Jun",
+                            description:
+                                "Pleasant temperatures, blooming gardens and clear mountain views make summer enjoyable.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Jul - Sep",
+                            description:
+                                "Green valleys, peaceful landscapes and pleasant weather make this period ideal.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Srinagar International Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Srinagar Railway Station",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Taxis, Buses, Rental Cars & Local Cabs",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Kashmiri, Hindi, Urdu & English",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permits Required",
+                        value: "Generally Not Required",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (INR)",
+                        icon: "currency",
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Warm Clothes & Layers",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Winter Jacket",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Power Bank & ID Proof",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Personal Medicines",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Srinagar",
                         description:
-                            "Heavy rainfall creates lush green landscapes and dramatic waterfalls, although rain can make trekking and road travel more challenging.",
-                        icon: "monsoon" as const,
+                            "Arrive in Srinagar and check into your hotel or traditional houseboat. Relax beside Dal Lake and enjoy an evening Shikara ride while taking in the surrounding Himalayan scenery.",
+                    },
+                    {
+                        day: 2,
+                        title: "Srinagar Sightseeing",
+                        description:
+                            "Explore Srinagar's famous attractions including Mughal Gardens, Nishat Garden, Shalimar Garden and the beautiful Dal Lake. Enjoy the evening exploring the local markets and traditional Kashmiri handicrafts.",
+                    },
+                    {
+                        day: 3,
+                        title: "Gulmarg Excursion",
+                        description:
+                            "Travel to Gulmarg, one of Kashmir's most scenic mountain destinations. Enjoy the famous Gondola ride and explore the surrounding meadows and mountain landscapes. During winter, optional snow activities and skiing can be enjoyed.",
+                    },
+                    {
+                        day: 4,
+                        title: "Pahalgam Valley Exploration",
+                        description:
+                            "Drive towards Pahalgam through beautiful countryside and mountain landscapes. Explore the Lidder River, Betaab Valley and surrounding scenic areas before relaxing in the peaceful Himalayan environment.",
+                    },
+                    {
+                        day: 5,
+                        title: "Sonamarg Excursion",
+                        description:
+                            "Visit Sonamarg, known for its spectacular mountain scenery and alpine landscapes. Enjoy the valley views, take a leisurely walk and explore the surrounding natural beauty before returning to Srinagar.",
+                    },
+                    {
+                        day: 6,
+                        title: "Leisure & Departure",
+                        description:
+                            "Enjoy breakfast and some free time in Srinagar for shopping and exploring local markets. Check out from the hotel and begin your onward journey with unforgettable memories of Kashmir.",
                     },
                 ],
             },
+        ],
+    },
+    {
+        name: "Meghalaya",
 
-            travelInfo: [
-                {
-                    label: "Nearest Airport",
-                    value: "Shillong Airport (Umroi)",
-                    icon: "airport",
+        packages: [
+            {
+                name: "Meghalaya",
+                category: "Nature",
+                subtitle: "The Abode of Clouds, Waterfalls & Living Root Bridges",
+                // Meghalaya
+                whyVisit: {
+                    title: "Why Visit Meghalaya?",
+                    description:
+                        "Explore misty hills, lush forests, dramatic waterfalls and peaceful villages in the enchanting landscapes of Northeast India.",
+                    highlights: [
+                        "Lush green hills & forests",
+                        "Spectacular waterfalls",
+                        "Living root bridges",
+                        "Crystal-clear rivers & caves",
+                    ],
                 },
-                {
-                    label: "Nearest Railway Station",
-                    value: "Guwahati Railway Station",
-                    icon: "railway",
-                },
-                {
-                    label: "Local Transport",
-                    value: "Taxis, Shared Cabs & Local Buses",
-                    icon: "transport",
-                },
-                {
-                    label: "Languages Spoken",
-                    value: "Khasi, English & Hindi",
-                    icon: "language",
-                },
-                {
-                    label: "Permits Required",
-                    value: "Generally Not Required",
-                    icon: "permit",
-                },
-                {
-                    label: "Currency",
-                    value: "Indian Rupee (INR)",
-                    icon: "currency",
-                },
-            ],
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
-            packingItems: [
-                {
-                    label: "Light & Quick-Dry Clothes",
-                    icon: "clothes",
-                },
-                {
-                    label: "Rain Jacket or Poncho",
-                    icon: "clothes",
-                },
-                {
-                    label: "Comfortable Trekking Shoes",
-                    icon: "shoes",
-                },
-                {
-                    label: "Sunglasses & Sunscreen",
-                    icon: "sunglasses",
-                },
-                {
-                    label: "Power Bank & ID Proof",
-                    icon: "powerbank",
-                },
-                {
-                    label: "Personal Medicines",
-                    icon: "medicine",
-                },
-            ],
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage:
+                    "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
-            itinerary: [
-                {
-                    day: 1,
-                    title: "Arrival in Shillong & Local Sightseeing",
-                    description:
-                        "Arrive in Shillong and check into your hotel. Explore Shillong Peak, Elephant Falls and the scenic surroundings before relaxing in the evening.",
+                gallery: [
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Misty green mountains and valleys of Meghalaya",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Lush green forest landscape in Meghalaya",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Dense green forest and natural landscape of Meghalaya",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Mountain landscape surrounded by clouds in Meghalaya",
+                    },
+
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Tropical waterfall and lush vegetation in Meghalaya",
+                    },
+                ],
+
+                rating: "4.8",
+                reviews: "2.1k",
+
+                location: "Shillong, Meghalaya",
+                latitude: 25.5788,
+                longitude: 91.8933,
+
+                description:
+                    "Explore Meghalaya's misty hills, spectacular waterfalls, crystal-clear rivers, ancient living root bridges and peaceful villages across Shillong, Cherrapunji, Dawki and Mawlynnong.",
+
+                weather: "12°C - 25°C",
+                idealTrip: "5 - 7 Days",
+                budget: "₹15,000 - ₹30,000",
+
+                duration: "6 Days / 5 Nights",
+                startingPrice: "₹16,999",
+                originalPrice: "₹22,999",
+                offerPrice: "₹16,999",
+                saveAmount: "₹6,000",
+                discount: "26%",
+                validTill: "30 September 2026",
+                groupSize: "2 - 16 People",
+                bestTime: "October - May",
+
+                highlights: [
+                    "Shillong",
+                    "Cherrapunji",
+                    "Dawki",
+                    "Mawlynnong",
+                    "Living Root Bridges",
+                    "Nohkalikai Falls",
+                ],
+
+                activities: [
+                    {
+                        text: "Trekking",
+                        icon: PersonStanding,
+                    },
+                    {
+                        text: "Waterfall Exploring",
+                        icon: Waves,
+                    },
+                    {
+                        text: "Caving",
+                        icon: Mountain,
+                    },
+                    {
+                        text: "River Activities",
+                        icon: Ship,
+                    },
+                    {
+                        text: "Nature Walk",
+                        icon: TreePine,
+                    },
+                    {
+                        text: "Camping",
+                        icon: TentTree,
+                    },
+                    {
+                        text: "Photography",
+                        icon: Camera,
+                    },
+                    {
+                        text: "Village Exploration",
+                        icon: Home,
+                    },
+                ],
+
+                bestTimeToVisit: {
+                    months: [
+                        "Oct",
+                        "Nov",
+                        "Dec",
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                    ],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "Nov - Feb",
+                            description:
+                                "Cool and pleasant weather with misty mornings, comfortable sightseeing conditions and beautiful views of Meghalaya's hills and valleys.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "Mar - May",
+                            description:
+                                "Mild temperatures and refreshing greenery make this a comfortable season for waterfalls, trekking, sightseeing and exploring villages.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Jun - Sep",
+                            description:
+                                "Heavy rainfall creates lush green landscapes and dramatic waterfalls, although rain can make trekking and road travel more challenging.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
                 },
-                {
-                    day: 2,
-                    title: "Shillong to Cherrapunji",
-                    description:
-                        "Travel towards Cherrapunji through the beautiful Khasi Hills. Visit scenic viewpoints, waterfalls and natural attractions along the way before checking into your stay.",
-                },
-                {
-                    day: 3,
-                    title: "Cherrapunji Waterfalls & Caves",
-                    description:
-                        "Explore Cherrapunji's spectacular natural attractions including Nohkalikai Falls, Seven Sisters Falls and nearby caves while enjoying the misty landscapes of the region.",
-                },
-                {
-                    day: 4,
-                    title: "Nongriat Living Root Bridge",
-                    description:
-                        "Trek through lush forests towards Nongriat and experience the famous living root bridge. Enjoy the peaceful surroundings and natural pools before returning to Cherrapunji.",
-                },
-                {
-                    day: 5,
-                    title: "Dawki & Mawlynnong",
-                    description:
-                        "Visit Dawki and enjoy the scenic Umngot River before continuing to Mawlynnong. Explore the village and surrounding landscapes known for their greenery and natural beauty.",
-                },
-                {
-                    day: 6,
-                    title: "Return to Shillong & Departure",
-                    description:
-                        "Enjoy breakfast and some free time before returning towards Shillong. Complete your onward journey with unforgettable memories of Meghalaya's mountains, waterfalls and villages.",
-                },
-            ],
-        },
-    ],
-},
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Shillong Airport (Umroi)",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Guwahati Railway Station",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Taxis, Shared Cabs & Local Buses",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Khasi, English & Hindi",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permits Required",
+                        value: "Generally Not Required",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (INR)",
+                        icon: "currency",
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Light & Quick-Dry Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Rain Jacket or Poncho",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Comfortable Trekking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Power Bank & ID Proof",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Personal Medicines",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Shillong & Local Sightseeing",
+                        description:
+                            "Arrive in Shillong and check into your hotel. Explore Shillong Peak, Elephant Falls and the scenic surroundings before relaxing in the evening.",
+                    },
+                    {
+                        day: 2,
+                        title: "Shillong to Cherrapunji",
+                        description:
+                            "Travel towards Cherrapunji through the beautiful Khasi Hills. Visit scenic viewpoints, waterfalls and natural attractions along the way before checking into your stay.",
+                    },
+                    {
+                        day: 3,
+                        title: "Cherrapunji Waterfalls & Caves",
+                        description:
+                            "Explore Cherrapunji's spectacular natural attractions including Nohkalikai Falls, Seven Sisters Falls and nearby caves while enjoying the misty landscapes of the region.",
+                    },
+                    {
+                        day: 4,
+                        title: "Nongriat Living Root Bridge",
+                        description:
+                            "Trek through lush forests towards Nongriat and experience the famous living root bridge. Enjoy the peaceful surroundings and natural pools before returning to Cherrapunji.",
+                    },
+                    {
+                        day: 5,
+                        title: "Dawki & Mawlynnong",
+                        description:
+                            "Visit Dawki and enjoy the scenic Umngot River before continuing to Mawlynnong. Explore the village and surrounding landscapes known for their greenery and natural beauty.",
+                    },
+                    {
+                        day: 6,
+                        title: "Return to Shillong & Departure",
+                        description:
+                            "Enjoy breakfast and some free time before returning towards Shillong. Complete your onward journey with unforgettable memories of Meghalaya's mountains, waterfalls and villages.",
+                    },
+                ],
+            },
+        ],
+    },
     {
         name: "Goa",
 
@@ -792,9 +877,38 @@ export const packageData = [
                 name: "Goa",
                 category: "Beaches",
                 subtitle: "The Beach Capital of Goa",
+                whyVisit: {
+                    title: "Why Visit Goa?",
+                    description:
+                        "Relax along golden beaches, explore vibrant coastal culture and enjoy unforgettable sunsets, nightlife and adventures.",
+                    highlights: [
+                        "Golden sandy beaches",
+                        "Vibrant nightlife & beach shacks",
+                        "Water sports & coastal adventures",
+                        "Portuguese heritage & culture",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
-                    "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1800&q=90",
+                    "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
                 gallery: [
                     {
@@ -804,7 +918,7 @@ export const packageData = [
                     },
                     {
                         src:
-                            "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=90",
+                            "https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         alt: "Goa beach and palm trees",
                     },
                     {
@@ -814,14 +928,10 @@ export const packageData = [
                     },
                     {
                         src:
-                            "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=2400&q=90",
+                            "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         alt: "Historic church in Goa",
                     },
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1605537964076-3cb0ea2ff8a9?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Goa sunset and beach landscape",
-                    },
+
                     {
                         src:
                             "https://images.unsplash.com/photo-1587922546307-776227941871?auto=format&fit=crop&w=2400&q=90",
@@ -903,21 +1013,21 @@ export const packageData = [
                             name: "Winter",
                             months: "Nov - Feb",
                             description:
-                                "Pleasant temperatures, sunny skies and comfortable weather make this the ideal season for beaches, sightseeing, water sports and exploring Goa's nightlife.",
+                                "Pleasant weather and sunny skies make this season ideal for beaches.",
                             icon: "winter" as const,
                         },
                         {
                             name: "Summer",
                             months: "Mar - May",
                             description:
-                                "Warm and humid weather with plenty of sunshine. Early mornings and evenings are more comfortable for exploring beaches and coastal attractions.",
+                                "Warm weather and sunshine are perfect for beaches and coastal activities.",
                             icon: "summer" as const,
                         },
                         {
                             name: "Monsoon",
                             months: "Jun - Oct",
                             description:
-                                "Monsoon showers transform Goa into a lush green destination. The countryside and waterfalls become especially scenic, although heavy rainfall can affect outdoor activities.",
+                                "Monsoon rains create lush greenery, scenic waterfalls and refreshing landscapes.",
                             icon: "monsoon" as const,
                         },
                     ],
@@ -1008,12 +1118,24 @@ export const packageData = [
                         description:
                             "Enjoy optional water activities such as parasailing, jet skiing or banana boat rides. Check out from the hotel and depart for your onward journey.",
                     },
+                    {
+                        day: 5,
+                        title: "Old Goa & Panjim Exploration",
+                        description:
+                            "Explore Panjim's Latin Quarter, colorful streets and historic churches. Visit Fontainhas and enjoy a relaxed evening along the Mandovi River.",
+                    },
+                    {
+                        day: 6,
+                        title: "Goa Beaches & Leisure",
+                        description:
+                            "Spend a relaxing day exploring your favorite beaches, enjoying beachside cafes and optional activities. End the trip with a beautiful sunset by the Arabian Sea.",
+                    },
                 ],
             },
         ],
     },
 
-    
+
     {
         name: "Varanasi",
 
@@ -1022,7 +1144,37 @@ export const packageData = [
                 name: "Varanasi",
                 category: "Spiritual",
                 subtitle: "The Spiritual Heart of India",
+                // Varanasi
+                whyVisit: {
+                    title: "Why Visit Varanasi?",
+                    description:
+                        "Experience one of India's oldest cities, where sacred traditions, ancient temples and the spiritual beauty of the Ganges come alive.",
+                    highlights: [
+                        "Sacred Ganges ghats",
+                        "Ancient temples & heritage",
+                        "Ganga Aarti experience",
+                        "Rich spiritual culture & traditions",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1800&q=90",
 
@@ -1258,7 +1410,37 @@ export const packageData = [
             {
                 name: "Darjeeling",
                 category: "Mountains",
+                // Darjeeling
+                whyVisit: {
+                    title: "Why Visit Darjeeling?",
+                    description:
+                        "Escape into misty Himalayan landscapes, endless tea gardens and breathtaking mountain views in the charming hill town of Darjeeling.",
+                    highlights: [
+                        "Breathtaking Kanchenjunga views",
+                        "Famous Darjeeling tea gardens",
+                        "Scenic Himalayan landscapes",
+                        "Toy Train & colonial heritage",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 subtitle: "The Queen of the Hills",
 
                 heroImage:
@@ -1485,7 +1667,37 @@ export const packageData = [
                 name: "Manali",
                 subtitle: "A Himalayan Paradise",
                 category: "Mountains",
+                // Manali
+                whyVisit: {
+                    title: "Why Visit Manali?",
+                    description:
+                        "Escape into the Himalayas with snow-covered peaks, scenic valleys, thrilling adventures and peaceful mountain landscapes.",
+                    highlights: [
+                        "Snow-covered Himalayan peaks",
+                        "Scenic valleys & waterfalls",
+                        "Trekking & adventure activities",
+                        "Peaceful mountain retreats",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1800&q=90",
 
@@ -1715,7 +1927,37 @@ export const packageData = [
                 name: "Shimla",
                 subtitle: "The Queen of Hills",
                 category: "Mountains",
+                // Shimla
+                whyVisit: {
+                    title: "Why Visit Shimla?",
+                    description:
+                        "Experience the charm of the Himalayas with colonial architecture, pine-covered hills, pleasant weather and beautiful mountain views.",
+                    highlights: [
+                        "Colonial architecture & heritage",
+                        "Scenic Himalayan landscapes",
+                        "The famous Mall Road",
+                        "Pleasant hill-station climate",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage: "https://images.unsplash.com/photo-1657894736581-ccc35d62d9e2?auto=format&fit=crop&w=3840&q=90",
                 gallery: [
                     {
@@ -1941,7 +2183,37 @@ export const packageData = [
                 name: "Dharamshala",
                 subtitle: "Where Mountains Meet Serenity",
                 category: "Mountains",
+                // Dharamshala
+                whyVisit: {
+                    title: "Why Visit Dharamshala?",
+                    description:
+                        "Discover peaceful mountain surroundings, Tibetan culture, lush valleys and breathtaking views of the Dhauladhar ranges.",
+                    highlights: [
+                        "Dhauladhar mountain views",
+                        "Tibetan culture & monasteries",
+                        "Peaceful mountain landscapes",
+                        "Triund trekking experience",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=2560&q=80",
 
@@ -2170,7 +2442,37 @@ export const packageData = [
                 name: "Kasol",
                 subtitle: "A Paradise in Parvati Valley",
                 category: "Camping",
+                // Kasol
+                whyVisit: {
+                    title: "Why Visit Kasol?",
+                    description:
+                        "Immerse yourself in a peaceful Himalayan escape surrounded by pine forests, mountain rivers, scenic villages and adventurous trails.",
+                    highlights: [
+                        "Beautiful Parvati Valley",
+                        "Mountain rivers & pine forests",
+                        "Trekking & hiking trails",
+                        "Peaceful village experiences",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=80",
 
@@ -2406,7 +2708,37 @@ export const packageData = [
                 name: "Rishikesh",
                 subtitle: "Where Adventure Meets Spirituality",
                 category: "Adventure",
+                // Rishikesh
+                whyVisit: {
+                    title: "Why Visit Rishikesh?",
+                    description:
+                        "Experience the perfect blend of spirituality, adventure and nature along the peaceful banks of the Ganges surrounded by Himalayan foothills.",
+                    highlights: [
+                        "Sacred Ganges & peaceful ghats",
+                        "Yoga, meditation & ashrams",
+                        "River rafting & adventure",
+                        "Beautiful Himalayan surroundings",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1614605670899-47ecba60bf2a?q=80&w=1572&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -2647,7 +2979,37 @@ export const packageData = [
                 name: "Mussoorie",
                 subtitle: "The Queen of Hills",
                 category: "Mountains",
+                // Mussoorie
+                whyVisit: {
+                    title: "Why Visit Mussoorie?",
+                    description:
+                        "Escape to the Queen of Hills with misty mountains, lush valleys, charming colonial streets and refreshing Himalayan views.",
+                    highlights: [
+                        "Misty Himalayan landscapes",
+                        "Scenic viewpoints & waterfalls",
+                        "Charming Mall Road",
+                        "Pleasant mountain climate",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=3840&q=90",
 
@@ -2873,7 +3235,37 @@ export const packageData = [
                 name: "Nainital",
                 subtitle: "The Lake City of Uttarakhand",
                 category: "Lakes",
+                // Nainital
+                whyVisit: {
+                    title: "Why Visit Nainital?",
+                    description:
+                        "Relax beside the beautiful Naini Lake while exploring peaceful hills, scenic viewpoints and the timeless charm of this Himalayan town.",
+                    highlights: [
+                        "Beautiful Naini Lake",
+                        "Scenic Himalayan viewpoints",
+                        "Boating & lakeside experiences",
+                        "Peaceful hill-station escape",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1643263904933-2aa9fb29bd81?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -3120,7 +3512,37 @@ export const packageData = [
                 name: "Kedarnath",
                 subtitle: "Sacred Abode of Lord Shiva",
                 category: "Spiritual",
+                // Kedarnath
+                whyVisit: {
+                    title: "Why Visit Kedarnath?",
+                    description:
+                        "Embark on a spiritual Himalayan journey surrounded by majestic peaks, sacred landscapes and the revered Kedarnath Temple.",
+                    highlights: [
+                        "Sacred Kedarnath Temple",
+                        "Majestic Himalayan peaks",
+                        "Scenic mountain trails",
+                        "Peaceful spiritual surroundings",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1623952146070-f13fc902f769?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -3357,231 +3779,261 @@ export const packageData = [
                 ]
             },
             {
-    name: "Jim Corbett",
-    subtitle: "Wildlife, Wilderness & Jungle Adventures",
-    category: "Nature",
+                name: "Jim Corbett",
+                subtitle: "Wildlife, Wilderness & Jungle Adventures",
+                category: "Nature",
+                // Jim Corbett
+                whyVisit: {
+                    title: "Why Visit Jim Corbett?",
+                    description:
+                        "Discover India's wild side through thrilling safaris, dense forests, diverse wildlife and beautiful landscapes of the Himalayan foothills.",
+                    highlights: [
+                        "Exciting jungle safaris",
+                        "Wildlife & bird watching",
+                        "Dense forests & river landscapes",
+                        "Rich Himalayan foothill ecosystem",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
-    heroImage:
-        "https://images.unsplash.com/photo-1765375906788-3526ea224645?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage:
+                    "https://images.unsplash.com/photo-1765375906788-3526ea224645?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
-    gallery: [
-        {
-            src:
-                "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80",
-            alt: "Wild elephant walking through a forest landscape",
-        },
-        {
-            src:
-                "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1600&q=80",
-            alt: "Tiger in a natural jungle habitat",
-        },
-        {
-            src:
-                "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=80",
-            alt: "Wildlife and dense forest landscape",
-        },
-        {
-            src:
-                "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1600&q=80",
-            alt: "Safari vehicle exploring a forest trail",
-        },
-        {
-            src:
-                "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1600&q=80",
-            alt: "Sunlight passing through a dense forest",
-        },
-    ],
+                gallery: [
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80",
+                        alt: "Wild elephant walking through a forest landscape",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1600&q=80",
+                        alt: "Tiger in a natural jungle habitat",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=80",
+                        alt: "Wildlife and dense forest landscape",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1600&q=80",
+                        alt: "Safari vehicle exploring a forest trail",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1600&q=80",
+                        alt: "Sunlight passing through a dense forest",
+                    },
+                ],
 
-    rating: "4.8",
-    reviews: "2.1k",
+                rating: "4.8",
+                reviews: "2.1k",
 
-    location: "Jim Corbett, Uttarakhand",
-    latitude: 29.5300,
-    longitude: 78.7747,
+                location: "Jim Corbett, Uttarakhand",
+                latitude: 29.5300,
+                longitude: 78.7747,
 
-    description:
-        "Experience the wild beauty of Jim Corbett with thrilling jungle safaris, diverse wildlife, peaceful forest landscapes, scenic rivers and unforgettable adventures in the heart of Uttarakhand.",
-
-    weather: "5°C - 35°C",
-    idealTrip: "3 - 5 Days",
-    budget: "₹10,000 - ₹25,000",
-
-    duration: "5 Days / 4 Nights",
-    startingPrice: "₹13,999",
-    originalPrice: "₹18,999",
-    offerPrice: "₹13,999",
-    saveAmount: "₹5,000",
-    discount: "26%",
-    validTill: "30 September 2026",
-
-    groupSize: "2 - 16 People",
-    bestTime: "October - June",
-
-    highlights: [
-        "Jungle Safari",
-        "Bengal Tiger",
-        "Elephant Sightings",
-        "Corbett Waterfall",
-        "Ramganga River",
-        "Forest & Wildlife",
-    ],
-
-    bestTimeToVisit: {
-        months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-
-        seasons: [
-            {
-                name: "Winter",
-                months: "Nov - Feb",
                 description:
-                    "Cool weather and excellent conditions for wildlife safaris.",
-                icon: "winter" as const,
+                    "Experience the wild beauty of Jim Corbett with thrilling jungle safaris, diverse wildlife, peaceful forest landscapes, scenic rivers and unforgettable adventures in the heart of Uttarakhand.",
+
+                weather: "5°C - 35°C",
+                idealTrip: "3 - 5 Days",
+                budget: "₹10,000 - ₹25,000",
+
+                duration: "5 Days / 4 Nights",
+                startingPrice: "₹13,999",
+                originalPrice: "₹18,999",
+                offerPrice: "₹13,999",
+                saveAmount: "₹5,000",
+                discount: "26%",
+                validTill: "30 September 2026",
+
+                groupSize: "2 - 16 People",
+                bestTime: "October - June",
+
+                highlights: [
+                    "Jungle Safari",
+                    "Bengal Tiger",
+                    "Elephant Sightings",
+                    "Corbett Waterfall",
+                    "Ramganga River",
+                    "Forest & Wildlife",
+                ],
+
+                bestTimeToVisit: {
+                    months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "Nov - Feb",
+                            description:
+                                "Cool weather and excellent conditions for wildlife safaris.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "Mar - Jun",
+                            description:
+                                "Warm weather with good chances of spotting wildlife near water sources.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Jul - Sep",
+                            description:
+                                "Heavy rainfall and limited access to several forest zones.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Pantnagar Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Ramnagar Railway Station",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Safari Jeeps, Taxis & Local Cabs",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Hindi, English & Kumaoni",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permits Required",
+                        value: "Required for Jungle Safari",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (INR)",
+                        icon: "currency",
+                    },
+                ],
+
+                activities: [
+                    {
+                        text: "Jeep Safari",
+                        icon: CarFront,
+                    },
+                    {
+                        text: "Wildlife Spotting",
+                        icon: PawPrint,
+                    },
+                    {
+                        text: "Bird Watching",
+                        icon: Bird,
+                    },
+                    {
+                        text: "Nature Walk",
+                        icon: TreePine,
+                    },
+                    {
+                        text: "Wildlife Photography",
+                        icon: Camera,
+                    },
+                    {
+                        text: "Forest Exploration",
+                        icon: Binoculars,
+                    },
+                    {
+                        text: "River Views",
+                        icon: Waves,
+                    },
+                    {
+                        text: "Jungle Camping",
+                        icon: TentTree,
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Comfortable Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Light Jacket",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Binoculars & Camera",
+                        icon: "camera",
+                    },
+                    {
+                        label: "Personal Medicines & ID",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Jim Corbett",
+                        description:
+                            "Arrive in Jim Corbett and check into your resort. Relax amidst the peaceful forest surroundings and enjoy the evening at your leisure.",
+                    },
+                    {
+                        day: 2,
+                        title: "Morning Jungle Safari",
+                        description:
+                            "Wake up early for an exciting jeep safari through the Corbett forest. Explore the wilderness and look for elephants, deer, birds and other wildlife in their natural habitat.",
+                    },
+                    {
+                        day: 3,
+                        title: "Wildlife Exploration & Corbett Waterfall",
+                        description:
+                            "Enjoy a relaxed morning at the resort before visiting Corbett Waterfall and exploring the surrounding natural landscapes. Spend the evening enjoying the peaceful forest atmosphere.",
+                    },
+                    {
+                        day: 4,
+                        title: "Jungle Safari & Nature Experience",
+                        description:
+                            "Head out for another thrilling jungle safari through one of Corbett's forest zones. Experience the diverse flora and fauna and enjoy scenic views around the Ramganga landscape.",
+                    },
+                    {
+                        day: 5,
+                        title: "Leisure & Departure",
+                        description:
+                            "Enjoy breakfast and some free time at the resort before checking out. Begin your onward journey with unforgettable memories of the Corbett wilderness.",
+                    },
+                ],
             },
-            {
-                name: "Summer",
-                months: "Mar - Jun",
-                description:
-                    "Warm weather with good chances of spotting wildlife near water sources.",
-                icon: "summer" as const,
-            },
-            {
-                name: "Monsoon",
-                months: "Jul - Sep",
-                description:
-                    "Heavy rainfall and limited access to several forest zones.",
-                icon: "monsoon" as const,
-            },
-        ],
-    },
-
-    travelInfo: [
-        {
-            label: "Nearest Airport",
-            value: "Pantnagar Airport",
-            icon: "airport",
-        },
-        {
-            label: "Nearest Railway Station",
-            value: "Ramnagar Railway Station",
-            icon: "railway",
-        },
-        {
-            label: "Local Transport",
-            value: "Safari Jeeps, Taxis & Local Cabs",
-            icon: "transport",
-        },
-        {
-            label: "Languages Spoken",
-            value: "Hindi, English & Kumaoni",
-            icon: "language",
-        },
-        {
-            label: "Permits Required",
-            value: "Required for Jungle Safari",
-            icon: "permit",
-        },
-        {
-            label: "Currency",
-            value: "Indian Rupee (INR)",
-            icon: "currency",
-        },
-    ],
-
-    activities: [
-        {
-            text: "Jeep Safari",
-            icon: CarFront, 
-        },
-        {
-            text: "Wildlife Spotting",
-            icon: PawPrint,
-        },
-        {
-            text: "Bird Watching",
-            icon: Bird,
-        },
-        {
-            text: "Nature Walk",
-            icon: TreePine,
-        },
-        {
-            text: "Wildlife Photography",
-            icon: Camera,
-        },
-        {
-            text: "Forest Exploration",
-            icon: Binoculars,
-        },
-        {
-            text: "River Views",
-            icon: Waves,
-        },
-        {
-            text: "Jungle Camping",
-            icon: TentTree,
-        },
-    ],
-
-    packingItems: [
-        {
-            label: "Comfortable Cotton Clothes",
-            icon: "clothes",
-        },
-        {
-            label: "Light Jacket",
-            icon: "clothes",
-        },
-        {
-            label: "Comfortable Walking Shoes",
-            icon: "shoes",
-        },
-        {
-            label: "Sunglasses & Sunscreen",
-            icon: "sunglasses",
-        },
-        {
-            label: "Binoculars & Camera",
-            icon: "camera",
-        },
-        {
-            label: "Personal Medicines & ID",
-            icon: "medicine",
-        },
-    ],
-
-    itinerary: [
-        {
-            day: 1,
-            title: "Arrival in Jim Corbett",
-            description:
-                "Arrive in Jim Corbett and check into your resort. Relax amidst the peaceful forest surroundings and enjoy the evening at your leisure.",
-        },
-        {
-            day: 2,
-            title: "Morning Jungle Safari",
-            description:
-                "Wake up early for an exciting jeep safari through the Corbett forest. Explore the wilderness and look for elephants, deer, birds and other wildlife in their natural habitat.",
-        },
-        {
-            day: 3,
-            title: "Wildlife Exploration & Corbett Waterfall",
-            description:
-                "Enjoy a relaxed morning at the resort before visiting Corbett Waterfall and exploring the surrounding natural landscapes. Spend the evening enjoying the peaceful forest atmosphere.",
-        },
-        {
-            day: 4,
-            title: "Jungle Safari & Nature Experience",
-            description:
-                "Head out for another thrilling jungle safari through one of Corbett's forest zones. Experience the diverse flora and fauna and enjoy scenic views around the Ramganga landscape.",
-        },
-        {
-            day: 5,
-            title: "Leisure & Departure",
-            description:
-                "Enjoy breakfast and some free time at the resort before checking out. Begin your onward journey with unforgettable memories of the Corbett wilderness.",
-        },
-    ],
-},
         ],
     },
 
@@ -3593,7 +4045,37 @@ export const packageData = [
                 name: "Leh",
                 category: "Adventure",
                 subtitle: "The Gateway to Ladakh",
+                // Leh
+                whyVisit: {
+                    title: "Why Visit Leh?",
+                    description:
+                        "Experience the raw beauty of the Himalayas with dramatic landscapes, high-altitude lakes, ancient monasteries and unforgettable mountain adventures.",
+                    highlights: [
+                        "Dramatic Himalayan landscapes",
+                        "Pangong & high-altitude lakes",
+                        "Ancient monasteries & Buddhist culture",
+                        "Scenic mountain passes & adventures",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1617824077840-0d7a0cd13448?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -3828,7 +4310,18 @@ export const packageData = [
                 name: "Udaipur",
                 category: "Heritage",
                 subtitle: "The City of Lakes & Palaces",
-
+                // Udaipur
+                whyVisit: {
+                    title: "Why Visit Udaipur?",
+                    description:
+                        "Experience the romance of Rajasthan with beautiful lakes, grand palaces, historic streets and breathtaking views of the Aravalli hills.",
+                    highlights: [
+                        "Beautiful lakes & waterfronts",
+                        "Majestic palaces & forts",
+                        "Rich Rajput heritage & culture",
+                        "Scenic Aravalli landscapes",
+                    ],
+                },
                 heroImage:
                     "https://images.unsplash.com/photo-1706961121527-4017856774c7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -3860,7 +4353,25 @@ export const packageData = [
                     },
                 ],
 
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 rating: "4.8",
                 reviews: "2.2k",
 
@@ -4048,7 +4559,37 @@ export const packageData = [
                 name: "Jaipur",
                 category: "Heritage",
                 subtitle: "The Pink City of Royal Rajasthan",
+                // Jaipur
+                whyVisit: {
+                    title: "Why Visit Jaipur?",
+                    description:
+                        "Discover the vibrant Pink City filled with magnificent forts, royal palaces, colorful markets and the rich heritage of Rajasthan.",
+                    highlights: [
+                        "Magnificent forts & palaces",
+                        "Rich Rajput history & heritage",
+                        "Colorful markets & handicrafts",
+                        "Traditional Rajasthani cuisine",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
                 heroImage:
                     "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
@@ -4275,480 +4816,539 @@ export const packageData = [
                 ],
             },
             {
-    name: "Jaisalmer",
-    category: "Desert",
-    subtitle: "The Golden City of Rajasthan",
+                name: "Jaisalmer",
+                category: "Desert",
+                subtitle: "The Golden City of Rajasthan",
+                // Jaisalmer
+                whyVisit: {
+                    title: "Why Visit Jaisalmer?",
+                    description:
+                        "Step into the heart of the Thar Desert with golden forts, endless sand dunes, vibrant culture and unforgettable desert experiences.",
+                    highlights: [
+                        "Golden Jaisalmer Fort",
+                        "Thar Desert & sand dunes",
+                        "Desert camping & camel safaris",
+                        "Rich Rajasthani culture & heritage",
+                    ],
+                },
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
 
-    heroImage:
-     "https://images.unsplash.com/photo-1602858659965-ea6f743b7679?q=80&w=1693&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage:
+                    "https://images.unsplash.com/photo-1602858659965-ea6f743b7679?q=80&w=1693&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
-gallery: [
-    {
-        src:
-            "https://images.unsplash.com/photo-1706438231376-924f23da45f5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGphaXNhbG1lcnxlbnwwfDB8MHx8fDA%3D",
-        alt: "Jaisalmer Fort in Jaisalmer, Rajasthan",
-    },
-    {
-        src:
-            "https://images.unsplash.com/photo-1608080792986-d039bc567c32?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D",
-        alt: "Sam Sand Dunes in Jaisalmer",
-    },
-    {
-        src:
-            "https://images.unsplash.com/photo-1741759223244-9c0456c12eb7?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        alt: "Gadisar Lake in Jaisalmer",
-    },
-    {
-        src:
-            "https://images.unsplash.com/photo-1591014949393-a3d927b4609f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D",
-      
-    },
+                gallery: [
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1706438231376-924f23da45f5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGphaXNhbG1lcnxlbnwwfDB8MHx8fDA%3D",
+                        alt: "Jaisalmer Fort in Jaisalmer, Rajasthan",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1608080792986-d039bc567c32?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D",
+                        alt: "Sam Sand Dunes in Jaisalmer",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1741759223244-9c0456c12eb7?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Gadisar Lake in Jaisalmer",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1591014949393-a3d927b4609f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D",
 
+                    },
+
+                    {
+                        alt: "Patwon Ki Haveli in Jaisalmer",
+                        src: "https://images.unsplash.com/photo-1736080108948-09bcb69d81b4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjV8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D"
+                    }
+                ],
+                rating: "4.8",
+                reviews: "1.9k",
+
+                location: "Jaisalmer, Rajasthan",
+                latitude: 26.9157,
+                longitude: 70.9083,
+
+                description:
+                    "Discover the golden charm of Jaisalmer through its magnificent fort, ancient havelis, vast Thar Desert, camel safaris and vibrant Rajasthani culture.",
+
+                weather: "10°C - 35°C",
+                idealTrip: "3 - 5 Days",
+                budget: "₹10,000 - ₹22,000",
+
+                duration: "5 Days / 4 Nights",
+                startingPrice: "₹12,999",
+                originalPrice: "₹17,999",
+                offerPrice: "₹12,999",
+                saveAmount: "₹5,000",
+                discount: "28%",
+                validTill: "30 September 2026",
+                groupSize: "2 - 16 People",
+                bestTime: "October - March",
+
+                highlights: [
+                    "Jaisalmer Fort",
+                    "Sam Sand Dunes",
+                    "Patwon Ki Haveli",
+                    "Gadisar Lake",
+                    "Kuldhara Village",
+                ],
+
+                bestTimeToVisit: {
+                    months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "Oct - Feb",
+                            description:
+                                "Pleasant temperatures make winter ideal for desert adventures and sightseeing.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "Mar - Jun",
+                            description:
+                                "Hot weather makes early mornings and evenings comfortable for sightseeing.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Jul - Sep",
+                            description:
+                                "Rainfall is limited, while warm weather continues across the desert region.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Jaisalmer Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Jaisalmer Railway Station",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Taxis, Auto Rickshaws & Local Buses",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Hindi, English, Rajasthani",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permits Required",
+                        value: "Generally Not Required",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (INR)",
+                        icon: "currency",
+                    },
+                ],
+
+                activities: [
+                    {
+                        text: "Camel Safari",
+                        icon: Bike,
+                    },
+                    {
+                        text: "Desert Camping",
+                        icon: TentTree,
+                    },
+                    {
+                        text: "Fort Tours",
+                        icon: Landmark,
+                    },
+                    {
+                        text: "Dune Safari",
+                        icon: Mountain,
+                    },
+                    {
+                        text: "Cultural Shows",
+                        icon: Music,
+                    },
+                    {
+                        text: "Photography",
+                        icon: Camera,
+                    },
+                    {
+                        text: "Heritage Walk",
+                        icon: Footprints,
+                    },
+                    {
+                        text: "Stargazing",
+                        icon: Star,
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Light Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Light Jacket or Shawl",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Power Bank & ID Proof",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Personal Medicines",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Jaisalmer & Gadisar Lake",
+                        description:
+                            "Arrive in Jaisalmer and check into your hotel. Visit Gadisar Lake in the evening and enjoy a peaceful sunset around the historic surroundings.",
+                    },
+                    {
+                        day: 2,
+                        title: "Jaisalmer Fort & Heritage Exploration",
+                        description:
+                            "Explore the magnificent Jaisalmer Fort, Jain Temples and royal palaces. Visit Patwon Ki Haveli and discover the historic streets of the Golden City.",
+                    },
+                    {
+                        day: 3,
+                        title: "Kuldhara Village & Sam Sand Dunes",
+                        description:
+                            "Visit the mysterious abandoned village of Kuldhara before heading towards Sam Sand Dunes. Enjoy a thrilling camel safari and traditional desert activities.",
+                    },
+                    {
+                        day: 4,
+                        title: "Desert Camping & Cultural Evening",
+                        description:
+                            "Spend the day exploring the Thar Desert and enjoy dune adventures. Experience an evening of traditional Rajasthani music, folk dance and desert camping.",
+                    },
+                    {
+                        day: 5,
+                        title: "Local Markets & Departure",
+                        description:
+                            "Explore Jaisalmer's colorful markets and shop for traditional handicrafts, textiles and souvenirs. Check out from the hotel and depart for your onward journey.",
+                    },
+                ],
+            },
+        ],
+    },
     {
-          alt: "Patwon Ki Haveli in Jaisalmer",
-        src:"https://images.unsplash.com/photo-1736080108948-09bcb69d81b4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjV8fGphaXNhbG1lcnxlbnwwfHwwfHx8MA%3D%3D"
+        name: `Andaman Nicobar`,
+
+        packages: [
+            {
+                name: `Andaman Nicobar`,
+                category: "Beach",
+                // Andaman & Nicobar
+                whyVisit: {
+                    title: "Why Visit Andaman & Nicobar?",
+                    description:
+                        "Escape to tropical islands surrounded by turquoise waters, pristine beaches, coral reefs and lush natural landscapes.",
+                    highlights: [
+                        "Pristine tropical beaches",
+                        "Crystal-clear turquoise waters",
+                        "Scuba diving & water sports",
+                        "Coral reefs & marine life",
+                    ],
+                },
+                subtitle: "Beaches",
+                inclusions: [
+                    "6 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Entry Tickets",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
+
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+                heroImage:
+                    "https://images.unsplash.com/photo-1640718835374-6116a99c6e6c?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+                gallery: [
+                    {
+                        src: "https://images.unsplash.com/photo-1708447461404-57725d3cdb6e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YW5kYW1hbnxlbnwwfDB8MHx8fDA%3D",
+                        alt: "Turquoise ocean waters in the Andaman and Nicobar Islands",
+                    },
+                    {
+                        src: "https://images.unsplash.com/photo-1650451985907-d922213a17c3?auto=format&fit=crop&w=3840&q=90",
+                        alt: "Radhanagar Beach in Andaman and Nicobar Islands",
+                    },
+                    {
+                        src: "https://images.unsplash.com/photo-1594054478639-66176a66de71?auto=format&fit=crop&w=3840&q=90",
+                        alt: "Radhanagar Beach with tropical coastline in Andaman",
+                    },
+                    {
+                        src: "https://images.unsplash.com/photo-1641719320002-743bc0384e0f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW5kYW1hbiUyMGFuZCUyMG5pY29iYXIlMjBpc2xhbmRzfGVufDB8MHwwfHx8MA%3D%3D",
+                        alt: "Cellular Jail at Port Blair in Andaman and Nicobar Islands",
+                    },
+                    {
+                        src: "https://images.unsplash.com/photo-1641715155993-592e4fb6b78e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fGFuZGFtYW4lMjBhbmQlMjBuaWNvYmFyJTIwaXNsYW5kc3xlbnwwfDB8MHx8fDA%3D",
+                        alt: "Sunrise over the sea at Port Blair",
+                    },
+                ],
+
+                rating: "4.8",
+                reviews: "3.2k",
+
+                location: "Andaman & Nicobar",
+
+                latitude: 11.7401,
+                longitude: 92.6586,
+
+                description:
+                    "Explore pristine beaches, tropical islands, coral reefs and unforgettable adventures across the Andaman & Nicobar Islands.",
+                weather: "23°C – 31°C",
+
+                idealTrip: "5–7 Days",
+
+                budget: "₹25,000 – ₹55,000",
+
+                duration: "6D/5N",
+
+                startingPrice: "₹29,999",
+
+                originalPrice: "₹42,999",
+
+                offerPrice: "₹34,999",
+
+                saveAmount: "₹8,000",
+
+                discount: "19% OFF",
+
+                validTill: "31 Dec 2026",
+
+                groupSize: "2–12 People",
+
+                bestTime: "October – May",
+
+                highlights: [
+                    "Radhanagar Beach",
+                    "Cellular Jail",
+                    "Swaraj Dweep",
+                    "Shaheed Dweep",
+                    "Elephant Beach",
+                    "Ross Island",
+                    "Scuba Diving",
+                    "Snorkeling",
+                ],
+
+                bestTimeToVisit: {
+                    months: [
+                        "October",
+                        "November",
+                        "December",
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                    ],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "October – February",
+                            description:
+                                "Pleasant weather and calm seas make sightseeing enjoyable.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "March – May",
+                            description:
+                                "Warm sunny days offer excellent conditions for water activities.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "June – September",
+                            description:
+                                "Rainfall creates lush greenery but may affect ferry services.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Airport",
+                        value: "Veer Savarkar International Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Railway",
+                        value: "No railway connectivity",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Transport",
+                        value: "Ferry, Speedboat, Taxi & Local Transport",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Language",
+                        value: "Hindi, English, Bengali & Tamil",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permit",
+                        value: "Follow applicable island entry regulations",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (₹)",
+                        icon: "currency",
+                    },
+                ],
+
+                activities: [
+                    {
+                        text: "Scuba Diving",
+                        icon: Waves
+                    },
+                    {
+                        text: "Snorkeling",
+                        icon: Waves
+                    },
+                    {
+                        text: "Sea Walk",
+                        icon: PersonStanding
+                    },
+                    {
+                        text: "Kayaking",
+                        icon: Ship
+                    },
+                    {
+                        text: "Parasailing",
+                        icon: Wind
+                    },
+                    {
+                        text: "Jet Skiing",
+                        icon: Waves
+                    },
+                    {
+                        text: "Glass Bottom Boat",
+                        icon: Ship
+                    },
+                    {
+                        text: "Island Hopping",
+                        icon: MapPin
+                    }
+                ],
+
+                packingItems: [
+                    {
+                        label: "Light Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Sunglasses",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Comfortable Beach Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Power Bank",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Basic Medicines",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Sri Vijaya Puram & Cellular Jail",
+                        description:
+                            "Arrive at Veer Savarkar International Airport and check into your hotel. Explore Sri Vijaya Puram and visit the historic Cellular Jail. Enjoy the evening Light and Sound Show before returning to your hotel.",
+                    },
+                    {
+                        day: 2,
+                        title: "Sri Vijaya Puram Sightseeing & Swaraj Dweep",
+                        description:
+                            "Explore local attractions in Sri Vijaya Puram before taking a ferry to Swaraj Dweep. Check into your beachside accommodation and enjoy a relaxing evening near the island coastline.",
+                    },
+                    {
+                        day: 3,
+                        title: "Radhanagar Beach & Sunset Experience",
+                        description:
+                            "Visit the famous Radhanagar Beach and spend the day enjoying its beautiful white sand and turquoise waters. Relax by the beach and witness a spectacular tropical sunset.",
+                    },
+                    {
+                        day: 4,
+                        title: "Elephant Beach Water Adventures",
+                        description:
+                            "Travel to Elephant Beach for an exciting day of snorkeling, sea walking and other water activities. Explore the colorful marine life and coral reefs before returning to your resort.",
+                    },
+                    {
+                        day: 5,
+                        title: "Shaheed Dweep Island Exploration",
+                        description:
+                            "Take a ferry to Shaheed Dweep and explore its peaceful beaches, natural rock formations and tropical landscapes. Visit popular coastal spots before returning to Sri Vijaya Puram.",
+                    },
+                    {
+                        day: 6,
+                        title: "Final Island Experience & Departure",
+                        description:
+                            "Enjoy a relaxed morning by the beach and complete some last-minute shopping. Return to Sri Vijaya Puram and depart from Veer Savarkar International Airport for your onward journey.",
+                    },
+                ],
+            },
+        ],
     }
-],
-    rating: "4.8",
-    reviews: "1.9k",
-
-    location: "Jaisalmer, Rajasthan",
-    latitude: 26.9157,
-    longitude: 70.9083,
-
-    description:
-        "Discover the golden charm of Jaisalmer through its magnificent fort, ancient havelis, vast Thar Desert, camel safaris and vibrant Rajasthani culture.",
-
-    weather: "10°C - 35°C",
-    idealTrip: "3 - 5 Days",
-    budget: "₹10,000 - ₹22,000",
-
-    duration: "5 Days / 4 Nights",
-    startingPrice: "₹12,999",
-    originalPrice: "₹17,999",
-    offerPrice: "₹12,999",
-    saveAmount: "₹5,000",
-    discount: "28%",
-    validTill: "30 September 2026",
-    groupSize: "2 - 16 People",
-    bestTime: "October - March",
-
-    highlights: [
-        "Jaisalmer Fort",
-        "Sam Sand Dunes",
-        "Patwon Ki Haveli",
-        "Gadisar Lake",
-        "Kuldhara Village",
-    ],
-
-    bestTimeToVisit: {
-        months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-
-        seasons: [
-            {
-                name: "Winter",
-                months: "Oct - Feb",
-                description:
-                    "Pleasant temperatures make winter ideal for desert adventures and sightseeing.",
-                icon: "winter" as const,
-            },
-            {
-                name: "Summer",
-                months: "Mar - Jun",
-                description:
-                    "Hot weather makes early mornings and evenings comfortable for sightseeing.",
-                icon: "summer" as const,
-            },
-            {
-                name: "Monsoon",
-                months: "Jul - Sep",
-                description:
-                    "Rainfall is limited, while warm weather continues across the desert region.",
-                icon: "monsoon" as const,
-            },
-        ],
-    },
-
-    travelInfo: [
-        {
-            label: "Nearest Airport",
-            value: "Jaisalmer Airport",
-            icon: "airport",
-        },
-        {
-            label: "Nearest Railway Station",
-            value: "Jaisalmer Railway Station",
-            icon: "railway",
-        },
-        {
-            label: "Local Transport",
-            value: "Taxis, Auto Rickshaws & Local Buses",
-            icon: "transport",
-        },
-        {
-            label: "Languages Spoken",
-            value: "Hindi, English, Rajasthani",
-            icon: "language",
-        },
-        {
-            label: "Permits Required",
-            value: "Generally Not Required",
-            icon: "permit",
-        },
-        {
-            label: "Currency",
-            value: "Indian Rupee (INR)",
-            icon: "currency",
-        },
-    ],
-
-    activities: [
-        {
-            text: "Camel Safari",
-            icon: Bike,
-        },
-        {
-            text: "Desert Camping",
-            icon: TentTree,
-        },
-        {
-            text: "Fort Tours",
-            icon: Landmark,
-        },
-        {
-            text: "Dune Safari",
-            icon: Mountain,
-        },
-        {
-            text: "Cultural Shows",
-            icon: Music,
-        },
-        {
-            text: "Photography",
-            icon: Camera,
-        },
-        {
-            text: "Heritage Walk",
-            icon: Footprints,
-        },
-        {
-            text: "Stargazing",
-            icon: Star,
-        },
-    ],
-
-    packingItems: [
-        {
-            label: "Light Cotton Clothes",
-            icon: "clothes",
-        },
-        {
-            label: "Sunglasses & Sunscreen",
-            icon: "sunglasses",
-        },
-        {
-            label: "Comfortable Walking Shoes",
-            icon: "shoes",
-        },
-        {
-            label: "Light Jacket or Shawl",
-            icon: "clothes",
-        },
-        {
-            label: "Power Bank & ID Proof",
-            icon: "powerbank",
-        },
-        {
-            label: "Personal Medicines",
-            icon: "medicine",
-        },
-    ],
-
-    itinerary: [
-        {
-            day: 1,
-            title: "Arrival in Jaisalmer & Gadisar Lake",
-            description:
-                "Arrive in Jaisalmer and check into your hotel. Visit Gadisar Lake in the evening and enjoy a peaceful sunset around the historic surroundings.",
-        },
-        {
-            day: 2,
-            title: "Jaisalmer Fort & Heritage Exploration",
-            description:
-                "Explore the magnificent Jaisalmer Fort, Jain Temples and royal palaces. Visit Patwon Ki Haveli and discover the historic streets of the Golden City.",
-        },
-        {
-            day: 3,
-            title: "Kuldhara Village & Sam Sand Dunes",
-            description:
-                "Visit the mysterious abandoned village of Kuldhara before heading towards Sam Sand Dunes. Enjoy a thrilling camel safari and traditional desert activities.",
-        },
-        {
-            day: 4,
-            title: "Desert Camping & Cultural Evening",
-            description:
-                "Spend the day exploring the Thar Desert and enjoy dune adventures. Experience an evening of traditional Rajasthani music, folk dance and desert camping.",
-        },
-        {
-            day: 5,
-            title: "Local Markets & Departure",
-            description:
-                "Explore Jaisalmer's colorful markets and shop for traditional handicrafts, textiles and souvenirs. Check out from the hotel and depart for your onward journey.",
-        },
-    ],
-},
-        ],
-    },
-    {
-    name: `Andaman Nicobar`,
-
-    packages: [
-        {
-            name: `Andaman Nicobar`,
-            category: "Beach",
-
-            subtitle: "Beaches",
-
-            heroImage:
-                "https://images.unsplash.com/photo-1640718835374-6116a99c6e6c?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-
-            gallery: [
-                {
-                    src: "https://images.unsplash.com/photo-1708447461404-57725d3cdb6e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YW5kYW1hbnxlbnwwfDB8MHx8fDA%3D",
-                    alt: "Turquoise ocean waters in the Andaman and Nicobar Islands",
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1650451985907-d922213a17c3?auto=format&fit=crop&w=3840&q=90",
-                    alt: "Radhanagar Beach in Andaman and Nicobar Islands",
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1594054478639-66176a66de71?auto=format&fit=crop&w=3840&q=90",
-                    alt: "Radhanagar Beach with tropical coastline in Andaman",
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1641719320002-743bc0384e0f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW5kYW1hbiUyMGFuZCUyMG5pY29iYXIlMjBpc2xhbmRzfGVufDB8MHwwfHx8MA%3D%3D",
-                    alt: "Cellular Jail at Port Blair in Andaman and Nicobar Islands",
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1641715155993-592e4fb6b78e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fGFuZGFtYW4lMjBhbmQlMjBuaWNvYmFyJTIwaXNsYW5kc3xlbnwwfDB8MHx8fDA%3D",
-                    alt: "Sunrise over the sea at Port Blair",
-                },
-            ],
-
-            rating: "4.8",
-            reviews: "3.2k",
-
-            location: "Andaman & Nicobar",
-
-            latitude: 11.7401,
-            longitude: 92.6586,
-
-            description:
-"Explore pristine beaches, tropical islands, coral reefs and unforgettable adventures across the Andaman & Nicobar Islands.",
-            weather: "23°C – 31°C",
-
-            idealTrip: "5–7 Days",
-
-            budget: "₹25,000 – ₹55,000",
-
-            duration: "6D/5N",
-
-            startingPrice: "₹29,999",
-
-            originalPrice: "₹42,999",
-
-            offerPrice: "₹34,999",
-
-            saveAmount: "₹8,000",
-
-            discount: "19% OFF",
-
-            validTill: "31 Dec 2026",
-
-            groupSize: "2–12 People",
-
-            bestTime: "October – May",
-
-            highlights: [
-                "Radhanagar Beach",
-                "Cellular Jail",
-                "Swaraj Dweep",
-                "Shaheed Dweep",
-                "Elephant Beach",
-                "Ross Island",
-                "Scuba Diving",
-                "Snorkeling",
-            ],
-
-            bestTimeToVisit: {
-                months: [
-                    "October",
-                    "November",
-                    "December",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                ],
-
-                seasons: [
-                    {
-                        name: "Winter",
-                        months: "October – February",
-                        description:
-                            "Pleasant weather and calm seas make sightseeing enjoyable.",
-                        icon: "winter" as const,
-                    },
-                    {
-                        name: "Summer",
-                        months: "March – May",
-                        description:
-                            "Warm sunny days offer excellent conditions for water activities.",
-                        icon: "summer" as const,
-                    },
-                    {
-                        name: "Monsoon",
-                        months: "June – September",
-                        description:
-                            "Rainfall creates lush greenery but may affect ferry services.",
-                        icon: "monsoon" as const,
-                    },
-                ],
-            },
-
-            travelInfo: [
-                {
-                    label: "Airport",
-                    value: "Veer Savarkar International Airport",
-                    icon: "airport",
-                },
-                {
-                    label: "Railway",
-                    value: "No railway connectivity",
-                    icon: "railway",
-                },
-                {
-                    label: "Transport",
-                    value: "Ferry, Speedboat, Taxi & Local Transport",
-                    icon: "transport",
-                },
-                {
-                    label: "Language",
-                    value: "Hindi, English, Bengali & Tamil",
-                    icon: "language",
-                },
-                {
-                    label: "Permit",
-                    value: "Follow applicable island entry regulations",
-                    icon: "permit",
-                },
-                {
-                    label: "Currency",
-                    value: "Indian Rupee (₹)",
-                    icon: "currency",
-                },
-            ],
-
-            activities: [
-                {
-                    text: "Scuba Diving",
-                    icon: Waves
-                },
-                {
-                    text: "Snorkeling",
-                    icon: Waves
-                },
-                {
-                    text: "Sea Walk",
-                    icon: PersonStanding
-                },
-                {
-                    text: "Kayaking",
-                    icon: Ship
-                },
-                {
-                    text: "Parasailing",
-                    icon: Wind
-                },
-                {
-                    text: "Jet Skiing",
-                    icon: Waves
-                },
-                {
-                    text: "Glass Bottom Boat",
-                    icon: Ship
-                },
-                {
-                    text: "Island Hopping",
-                    icon: MapPin
-                }
-            ],
-
-            packingItems: [
-                {
-                    label: "Light Cotton Clothes",
-                    icon: "clothes",
-                },
-                {
-                    label: "Sunglasses",
-                    icon: "sunglasses",
-                },
-                {
-                    label: "Comfortable Beach Shoes",
-                    icon: "shoes",
-                },
-                {
-                    label: "Power Bank",
-                    icon: "powerbank",
-                },
-                {
-                    label: "Basic Medicines",
-                    icon: "medicine",
-                },
-            ],
-
-            itinerary: [
-                {
-                    day: 1,
-                    title: "Arrival in Sri Vijaya Puram & Cellular Jail",
-                    description:
-                        "Arrive at Veer Savarkar International Airport and check into your hotel. Explore Sri Vijaya Puram and visit the historic Cellular Jail. Enjoy the evening Light and Sound Show before returning to your hotel.",
-                },
-                {
-                    day: 2,
-                    title: "Sri Vijaya Puram Sightseeing & Swaraj Dweep",
-                    description:
-                        "Explore local attractions in Sri Vijaya Puram before taking a ferry to Swaraj Dweep. Check into your beachside accommodation and enjoy a relaxing evening near the island coastline.",
-                },
-                {
-                    day: 3,
-                    title: "Radhanagar Beach & Sunset Experience",
-                    description:
-                        "Visit the famous Radhanagar Beach and spend the day enjoying its beautiful white sand and turquoise waters. Relax by the beach and witness a spectacular tropical sunset.",
-                },
-                {
-                    day: 4,
-                    title: "Elephant Beach Water Adventures",
-                    description:
-                        "Travel to Elephant Beach for an exciting day of snorkeling, sea walking and other water activities. Explore the colorful marine life and coral reefs before returning to your resort.",
-                },
-                {
-                    day: 5,
-                    title: "Shaheed Dweep Island Exploration",
-                    description:
-                        "Take a ferry to Shaheed Dweep and explore its peaceful beaches, natural rock formations and tropical landscapes. Visit popular coastal spots before returning to Sri Vijaya Puram.",
-                },
-                {
-                    day: 6,
-                    title: "Final Island Experience & Departure",
-                    description:
-                        "Enjoy a relaxed morning by the beach and complete some last-minute shopping. Return to Sri Vijaya Puram and depart from Veer Savarkar International Airport for your onward journey.",
-                },
-            ],
-        },
-    ],
-}
 ];
 
 

@@ -6,6 +6,8 @@ import { featuredDestination } from "@/constants/destinationData";
 import { usePathname } from "next/navigation";
 import TravelStories from "@/components/homePage/TravelStories";
 import Memories from "@/components/Memories";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 import Gallery from "@/components/packagess/Galary";
 import { packageData } from "@/constants/packagesData";
 import Itinerary from "@/components/packagess/Itinerary";
@@ -61,13 +63,18 @@ export default function PackageDestination() {
         );
     }
 
-    const selectedPackage = packageDestination.packages.find(
-        (item) =>
-            item.name
-                .toLowerCase()
-                .replace(/\s+/g, "-") ===
-            locationSlug?.toLowerCase()
-    );
+    const selectedPackage =
+        packageDestination.packages.find(
+            (item) =>
+                item.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-") ===
+                locationSlug?.toLowerCase()
+        ) ??
+        (packageDestination.name.toLowerCase().replace(/\s+/g, "-") ===
+        locationSlug?.toLowerCase()
+            ? packageDestination.packages[0]
+            : undefined);
 
     if (!selectedPackage) {
         return (
@@ -97,28 +104,12 @@ export default function PackageDestination() {
         setActiveImage(null);
     };
 
-    const nextImage = () => {
-        if (activeImage === null || gallery.length === 0) {
-            return;
-        }
-
-        setActiveImage(
-            (activeImage + 1) % gallery.length
-        );
-    };
-
-    const previousImage = () => {
-        if (activeImage === null || gallery.length === 0) {
-            return;
-        }
-
-        setActiveImage(
-            (activeImage - 1 + gallery.length) %
-            gallery.length
-        );
-    };
-     const gallery = selectedPackage?.gallery
-    
+  
+    const gallery = selectedPackage?.gallery
+const gallerySlides = gallery.map((image) => ({
+    src: image.src,
+    alt: image.alt || "Gallery image",
+}));
     return (
         <main className="w-full bg-white flex flex-col justify-center items-center gap-10">
             <section className="relative w-full">
@@ -130,20 +121,20 @@ export default function PackageDestination() {
                     <OfferCard details={packageDetails} />
                 </div>
             </section>
-     {selectedPackage.activities.length > 0 && (
-           <div className="w-[91%]">
+            {selectedPackage.activities.length > 0 && (
+                <div className="w-[91%]">
 
-          <ThingsToDo
-            title={`Best Experiences in ${selectedPackage.name}`}
-            activities={selectedPackage.activities}
-          />
-                          </div>
+                    <ThingsToDo
+                        title={`Best Experiences in ${selectedPackage.name}`}
+                        activities={selectedPackage.activities}
+                    />
+                </div>
 
-        )}
+            )}
 
             <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
-               <div className="font-semibold text-3xl mb-5">
-                 {selectedPackage.name} Gallery
+                <div className="font-semibold text-3xl mb-5">
+                    {selectedPackage.name} Gallery
                 </div>
                 <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
 
@@ -162,8 +153,8 @@ export default function PackageDestination() {
                             <button
                                 type="button"
                                 onClick={() => openGallery(0)}
-                                className="group relative col-span-12 h-65 overflow-hidden rounded-[20px] text-left sm:h-75 lg:col-span-7 lg:h-76.25"
-                            >
+                                className="group cursor-pointer relative col-span-12 h-65 overflow-hidden rounded-[20px] text-left sm:h-75 lg:col-span-7 lg:h-76.25"
+                             >
                                 <Image
                                     src={gallery[0].src}
                                     alt={"gallery"}
@@ -194,7 +185,7 @@ export default function PackageDestination() {
                                     <button
                                         type="button"
                                         onClick={() => openGallery(1)}
-                                        className="group relative col-span-2 h-37.5 overflow-hidden rounded-[20px] text-left"
+                                        className="group cursor-pointer relative col-span-2 h-37.5 overflow-hidden rounded-[20px] text-left"
                                     >
                                         <Image
                                             src={gallery[1].src}
@@ -222,7 +213,7 @@ export default function PackageDestination() {
                                                     onClick={() =>
                                                         openGallery(actualIndex)
                                                     }
-                                                    className="group relative h-36.25 overflow-hidden rounded-[20px] text-left"
+                                                    className="group cursor-pointer relative h-36.25 overflow-hidden rounded-[20px] text-left"
                                                 >
                                                     <Image
                                                         src={image.src}
@@ -270,6 +261,7 @@ export default function PackageDestination() {
                                                     className={`
                             group
                             relative
+                            cursor-pointer
                             h-27.5
                             overflow-hidden
                             rounded-[18px]
@@ -316,11 +308,11 @@ export default function PackageDestination() {
 
                 </div>
             </section>
-            
+
 
             {(selectedPackage.itinerary.length > 0 ||
                 selectedPackage.bestTimeToVisit) && (
-                    <div className="  flex w-full flex-col gap-8    lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+                    <div className="  flex w-[93%] flex-col gap-8    lg:flex-row lg:items-start lg:justify-center lg:gap-5">
 
                         {selectedPackage.itinerary.length > 0 && (
                             <Itinerary
@@ -328,7 +320,11 @@ export default function PackageDestination() {
                                 subtitle={""}
                                 days={selectedPackage.itinerary}
                                 onButtonClick={() =>
-                                    router.push(`/destinations/${selectedPackage.name}/itinerary`)
+                                    router.push(
+                                        `/destinations/${locationSlug}/itinerary?package=${selectedPackage.name
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")}`
+                                    )
                                 }
                             />
                         )}
@@ -369,14 +365,20 @@ export default function PackageDestination() {
                         longitude={selectedPackage.longitude}
                     />
                 )}
-                                  <div className="w-[95%]">
-                                 
-                                                     <TravelersReviews/>
-                                                     </div>
+            <div className="w-[95%]">
+
+                <TravelersReviews />
+            </div>
 
             <TravelStories />
 
             <Memories />
+            <Lightbox
+    open={activeImage !== null}
+    close={closeGallery}
+    index={activeImage ?? 0}
+    slides={gallerySlides}
+/>
         </main>
     );
 }

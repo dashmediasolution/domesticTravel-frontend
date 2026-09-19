@@ -37,19 +37,19 @@ export default function DestinationHero({
 
   return (
     <section
-      className="
-        relative
-        h-[50vh]
-        min-h-[400px]
-        w-full
-        overflow-hidden
-        sm:h-[58vh]
-        sm:min-h-[560px]
-        md:h-[70vh]
-        md:min-h-[600px]
-        lg:h-[85vh]
-        lg:min-h-[650px]
-      "
+        className="
+          relative
+          h-[50vh]
+          min-h-[400px]
+          w-full
+          overflow-hidden
+          sm:h-[58vh]
+          sm:min-h-[560px]
+          md:h-[70vh]
+          md:min-h-[600px]
+          lg:h-[85vh]
+          lg:min-h-[650px]
+        "
     >
       {/* Background */}
 
@@ -341,54 +341,7 @@ export default function DestinationHero({
 )} */}
 
  
-
-            <button
-              type="button"
-              className="
-                flex
-                items-center
-                gap-1.5
-                text-[11px]
-                font-medium
-                text-white
-                transition-opacity
-                hover:opacity-80
-          
-                sm:gap-2
-                cursor-pointer
-                sm:text-sm
-              "
-             >
-              <span
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-white/80
-                  bg-black/20
-                  backdrop-blur-sm
-                  sm:h-9
-                  sm:w-9
-                "
-              >
-                <Play
-                  className="
-                    ml-0.5
-                    h-3
-                    w-3
-                    fill-white
-                    sm:h-3.5
-                    sm:w-3.5
-                  "
-                />
-              </span>
-
-              Watch Video
-            </button>
+ 
           </div>
         </div>
       </div>

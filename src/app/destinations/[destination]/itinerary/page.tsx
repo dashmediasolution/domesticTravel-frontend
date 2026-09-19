@@ -5,92 +5,137 @@ import {
     CalendarDays,
     MapPin,
     Clock3,
+    CheckCircle2,
+    Star,
+    Thermometer,
 } from "lucide-react";
 import { notFound } from "next/navigation";
-
+import { Button } from "@base-ui/react";
 import { featuredDestination } from "@/constants/destinationData";
-
+import { packageData } from "@/constants/packagesData";
+import { Phone } from "lucide-react";
 interface PageProps {
     params: Promise<{
         destination: string;
+    }>;
+    searchParams: Promise<{
+        package?: string;
     }>;
 }
 
 export default async function DetailedItineraryPage({
     params,
+    searchParams,
 }: PageProps) {
     const { destination } = await params;
+    const { package: packageSlug } = await searchParams;
 
     const destinations = featuredDestination.find(
-        (item) => item.destination.name === destination
+        (item) =>
+            item.destination.name
+                .toLowerCase()
+                .replace(/\s+/g, "-") === destination.toLowerCase()
     );
 
-    if (!destinations) {
+    const packageDestination = packageSlug
+        ? packageData.find(
+              (item) =>
+                  item.name.toLowerCase().replace(/\s+/g, "-") ===
+                  destination.toLowerCase()
+          )
+        : undefined;
+    const packageItinerary = packageDestination?.packages.find(
+        (item) =>
+            item.name.toLowerCase().replace(/\s+/g, "-") ===
+            packageSlug?.toLowerCase()
+    );
+
+    if (!destinations && !packageItinerary) {
         notFound();
     }
 
-    const destinationData = destinations.destination;
+    const destinationData = packageItinerary
+        ? {
+              name: packageItinerary.name,
+              subtitle: packageItinerary.subtitle,
+              heroImage: packageItinerary.heroImage,
+              rating: packageItinerary.rating,
+              reviews: packageItinerary.reviews,
+              location: packageItinerary.location,
+              idealTrip: packageItinerary.idealTrip,
+              weather: packageItinerary.weather,
+              budget: packageItinerary.budget,
+              itinerary: packageItinerary.itinerary,
+          }
+        : destinations!.destination;
     const itinerary = destinationData.itinerary ?? [];
+    const destinationPackage = destinations?.packages?.[0];
 
     return (
         <main className="min-h-screen bg-[#F7F8F8]">
             {/* Header */}
-            <section className="relative overflow-hidden bg-[#00383B]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(47,194,176,0.22),transparent_40%)]" />
+            <section
+                className="relative overflow-hidden bg-[#00383B] bg-cover bg-center"
+                style={{ backgroundImage: `url(${destinationData.heroImage})` }}
+            >
+                <div className="absolute inset-0 bg-[#00383B]/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00383B]/95 via-[#00383B]/70 to-[#00383B]/35" />
 
                 <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
-                    <Link
-                        href={`/destinations/${destination}`}
-                        className="mb-8 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
-                    >
-                        <ArrowLeft size={18} />
-                        Back to {destinationData.name}
-                    </Link>
+                    <div>
+                        <Link
+                            href={`/destinations/${destination}`}
+                            className="mb-8 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
+                        >
+                            <ArrowLeft size={18} />
+                            Back to {destinationData.name}
+                        </Link>
 
-                    <div className="max-w-3xl">
-                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#2FC2B0] sm:text-sm">
-                            Suggested Journey
-                        </p>
+                        <div className="max-w-3xl">
+                            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#2FC2B0] sm:text-sm">
+                                Suggested Journey
+                            </p>
 
-                        <h1 className="font-heading text-4xl font-bold leading-none text-white sm:text-6xl lg:text-7xl">
-                            {destinationData.name}
-                        </h1>
+                            <h1 className="font-heading text-4xl font-bold leading-none text-white sm:text-6xl lg:text-7xl">
+                                {destinationData.name}
+                            </h1>
 
-                        <p className="mt-4 max-w-2xl text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
-                            {destinationData.subtitle}
-                        </p>
-                    </div>
-
-                    <div className="mt-8 flex flex-wrap gap-3">
-                        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
-                            <CalendarDays
-                                size={16}
-                                className="text-[#2FC2B0]"
-                            />
-                            {itinerary.length} Days
+                            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
+                                {destinationData.subtitle}
+                            </p>
                         </div>
 
-                        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
-                            <MapPin
-                                size={16}
-                                className="text-[#2FC2B0]"
-                            />
-                            {destinationData.location}
-                        </div>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
+                                <CalendarDays
+                                    size={16}
+                                    className="text-[#2FC2B0]"
+                                />
+                                {itinerary.length} Days
+                            </div>
 
-                        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
-                            <Clock3
-                                size={16}
-                                className="text-[#2FC2B0]"
-                            />
-                            {destinationData.idealTrip}
+                            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
+                                <MapPin
+                                    size={16}
+                                    className="text-[#2FC2B0]"
+                                />
+                                {destinationData.location}
+                            </div>
+
+                            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs text-white sm:text-sm">
+                                <Clock3
+                                    size={16}
+                                    className="text-[#2FC2B0]"
+                                />
+                                {destinationData.idealTrip}
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Timeline */}
-            <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+            <section className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-16 lg:px-8 lg:py-20">
                 <div className="relative">
                     {/* Timeline Line */}
                     <div className="absolute left-[23px] top-5 hidden h-[calc(100%-40px)] w-px bg-neutral-200 sm:block" />
@@ -134,6 +179,65 @@ export default async function DetailedItineraryPage({
                         ))}
                     </div>
                 </div>
+
+                <aside className="w-full overflow-hidden rounded-2xl border border-primary bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] lg:sticky lg:top-46">
+                    <div className="border-b border-neutral-200 px-5 py-4">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#087C70]">
+                            {destinationData.name} details
+                        </p>
+                        <div className="mt-2 flex items-center justify-between gap-3">
+                            <h2 className="font-heading text-xl font-bold text-neutral-900">
+                                Plan your journey
+                            </h2>
+                            <span className="inline-flex items-center gap-1 text-sm font-semibold text-neutral-800">
+                                <Star className="size-4 fill-amber-400 text-amber-400" />
+                                {destinationData.rating}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-3 px-5 py-4">
+                        <div className="flex items-center justify-between gap-4">
+                            <span className="text-xs text-neutral-500">Starting from</span>
+                            <span className="text-lg font-bold text-neutral-900">
+                                {packageItinerary?.offerPrice ?? destinationData.budget}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-4 text-xs">
+                            <span className="flex items-center gap-2 text-neutral-500">
+                                <CalendarDays className="size-4 text-[#087C70]" />
+                                Ideal trip
+                            </span>
+                            <span className="font-medium text-neutral-800">{destinationData.idealTrip}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-4 text-xs">
+                            <span className="flex items-center gap-2 text-neutral-500">
+                                <Thermometer className="size-4 text-[#087C70]" />
+                                Weather
+                            </span>
+                            <span className="font-medium text-neutral-800">{destinationData.weather}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-4 text-xs">
+                            <span className="flex items-center gap-2 text-neutral-500">
+                                <CheckCircle2 className="size-4 text-[#087C70]" />
+                                Reviews
+                            </span>
+                            <span className="font-medium text-neutral-800">{destinationData.reviews} travelers</span>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-neutral-200 px-5 py-4">
+                        <Button
+                             className="flex h-11 w-full items-center justify-center rounded-lg bg-[#087C70] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#06665d]"
+                        >
+                            <Phone className="h-5 w-5 shrink-0" />
+
+                            <span className="hidden text-sm font-medium md:block">
+                                +91 98765 43210
+                            </span>
+                        </Button>
+                    </div>
+                </aside>
             </section>
 
             {/* Bottom CTA */}

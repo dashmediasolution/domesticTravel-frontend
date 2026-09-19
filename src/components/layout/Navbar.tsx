@@ -155,17 +155,17 @@ export default function Navbar() {
     const navItems = [
         {
             label: "Flights",
-            href: "#",
+            href: "/flights",
             icon: <TbPlaneInflight className="h-5 w-5 shrink-0" />,
         },
         {
             label: "Hotels",
-            href: "#",
+            href: "/hotels",
             icon: <FaRegBuilding className="h-5 w-5 shrink-0" />,
         },
         {
             label: "Bus",
-            href: "#",
+            href: "/bus",
             icon: <IoBusOutline className="h-5 w-5 shrink-0" />,
         },
     ];
@@ -224,17 +224,15 @@ export default function Navbar() {
 
                             {/* Flights */}
                             <NavigationMenuItem>
-                                <NavigationMenuLink >
-                                    <Link
-                                        href="#"
+                                     <Link
+                                        href="/flights"
                                         className="
                                             flex
                                             items-center
                                             gap-2
                                             rounded-md
                                             px-3
-                                            py-2
-                                            text-[15px]
+                                             text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
@@ -244,22 +242,19 @@ export default function Navbar() {
                                         <TbPlaneInflight className="h-5 w-5" />
                                         Flights
                                     </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+                             </NavigationMenuItem>
 
                             {/* Hotels */}
                             <NavigationMenuItem>
-                                <NavigationMenuLink>
-                                    <Link
-                                        href="#"
+                                     <Link
+                                        href="/hotels"
                                         className="
                                             flex
                                             items-center
                                             gap-2
                                             rounded-md
                                             px-3
-                                            py-2
-                                            text-[15px]
+                                             text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
@@ -269,22 +264,19 @@ export default function Navbar() {
                                         <FaRegBuilding className="h-5 w-5" />
                                         Hotels
                                     </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+                             </NavigationMenuItem>
 
                             {/* Bus */}
                             <NavigationMenuItem>
-                                <NavigationMenuLink>
-                                    <Link
-                                        href="#"
+                                     <Link
+                                        href="/bus"
                                         className="
                                             flex
                                             items-center
                                             gap-2
                                             rounded-md
                                             px-3
-                                            py-2
-                                            text-[15px]
+                                             text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
@@ -294,8 +286,7 @@ export default function Navbar() {
                                         <IoBusOutline className="h-5 w-5" />
                                         Bus
                                     </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+                             </NavigationMenuItem>
 
                             {/* ================= CATEGORIES ================= */}
                             <NavigationMenuItem>
@@ -329,10 +320,7 @@ export default function Navbar() {
 
                                         <div className="grid grid-cols-2 gap-2">
                                             {categories.map((category) => (
-                                                <NavigationMenuLink
-                                                    key={category.name}
-                                                    
-                                                >
+                                               
                                                     <Link
                                                         href={category.href}
                                                         className="
@@ -361,8 +349,7 @@ export default function Navbar() {
                                                             </p>
                                                         </div>
                                                     </Link>
-                                                </NavigationMenuLink>
-                                            ))}
+                                             ))}
                                         </div>
 
                                        
@@ -401,10 +388,7 @@ export default function Navbar() {
 
         <div className="grid grid-cols-2 gap-1.5">
             {destinations.map((category) => (
-                <NavigationMenuLink
-                    key={category.name}
-                    
-                >
+                
                     <Link
                         href={category.href}
                         className="
@@ -433,8 +417,7 @@ export default function Navbar() {
                             </p>
                         </div>
                     </Link>
-                </NavigationMenuLink>
-            ))}
+             ))}
         </div>
 
      
@@ -540,9 +523,9 @@ export default function Navbar() {
                         <div className="flex flex-col">
 
                             {/* Main Links */}
-                            {navItems.map((item) => (
+                            {navItems.map((item,indx) => (
                                 <Link
-                                    key={item.label}
+                                    key={indx}
                                     href={item.href}
                                     onClick={() =>
                                         setMobileMenuOpen(false)
@@ -577,9 +560,9 @@ export default function Navbar() {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-1">
-                                    {categories.map((category) => (
+                                    {categories.map((category,index) => (
                                         <Link
-                                            key={category.name}
+                                            key={index}
                                             href={category.href}
                                             onClick={() =>
                                                 setMobileMenuOpen(false)
@@ -610,9 +593,9 @@ export default function Navbar() {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-1">
-                                    {destinations.map((destination) => (
+                                    {destinations.map((destination,index) => (
                                         <Link
-                                            key={destination.name}
+                                            key={index}
                                             href={destination.href}
                                             onClick={() =>
                                                 setMobileMenuOpen(false)

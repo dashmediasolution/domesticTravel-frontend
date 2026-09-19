@@ -122,7 +122,7 @@ export default function WeatherForecast({ destination, latitude, longitude, clas
     }, [latitude, longitude]);
 
     return (
-        <section className={cn("w-[94%] rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,0.06)]", className)}>
+        <section className={cn("w-[94%]  rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,0.06)]", className)}>
             <h2 className="mb-6 font-heading text-2xl font-semibold">
                 Weather in {destination}
             </h2>
@@ -140,48 +140,55 @@ export default function WeatherForecast({ destination, latitude, longitude, clas
             )}
 
             {!loading && !error && (
-                <>
-                    <div className="flex gap-4 overflow-x-auto scrollbar-none w-full">
-                        {weather.map((day, index) => {
-                            const info = getWeatherInfo(day.weatherCode);
-                            const Icon = info.icon;
+               <div className="w-full min-w-0 overflow-x-auto thin-scrollbar">
+    <div className="flex w-max gap-4 pb-1">
+        {weather.map((day, index) => {
+            const info = getWeatherInfo(day.weatherCode);
+            const Icon = info.icon;
 
-                            return (
-                                <div key={day.date} className="relative h-[166px] min-w-[194px] shrink-0 overflow-hidden rounded-[24px] border border-slate-200 bg-white px-5 py-4">
-                                    <Icon size={42} strokeWidth={1.8} className={cn("absolute -right-1 -top-1", info.color)} />
+            return (
+                <div
+                    key={day.date}
+                    className="relative h-[166px] w-[194px] shrink-0 overflow-hidden rounded-[24px] border border-slate-200 bg-white px-5 py-4"
+                >
+                    <Icon
+                        size={42}
+                        strokeWidth={1.8}
+                        className={cn(
+                            "absolute -right-1 -top-1",
+                            info.color
+                        )}
+                    />
 
-                                    <p className="relative z-10 text-base font-medium">
-                                        {formatDay(day.date, index)}
-                                    </p>
+                    <p className="relative z-10 text-base font-medium">
+                        {formatDay(day.date, index)}
+                    </p>
 
-                                    <p className="mt-3 text-2xl font-semibold">
-                                        {day.maxTemp}° C
-                                    </p>
+                    <p className="mt-3 text-2xl font-semibold">
+                        {day.maxTemp}° C
+                    </p>
 
-                                    <p className="mt-3 text-base font-medium">
-                                        {info.label}
-                                    </p>
+                    <p className="mt-3 text-base font-medium">
+                        {info.label}
+                    </p>
 
-                                    <p className="mt-2 text-sm text-slate-400">
-                                        {day.minTemp}° C / {day.maxTemp}° C
-                                    </p>
+                    <p className="mt-2 text-sm text-slate-400">
+                        {day.minTemp}° C / {day.maxTemp}° C
+                    </p>
 
-                                    <Icon size={34} strokeWidth={1.5} className={cn("absolute -bottom-3 -left-2 opacity-70", info.color)} />
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    <div className="mt-8 flex items-center gap-2">
-                        <div className="h-px flex-1 bg-slate-200" />
-
-                        <span className="px-1 text-md font-medium text-teal-500">
-                            7 DAYS FORECAST
-                        </span>
-
-                        <div className="h-px flex-1 bg-slate-200" />
-                    </div>
-                </>
+                    <Icon
+                        size={34}
+                        strokeWidth={1.5}
+                        className={cn(
+                            "absolute -bottom-3 -left-2 opacity-70",
+                            info.color
+                        )}
+                    />
+                </div>
+            );
+        })}
+    </div>
+</div>
             )}
         </section>
     );

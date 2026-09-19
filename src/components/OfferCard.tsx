@@ -3,7 +3,6 @@
 import {
     Flame,
     CalendarCheck,
-    Users,
     UserRound,
     CheckCircle,
     ArrowRight,
@@ -16,7 +15,7 @@ type OfferDetails = {
     saveAmount: string
     discount: string
     validTill: string
-     groupSize: string
+    groupSize: string
 }
 
 type OfferCardProps = {
@@ -29,66 +28,64 @@ export default function OfferCard({
     onClaim,
 }: OfferCardProps) {
     return (
-        <div className="w-full d  overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+        <div className="w-full overflow-hidden rounded-xl border border-border bg-white shadow-sm">
 
             {/* Header */}
-            <div className="border-b px-4 py-3 sm:px-5">
-                <div className="flex items-center gap-2 text-sm font-medium text-orange-500 sm:text-base">
-                    <Flame className="size-4 fill-orange-500 sm:size-5" />
+            <div className="border-b px-4 py-2.5">
+                <div className="flex items-center gap-2 text-sm font-medium text-orange-500">
+                    <Flame className="size-4 fill-orange-500" />
                     <span>Exclusive Limited Time Offer</span>
                 </div>
             </div>
 
             {/* Pricing */}
-            <div className="px-4 pt-4 sm:px-5 sm:pt-5">
+            <div className="px-4 pt-3.5">
 
                 <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground sm:text-sm">
+                    <span className="text-xs text-muted-foreground">
                         Original Price
                     </span>
 
-                    <span className="text-sm font-medium line-through sm:text-base">
+                    <span className="text-sm font-medium line-through">
                         {details.originalPrice}
                     </span>
                 </div>
 
-                <div className="mt-2 flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground sm:text-sm">
+                <div className="mt-1.5 flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
                         Offer Price
                     </span>
 
-                    <span className="text-sm font-medium sm:text-base">
+                    <span className="text-sm font-medium">
                         {details.offerPrice}
                     </span>
                 </div>
 
-                <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <div className="mt-3 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold tracking-tight">
                         {details.offerPrice}
                     </span>
 
-                    <span className="text-xs text-muted-foreground sm:text-sm">
+                    <span className="text-xs text-muted-foreground">
                         /person
                     </span>
                 </div>
 
                 {/* Savings */}
-                <div className="mt-3 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-medium text-white sm:text-sm">
+                <div className="mt-2 inline-flex rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-white">
                     You Save {details.saveAmount} ({details.discount} OFF)
                 </div>
             </div>
 
             {/* Details */}
-            <div className="mx-4 mt-4 border-t pt-4 sm:mx-5">
-                <div className="space-y-3">
+            <div className="mx-4 mt-3 border-t pt-3">
+                <div className="space-y-2.5">
 
                     <OfferDetail
                         icon={<CalendarCheck />}
                         label="Offer valid till"
                         value={details.validTill}
                     />
-
-              
 
                     <OfferDetail
                         icon={<UserRound />}
@@ -105,22 +102,22 @@ export default function OfferCard({
             </div>
 
             {/* Claim button */}
-            <div className="mx-4 mt-4 border-t pt-4 sm:mx-5">
+            <div className="mx-4 mt-3 border-t pt-3">
                 <button
                     type="button"
                     onClick={onClaim}
-                    className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.98] sm:h-14 sm:text-base"
+                    className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
                 >
                     <span>Claim This Offer</span>
-                    <ArrowRight className="size-5" />
+                    <ArrowRight className="size-4.5" />
                 </button>
             </div>
 
             {/* Security */}
-            <div className="flex items-center justify-center gap-2 px-4 py-4 text-center">
-                <ShieldCheck className="size-5 shrink-0 text-primary" />
+            <div className="flex items-center justify-center gap-2 px-4 py-3">
+                <ShieldCheck className="size-4.5 shrink-0 text-primary" />
 
-                <span className="text-[11px] font-medium text-muted-foreground sm:text-xs">
+                <span className="text-[11px] font-medium text-muted-foreground">
                     Secure Booking - No Hidden Charges
                 </span>
             </div>
@@ -139,17 +136,17 @@ function OfferDetail({
     value?: string
 }) {
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
             <span className="flex size-5 shrink-0 items-center justify-center text-primary">
                 {icon}
             </span>
 
-            <span className="min-w-0 flex-1 text-xs text-muted-foreground sm:text-sm">
+            <span className="min-w-0 flex-1 text-xs text-muted-foreground">
                 {label}
             </span>
 
             {value && (
-                <span className="shrink-0 text-right text-xs font-medium sm:text-sm">
+                <span className="shrink-0 text-right text-xs font-medium">
                     {value}
                 </span>
             )}

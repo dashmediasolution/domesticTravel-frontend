@@ -149,11 +149,11 @@ export default function TravelersReviews({
                             </div>
 
                             <div className="min-w-0">
-                                <h3 className="truncate text-[11px] font-semibold leading-4 text-[#111111]">
+                                <h3 className="truncate text-[16px] font-semibold leading-4 text-[#111111]">
                                     {review.name}
                                 </h3>
 
-                                <p className="text-[9px] leading-3 text-[#555555]">
+                                <p className="text-[11px] leading-3 text-[#555555]">
                                     {review.date}
                                 </p>
                             </div>

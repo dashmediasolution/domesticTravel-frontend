@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { featuredDestination } from "@/constants/destinationData";
-
+import Link from "next/link";
 import {
     Carousel,
     CarouselContent,
@@ -27,7 +27,7 @@ import { Button } from "../ui/button";
 export function FeaturedDestination() {
     const [state, setState] = useState("india");
     const router = useRouter();
-
+    const [favorites, setFavorites] = useState<string[]>([]);
     return (
         <section className="relative bottom-8 w-full px-3 sm:px-5 md:bottom-3 md:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-[1440px]">
@@ -49,7 +49,7 @@ export function FeaturedDestination() {
                         Featured Destinations
                     </h2>
 
-                    {/* <Button
+                    <Button
                         type="button"
                         variant="outline"
                         className="
@@ -72,9 +72,11 @@ export function FeaturedDestination() {
                             lg:text-[15px]
                         "
                     >
-                        View all destinations
+                        <Link href="/explore-destinations">
+                             view all destinations
+                        </Link>
                         <ArrowUpRight className="ml-1.5 h-4 w-4 md:h-5 md:w-5" />
-                    </Button> */}
+                    </Button>
                 </div>
 
                 {/* CAROUSEL */}
@@ -171,20 +173,23 @@ export function FeaturedDestination() {
                                                     "
                                                 >
                                                     <Star
-                                                        className="
-                                                            h-5
-                                                            w-5
-                                                            fill-amber-400
-                                                            stroke-amber-400
-                                                            transition-all
-                                                            duration-300
-                                                            hover:fill-amber-300
-                                                            hover:stroke-amber-300
-                                                            sm:h-6
-                                                            sm:w-6
-                                                        "
-                                                    />
+                                                        className={`h-5 w-5 cursor-pointer transition-all duration-300 sm:h-6 sm:w-6 ${favorites.includes(destination.name)
+                                                                ? "fill-amber-400 stroke-amber-400"
+                                                                : "fill-transparent   hover:fill-amber-300"
+                                                            }`}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
 
+                                                            setFavorites((prev) => {
+                                                                if (prev.includes(destination.name)) {
+                                                                    return prev.filter((name) => name !== destination.name);
+                                                                }
+
+                                                                return [...prev, destination.name];
+                                                            });
+                                                        }}
+                                                    />
                                                     <span className="text-xs font-medium sm:text-sm">
                                                         {destination.rating}
                                                     </span>
@@ -225,12 +230,9 @@ export function FeaturedDestination() {
                                                             sm:text-[24px]
                                                             md:text-[27px]
                                                             lg:text-3xl
+                                                            text-white
                                                         "
-                                                        style={{
-                                                            color: getDestinationTextColor(
-                                                                destination.name
-                                                            ),
-                                                        }}
+
                                                     >
                                                         {destination.name}
                                                     </h3>
@@ -462,27 +464,3 @@ function getStartingPrice(item: (typeof featuredDestination)[number]) {
     return item.packages?.[0]?.startingPrice ?? "₹0";
 }
 
-function getDestinationTextColor(name: string) {
-    switch (name) {
-        case "Himachal Pradesh":
-            return "#023020";
-
-        case "Ladakh":
-            return "#FFFFFF";
-
-        case "Uttarakhand":
-            return "#DEF4FC";
-
-        case "Rajasthan":
-            return "#FAAE2B";
-
-        case "Tamil Nadu":
-            return "#FFFFFF";
-
-        case "Kerala":
-            return "#FFFFFF";
-
-        default:
-            return "#FFFFFF";
-    }
-}
