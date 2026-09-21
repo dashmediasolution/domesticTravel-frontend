@@ -4,7 +4,7 @@ import { ArrowRight, Compass, Construction, MapPin } from "lucide-react";
 
 export default function NotFound() {
     return (
-        <main className="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-[#f5faf8] px-4 py-16 sm:px-6 lg:px-8">
+        <main data-standalone-page className="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-[#f5faf8] px-4 py-16 sm:px-6 lg:px-8">
             <div className="absolute -right-24 top-16 -z-10 h-72 w-72 rounded-full bg-[#c8f1e8] blur-3xl" />
             <div className="absolute -bottom-36 -left-24 -z-10 h-80 w-80 rounded-full bg-[#dcefeb] blur-3xl" />
 

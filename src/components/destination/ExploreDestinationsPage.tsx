@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Search, MapPin, Star, ArrowRight, SlidersHorizontal } from "lucide-react";
+import { MapPin, Star, ArrowRight, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { packageData } from "@/constants/packagesData";
 import { featuredDestination } from "@/constants/destinationData";
+import SearachBar from "@/components/homePage/SerachBar";
 import {
     Pagination,
     PaginationContent,
@@ -22,7 +23,7 @@ export default function ExploreDestinationsPage({
 }: {
     initialSearch?: string;
 }) {
-    const [search, setSearch] = useState(initialSearch);
+    const search = initialSearch;
     const [category, setCategory] = useState("All");
     const [packagePage, setPackagePage] = useState(1);
 
@@ -94,12 +95,7 @@ export default function ExploreDestinationsPage({
     );
 
     return (
-        <main className="
-          relative
-        
-          w-full
-        
-        ">
+        <main className="relative w-full">
             <section className="relative overflow-hidden bg-[#00383b]">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -118,26 +114,13 @@ export default function ExploreDestinationsPage({
                 </div>
             </section>
 
-            <section className="relative mx-auto -mt-8 max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 bottom-7">
-                <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-[0_18px_50px_rgba(20,45,50,0.14)] sm:p-5">
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-                        <label className="relative block flex-1">
-                            <span className="sr-only">Search destinations and packages</span>
-                            <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-[#087c70]" />
-                            <input
-                                value={search}
-                                onChange={(event) => {
-                                    setSearch(event.target.value);
-                                    setPackagePage(1);
-                                }}
-                                placeholder="Search Goa, Manali, beaches..."
-                                className="h-12 w-full rounded-xl border border-neutral-200 bg-white pl-12 pr-4 text-sm outline-none transition focus:border-[#087c70] focus:ring-2 focus:ring-[#087c70]/15"
-                            />
-                        </label>
-                        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                            <SlidersHorizontal className="size-4 text-[#087c70]" />
-                            Filter by category
-                        </div>
+            <section className="relative mx-auto -mt-8 max-w-7xl px-0 pb-16 sm:px-2 lg:px-4">
+                <SearachBar />
+
+                <div className=" rounded-2xl  relative left-6   bg-white p-4   sm:p-5">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                        <SlidersHorizontal className="size-4 text-[#087c70]" />
+                        Filter by category
                     </div>
                     <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
                         {categories.map((item) => (

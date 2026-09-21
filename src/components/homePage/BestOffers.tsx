@@ -27,7 +27,7 @@ interface Offer {
     redirect?:string
 }
 
-const domesticOffers: Offer[] = [
+export const domesticOffers: Offer[] = [
      {
         id: 2,
         destination: "Meghalaya",
@@ -78,7 +78,7 @@ const domesticOffers: Offer[] = [
     },
 ];
 
-const internationalOffers: Offer[] = [
+export const internationalOffers: Offer[] = [
     {
         id: 101,
         destination: "BALI",
@@ -250,7 +250,7 @@ export default function BestOffers() {
                     md:h-[250px]
 
                     lg:h-[286px]
-                    lg:rounded-[24px]
+                lg:rounded-[24px]
                 "
             >
                 {/* Background Image */}
@@ -496,7 +496,7 @@ export default function BestOffers() {
                                 h-8
                                 shrink-0
                                 rounded-full
-                                 bg-primary
+                            
                                 px-2.5
                                 text-[10px]
                                 font-normal
@@ -504,11 +504,13 @@ export default function BestOffers() {
                                 shadow-none
                                 hover:border-primary
                                 hover:bg-primary
+                                bg-primary/80
                                 border-none
                                 sm:h-9
                                 sm:px-3
                                 sm:text-[12px]
-
+                                cursor-pointer
+                                hover:text-white
                                 md:h-10
                                 md:px-4
                                 md:text-[13px]

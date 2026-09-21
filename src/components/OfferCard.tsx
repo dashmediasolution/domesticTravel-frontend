@@ -7,6 +7,7 @@ import {
     CheckCircle,
     ArrowRight,
     ShieldCheck,
+    Phone 
 } from "lucide-react"
 
 type OfferDetails = {
@@ -103,14 +104,14 @@ export default function OfferCard({
 
             {/* Claim button */}
             <div className="mx-4 mt-3 border-t pt-3">
-                <button
-                    type="button"
-                    onClick={onClaim}
+                <a
+                    href="tel:+919876543210"
                     className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
                 >
-                    <span>Claim This Offer</span>
-                    <ArrowRight className="size-4.5" />
-                </button>
+                   
+                   <Phone className="size-4" />
+                    <span>Call Now</span>
+                </a>
             </div>
 
             {/* Security */}

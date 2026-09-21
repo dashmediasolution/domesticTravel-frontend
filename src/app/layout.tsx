@@ -21,10 +21,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="h-full antialiased">
       <body className={`min-h-full flex flex-col ${bebasNeue.variable}`}>
         <Providers>
-          <Navbar />
+          <div className="site-chrome">
+            <Navbar />
+          </div>
           {children}
           <Toaster />
-          <Footer />
+          <div className="site-chrome">
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
+body:has([data-standalone-page]) .site-chrome {
+  display: none;
+}
   
 @custom-variant dark (&:is(.dark *));
 

@@ -16,19 +16,13 @@ import { FaXTwitter } from "react-icons/fa6";
 const companyLinks = [
     {
         label: "About Us",
-        href: "/about",
+        href: "/about-us",
     },
-    {
-        label: "Careers",
-        href: "/careers",
-    },
-    {
-        label: "Press",
-        href: "/press",
-    },
+ 
+ 
     {
         label: "Contact Us",
-        href: "/contact",
+        href: "/contact-us",
     },
 ];
 
@@ -53,12 +47,12 @@ const supportLinks = [
 
 const destinationLinks = [
     {
-        label: "Manali",
-        href: "/destinations/manali",
+        label: "Himachal Paradesh",
+        href: "/destinations/himachal-pradesh",
     },
     {
         label: "Goa",
-        href: "/destinations/goa",
+        href: "/package/goa",
     },
     {
         label: "Kerala",
@@ -70,7 +64,7 @@ const destinationLinks = [
     },
     {
         label: "Kashmir",
-        href: "/destinations/kashmir",
+        href: "/package/kashmir",
     },
 ];
 

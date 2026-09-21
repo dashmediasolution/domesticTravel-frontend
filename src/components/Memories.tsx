@@ -1,147 +1,312 @@
-import { Button } from "./ui/button";
-import Image from "next/image";
+"use client";
+
+import {
+    ArrowRight,
+    BadgeCheck,
+    CalendarCheck,
+    Headphones,
+    ShieldCheck,
+    Sparkles,
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Memories() {
     return (
-        <section className="flex w-full justify-center px-2 py-4 sm:px-0 sm:py-6">
+        <section className="w-full  ">
             <div
                 className="
                     relative
-                    flex
-                    min-h-[520px]
-                    w-[94%]
-                    flex-col
+                    mx-auto
+                    min-h-[430px]
+                    w-full
+                    max-w-[95%]
                     overflow-hidden
                     rounded-2xl
+                    border
+                  
+                    bg-[#00383B]
                     bg-cover
                     bg-center
                     bg-no-repeat
-                    sm:min-h-[500px]
+                    sm:min-h-[390px]
                     sm:rounded-3xl
-                    lg:h-[446px]
-                    lg:min-h-0
-                    lg:flex-row
+                    md:min-h-[410px]
+                    lg:min-h-[446px]
                 "
                 style={{
-                    backgroundImage: "url('/images/memoryBackground.png')",
+                    backgroundImage:
+                        "url('/images/CTABanner.png')",
                 }}
             >
-                {/* Dark Overlay */}
-                <div
-                    className="
-                        absolute
-                        inset-0
-                        bg-gradient-to-r
-                        from-black/75
-                        via-black/30
-                        to-black/5
-                        lg:from-black/75
-                        lg:via-black/25
-                        lg:to-transparent
-                    "
-                />
-
+                {/* Dark Gradient */}
+                
+ <div
+        className="
+          absolute
+          inset-0
+          z-10
+          bg-linear-to-tr
+          from-black/50
+          via-black/20
+          via-30%
+          to-transparent
+        "
+      />
+            
                 {/* Content */}
                 <div
                     className="
                         relative
                         z-10
                         flex
+                        min-h-[430px]
                         w-full
                         flex-col
-                        items-start
-                        px-6
-                        pb-4
-                        pt-10
-                        text-white
-                        sm:px-10
-                        sm:pt-12
-                        lg:w-[50%]
-                        lg:justify-center
-                        lg:px-0
-                        lg:py-0
-                        lg:pl-12
-                        xl:pl-20
+                        justify-center
+                        px-5
+                        py-8
+                        sm:min-h-[390px]
+                        sm:px-8
+                        sm:py-10
+                        md:min-h-[410px]
+                        md:px-10
+                        lg:min-h-[446px]
+                        lg:w-[62%]
+                        lg:px-12
+                        xl:px-14
                     "
                 >
+                    {/* Small Heading */}
                     <p
                         className="
-                            font-mono
-                            text-[2.5rem]
-                            font-bold
+                            text-2xl
+                            font-medium
+                            italic
                             leading-none
-                            sm:text-[3.5rem]
-                            lg:text-[4rem]
+                            tracking-wide
+                            text-white
+                            sm:text-3xl
+                            md:text-[2.6rem]
+                            lg:text-[2rem]
                         "
+                        style={{
+                            fontFamily: "cursive",
+                        }}
                     >
-                        Memories for Life
+                        Your Next Adventure
                     </p>
 
+                    {/* Main Heading */}
+                    <h2
+                        className="
+                            mt-1
+                            text-4xl
+                             uppercase
+                            leading-[0.9]
+                            tracking-tight
+                            text-white
+                            sm:text-5xl
+                            font-medium
+                            md:text-6xl
+                            lg:text-7xl
+                            xl:text-[5.5rem]
+                        "
+                    >
+                        Awaits You!
+                    </h2>
+
+                    {/* Description */}
                     <p
                         className="
                             mt-4
-                            max-w-[420px]
-                            font-mono
-                            text-lg
-                            leading-7
-                            sm:text-2xl
-                            sm:leading-9
-                            lg:mt-5
-                            lg:text-[2rem]
-                            lg:leading-10
+                            max-w-[430px]
+                            text-[11px]
+                            leading-relaxed
+                            text-white/85
+                            sm:mt-5
+                            sm:text-xs
+                            md:text-sm
+                            lg:text-[16px]
                         "
                     >
-                        Capture beautiful moments and cherish them forever
+                        Explore breathtaking destinations across India
+                        <br className="hidden sm:block" />
+                        with handpicked experiences and best deals.
                     </p>
 
-                    {/* <Button
+                    {/* Features */}
+                    <div
                         className="
                             mt-5
-                            max-w-fit
-                            rounded-full
-                            bg-white
-                            px-5
-                            py-5
-                            text-sm
-                            text-primary
-                            hover:bg-primary
-                            hover:text-white
+                            flex
+                            max-w-[500px]
+                            flex-wrap
+                            items-center
+                            gap-x-3
+                            gap-y-3
                             sm:mt-6
-                            sm:px-6
-                            sm:py-6
-                            sm:text-base
+                            sm:gap-x-4
+                            md:gap-x-5
                         "
                     >
-                        Explore Gallery
-                    </Button> */}
+                        {/* Best Prices */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/70 sm:size-8">
+                                <Sparkles className="size-3.5 text-primary sm:size-4" />
+                            </div>
+
+                            <span className="text-[8px] font-medium leading-tight text-white sm:text-[12px]">
+                                Best
+                                <br />
+                                Prices
+                            </span>
+                        </div>
+
+                        <div className="hidden h-8 w-px bg-white/30 sm:block" />
+
+                        {/* Safe & Secure */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/70 sm:size-8">
+                                <ShieldCheck className="size-3.5 text-primary sm:size-4" />
+                            </div>
+
+                            <span className="text-[8px] font-medium leading-tight text-white sm:text-[12px]">
+                                Safe &
+                                <br />
+                                Secure
+                            </span>
+                        </div>
+
+                        <div className="hidden h-8 w-px bg-white/30 sm:block" />
+
+                        {/* Support */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/70 sm:size-8">
+                                <Headphones className="size-3.5 text-primary sm:size-4" />
+                            </div>
+
+                            <span className="text-[8px] font-medium leading-tight text-white sm:text-[12px]">
+                                24×7
+                                <br />
+                                Support
+                            </span>
+                        </div>
+
+                        <div className="hidden h-8 w-px bg-white/30 sm:block" />
+
+                        {/* Easy Booking */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/70 sm:size-8">
+                                <CalendarCheck className="size-3.5 text-white   sm:size-4" fill="primar" />
+                            </div>
+
+                            <span className="text-[8px] font-medium leading-tight text-white sm:text-[12px]">
+                                Easy
+                                <br />
+                                Booking
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="mt-6 sm:mt-7">
+                        <Link href="/explore-destinations">
+                        <Button
+                            type="button"
+                            className="
+                                h-9
+                                rounded-md
+                                bg-primary
+                                px-4
+                                text-[10px]
+                                cursor-pointer
+                                font-bold
+                                uppercase
+                                text-white
+                                shadow-md
+                                transition-all
+                                hover:bg-primary
+                                hover:shadow-lg
+                                sm:h-10
+                                sm:px-5
+                                sm:text-[11px]
+                            "
+                        >
+                            Explore Packages
+                            <ArrowRight className="ml-1.5 size-3.5 sm:size-4" />
+                        </Button>
+                        </Link>
+                    </div>
                 </div>
 
-                {/* Image */}
+                {/* Memories Badge */}
                 <div
                     className="
-                        relative
-                        z-10
-                        h-[240px]
-                        w-full
-                        shrink-0
-                        sm:h-[280px]
-                        lg:h-full
-                        lg:w-[50%]
+                        absolute
+                        right-3
+                        top-4
+                        z-20
+                        flex
+                        size-[82px]
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-white/80
+                        bg-white/90
+                        shadow-lg
+                        backdrop-blur-sm
+                        sm:right-6
+                        sm:top-6
+                        sm:size-[100px]
+                        md:right-8
+                        md:top-8
+                        md:size-[115px]
+                        lg:right-8
+                        lg:top-8
+                        lg:size-[125px]
+                        xl:right-12
+                        xl:top-10
                     "
                 >
-                    <Image
-                        src="/images/memories.png"
-                        alt="Wander India travel map"
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                    <div
                         className="
-                            cursor-pointer
-                            object-contain
-                            px-4
-                            sm:px-8
-                            lg:px-0
+                            flex
+                            size-[68px]
+                            flex-col
+                            items-center
+                            justify-center
+                            rounded-full
+                            border
+                            border-[#00383B]/30
+                            text-center
+                            sm:size-[84px]
+                            md:size-[98px]
+                            lg:size-[108px]
                         "
-                    />
+                    >
+                        <BadgeCheck className="mb-0.5 size-4 text-[#00383B] sm:size-5" />
+
+                        <span className="text-[8px] font-bold uppercase leading-tight text-[#00383B] sm:text-[9px] md:text-[10px]">
+                            Memories
+                            <br />
+                            That Last
+                        </span>
+
+                        <span
+                            className="
+                                mt-0.5
+                                text-[10px]
+                                italic
+                                text-primary
+                                sm:text-xs
+                                md:text-sm
+                            "
+                        >
+                            A Lifetime
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>

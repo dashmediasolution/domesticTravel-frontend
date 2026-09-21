@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Menu, Search, Phone, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import {
@@ -20,6 +21,7 @@ import { FiMapPin } from "react-icons/fi";
 import { FaRegBuilding, FaUmbrellaBeach } from "react-icons/fa";
 
 export default function Navbar() {
+    const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -228,18 +230,22 @@ export default function Navbar() {
                             <NavigationMenuItem>
                                      <Link
                                         href="/flights"
-                                        className="
+                                        className={`
                                             flex
                                             items-center
                                             gap-2
-                                            rounded-md
+                                            
                                             px-3
+                                            py-1.5
                                              text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
                                             hover:text-primary
-                                        "
+                                            ${pathname === "/flights"
+                                                ? "border-b-2 border-b-primary"
+                                                : "border-b-2 border-b-transparent"}
+                                        `}
                                     >
                                         <TbPlaneInflight className="h-5 w-5" />
                                         Flights
@@ -250,18 +256,22 @@ export default function Navbar() {
                             <NavigationMenuItem>
                                      <Link
                                         href="/hotels"
-                                        className="
+                                        className={`
                                             flex
                                             items-center
                                             gap-2
-                                            rounded-md
+
                                             px-3
+                                            py-1.5
                                              text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
                                             hover:text-primary
-                                        "
+                                            ${pathname === "/hotels"
+                                                ? "border-b-2 border-b-primary"
+                                                : "border-b-2 border-b-transparent"}
+                                        `}
                                     >
                                         <FaRegBuilding className="h-5 w-5" />
                                         Hotels
@@ -272,18 +282,21 @@ export default function Navbar() {
                             <NavigationMenuItem>
                                      <Link
                                         href="/bus"
-                                        className="
+                                        className={`
                                             flex
                                             items-center
                                             gap-2
-                                            rounded-md
                                             px-3
+                                            py-1.5
                                              text-[15px]
                                             font-medium
                                             transition-colors
                                             hover:bg-white/10
                                             hover:text-primary
-                                        "
+                                            ${pathname === "/bus"
+                                                ? "border-b-2 border-b-primary"
+                                                : "border-b-2 border-b-transparent"}
+                                        `}
                                     >
                                         <IoBusOutline className="h-5 w-5" />
                                         Bus
@@ -293,7 +306,7 @@ export default function Navbar() {
                             {/* ================= CATEGORIES ================= */}
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger
-                                    className="
+                                    className={`
                                         bg-transparent
                                         text-[15px]
                                         font-medium
@@ -301,7 +314,7 @@ export default function Navbar() {
                                         hover:text-primary
                                         data-[state=open]:bg-white/10
                                         data-[state=open]:text-primary
-                                    "
+                                    `}
                                 >
                                     <FaUmbrellaBeach className="mr-2 h-5 w-5" />
                                     Categories
@@ -532,12 +545,12 @@ export default function Navbar() {
                                     onClick={() =>
                                         setMobileMenuOpen(false)
                                     }
-                                    className="
+                                    className={`
                                         flex
                                         min-h-12
                                         items-center
                                         gap-3
-                                        rounded-xl
+                                        rounded-none
                                         px-3
                                         text-[15px]
                                         font-medium
@@ -545,7 +558,10 @@ export default function Navbar() {
                                         transition-colors
                                         hover:bg-black/5
                                         hover:text-primary
-                                    "
+                                        ${pathname === item.href
+                                            ? "border-b-2 border-b-primary"
+                                            : "border-b-2 border-b-transparent"}
+                                    `}
                                 >
                                     {item.icon}
                                     <span>{item.label}</span>
