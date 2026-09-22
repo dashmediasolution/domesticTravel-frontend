@@ -135,7 +135,7 @@ export default function UpcomingPackages() {
                     >
                         Browse Upcoming Packages
                     </h2>
-{/* 
+                    {/* 
                     <Button
                         type="button"
                         variant="outline"
@@ -466,38 +466,39 @@ export default function UpcomingPackages() {
                                                     size="icon"
                                                     variant="outline"
                                                     className="
-                                                        h-8
-                                                        w-8
-                                                        rounded-full
-                                                        border
-                                                        border-white
-                                                        bg-transparent
-                                                        text-white
-                                                        shadow-none
-                                                        hover:bg-white
-                                                        hover:text-[#20BFAF]
+                                                    h-8
+                                                    w-8
+                                                    rounded-full
+                                                    border
+                                                    border-white
+                                                    bg-transparent
+                                                    text-white
+                                                    shadow-none
+                                                    hover:bg-white
+                                                    hover:text-[#20BFAF]
 
-                                                        sm:h-9
-                                                        sm:w-9
+                                                    sm:h-9
+                                                    sm:w-9
 
-                                                        md:h-10
-                                                        md:w-10
-                                                    "
+                                                    md:h-10
+                                                    md:w-10
+                                                "
                                                     onClick={(event) => {
                                                         event.stopPropagation();
+                                                        window.location.href = "tel:+919876543210";
                                                     }}
                                                 >
                                                     <Phone
                                                         className="
-                                                            h-3.5
-                                                            w-3.5
+            h-3.5
+            w-3.5
 
-                                                            sm:h-4
-                                                            sm:w-4
+            sm:h-4
+            sm:w-4
 
-                                                            md:h-5
-                                                            md:w-5
-                                                        "
+            md:h-5
+            md:w-5
+        "
                                                     />
                                                 </Button>
 
@@ -523,7 +524,7 @@ export default function UpcomingPackages() {
                                                         md:h-10
                                                         md:w-10
                                                     "
-                                                    
+
                                                 >
                                                     <ArrowUpRight
                                                         className="

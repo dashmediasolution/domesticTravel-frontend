@@ -91,10 +91,10 @@ export default function BannerCarousel({
                                 key={banner.id}
                                 className="basis-full pl-0"
                             >
-                                <Link
+                                {/* <Link
                                     href={banner.redirectUrl}
                                     className="block"
-                                >
+                                > */}
                                     <div
                                         className={`
                                             relative
@@ -103,7 +103,7 @@ export default function BannerCarousel({
                                                 height ??
                                                 "h-[150px] sm:h-[200px] md:h-[260px] lg:h-[340px]"
                                             }
-                                            cursor-pointer
+                      
                                             overflow-hidden
                                             rounded-[20px]
                                             sm:rounded-[24px]
@@ -130,7 +130,7 @@ export default function BannerCarousel({
 
                                       
                                     </div>
-                                </Link>
+                                {/* </Link> */}
                             </CarouselItem>
                         ))}
                     </CarouselContent>

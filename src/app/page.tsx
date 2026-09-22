@@ -10,6 +10,8 @@ import ExploreIndia from "@/components/homePage/ExploreIndia";
 import WhyChooseUs from "@/components/homePage/WhyChooseUs";
 import BestOffers from "@/components/homePage/BestOffers";
 import HeroSection from "@/components/homePage/HeroSection";
+import Memories from "@/components/Memories";
+import TravelersReviews from "@/components/Reviews";
 const firstBanner: Banner[] = [
   {
     id: 1,
@@ -74,7 +76,7 @@ export default function Home() {
   return (
     <div className="flex gap-5 flex-col">
       <HeroSection />
-      <SearachBar bottomPosition="3.5"/>
+      <SearachBar bottomPosition="3.5" />
       <FeaturedDestination />
       <BrowseByCategory />
       <BannerCarousel banners={firstBanner} />
@@ -86,6 +88,21 @@ export default function Home() {
       <BannerCarousel banners={thirdBanner} />
       <TravelStories />
       <WhyChooseUs />
+      <div className="w-full flex justify-center items-center mb-10">
+        <div className="w-[95%] flex justify-center items-center">
+          <TravelersReviews />
+        </div>
+      </div>
+      <Memories />
     </div>
   );
 }
+
+
+/* 
+    Web Dev - MERN 
+    Devops
+    AI
+
+      
+*/

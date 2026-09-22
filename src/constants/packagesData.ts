@@ -3016,17 +3016,27 @@ export const packageData = [
                 gallery: [
                     {
                         src:
-                            "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=3840&q=90",
+                            "https://images.unsplash.com/photo-1752667846611-3fde4d558226?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bXVzc29vcmllfGVufDB8MHwwfHx8MA%3D%3D",
                         alt: "Scenic mountain landscape around Mussoorie",
                     },
                     {
                         src:
-                            "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=3840&q=90",
+                            "https://images.unsplash.com/photo-1648108604681-033db106ec5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
                         alt: "Mountain scenery in Uttarakhand",
                     },
                     {
                         src:
-                            "https://images.unsplash.com/photo-1623059486795-6c9f7b5b6f6b?auto=format&fit=crop&w=3840&q=90",
+                            "https://images.unsplash.com/photo-1606586593596-5308e16d0a48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzc29vcmllfGVufDB8MHwwfHx8MA%3D%3D",
+                        alt: "Himalayan landscape near Mussoorie",
+                    },
+                    {
+                            src:
+                            "https://images.unsplash.com/photo-1596788455520-88b30834d8ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODh8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
+                        alt: "Himalayan landscape near Mussoorie",
+                    },
+                       {
+                            src:
+                    "https://images.unsplash.com/photo-1696070188645-67be6a7a8124?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
                         alt: "Himalayan landscape near Mussoorie",
                     },
                 ],
@@ -3378,7 +3388,7 @@ export const packageData = [
                     {
                         label: "Nearest Airport",
                         value: "Pantnagar Airport",
-                        icon: "plane"
+                        icon: "airport"
                     },
                     {
                         label: "Nearest Railway",
@@ -3393,17 +3403,17 @@ export const packageData = [
                     {
                         label: "Languages",
                         value: "Hindi, English & Kumaoni",
-                        icon: "languages"
+                        icon: "language"
                     },
                     {
                         label: "Permits",
                         value: "Generally Not Required",
-                        icon: "file-check"
+                        icon: "filecheck"
                     },
                     {
                         label: "Currency",
                         value: "Indian Rupee (INR)",
-                        icon: "indian-rupee"
+                        icon: "indianrupee"
                     }
                 ],
 
@@ -3445,11 +3455,11 @@ export const packageData = [
                 packingItems: [
                     {
                         label: "Warm Clothes",
-                        icon: "Shirt"
+                        icon: "clothes"
                     },
                     {
                         label: "Light Jacket",
-                        icon: "Wind"
+                        icon: "clothes"
                     },
                     {
                         label: "Comfortable Walking Shoes",
@@ -3457,15 +3467,15 @@ export const packageData = [
                     },
                     {
                         label: "Sunglasses & Sunscreen",
-                        icon: "Sun"
+                        icon: "sunglasses"
                     },
                     {
                         label: "Power Bank & ID",
-                        icon: "BatteryCharging"
+                        icon: "powerbank"
                     },
                     {
                         label: "Personal Medicines",
-                        icon: "Pill"
+                        icon: "medicine"
                     }
                 ],
 
@@ -3648,7 +3658,7 @@ export const packageData = [
                     {
                         label: "Nearest Airport",
                         value: "Jolly Grant Airport, Dehradun",
-                        icon: "plane"
+                        icon: "airport"
                     },
                     {
                         label: "Nearest Railway",
@@ -3668,12 +3678,12 @@ export const packageData = [
                     {
                         label: "Yatra Registration",
                         value: "Required",
-                        icon: "file-check"
+                        icon: "filecheck"
                     },
                     {
                         label: "Currency",
                         value: "Indian Rupee (INR)",
-                        icon: "indian-rupee"
+                        icon: "indianrupee"
                     }
                 ],
 
@@ -3715,7 +3725,7 @@ export const packageData = [
                 packingItems: [
                     {
                         label: "Warm Clothes",
-                        icon: "Shirt"
+                        icon: "clothes"
                     },
                     {
                         label: "Waterproof Rain Jacket",
@@ -3727,15 +3737,15 @@ export const packageData = [
                     },
                     {
                         label: "Sunglasses & Sunscreen",
-                        icon: "Sun"
+                        icon: "sunglasses"
                     },
                     {
                         label: "Power Bank & ID",
-                        icon: "BatteryCharging"
+                        icon: "powerbank"
                     },
                     {
                         label: "Personal Medicines",
-                        icon: "Pill"
+                        icon: "medicine"
                     }
                 ],
 
@@ -3938,7 +3948,32 @@ export const packageData = [
                         icon: "currency",
                     },
                 ],
-
+   packingItems: [
+                    {
+                        label: "Comfortable Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Light Jacket",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Binoculars & Camera",
+                        icon: "camera",
+                    },
+                    {
+                        label: "Personal Medicines & ID",
+                        icon: "medicine",
+                    },
+                ],
                 activities: [
                     {
                         text: "Jeep Safari",
@@ -3974,32 +4009,7 @@ export const packageData = [
                     },
                 ],
 
-                packingItems: [
-                    {
-                        label: "Comfortable Cotton Clothes",
-                        icon: "clothes",
-                    },
-                    {
-                        label: "Light Jacket",
-                        icon: "clothes",
-                    },
-                    {
-                        label: "Comfortable Walking Shoes",
-                        icon: "shoes",
-                    },
-                    {
-                        label: "Sunglasses & Sunscreen",
-                        icon: "sunglasses",
-                    },
-                    {
-                        label: "Binoculars & Camera",
-                        icon: "camera",
-                    },
-                    {
-                        label: "Personal Medicines & ID",
-                        icon: "medicine",
-                    },
-                ],
+               
 
                 itinerary: [
                     {

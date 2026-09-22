@@ -265,6 +265,24 @@ export default function HeroSection() {
                             REMEMBER
                         </span>
                     </p>
+                    <h1
+                        className={`
+                            ${oswald.className}
+                            max-w-[700px]
+                            text-[29px]
+                            font-semibold
+                            uppercase
+                            leading-[1.1]
+                            tracking-[0.5px]
+                            text-white      
+                            sm:text-[38px]
+                            md:text-[50px]
+                            lg:text-[60px]
+                            xl:text-[70px]
+                        `}
+                    >
+                        Discover <br /> Incredible India!
+                    </h1>
                     <motion.div
                         key={activeDestination.id}
                         initial={{
@@ -293,25 +311,7 @@ export default function HeroSection() {
                             HEADING
                         ========================================== */}
 
-                        <h1
-                            className={`
-        ${oswald.className}
-        max-w-[700px]
-        text-[29px]
-        font-semibold
-        uppercase
-        leading-[1.1]
-        tracking-[0.5px]
-        text-white
-                    
-        sm:text-[38px]
-        md:text-[50px]
-        lg:text-[60px]
-        xl:text-[70px]
-    `}
-                        >
-                            Discover <br /> Incredible India!
-                        </h1>
+
 
                         {/* ==========================================
                             DESCRIPTION

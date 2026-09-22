@@ -72,7 +72,7 @@ export default function PackageDestination() {
                 locationSlug?.toLowerCase()
         ) ??
         (packageDestination.name.toLowerCase().replace(/\s+/g, "-") ===
-        locationSlug?.toLowerCase()
+            locationSlug?.toLowerCase()
             ? packageDestination.packages[0]
             : undefined);
 
@@ -104,20 +104,55 @@ export default function PackageDestination() {
         setActiveImage(null);
     };
 
-  
+
     const gallery = selectedPackage?.gallery
-const gallerySlides = gallery.map((image) => ({
-    src: image.src,
-    alt: image.alt || "Gallery image",
-}));
+    const gallerySlides = gallery.map((image) => ({
+        src: image.src,
+        alt: image.alt || "Gallery image",
+    }));
     return (
         <main className="w-full bg-white flex flex-col justify-center items-center gap-10">
             <section className="relative w-full">
-                <DestinationHero
-                    destination={selectedPackage}
-                />
+                {/* Hero */}
+                <DestinationHero destination={selectedPackage} />
 
-                <div className="absolute inset-y-0 right-10 z-20 flex w-[25%] items-center">
+                {/* Desktop Offer Card */}
+                <div
+                    className="
+                          absolute
+                          right-4
+                          top-1/2
+                          z-30
+                          hidden
+                          w-[280px]
+                          -translate-y-1/2
+                          lg:block
+                          xl:right-8
+                          xl:w-[320px]
+                          2xl:right-12
+                          2xl:w-[350px]
+                      "
+                >
+                    <OfferCard details={packageDetails} />
+                </div>
+            </section>
+
+            {/* Mobile + Tablet Offer Card */}
+            <section
+                className="
+                      relative
+                      z-30
+                      block
+                      w-full
+                      bg-white
+                      px-3
+               
+                      sm:px-6
+                     
+                      lg:hidden
+                  "
+            >
+                <div className="mx-auto w-full max-w-2xl">
                     <OfferCard details={packageDetails} />
                 </div>
             </section>
@@ -154,7 +189,7 @@ const gallerySlides = gallery.map((image) => ({
                                 type="button"
                                 onClick={() => openGallery(0)}
                                 className="group cursor-pointer relative col-span-12 h-65 overflow-hidden rounded-[20px] text-left sm:h-75 lg:col-span-7 lg:h-76.25"
-                             >
+                            >
                                 <Image
                                     src={gallery[0].src}
                                     alt={"gallery"}
@@ -374,11 +409,11 @@ const gallerySlides = gallery.map((image) => ({
 
             <Memories />
             <Lightbox
-    open={activeImage !== null}
-    close={closeGallery}
-    index={activeImage ?? 0}
-    slides={gallerySlides}
-/>
+                open={activeImage !== null}
+                close={closeGallery}
+                index={activeImage ?? 0}
+                slides={gallerySlides}
+            />
         </main>
     );
 }

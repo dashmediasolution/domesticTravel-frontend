@@ -2,22 +2,20 @@
 
 import Image from "next/image";
 import { BusFront, MessageCircle } from "lucide-react";
-
+import Link from "next/link";
 interface TravelHelpBannerProps {
     title: string;
     description: string;
     image: string;
     buttonText?: string;
-    onButtonClick?: () => void;
-}
+ }
 
 export function TravelHelpBanner({
     title,
     description,
     image,
     buttonText = "Contact Us",
-    onButtonClick,
-}: TravelHelpBannerProps) {
+ }: TravelHelpBannerProps) {
     return (
         <section className="w-full   mb-12">
             <div className="relative mx-auto w-full max-w-[95%] overflow-hidden rounded-xl sm:rounded-2xl">
@@ -65,21 +63,21 @@ export function TravelHelpBanner({
                         </div>
 
                         {/* Button */}
+                        <Link href="/contact-us">
                         <button
                             type="button"
-                            onClick={onButtonClick}
-                            className="hidden shrink-0 items-center gap-1.5 rounded-full cursor-pointer bg-primary px-4 py-2 text-[10px] font-semibold text-white transition-colors hover:bg-primary sm:flex sm:px-5 sm:py-2.5 sm:text-xs"
+                             className="hidden shrink-0 items-center gap-1.5 rounded-full cursor-pointer bg-primary px-4 py-2 text-[10px] font-semibold text-white transition-colors hover:bg-primary sm:flex sm:px-5 sm:py-2.5 sm:text-xs"
                         >
                             <MessageCircle className="size-3.5 sm:size-4" />
                             {buttonText}
                         </button>
+                        </Link>
                     </div>
 
                     {/* Mobile Button */}
                     <button
                         type="button"
-                        onClick={onButtonClick}
-                        className="absolute bottom-3 right-4 flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[9px] font-semibold text-[#00383B] transition-colors hover:bg-primary  sm:hidden"
+                         className="absolute bottom-3 right-4 flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[9px] font-semibold text-[#00383B] transition-colors hover:bg-primary  sm:hidden"
                     >
                         <MessageCircle className="size-3" />
                         {buttonText}

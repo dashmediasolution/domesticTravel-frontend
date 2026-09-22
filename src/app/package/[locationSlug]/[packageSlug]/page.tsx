@@ -93,43 +93,57 @@ export default function PackageDestination() {
         setActiveImage(index);
     };
 
-    const closeGallery = () => {
-        setActiveImage(null);
-    };
-
-    const nextImage = () => {
-        if (activeImage === null || gallery.length === 0) {
-            return;
-        }
-
-        setActiveImage(
-            (activeImage + 1) % gallery.length
-        );
-    };
-
-    const previousImage = () => {
-        if (activeImage === null || gallery.length === 0) {
-            return;
-        }
-
-        setActiveImage(
-            (activeImage - 1 + gallery.length) %
-            gallery.length
-        );
-    };
+  
+  
     const gallery = selectedPackage?.gallery
 
     return (
         <main className="w-full bg-white flex flex-col justify-center items-center gap-10">
-            <section className="relative w-full">
-                <DestinationHero
-                    destination={selectedPackage}
-                />
+         <section className="relative w-full">
+        {/* Hero */}
+        <DestinationHero destination={selectedPackage} />
 
-                <div className="absolute inset-y-0 right-10 z-20 flex w-[25%] items-center">
-                    <OfferCard details={packageDetails} />
-                </div>
-            </section>
+        {/* Desktop Offer Card */}
+        <div
+            className="
+                absolute
+                right-4
+                top-1/2
+                z-30
+                hidden
+                w-[280px]
+                -translate-y-1/2
+                lg:block
+                xl:right-8
+                xl:w-[320px]
+                2xl:right-12
+                2xl:w-[350px]
+            "
+        >
+            <OfferCard details={packageDetails} />
+        </div>
+    </section>
+
+    {/* Mobile + Tablet Offer Card */}
+    <section
+        className="
+            relative
+            z-30
+            block
+            w-full
+            bg-white
+            px-3
+     
+            sm:px-6
+           
+            lg:hidden
+        "
+    >
+        <div className="mx-auto w-full max-w-2xl">
+            <OfferCard details={packageDetails} />
+        </div>
+    </section>
+
             {selectedPackage.activities.length > 0 && (
                 <div className="w-[91%]">
 

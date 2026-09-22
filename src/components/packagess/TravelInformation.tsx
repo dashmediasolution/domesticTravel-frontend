@@ -11,8 +11,9 @@ import {
     Shirt,
     Sun,
     Footprints,
-    BatteryCharging,
-    Pill,
+    BatteryCharging,IndianRupee,
+    Pill,Car,FileCheck,Train,
+    CloudRain
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +45,12 @@ const travelIcons = {
     language: Languages,
     permit: IdCard,
     currency: WalletCards,
+    indianrupee:IndianRupee,
+    car:Car,
+    Footprints:Footprints,
+    filecheck:FileCheck,
+    train:Train
+   
 };
 
 const packingIcons = {
@@ -52,6 +59,9 @@ const packingIcons = {
     shoes: Footprints,
     powerbank: BatteryCharging,
     medicine: Pill,
+    CloudRain:CloudRain,
+    Footprints:Footprints
+    
 };
 
 export default function TravelInformation({
@@ -66,7 +76,7 @@ export default function TravelInformation({
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
     const googleMapEmbedUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=12&output=embed`;
-
+    console.log(travelInfo)
     return (
         <section
             className={cn(
@@ -87,8 +97,8 @@ export default function TravelInformation({
                             item.icon as keyof typeof travelIcons
                             ];
 
+                            console.log(item,"sdfsdf")
                         if (!Icon) return null;
-
                         return (
                             <div
                                 key={`${item.label}-${index}`}

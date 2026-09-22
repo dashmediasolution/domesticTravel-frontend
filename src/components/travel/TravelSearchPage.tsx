@@ -537,9 +537,7 @@ export default function TravelSearchPage({
 
             <TravelHelpBanner
                 {...helpBannerConfig[service]}
-                onButtonClick={() => {
-                    console.log("Open chat");
-                }}
+               
             />
             <div className="flex w-full flex-col items-center justify-center gap-7  ">
                 <BlogSection />

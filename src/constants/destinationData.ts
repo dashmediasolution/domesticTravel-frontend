@@ -795,7 +795,7 @@ export const featuredDestination: FeaturedDestination[] = [
             subtitle: "The Land of Mountains & Spirituality",
 
             heroImage:
-                "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=2400&q=90",
+                "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
             rating: "4.9",
             reviews: "2.8k",
@@ -968,7 +968,7 @@ export const featuredDestination: FeaturedDestination[] = [
             gallery: [
                 {
                     src:
-                        "https://images.unsplash.com/photo-1706963336286-029a26cd7810?auto=format&fit=crop&w=3840&q=90",
+                        "https://images.unsplash.com/photo-1596021688656-35fdc9ed0274?q=80&w=1043&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                     title: "Rishikesh",
                     location: "Uttarakhand",
                 },
