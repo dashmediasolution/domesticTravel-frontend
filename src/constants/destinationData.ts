@@ -435,7 +435,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹12,500",
                 rating: "4.7",
             },
-       
+
         ],
     },
     {
@@ -964,7 +964,7 @@ export const featuredDestination: FeaturedDestination[] = [
                     icon: "medicine",
                 },
             ],
-
+            //130+50+30 210*2 420*26 
             gallery: [
                 {
                     src:
@@ -1120,11 +1120,11 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹16,000",
                 rating: "4.9",
             },
-             {
+            {
                 id: "Jim Corbett",
                 name: "Jim Corbett",
-                imageUrl:"https://images.unsplash.com/photo-1765375906788-3526ea224645?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                   
+                imageUrl: "https://images.unsplash.com/photo-1765375906788-3526ea224645?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
                 textColor: "#FFFFFF",
                 startingPrice: "₹13,999",
                 rating: "4.9",
@@ -1765,7 +1765,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹12,000",
                 rating: "4.8",
             },
-            
+
         ],
     },
 
@@ -1846,7 +1846,7 @@ export const featuredDestination: FeaturedDestination[] = [
                         months: "Jun - Sep",
                         description:
                             "Monsoon rains bring lush greenery, waterfalls and rejuvenated landscapes.",
-                             icon: "monsoon",
+                        icon: "monsoon",
                     },
                 ],
             },

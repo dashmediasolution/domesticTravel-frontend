@@ -94,7 +94,7 @@ export default function Memories() {
                             fontFamily: "cursive",
                         }}
                     >
-                        Your Next Adventure
+                        Your Next Adventure 
                     </p>
 
                     {/* Main Heading */}

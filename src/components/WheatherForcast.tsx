@@ -140,55 +140,55 @@ export default function WeatherForecast({ destination, latitude, longitude, clas
             )}
 
             {!loading && !error && (
-               <div className="w-full min-w-0 overflow-x-auto thin-scrollbar">
-    <div className="flex w-max gap-4 pb-1">
-        {weather.map((day, index) => {
-            const info = getWeatherInfo(day.weatherCode);
-            const Icon = info.icon;
+                <div className="w-full min-w-0 overflow-x-auto thin-scrollbar">
+                    <div className="flex w-max gap-4 pb-1">
+                        {weather.map((day, index) => {
+                            const info = getWeatherInfo(day.weatherCode);
+                            const Icon = info.icon;
 
-            return (
-                <div
-                    key={day.date}
-                    className="relative h-[166px] w-[194px] shrink-0 overflow-hidden rounded-[24px] border border-slate-200 bg-white px-5 py-4"
-                >
-                    <Icon
-                        size={42}
-                        strokeWidth={1.8}
-                        className={cn(
-                            "absolute -right-1 -top-1",
-                            info.color
-                        )}
-                    />
+                            return (
+                                <div
+                                    key={day.date}
+                                    className="relative h-[166px] w-[194px] shrink-0 overflow-hidden rounded-[24px] border border-slate-200 bg-white px-5 py-4"
+                                >
+                                    <Icon
+                                        size={42}
+                                        strokeWidth={1.8}
+                                        className={cn(
+                                            "absolute -right-1 -top-1",
+                                            info.color
+                                        )}
+                                    />
 
-                    <p className="relative z-10 text-base font-medium">
-                        {formatDay(day.date, index)}
-                    </p>
+                                    <p className="relative z-10 text-base font-medium">
+                                        {formatDay(day.date, index)}
+                                    </p>
 
-                    <p className="mt-3 text-2xl font-semibold">
-                        {day.maxTemp}° C
-                    </p>
+                                    <p className="mt-3 text-2xl font-semibold">
+                                        {day.maxTemp}° C
+                                    </p>
 
-                    <p className="mt-3 text-base font-medium">
-                        {info.label}
-                    </p>
+                                    <p className="mt-3 text-base font-medium">
+                                        {info.label}
+                                    </p>
 
-                    <p className="mt-2 text-sm text-slate-400">
-                        {day.minTemp}° C / {day.maxTemp}° C
-                    </p>
+                                    <p className="mt-2 text-sm text-slate-400">
+                                        {day.minTemp}° C / {day.maxTemp}° C
+                                    </p>
 
-                    <Icon
-                        size={34}
-                        strokeWidth={1.5}
-                        className={cn(
-                            "absolute -bottom-3 -left-2 opacity-70",
-                            info.color
-                        )}
-                    />
+                                    <Icon
+                                        size={34}
+                                        strokeWidth={1.5}
+                                        className={cn(
+                                            "absolute -bottom-3 -left-2 opacity-70",
+                                            info.color
+                                        )}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            );
-        })}
-    </div>
-</div>
             )}
         </section>
     );

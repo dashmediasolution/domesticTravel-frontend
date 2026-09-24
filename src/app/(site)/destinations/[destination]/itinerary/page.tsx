@@ -235,7 +235,7 @@ export default async function DetailedItineraryPage({
                             <span className="hidden text-sm font-medium md:block">
                                 +91 98765 43210
                             </span>
-                        </Button>
+                        </Button> 
                     </div>
                 </aside>
             </section>
@@ -255,7 +255,7 @@ export default async function DetailedItineraryPage({
                         </div>
 
                         <Link
-                            href={`/destinations/${destination}`}
+                            href={`/explore-destinations`}
                             className="inline-flex h-11 items-center justify-center rounded-full bg-[#2FC2B0] px-6 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
                         >
                             Explore Destination
