@@ -1,4 +1,4 @@
- 
+
 "use client";
 
 import {
@@ -28,10 +28,8 @@ const reasons = [
         description: (
             <>
                 Get the best prices
-                <br />
-                with no hidden
-                <br />
-                charges.
+                 with no hidden
+                 charges.
             </>
         ),
         icon: CircleDollarSign,
@@ -41,10 +39,10 @@ const reasons = [
         description: (
             <>
                 We work with verified
-                <br />
-                partners for a safe
-                <br />
-                journey.
+                partners to
+                ensure safety.
+
+
             </>
         ),
         icon: Handshake,
@@ -54,23 +52,20 @@ const reasons = [
         description: (
             <>
                 Simple, fast and
-                <br />
-                secure booking
-                <br />
-                experience.
+                 secure booking
+                 experience.
             </>
         ),
         icon: Workflow,
     },
     {
-        title: "24/7 Support",
+        title: "Tailored Support",
         description: (
             <>
                 Our travel experts
-                <br />
-                are always here
-                <br />
-                for you.
+are always here
+for you.
+
             </>
         ),
         icon: PhoneCall,
@@ -134,20 +129,17 @@ export default function WhyTravelWithUs() {
                                     sm:gap-4
                                     sm:py-4
                                     lg:py-0
-                                    ${
-                                        index !== reasons.length - 1
-                                            ? "border-b border-gray-200 lg:border-b-0 lg:border-r"
-                                            : ""
+                                    ${index !== reasons.length - 1
+                                        ? "border-b border-gray-200 lg:border-b-0 lg:border-r"
+                                        : ""
                                     }
-                                    ${
-                                        index !== 0
-                                            ? "lg:pl-6"
-                                            : "lg:pl-0"
+                                    ${index !== 0
+                                        ? "lg:pl-6"
+                                        : "lg:pl-0"
                                     }
-                                    ${
-                                        index !== reasons.length - 1
-                                            ? "lg:pr-6"
-                                            : "lg:pr-0"
+                                    ${index !== reasons.length - 1
+                                        ? "lg:pr-6"
+                                        : "lg:pr-0"
                                     }
                                 `}
                             >
@@ -219,4 +211,4 @@ export default function WhyTravelWithUs() {
         </section>
     );
 }
- 
+

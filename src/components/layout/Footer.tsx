@@ -52,7 +52,11 @@ const supportLinks = [
     },
     {
         label: "Terms & Conditions",
-        href: "/terms",
+        href: "/terms-and-conditions",
+    },
+     {
+        label: "Cancelation & Refund Policy",
+        href: "/cancellation-refund-policy",
     },
 ];
 

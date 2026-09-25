@@ -260,6 +260,7 @@ export default function UpcomingPackages() {
                                         src={item.image}
                                         alt={item.destination}
                                         fill
+                                        unoptimized
                                         sizes="
                                             (max-width: 640px) 88vw,
                                             (max-width: 768px) 70vw,
@@ -553,15 +554,15 @@ export default function UpcomingPackages() {
                     className="
                         mt-4
                         flex
-                        items-center
-                        justify-between
+                        items-end
+                        justify-end
                         gap-2
 
                         sm:mt-6
                     "
                 >
                     {/* DOMESTIC / INTERNATIONAL */}
-                    <div
+                    {/* <div
                         className="
                             flex
                             shrink-0
@@ -634,7 +635,7 @@ export default function UpcomingPackages() {
                         >
                             International
                         </button>
-                    </div>
+                    </div> */}
 
                     {/* PREVIOUS / NEXT */}
                     <div

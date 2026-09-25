@@ -10,8 +10,9 @@ import {
     Sparkles,
     Waves,
     MapPin,
+    Coffee,
     CalendarDays,
-
+Mountain,Ship,Camera,TreePine,Home,
     Waves as Water,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -754,38 +755,7 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹18,000",
                 rating: "4.8",
             },
-            // {
-            //     id: "nubra-valley",
-            //     name: "Nubra Valley",
-            //     imageUrl: "/images/featuredImages/image_3.png",
-            //     textColor: "#FFFFFF",
-            //     startingPrice: "₹21,000",
-            //     rating: "4.9",
-            // },
-            // {
-            //     id: "pangong",
-            //     name: "Pangong Lake",
-            //     imageUrl: "/images/featuredImages/image_4.png",
-            //     textColor: "#FFFFFF",
-            //     startingPrice: "₹20,500",
-            //     rating: "4.9",
-            // },
-            // {
-            //     id: "tso-moriri",
-            //     name: "Tso Moriri",
-            //     imageUrl: "/images/featuredImages/image_6.png",
-            //     textColor: "#FFFFFF",
-            //     startingPrice: "₹23,000",
-            //     rating: "4.8",
-            // },
-            // {
-            //     id: "zanskar",
-            //     name: "Zanskar Valley",
-            //     imageUrl: "/images/featuredImages/image_7.png",
-            //     textColor: "#FFFFFF",
-            //     startingPrice: "₹25,000",
-            //     rating: "4.9",
-            // },
+           
         ],
     },
 
@@ -1765,8 +1735,18 @@ export const featuredDestination: FeaturedDestination[] = [
                 startingPrice: "₹12,000",
                 rating: "4.8",
             },
-
-        ],
+             
+            {
+                id: "rameswaram",
+                name: "Rameswaram",
+                imageUrl:
+        "https://images.unsplash.com/photo-1706932642959-97cdde19ef0b?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                textColor: "#FFFFFF",
+                startingPrice: "₹12,000",
+                rating: "4.8",
+            },
+        ]
+        
     },
 
     {
@@ -2016,4 +1996,976 @@ export const featuredDestination: FeaturedDestination[] = [
             ],
         },
     },
+    {
+    destination: {
+        name: "Karnataka",
+        subtitle: "The Land of Heritage, Hills & Coastlines",
+        heroImage:
+            "https://images.unsplash.com/photo-1606050716461-78add0ad1785?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        rating: "4.8",
+        reviews: "2.9k",
+        packagesCount: "75+ Packages",
+        location: "Karnataka",
+
+        description:
+            "Discover magnificent palaces, ancient temples, misty hill stations, lush forests and beautiful coastlines in the culturally rich state of Karnataka.",
+
+        weather: "15°C - 30°C",
+        idealTrip: "6 - 10 Days",
+        budget: "₹10000 - ₹25000",
+
+        /* ============================================================
+           ATTRACTIONS
+        ============================================================ */
+
+        attractions: [
+            {
+                name: "Bengaluru",
+                stat: "Garden City of India",
+                image:
+                    "https://images.unsplash.com/photo-1644779504736-ed346f96a7bf?q=80&w=941&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Mysore",
+                stat: "City of Palaces",
+                image:
+                    "https://images.unsplash.com/photo-1665376620694-fc0c4bab7294?q=80&w=833&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Coorg",
+                stat: "Scotland of India",
+                image:
+                    "https://images.unsplash.com/photo-1730621697135-fe5772b35889?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Hampi",
+                stat: "Ancient Vijayanagara Ruins",
+                image:
+                    "https://images.unsplash.com/photo-1722934804353-0d9f6a55ab5e?q=80&w=845&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Gokarna",
+                stat: "Serene Coastal Escape",
+                image:
+                    "https://images.unsplash.com/photo-1562603051-6e7b522298e8?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Chikmagalur",
+                stat: "Coffee Country",
+                image:
+                    "https://images.unsplash.com/photo-1650458092488-c7a31ded71c5?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+        ],
+
+        activities: [
+            {
+                text: "Trekking",
+                icon: PersonStanding,
+            },
+            {
+                text: "Beach Hopping",
+                icon: Waves,
+            },
+            {
+                text: "Temple Tour",
+                icon: Sparkles,
+            },
+            {
+                text: "Coffee Plantation",
+                icon: Coffee,
+            },
+            {
+                text: "Wildlife Safari",
+                icon: Caravan,
+            },
+            {
+                text: "Camping",
+                icon: TentTree,
+            },
+            {
+                text: "Waterfalls",
+                icon: Waves,
+            },
+            {
+                text: "Road Trips",
+                icon: Bike,
+            },
+        ],
+
+        /* ============================================================
+           BEST TIME TO VISIT
+        ============================================================ */
+
+        bestTimeToVisit: {
+            months: ["Oct", "Nov", "Dec", "Jan", "Feb"],
+
+            seasons: [
+                {
+                    name: "Winter",
+                    months: "Oct - Feb",
+                    description:
+                        "Pleasant temperatures, clear skies and ideal conditions for sightseeing, heritage tours and outdoor activities.",
+                    icon: "winter",
+                },
+                {
+                    name: "Summer",
+                    months: "Mar - May",
+                    description:
+                        "Warm days in cities but refreshing hill stations and coastal destinations remain enjoyable.",
+                    icon: "summer",
+                },
+                {
+                    name: "Monsoon",
+                    months: "Jun - Sep",
+                    description:
+                        "Lush green landscapes, spectacular waterfalls and misty Western Ghats create a scenic monsoon escape.",
+                    icon: "monsoon",
+                },
+            ],
+        },
+
+        /* ============================================================
+           TRAVEL INFORMATION
+        ============================================================ */
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Kempegowda International Airport ",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "KSR Bengaluru City Junction",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "Buses, Taxis, Rental Cars ",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "Kannada, Hindi, English",
+                icon: "language",
+            },
+            {
+                label: "Permits Required",
+                value: "Generally Not Required.",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "Indian Rupee (INR)",
+                icon: "currency",
+            },
+        ],
+
+        /* ============================================================
+           PACKING ITEMS
+        ============================================================ */
+
+        packingItems: [
+            {
+                label: "Comfortable Cotton Clothes",
+                icon: "clothes",
+            },
+            {
+                label: "Sunglasses & High SPF Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Comfortable Walking & Trekking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Power Bank & ID Proof",
+                icon: "powerbank",
+            },
+            {
+                label: "Rain Jacket & Personal Medicines",
+                icon: "medicine",
+            },
+        ],
+
+        /* ============================================================
+           GALLERY
+        ============================================================ */
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1600112356915-089abb8fc71a?q=80&w=994&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Mysore Palace",
+                location: "Mysore, Karnataka",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1689946727963-be60e05fe278?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Hampi",
+                location: "Hampi, Karnataka",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1709730705114-74080546e165?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Coorg",
+                location: "Coorg, Karnataka",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1593359652766-b77c5795bd65?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Gokarna Beach",
+                location: "Gokarna, Karnataka",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1650458091994-22fda5da2da2?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Chikmagalur",
+                location: "Chikmagalur, Karnataka",
+            },
+        ],
+
+        /* ============================================================
+           DESTINATION CATEGORIES
+        ============================================================ */
+
+        categories: [
+            {
+                title: "Heritage",
+                icon: Sparkles,
+            },
+            {
+                title: "Nature",
+                icon: Waves,
+            },
+            {
+                title: "Beaches",
+                icon: Waves,
+            },
+            {
+                title: "Hill Stations",
+                icon: Mountain,
+            },
+            {
+                title: "Wildlife",
+                icon: Caravan,
+            },
+            {
+                title: "Road Trips",
+                icon: Bike,
+            },
+        ],
+
+        /* ============================================================
+           ITINERARY
+        ============================================================ */
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Bengaluru",
+                description:
+                    "Arrive in Bengaluru, check into your hotel and explore the city's popular landmarks, gardens and vibrant local markets.",
+            },
+            {
+                day: 2,
+                title: "Bengaluru to Mysore",
+                description:
+                    "Travel to Mysore and visit the magnificent Mysore Palace, Chamundi Hill and the colorful local markets.",
+            },
+            {
+                day: 3,
+                title: "Mysore to Coorg",
+                description:
+                    "Drive towards the beautiful hills of Coorg and spend the evening enjoying its lush coffee plantations and scenic landscapes.",
+            },
+            {
+                day: 4,
+                title: "Coorg Exploration",
+                description:
+                    "Explore Abbey Falls, Raja's Seat, coffee estates and the peaceful surroundings of Madikeri.",
+            },
+            {
+                day: 5,
+                title: "Coorg to Chikmagalur",
+                description:
+                    "Travel through scenic Western Ghats landscapes towards Chikmagalur and enjoy the region's famous coffee-growing hills.",
+            },
+            {
+                day: 6,
+                title: "Chikmagalur Sightseeing",
+                description:
+                    "Visit Mullayanagiri, Baba Budangiri and nearby waterfalls while enjoying panoramic views of the Western Ghats.",
+            },
+            {
+                day: 7,
+                title: "Chikmagalur to Hampi",
+                description:
+                    "Travel towards the historic ruins of Hampi and explore the magnificent remains of the Vijayanagara Empire.",
+            },
+            {
+                day: 8,
+                title: "Hampi Exploration",
+                description:
+                    "Discover Virupaksha Temple, Vittala Temple, Stone Chariot, Lotus Mahal and the spectacular boulder landscapes of Hampi.",
+            },
+            {
+                day: 9,
+                title: "Hampi to Gokarna",
+                description:
+                    "Drive towards the coast and relax at Gokarna while exploring its beautiful beaches and laid-back surroundings.",
+            },
+            {
+                day: 10,
+                title: "Gokarna & Departure",
+                description:
+                    "Enjoy a peaceful morning by the beach before checking out and departing from Karnataka with unforgettable memories.",
+            },
+        ],
+    },
+
+    packages: [
+    
+    ],
+},
+{
+    destination: {
+        name: "Sikkim",
+        subtitle: "The Land of Mountains, Monasteries & Serenity",
+        heroImage:
+            "https://images.unsplash.com/photo-1708583202861-c9aa69cd42aa?q=80&w=873&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        rating: "4.9",
+        reviews: "2.8k",
+        packagesCount: "70+ Packages",
+        location: "Sikkim",
+
+        description:
+            "Explore snow-capped Himalayan peaks, peaceful monasteries, turquoise lakes, lush valleys and breathtaking mountain landscapes in the enchanting state of Sikkim.",
+
+        weather: "5°C - 22°C",
+        idealTrip: "5 - 8 Days",
+        budget: "₹12000 - ₹28000",
+
+        /* ============================================================
+           ATTRACTIONS
+        ============================================================ */
+
+        attractions: [
+            {
+                name: "Gangtok",
+                stat: "Capital of Sikkim",
+                image:
+                    "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85",
+            },
+            {
+                name: "Tsomgo Lake",
+                stat: "Sacred Glacial Lake",
+                image:
+                    "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1600&q=85",
+            },
+            {
+                name: "Nathula Pass",
+                stat: "Historic Himalayan Pass",
+                image:
+                    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=85",
+            },
+            {
+                name: "Pelling",
+                stat: "Kanchenjunga Viewpoint",
+                image:
+                    "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+            },
+            {
+                name: "Yuksom",
+                stat: "Gateway to Kanchenjunga",
+                image:
+                    "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1600&q=85",
+            },
+            {
+                name: "Lachung",
+                stat: "Himalayan Mountain Village",
+                image:"https://images.unsplash.com/photo-1748073767634-2213c2ce2d1b?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+        ],
+
+        activities: [
+            {
+                text: "Trekking",
+                icon: PersonStanding,
+            },
+            {
+                text: "Mountain Biking",
+                icon: Bike,
+            },
+            {
+                text: "Monastery Tour",
+                icon: Sparkles,
+            },
+            {
+                text: "River Rafting",
+                icon: Waves,
+            },
+            {
+                text: "Camping",
+                icon: TentTree,
+            },
+            {
+                text: "Nature Walks",
+                icon: PersonStanding,
+            },
+            {
+                text: "Mountain Passes",
+                icon: CableCar,
+            },
+            {
+                text: "Stargazing",
+                icon: Snowflake,
+            },
+        ],
+
+        /* ============================================================
+           BEST TIME TO VISIT
+        ============================================================ */
+
+        bestTimeToVisit: {
+            months: ["Mar", "Apr", "May", "Oct", "Nov"],
+
+            seasons: [
+                {
+                    name: "Spring",
+                    months: "Mar - May",
+                    description:
+                        "Pleasant temperatures, blooming rhododendrons and clear mountain views make this a beautiful season.",
+                    icon: "spring",
+                },
+                {
+                    name: "Summer",
+                    months: "Jun - Sep",
+                    description:
+                        "Cool mountain weather and lush green valleys, though monsoon showers can affect travel.",
+                    icon: "summer",
+                },
+                {
+                    name: "Winter",
+                    months: "Oct - Feb",
+                    description:
+                        "Cold weather, snowy landscapes and spectacular Himalayan views create a peaceful winter escape.",
+                    icon: "winter",
+                },
+            ],
+        },
+
+        /* ============================================================
+           TRAVEL INFORMATION
+        ============================================================ */
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Pakyong Airport, Sikkim Airport",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "New Jalpaiguri Railway Station (NJP)",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "Taxis, Shared Cabs ",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "Nepali, Sikkimese, Hindi, English",
+                icon: "language",
+            },
+            {
+                label: "Permits Required",
+                value: "Permits Required for Nathula ",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "Indian Rupee (INR)",
+                icon: "currency",
+            },
+        ],
+
+        /* ============================================================
+           PACKING ITEMS
+        ============================================================ */
+
+        packingItems: [
+            {
+                label: "Warm Clothes & Thermal Wear",
+                icon: "clothes",
+            },
+            {
+                label: "Sunglasses & High SPF Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Comfortable Trekking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Power Bank & ID Proof",
+                icon: "powerbank",
+            },
+            {
+                label: "Personal Medicines & Motion Sickness Medication",
+                icon: "medicine",
+            },
+        ],
+
+        /* ============================================================
+           GALLERY
+        ============================================================ */
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1600&q=85",
+                title: "Gangtok",
+                location: "Sikkim",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1600&q=85",
+                title: "Himalayan Valley",
+                location: "Sikkim",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=85",
+                title: "Mountain Pass",
+                location: "Sikkim",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1622308644420-b20142dc993c?auto=format&fit=crop&w=1600&q=85",
+                title: "Mountain Landscape",
+                location: "Sikkim",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1585594197995-c111c7bec051?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Himalayan Valley",
+                location: "Sikkim",
+            },
+        ],
+
+        /* ============================================================
+           DESTINATION CATEGORIES
+        ============================================================ */
+
+        categories: [
+            {
+                title: "Mountains",
+                icon: Sparkles,
+            },
+            {
+                title: "Nature",
+                icon: Waves,
+            },
+            {
+                title: "Monasteries",
+                icon: MapPin,
+            },
+            {
+                title: "Adventure",
+                icon: PersonStanding,
+            },
+            {
+                title: "Lakes",
+                icon: Waves,
+            },
+            {
+                title: "Road Trips",
+                icon: Bike,
+            },
+        ],
+
+        /* ============================================================
+           ITINERARY
+        ============================================================ */
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Gangtok",
+                description:
+                    "Arrive in Gangtok, check into your hotel and spend the evening relaxing while enjoying the peaceful mountain surroundings.",
+            },
+            {
+                day: 2,
+                title: "Gangtok Local Sightseeing",
+                description:
+                    "Explore Rumtek Monastery, Enchey Monastery, Namgyal Institute of Tibetology and the lively MG Marg.",
+            },
+            {
+                day: 3,
+                title: "Tsomgo Lake & Nathula Pass",
+                description:
+                    "Drive through the spectacular Himalayan landscape to Tsomgo Lake and visit the historic Nathula Pass, subject to permit and weather conditions.",
+            },
+            {
+                day: 4,
+                title: "Gangtok to Lachung",
+                description:
+                    "Travel towards North Sikkim through beautiful mountain valleys, waterfalls and scenic Himalayan villages before reaching Lachung.",
+            },
+            {
+                day: 5,
+                title: "Yumthang Valley Excursion",
+                description:
+                    "Visit the stunning Yumthang Valley and enjoy panoramic mountain scenery before returning to Lachung.",
+            },
+            {
+                day: 6,
+                title: "Lachung to Pelling",
+                description:
+                    "Travel towards Pelling through scenic mountain roads and enjoy the peaceful landscapes of western Sikkim.",
+            },
+            {
+                day: 7,
+                title: "Pelling Sightseeing",
+                description:
+                    "Explore Pemayangtse Monastery, Rabdentse Ruins and scenic viewpoints offering spectacular views of Kanchenjunga.",
+            },
+            {
+                day: 8,
+                title: "Departure from Sikkim",
+                description:
+                    "Enjoy a relaxed morning in the mountains before checking out and departing from Sikkim with unforgettable Himalayan memories.",
+            },
+        ],
+    },
+
+    packages: [
+   
+    ],
+},
+{
+    destination: {
+        name: "Meghalaya",
+        subtitle: "The Abode of Clouds, Waterfalls & Living Root Bridges",
+        heroImage:
+            "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        rating: "4.8",
+        reviews: "2.1k",
+        packagesCount: "1 Package",
+        location: "Meghalaya",
+
+        description:
+            "Explore Meghalaya's misty hills, spectacular waterfalls, crystal-clear rivers, ancient living root bridges and peaceful villages across Shillong, Cherrapunji, Dawki and Mawlynnong.",
+
+        weather: "12°C - 25°C",
+        idealTrip: "5 - 7 Days",
+        budget: "₹15,000 - ₹30,000",
+
+        /* ============================================================
+           ATTRACTIONS
+        ============================================================ */
+
+        attractions: [
+            {
+                name: "Shillong",
+                stat: "Scotland of the East",
+                image:
+                    "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            },
+            {
+                name: "Cherrapunji",
+                stat: "Land of Waterfalls",
+                image:
+                    "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
+            },
+            {
+                name: "Dawki",
+                stat: "Crystal-Clear Umngot River",
+                image:
+                    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=90",
+            },
+            {
+                name: "Mawlynnong",
+                stat: "Asia's Cleanest Village",
+                image:
+                    "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2400&q=90",
+            },
+            {
+                name: "Nongriat",
+                stat: "Living Root Bridges",
+                image:
+                    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=90",
+            },
+            {
+                name: "Nohkalikai Falls",
+                stat: "India's Highest Plunge Waterfall",
+                image:
+                    "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
+            },
+        ],
+
+        activities: [
+            {
+                text: "Trekking",
+                icon: PersonStanding,
+            },
+            {
+                text: "Waterfall Exploring",
+                icon: Waves,
+            },
+            {
+                text: "Caving",
+                icon: Mountain,
+            },
+            {
+                text: "River Activities",
+                icon: Ship, 
+            },
+            {
+                text: "Nature Walk",
+                icon: TreePine,
+            },
+            {
+                text: "Camping",
+                icon: TentTree,
+            },
+            {
+                text: "Photography",
+                icon: Camera, 
+            },
+            {
+                text: "Village Exploration",
+                icon: Home,
+            },
+        ],
+
+        /* ============================================================
+           BEST TIME TO VISIT
+        ============================================================ */
+
+        bestTimeToVisit: {
+            months: [
+                "Oct",
+                "Nov",
+                "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+            ],
+
+            seasons: [
+                {
+                    name: "Winter",
+                    months: "Nov - Feb",
+                    description:
+                        "Cool and pleasant weather with misty mornings and comfortable conditions for sightseeing.",
+                    icon: "winter",
+                },
+                {
+                    name: "Summer",
+                    months: "Mar - May",
+                    description:
+                        "Mild temperatures and refreshing greenery make it ideal for waterfalls, trekking and villages.",
+                    icon: "summer",
+                },
+                {
+                    name: "Monsoon",
+                    months: "Jun - Sep",
+                    description:
+                        "Heavy rainfall creates lush landscapes and dramatic waterfalls, though travel can be challenging.",
+                    icon: "monsoon",
+                },
+            ],
+        },
+
+        /* ============================================================
+           TRAVEL INFORMATION
+        ============================================================ */
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Shillong Airport (Umroi)",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "Guwahati Railway Station",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "Taxis, Shared Cabs & Local Buses",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "Khasi, English & Hindi",
+                icon: "language",
+            },
+            {
+                label: "Permits Required",
+                value: "Generally Not Required",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "Indian Rupee (INR)",
+                icon: "currency",
+            },
+        ],
+
+        /* ============================================================
+           PACKING ITEMS
+        ============================================================ */
+
+        packingItems: [
+            {
+                label: "Light & Quick-Dry Clothes",
+                icon: "clothes",
+            },
+            {
+                label: "Rain Jacket or Poncho",
+                icon: "clothes",
+            },
+            {
+                label: "Comfortable Trekking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Sunglasses & Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Power Bank & ID Proof",
+                icon: "powerbank",
+            },
+            {
+                label: "Personal Medicines",
+                icon: "medicine",
+            },
+        ],
+
+        /* ============================================================
+           GALLERY
+        ============================================================ */
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                title: "Shillong",
+                location: "Meghalaya",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
+                title: "Waterfalls",
+                location: "Cherrapunji, Meghalaya",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=90",
+                title: "Misty Mountains",
+                location: "Meghalaya",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2400&q=90",
+                title: "Lush Green Forests",
+                location: "Meghalaya",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=90",
+                title: "Natural Landscapes",
+                location: "Meghalaya",
+            },
+        ],
+
+        /* ============================================================
+           DESTINATION CATEGORIES
+        ============================================================ */
+
+        categories: [
+            {
+                title: "Nature",
+                icon: TreePine, 
+            },
+            {
+                title: "Waterfalls",
+                icon: Waves,
+            },
+            {
+                title: "Adventure",
+                icon: PersonStanding,
+            },
+            {
+                title: "Caves",
+                icon: Mountain,
+            },
+            {
+                title: "Villages",
+                icon: Home,
+            },
+            {
+                title: "Road Trips",
+                icon: Bike,
+            },
+        ],
+
+        /* ============================================================
+           ITINERARY
+        ============================================================ */
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Shillong & Local Sightseeing",
+                description:
+                    "Arrive in Shillong and check into your hotel. Explore Shillong Peak, Elephant Falls and the scenic surroundings before relaxing in the evening.",
+            },
+            {
+                day: 2,
+                title: "Shillong to Cherrapunji",
+                description:
+                    "Travel towards Cherrapunji through the beautiful Khasi Hills. Visit scenic viewpoints, waterfalls and natural attractions along the way before checking into your stay.",
+            },
+            {
+                day: 3,
+                title: "Cherrapunji Waterfalls & Caves",
+                description:
+                    "Explore Cherrapunji's spectacular natural attractions including Nohkalikai Falls, Seven Sisters Falls and nearby caves while enjoying the misty landscapes of the region.",
+            },
+            {
+                day: 4,
+                title: "Nongriat Living Root Bridge",
+                description:
+                    "Trek through lush forests towards Nongriat and experience the famous living root bridge. Enjoy the peaceful surroundings and natural pools before returning to Cherrapunji.",
+            },
+            {
+                day: 5,
+                title: "Dawki & Mawlynnong",
+                description:
+                    "Visit Dawki and enjoy the scenic Umngot River before continuing to Mawlynnong. Explore the village and surrounding landscapes known for their greenery and natural beauty.",
+            },
+            {
+                day: 6,
+                title: "Return to Shillong & Departure",
+                description:
+                    "Enjoy breakfast and some free time before returning towards Shillong. Complete your onward journey with unforgettable memories of Meghalaya's mountains, waterfalls and villages.",
+            },
+        ],
+    },
+
+    packages: [
+     
+    ],
+},
 ];

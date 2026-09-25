@@ -9,7 +9,10 @@ import Memories from "@/components/Memories";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Gallery from "@/components/packagess/Galary";
-import { packageData } from "@/constants/packagesData";
+import {
+    packageData,
+    InternationalPacakges,
+} from "@/constants/packagesData";
 import Itinerary from "@/components/packagess/Itinerary";
 import { ArrowRight } from "lucide-react";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
@@ -20,20 +23,20 @@ import ThingsToDo from "@/components/ThingsToDo";
 import Image from "next/image";
 import { useState } from "react";
 import TravelersReviews from "@/components/Reviews";
-export default function PackageDestination() {
+ export default function PackageDestination() {
     const pathname = usePathname();
     const router = useRouter()
     const [, locationSlug] = pathname
         .split("/")
         .filter(Boolean);
 
-    const destinationData = featuredDestination.find(
-        (item) =>
-            item.destination.name
-                .toLowerCase()
-                .replace(/\s+/g, "-") ===
-            locationSlug?.toLowerCase()
-    );
+    // const destinationData = featuredDestination.find(
+    //     (item) =>
+    //         item.destination.name
+    //             .toLowerCase()
+    //             .replace(/\s+/g, "-") ===
+    //         locationSlug?.toLowerCase()
+    // );
 
     // if (!destinationData) {
     //     return (
@@ -45,13 +48,15 @@ export default function PackageDestination() {
     //     );
     // }
 
-    const packageDestination = packageData.find(
-        (item) =>
-            item.name
-                .toLowerCase()
-                .replace(/\s+/g, "-") ===
-            locationSlug?.toLowerCase()
-    );
+const allPackages = [...packageData, ...InternationalPacakges];
+
+const packageDestination = allPackages.find(
+    (item) =>
+        item.name
+            .toLowerCase()
+            .replace(/\s+/g, "-") ===
+        locationSlug?.toLowerCase()
+);
 
     if (!packageDestination) {
         return (

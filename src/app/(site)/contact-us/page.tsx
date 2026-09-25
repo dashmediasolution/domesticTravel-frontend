@@ -66,7 +66,7 @@ export default function ContactUs() {
             <section className="relative w-full overflow-hidden">
                 <div className="relative h-[300px] w-full sm:h-[340px] md:h-[360px] lg:h-[390px]">
                     <Image
-                        src="/images/explore.png"
+                        src="/images/blog-Banner.png"
                         alt="Travel destination"
                         fill
                         priority

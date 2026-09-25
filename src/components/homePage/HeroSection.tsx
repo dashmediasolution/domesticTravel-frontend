@@ -40,22 +40,22 @@ const destinations = [
     },
     {
         id: 1,
-        name: "Jaipur",
-        image: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        name: "Rajasthan",
+        image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
 
-        background: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        redirect: "/package/rajasthan/jaipur",
+        background: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
+        redirect: "/destinations/rajasthan",
         description:
-            "Discover the vibrant Pink City filled with magnificent forts, royal palaces, colorful markets and the rich heritage of Rajasthan.",
+                "Experience royal palaces, magnificent forts, golden deserts and vibrant culture in India's land of kings.",
     },
     {
         id: 3,
-        name: "Tamil Nadu",
-        redirect: "/destinations/tamil-nadu",
-        image: "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        background: "https://images.unsplash.com/photo-1544588440-fc7551331160?q=80&w=1522&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        name: "Uttarakhand",
+        redirect: "/destinations/uttarakhand",
+        image: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        background: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         description:
-            "Discover misty mountains, lush tea gardens, serene lakes and cool weather in the beautiful hill station of Ooty.",
+                "Discover majestic Himalayan landscapes, peaceful hill towns, sacred temples, thrilling adventures and serene valleys in the beautiful land of Uttarakhand.",
     },
     {
         id: 4,
@@ -171,9 +171,8 @@ export default function HeroSection() {
                             src={destination.background}
                             alt=""
                             fill
+                            unoptimized
                             priority={index === 0}
-                            loading={index === 0 ? "eager" : "lazy"}
-                            quality={75}
                             sizes="100vw"
                             className="object-cover"
                         />
@@ -240,7 +239,7 @@ export default function HeroSection() {
                      lg:w-[54%]
                     relative
                     mb:0
-                    bottom-8
+                    top-8
                     gap-4
                 "
                 >
@@ -281,7 +280,8 @@ export default function HeroSection() {
                             xl:text-[70px]
                         `}
                     >
-                        Discover <br /> Incredible India!
+                        Discover Your <br /> Next Holiday
+
                     </h1>
                     <motion.div
                         key={activeDestination.id}
@@ -555,9 +555,8 @@ export default function HeroSection() {
                                             src={destination.image}
                                             alt={destination.name}
                                             fill
+                                            unoptimized
                                             priority={isActive}
-                                            loading={isActive ? "eager" : "lazy"}
-                                            quality={75}
                                             sizes="235px"
                                             className="
                                             object-cover

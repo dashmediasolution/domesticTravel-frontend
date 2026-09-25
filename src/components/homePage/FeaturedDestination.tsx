@@ -73,7 +73,7 @@ export function FeaturedDestination() {
                         "
                     >
                         <Link href="/explore-destinations">
-                             view all destinations
+                            view all destinations
                         </Link>
                         <ArrowUpRight className="ml-1.5 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
@@ -138,19 +138,9 @@ export function FeaturedDestination() {
                                                     src={destination.heroImage}
                                                     alt={destination.name}
                                                     fill
-                                                    className="
-                                                        object-cover
-                                                        transition-transform
-                                                        duration-700
-                                                        ease-out
-                                                        group-hover:scale-[1.04]
-                                                    "
-                                                    sizes="
-                                                        (max-width: 639px) 180px,
-                                                        (max-width: 767px) 200px,
-                                                        (max-width: 1023px) 220px,
-                                                        275px
-                                                    "
+                                                    unoptimized
+                                                    sizes="(max-width: 639px) 180px, (max-width: 767px) 200px, (max-width: 1023px) 220px, 275px"
+                                                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                                                 />
 
                                                 {/* OVERLAY */}
@@ -174,8 +164,8 @@ export function FeaturedDestination() {
                                                 >
                                                     <Star
                                                         className={`h-5 w-5 cursor-pointer transition-all duration-300 sm:h-6 sm:w-6 ${favorites.includes(destination.name)
-                                                                ? "fill-amber-400 stroke-amber-400"
-                                                                : "fill-transparent   hover:fill-amber-300"
+                                                            ? "fill-amber-400 stroke-amber-400"
+                                                            : "fill-transparent   hover:fill-amber-300"
                                                             }`}
                                                         onClick={(e) => {
                                                             e.preventDefault();
@@ -284,7 +274,7 @@ export function FeaturedDestination() {
                                                     </p>
 
                                                     <div className="mt-1 flex items-center justify-center gap-0.5 sm:gap-1">
-                                                        <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5" />
+                                          
 
                                                         <span
                                                             className="
@@ -328,15 +318,15 @@ export function FeaturedDestination() {
                             mt-4
                             flex
                             w-full
-                            items-center
-                            justify-between
+                            items-end
+                            justify-end
                             gap-3
                             sm:mt-5
                         "
                     >
 
                         {/* DOMESTIC / INTERNATIONAL */}
-
+{/* 
                         <div
                             className="
                                 flex
@@ -410,11 +400,11 @@ export function FeaturedDestination() {
                             >
                                 International
                             </button>
-                        </div>
+                        </div> */}
 
                         {/* ARROWS */}
 
-                        <div className="flex shrink-0 gap-2 sm:gap-3">
+                        <div className="flex shrink-0 gap-2 sm:gap-3 align-right">
                             <CarouselPrevious
                                 className="
                                     static

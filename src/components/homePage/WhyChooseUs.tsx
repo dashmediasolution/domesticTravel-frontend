@@ -6,12 +6,12 @@ import { ArrowRight, Tag } from "lucide-react";
 
 export default function WhyChooseUs() {
     const features = [
-        "Exclusive Deals & Offers",
-        "Exclusive Deals & Offers",
-        "Exclusive Deals & Offers",
-        "Exclusive Deals & Offers",
-        "Exclusive Deals & Offers",
-        "Exclusive Deals & Offers",
+        "Well-Planned Journeys",
+        "Upfront Package Pricing",
+        "Private & Group Tours",
+        "Curated Local Experiences",
+        "Personalized Travel Assistance",
+        "End-to-End Trip Support",
     ];
 
     return (
@@ -67,7 +67,7 @@ export default function WhyChooseUs() {
                             lg:text-[25px]
                         "
                     >
-                        Why Choose Wander - India?
+                        Why Choose Us?
                     </h3>
 
                     {/* Main Heading */}
@@ -90,10 +90,11 @@ export default function WhyChooseUs() {
                             lg:text-[46px]
                         "
                     >
-                        Your Perfect Trip, Just a
+                        Your Journey, Made Simple. Perfect Trip. 
+
                         <br className="hidden sm:block" />
                         <span className="sm:hidden"> </span>
-                        Tap Away
+                       Just a Tap Away
                     </h2>
 
                     {/* Description */}
@@ -117,9 +118,8 @@ export default function WhyChooseUs() {
                             lg:leading-[25px]
                         "
                     >
-                        Plan, book and explore with ease. From handpicked
-                        destinations to exclusive deals, we make your travel
-                        dreams simple, secure and unforgettable.
+                       Discover, plan, and book memorable journeys with ease. From thoughtfully planned tour packages to exciting destinations, Holiday Turtle helps make every trip smooth, enjoyable, and stress-free.
+
                     </p>
 
                     {/* FEATURES */}

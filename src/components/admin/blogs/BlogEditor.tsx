@@ -24,6 +24,11 @@ import {
     Undo2,
     Unlink,
 } from "lucide-react";
+import {
+    Heading4,
+    Heading5,
+    Heading6,
+} from "lucide-react";
 import { Loader2, ImageIcon } from "lucide-react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -47,66 +52,66 @@ export default function BlogEditor({
 }: BlogEditorProps) {
     const [uploadingImage, setUploadingImage] = useState(false);
     const imageInputRef = useRef<HTMLInputElement>(null);
-const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-) => {
-    const file = event.target.files?.[0];
+    const handleImageUpload = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = event.target.files?.[0];
 
-    if (!file || !editor) {
-        return;
-    }
+        if (!file || !editor) {
+            return;
+        }
 
-    setUploadingImage(true);
+        setUploadingImage(true);
 
-    try {
-        const formData = new FormData();
-        formData.append("file", file);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
 
-        const response = await fetch(
-            "/api/upload/blog-content",
-            {
-                method: "POST",
-                body: formData,
+            const response = await fetch(
+                "/api/upload/blog-content",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+            const responseText = await response.text();
+
+            if (!response.ok) {
+                throw new Error(
+                    responseText || "Image upload failed"
+                );
             }
-        );
-         const responseText = await response.text();
- 
-        if (!response.ok) {
-            throw new Error(
-                responseText || "Image upload failed"
+
+            const data = JSON.parse(responseText);
+            if (!data.data.url) {
+                throw new Error(
+                    "Upload succeeded but image URL is missing"
+                );
+            }
+
+            editor
+                .chain()
+                .focus()
+                .setImage({
+                    src: data.data.url,
+                })
+                .run();
+        } catch (error) {
+            console.error(
+                "Content image upload error:",
+                error
             );
-        }
 
-        const data = JSON.parse(responseText);
-         if (!data.data.url) {
-            throw new Error(
-                "Upload succeeded but image URL is missing"
+            alert(
+                error instanceof Error
+                    ? error.message
+                    : "Image upload failed"
             );
+        } finally {
+            setUploadingImage(false);
+            event.target.value = "";
         }
-
-        editor
-            .chain()
-            .focus()
-            .setImage({
-                src: data.data.url,
-            })
-            .run();
-    } catch (error) {
-        console.error(
-            "Content image upload error:",
-            error
-        );
-
-        alert(
-            error instanceof Error
-                ? error.message
-                : "Image upload failed"
-        );
-    } finally {
-        setUploadingImage(false);
-        event.target.value = "";
-    }
-};
+    };
     const addImage = () => {
         imageInputRef.current?.click();
     };
@@ -114,7 +119,11 @@ const handleImageUpload = async (
         immediatelyRender: false,
 
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2, 3, 4, 5, 6],
+                },
+            }),
 
             LinkExtension.configure({
                 openOnClick: false,
@@ -408,7 +417,74 @@ const handleImageUpload = async (
                 >
                     <Heading3 className="size-4" />
                 </Button>
+                <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    title="Heading 4"
+                    onClick={() =>
+                        editor
+                            .chain()
+                            .focus()
+                            .toggleHeading({
+                                level: 4,
+                            })
+                            .run()
+                    }
+                    className={buttonClass(
+                        editor.isActive("heading", {
+                            level: 4,
+                        })
+                    )}
+                >
+                    <Heading4 className="size-4" />
+                </Button>
 
+                <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    title="Heading 5"
+                    onClick={() =>
+                        editor
+                            .chain()
+                            .focus()
+                            .toggleHeading({
+                                level: 5,
+                            })
+                            .run()
+                    }
+                    className={buttonClass(
+                        editor.isActive("heading", {
+                            level: 5,
+                        })
+                    )}
+                >
+                    <Heading5 className="size-4" />
+                </Button>
+
+                <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    title="Heading 6"
+                    onClick={() =>
+                        editor
+                            .chain()
+                            .focus()
+                            .toggleHeading({
+                                level: 6,
+                            })
+                            .run()
+                    }
+                    className={buttonClass(
+                        editor.isActive("heading", {
+                            level: 6,
+                        })
+                    )}
+                >
+                    <Heading6 className="size-4" />
+                </Button>
                 <div className="mx-1 h-6 w-px bg-border" />
 
                 {/* Lists */}
@@ -701,33 +777,108 @@ const handleImageUpload = async (
                 </Button>
             </div>
 
-     <div className="relative">
-    <div
-        className="
-            [&_.ProseMirror]:min-h-[400px]
-            [&_.ProseMirror]:outline-none
-            [&_.ProseMirror_img]:my-4
-            [&_.ProseMirror_img]:block
-            [&_.ProseMirror_img]:max-w-full
-            [&_.ProseMirror_img]:h-auto
-            [&_.ProseMirror_img]:rounded-lg
-        "
-    >
-        <EditorContent editor={editor} />
-    </div>
+            <div className="relative">
+                <div
+                    className="
+        [&_.ProseMirror]:min-h-[400px]
+        [&_.ProseMirror]:outline-none
+        [&_.ProseMirror]:p-5
+        [&_.ProseMirror]:text-base
+        [&_.ProseMirror]:leading-7
 
-    {uploadingImage && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70">
-            <div className="flex items-center gap-3 rounded-lg bg-white px-4 py-3 shadow-md">
-                <Loader2 className="size-5 animate-spin text-[#2FC2B0]" />
+        [&_.ProseMirror_h1]:mb-4
+        [&_.ProseMirror_h1]:mt-6
+        [&_.ProseMirror_h1]:text-4xl
+        [&_.ProseMirror_h1]:font-bold
+        [&_.ProseMirror_h1]:leading-tight
 
-                <span className="text-sm font-medium text-[#00383B]">
-                    Uploading image...
-                </span>
+        [&_.ProseMirror_h2]:mb-3
+        [&_.ProseMirror_h2]:mt-5
+        [&_.ProseMirror_h2]:text-3xl
+        [&_.ProseMirror_h2]:font-bold
+        [&_.ProseMirror_h2]:leading-tight
+
+        [&_.ProseMirror_h3]:mb-3
+        [&_.ProseMirror_h3]:mt-5
+        [&_.ProseMirror_h3]:text-2xl
+        [&_.ProseMirror_h3]:font-semibold
+        [&_.ProseMirror_h3]:leading-tight
+
+        [&_.ProseMirror_h4]:mb-2
+        [&_.ProseMirror_h4]:mt-4
+        [&_.ProseMirror_h4]:text-xl
+        [&_.ProseMirror_h4]:font-semibold
+        [&_.ProseMirror_h4]:leading-tight
+
+        [&_.ProseMirror_h5]:mb-2
+        [&_.ProseMirror_h5]:mt-4
+        [&_.ProseMirror_h5]:text-lg
+        [&_.ProseMirror_h5]:font-semibold
+        [&_.ProseMirror_h5]:leading-tight
+
+        [&_.ProseMirror_h6]:mb-2
+        [&_.ProseMirror_h6]:mt-4
+        [&_.ProseMirror_h6]:text-base
+        [&_.ProseMirror_h6]:font-semibold
+        [&_.ProseMirror_h6]:leading-tight
+
+        [&_.ProseMirror_p]:mb-3
+
+        [&_.ProseMirror_ul]:my-4
+        [&_.ProseMirror_ul]:list-disc
+        [&_.ProseMirror_ul]:pl-6
+
+        [&_.ProseMirror_ol]:my-4
+        [&_.ProseMirror_ol]:list-decimal
+        [&_.ProseMirror_ol]:pl-6
+
+        [&_.ProseMirror_li]:my-1
+
+        [&_.ProseMirror_blockquote]:my-4
+        [&_.ProseMirror_blockquote]:border-l-4
+        [&_.ProseMirror_blockquote]:border-[#2FC2B0]
+        [&_.ProseMirror_blockquote]:pl-4
+        [&_.ProseMirror_blockquote]:italic
+
+        [&_.ProseMirror_pre]:my-4
+        [&_.ProseMirror_pre]:overflow-x-auto
+        [&_.ProseMirror_pre]:rounded-lg
+        [&_.ProseMirror_pre]:bg-gray-100
+        [&_.ProseMirror_pre]:p-4
+
+        [&_.ProseMirror_code]:rounded
+        [&_.ProseMirror_code]:bg-gray-100
+        [&_.ProseMirror_code]:px-1
+        [&_.ProseMirror_code]:py-0.5
+
+        [&_.ProseMirror_hr]:my-6
+
+        [&_.ProseMirror_a]:text-[#2FC2B0]
+        [&_.ProseMirror_a]:underline
+
+        [&_.ProseMirror_img]:my-4
+        [&_.ProseMirror_img]:block
+        [&_.ProseMirror_img]:max-w-full
+        [&_.ProseMirror_img]:h-auto
+        [&_.ProseMirror_img]:rounded-lg
+    "
+                >
+                    <EditorContent editor={editor} />
+                </div>
+                <EditorContent editor={editor} />
             </div>
-        </div>
-    )}
-</div>
+
+            {uploadingImage && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70">
+                    <div className="flex items-center gap-3 rounded-lg bg-white px-4 py-3 shadow-md">
+                        <Loader2 className="size-5 animate-spin text-[#2FC2B0]" />
+
+                        <span className="text-sm font-medium text-[#00383B]">
+                            Uploading image...
+                        </span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

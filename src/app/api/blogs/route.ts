@@ -17,13 +17,14 @@ export async function POST(request: Request) {
         const content = formData.get("content")?.toString();
         const category = formData.get("category")?.toString().trim();
         const tagsValue = formData.get("tags")?.toString();
+        const metaDescription = formData.get("metaDescription")?.toString().trim();
+        const metaTitle = formData.get("metaTitle")?.toString().trim();
+        const keywords = JSON.parse(
+            formData.get("keywords")?.toString() || "[]"
+        ); const isPublished = formData.get("isPublished") === "true";
 
-        const isPublished =
-            formData.get("isPublished") === "true";
-
-        const featuredImage =
-            formData.get("featuredImage");
-
+        const featuredImage = formData.get("featuredImage");
+        console.log(keywords, metaTitle, metaDescription, "SEO Data")
         if (!title || !slug || !content) {
             return NextResponse.json(
                 {
@@ -89,9 +90,9 @@ export async function POST(request: Request) {
 
         let featuredImageData:
             | {
-                  url: string;
-                  publicId: string;
-              }
+                url: string;
+                publicId: string;
+            }
             | undefined;
 
         if (
@@ -124,9 +125,9 @@ export async function POST(request: Request) {
                                     ) {
                                         reject(
                                             error ||
-                                                new Error(
-                                                    "Cloudinary upload failed"
-                                                )
+                                            new Error(
+                                                "Cloudinary upload failed"
+                                            )
                                         );
 
                                         return;
@@ -166,27 +167,29 @@ export async function POST(request: Request) {
             categoryId = categoryRecord.id;
         }
 
-        const blog =
-            await prisma.blog.create({
-                data: {
-                    title,
-                    slug,
-                    excerpt: excerpt || null,
-                    content,
-                    featuredImage:
-                        featuredImageData,
-                    categoryId,
-                    tags,
-                    isPublished,
-                    publishedAt:
-                        isPublished
-                            ? new Date()
-                            : null,
-                },
-                include: {
-                    category: true,
-                },
-            });
+        const blog = await prisma.blog.create({
+            data: {
+                title,
+                slug,
+                excerpt: excerpt || null,
+                content,
+                featuredImage:
+                    featuredImageData,
+                categoryId,
+                tags,
+                isPublished,
+                metaDescription,
+                metaTitle,
+                keywords,
+                publishedAt:
+                    isPublished
+                        ? new Date()
+                        : null,
+            },
+            include: {
+                category: true,
+            },
+        });
 
         return NextResponse.json(
             {

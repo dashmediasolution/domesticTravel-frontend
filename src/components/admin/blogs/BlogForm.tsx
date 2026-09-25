@@ -73,15 +73,30 @@ const blogSchema = z.object({
     tags: z
         .array(z.string())
         .min(1, "Add at least one tag"),
+    metaTitle: z
+        .string()
+        .trim()
+        .max(60, "Meta title must be 60 characters or less"),
 
+    metaDescription: z
+        .string()
+        .trim()
+        .max(350, "Meta description must be 350 characters or less"),
+
+    keywords: z
+        .array(
+            z.string()
+                .trim()
+        )
+        .min(1, "At least one keyword is required"),
     isPublished: z.boolean(),
 });
 
 type BlogFormValues = z.infer<typeof blogSchema>;
 
 interface BlogCategory {
-     name: string;
- }
+    name: string;
+}
 
 interface BlogFormProps {
     categories: BlogCategory[];
@@ -91,6 +106,7 @@ export default function BlogForm({
     categories,
 }: BlogFormProps) {
     const [tagInput, setTagInput] = useState("");
+    const [keywordInput, setKeywordInput] = useState("");
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const {
         register,
@@ -109,12 +125,15 @@ export default function BlogForm({
             featuredImage: undefined,
             category: "",
             tags: [],
+            metaTitle: "",
+            metaDescription: "",
+            keywords: [],
             isPublished: false,
         },
     });
 
     const tags = watch("tags");
-
+    const keywords = watch("keywords");
     const generateSlug = (title: string) => {
         return title
             .toLowerCase()
@@ -157,7 +176,36 @@ export default function BlogForm({
             tags.filter((tag) => tag !== tagToRemove)
         );
     };
+    const addKeyword = () => {
+        const keyword = keywordInput.trim();
 
+        if (!keyword) {
+            return;
+        }
+
+        if (keywords.includes(keyword)) {
+            setKeywordInput("");
+            return;
+        }
+
+        setValue("keywords", [...keywords, keyword], {
+            shouldValidate: true,
+        });
+
+        setKeywordInput("");
+    };
+
+    const removeKeyword = (keywordToRemove: string) => {
+        setValue(
+            "keywords",
+            keywords.filter(
+                (keyword) => keyword !== keywordToRemove
+            ),
+            {
+                shouldValidate: true,
+            }
+        );
+    };
     const handleImageChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -216,7 +264,20 @@ export default function BlogForm({
                 "isPublished",
                 String(data.isPublished)
             );
+            formData.append(
+                "metaTitle",
+                data.metaTitle
+            );
 
+            formData.append(
+                "metaDescription",
+                data.metaDescription
+            );
+
+            formData.append(
+                "keywords",
+                JSON.stringify(data.keywords)
+            );
             if (data.featuredImage) {
                 formData.append(
                     "featuredImage",
@@ -359,6 +420,108 @@ export default function BlogForm({
                                     {errors.content.message}
                                 </p>
                             )}
+                        </CardContent>
+                    </Card>
+                      <Card>
+                        <CardHeader>
+                            <CardTitle>
+                                SEO Settings
+                            </CardTitle>
+                        </CardHeader>
+
+                        <CardContent className="space-y-5">
+                            <div className="space-y-2">
+                                <Label htmlFor="metaTitle">
+                                    Meta Title
+                                </Label>
+
+                                <Input
+                                    id="metaTitle"
+                                    placeholder="Enter meta title"
+                                    {...register("metaTitle")}
+                                />
+
+                                {errors.metaTitle && (
+                                    <p className="text-sm text-red-500">
+                                        {errors.metaTitle.message}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="metaDescription">
+                                    Meta Description
+                                </Label>
+
+                                <Textarea
+                                    id="metaDescription"
+                                    placeholder="Enter meta description"
+                                    rows={4}
+                                    {...register("metaDescription")}
+                                />
+
+                                {errors.metaDescription && (
+                                    <p className="text-sm text-red-500">
+                                        {errors.metaDescription.message}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="keywords">
+                                    Keywords
+                                </Label>
+
+                                <div className="flex gap-2">
+                                    <Input
+                                        id="keywords"
+                                        value={keywordInput}
+                                        placeholder="Add keyword"
+                                        onChange={(event) =>
+                                            setKeywordInput(
+                                                event.target.value
+                                            )
+                                        }
+                                        onKeyDown={(event) => {
+                                            if (event.key === "Enter") {
+                                                event.preventDefault();
+                                                addKeyword();
+                                            }
+                                        }}
+                                    />
+
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={addKeyword}
+                                    >
+                                        Add
+                                    </Button>
+                                </div>
+
+                                {keywords.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 pt-1">
+                                        {keywords.map((keyword) => (
+                                            <button
+                                                key={keyword}
+                                                type="button"
+                                                onClick={() =>
+                                                    removeKeyword(keyword)
+                                                }
+                                                className="rounded-full bg-[#E8F8F6] px-3 py-1.5 text-sm text-[#00383B]"
+                                            >
+                                                {keyword} ×
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {errors.keywords && (
+                                    <p className="text-sm text-red-500">
+                                        {errors.keywords.message}
+                                    </p>
+                                )}
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
@@ -577,6 +740,7 @@ export default function BlogForm({
                             )}
                         </CardContent>
                     </Card>
+                  
                 </div>
             </div>
         </form>

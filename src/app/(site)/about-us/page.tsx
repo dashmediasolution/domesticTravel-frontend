@@ -26,7 +26,7 @@ export default function AboutUs() {
             <section className="relative w-full">
                 <div className="relative h-[360px] w-full sm:h-[400px] md:h-[440px] lg:h-[470px]">
                     <Image
-                        src="/images/explore.png"
+                        src="/images/blog-Banner.png"
                         alt="Beautiful Indian mountain destination"
                         fill
                         priority

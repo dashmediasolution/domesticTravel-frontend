@@ -11,7 +11,9 @@ import WhyChooseUs from "@/components/homePage/WhyChooseUs";
 import BestOffers from "@/components/homePage/BestOffers";
 import HeroSection from "@/components/homePage/HeroSection";
 import Memories from "@/components/Memories";
+import BlogSection from "@/components/BlogSection";
 import TravelersReviews from "@/components/Reviews";
+import EarlyBirdSale from "@/components/packagess/EarlyBirdSale";
 const firstBanner: Banner[] = [
   {
     id: 1,
@@ -74,21 +76,22 @@ const thirdBanner: Banner[] = [
 ];
 export default function Home() {
   return (
-    <div className="flex gap-5 flex-col">
+    <div className="flex gap-5 flex-col justify-center items-center">
       <HeroSection />
       <SearachBar bottomPosition="3.5" />
       <FeaturedDestination />
       <BrowseByCategory />
+      <EarlyBirdSale/>
       <BannerCarousel banners={firstBanner} />
       <ExploreIndia />
-      <UpcomingPackages />
+      <BestOffers />
       <BannerCarousel banners={secondBanner} />
       <WhyTravelWithUs />
-      <BestOffers />
+      <UpcomingPackages />
       <BannerCarousel banners={thirdBanner} />
-      <TravelStories />
+      <BlogSection />
       <WhyChooseUs />
-      <div className="w-full flex justify-center items-center mb-10">
+      <div className="w-full flex justify-center items-center my-10">
         <div className="w-[95%] flex justify-center items-center">
           <TravelersReviews />
         </div>

@@ -24,11 +24,11 @@ interface Offer {
     price: string;
     priceSuffix: string;
     image: string;
-    redirect?:string
+    redirect?: string
 }
 
 export const domesticOffers: Offer[] = [
-     {
+    {
         id: 2,
         destination: "Meghalaya",
         subtitle: "The Abode of Clouds",
@@ -36,10 +36,10 @@ export const domesticOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "₹24,000",
         priceSuffix: "/person",
-        redirect:"/package/meghalaya/",
-        image:  "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        redirect: "/package/meghalaya/",
+        image: "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
-  
+
     {
         id: 3,
         destination: "JAIPUR",
@@ -48,8 +48,8 @@ export const domesticOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "₹10,999",
         priceSuffix: "/person",
-        redirect:"/package/rajasthan/jaipur",
-        image:  "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        redirect: "/package/rajasthan/jaipur",
+        image: "https://images.unsplash.com/photo-1695395550316-8995ae9d35ff?q=80&w=856&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
     },
     {
@@ -60,7 +60,7 @@ export const domesticOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "₹13,499",
         priceSuffix: "/person",
-        redirect:"/package/uttarakhand/mussoorie",
+        redirect: "/package/uttarakhand/mussoorie",
         image: "https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=3840&q=90",
 
     },
@@ -72,7 +72,7 @@ export const domesticOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "₹12,999",
         priceSuffix: "/person",
-        redirect:"/package/himachal-pradesh/kasol",
+        redirect: "/package/himachal-pradesh/kasol",
         image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=80",
 
     },
@@ -87,7 +87,8 @@ export const internationalOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "$14,999",
         priceSuffix: "/person",
-        image: "/images/offers/bali.jpg",
+        redirect: "/package/bali",
+        image: "https://images.unsplash.com/photo-1592364395653-83e648b20cc2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 102,
@@ -97,7 +98,8 @@ export const internationalOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "$18,499",
         priceSuffix: "/person",
-        image: "/images/offers/dubai.jpg",
+        redirect: "/package/dubai/",
+        image: "https://images.unsplash.com/photo-1546412414-8035e1776c9a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 103,
@@ -107,7 +109,8 @@ export const internationalOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "$16,999",
         priceSuffix: "/person",
-        image: "/images/offers/thailand.jpg",
+        redirect: "/package/thailand/",
+        image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 104,
@@ -117,7 +120,8 @@ export const internationalOffers: Offer[] = [
         endsIn: "Ends in 02 D",
         price: "$21,499",
         priceSuffix: "/person",
-        image: "/images/offers/singapore.jpg",
+        redirect: "/package/singapore/",
+        image: "https://images.unsplash.com/photo-1695305915825-4addf10a8120?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
 ];
 
@@ -160,9 +164,9 @@ export default function BestOffers() {
                     HEADER
                 ===================================================== */}
 
-        <div className="mb-5 flex items-center justify-between gap-3 sm:mb-7">
-    <h2
-        className="
+                <div className="mb-5 flex items-center justify-between gap-3 sm:mb-7">
+                    <h2
+                        className="
             min-w-0
             text-[18px]
             font-medium
@@ -172,11 +176,11 @@ export default function BestOffers() {
             sm:text-[25px]
             sm:tracking-[-0.6px]
         "
-    >
-        Get best offers for you
-    </h2>
+                    >
+                        Get best offers for you
+                    </h2>
 
-    {/* <Button
+                    {/* <Button
         type="button"
         variant="outline"
         className="
@@ -202,7 +206,7 @@ export default function BestOffers() {
 
         <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:ml-2 sm:h-5 sm:w-5" />
     </Button> */}
-</div>
+                </div>
 
                 {/* =====================================================
                     CAROUSEL
@@ -216,11 +220,11 @@ export default function BestOffers() {
                     }}
                     className="w-full"
                 >
-                  <CarouselContent className="-ml-3 sm:-ml-4 lg:-ml-6">
-    {offers.map((offer) => (
-        <CarouselItem
-            key={offer.id}
-            className="
+                    <CarouselContent className="-ml-3 sm:-ml-4 lg:-ml-6">
+                        {offers.map((offer) => (
+                            <CarouselItem
+                                key={offer.id}
+                                className="
                 basis-[82%]
                 pl-3
 
@@ -233,9 +237,9 @@ export default function BestOffers() {
                 lg:basis-1/3
                 lg:pl-6
             "
-        >
-            <div
-                className="
+                            >
+                                <div
+                                    className="
                     group
                     relative
                     h-[190px]
@@ -252,29 +256,29 @@ export default function BestOffers() {
                     lg:h-[286px]
                 lg:rounded-[24px]
                 "
-            >
-                {/* Background Image */}
-                <Image
-                    src={offer.image}
-                    alt={offer.destination}
-                    fill
-                    sizes="
+                                >
+                                    {/* Background Image */}
+                                    <Image
+                                        src={offer.image}
+                                        alt={offer.destination}
+                                        fill
+                                        sizes="
                         (max-width: 640px) 82vw,
                         (max-width: 768px) 65vw,
                         (max-width: 1024px) 50vw,
                         33vw
                     "
-                    className="
+                                        className="
                         object-cover
                         transition-transform
                         duration-700
                         group-hover:scale-105
                     "
-                />
+                                    />
 
-                {/* Gradient */}
-                <div
-                    className="
+                                    {/* Gradient */}
+                                    <div
+                                        className="
                         absolute
                         inset-0
                         bg-gradient-to-t
@@ -282,11 +286,11 @@ export default function BestOffers() {
                         via-black/10
                         to-transparent
                     "
-                />
+                                    />
 
-                {/* Top Badges */}
-                <div
-                    className="
+                                    {/* Top Badges */}
+                                    <div
+                                        className="
                         absolute
                         left-3
                         right-3
@@ -299,10 +303,10 @@ export default function BestOffers() {
                         sm:right-4
                         sm:top-4
                     "
-                >
-                    {/* Discount */}
-                    <span
-                        className="
+                                    >
+                                        {/* Discount */}
+                                        <span
+                                            className="
                             rounded-[6px]
                             bg-white
                             px-2
@@ -317,13 +321,13 @@ export default function BestOffers() {
                             sm:py-2
                             sm:text-[12px]
                         "
-                    >
-                        {offer.discount}
-                    </span>
+                                        >
+                                            {offer.discount}
+                                        </span>
 
-                    {/* Timer */}
-                    <span
-                        className="
+                                        {/* Timer */}
+                                        <span
+                                            className="
                             flex
                             items-center
                             gap-1
@@ -342,9 +346,9 @@ export default function BestOffers() {
                             sm:py-2
                             sm:text-[12px]
                         "
-                    >
-                        <Timer
-                            className="
+                                        >
+                                            <Timer
+                                                className="
                                 h-3
                                 w-3
                                 text-[#20BFAF]
@@ -352,16 +356,16 @@ export default function BestOffers() {
                                 sm:h-4
                                 sm:w-4
                             "
-                            strokeWidth={2}
-                        />
+                                                strokeWidth={2}
+                                            />
 
-                        {offer.endsIn}
-                    </span>
-                </div>
+                                            {offer.endsIn}
+                                        </span>
+                                    </div>
 
-                {/* Content */}
-                <div
-                    className="
+                                    {/* Content */}
+                                    <div
+                                        className="
                         absolute
                         bottom-0
                         left-0
@@ -379,11 +383,11 @@ export default function BestOffers() {
 
                         lg:p-5
                     "
-                >
-                    {/* Destination */}
-                    <div>
-                        <h3
-                            className="
+                                    >
+                                        {/* Destination */}
+                                        <div>
+                                            <h3
+                                                className="
                                 text-[24px]
                                 font-bold
                                 leading-none
@@ -396,12 +400,12 @@ export default function BestOffers() {
 
                                 lg:text-[40px]
                             "
-                        >
-                            {offer.destination}
-                        </h3>
+                                            >
+                                                {offer.destination}
+                                            </h3>
 
-                        <p
-                            className="
+                                            <p
+                                                className="
                                 mt-1
                                 text-[11px]
                                 font-normal
@@ -414,24 +418,24 @@ export default function BestOffers() {
 
                                 lg:text-[17px]
                             "
-                        >
-                            {offer.subtitle}
-                        </p>
-                    </div>
+                                            >
+                                                {offer.subtitle}
+                                            </p>
+                                        </div>
 
-                    {/* Bottom Row */}
-                    <div
-                        className="
+                                        {/* Bottom Row */}
+                                        <div
+                                            className="
                             flex
                             items-end
                             justify-between
                             gap-2
                         "
-                    >
-                        {/* Price */}
-                        <div>
-                            <p
-                                className="
+                                        >
+                                            {/* Price */}
+                                            <div>
+                                                <p
+                                                    className="
                                     text-[10px]
                                     font-normal
                                     leading-none
@@ -443,20 +447,20 @@ export default function BestOffers() {
 
                                     lg:text-[15px]
                                 "
-                            >
-                                Starting from
-                            </p>
+                                                >
+                                                    Starting from
+                                                </p>
 
-                            <div
-                                className="
+                                                <div
+                                                    className="
                                     mt-1
                                     flex
                                     items-baseline
                                     gap-1
                                 "
-                            >
-                                <span
-                                    className="
+                                                >
+                                                    <span
+                                                        className="
                                         text-[18px]
                                         font-semibold
                                         leading-none
@@ -468,12 +472,12 @@ export default function BestOffers() {
 
                                         lg:text-[25px]
                                     "
-                                >
-                                    {offer.price}
-                                </span>
+                                                    >
+                                                        {offer.price}
+                                                    </span>
 
-                                <span
-                                    className="
+                                                    <span
+                                                        className="
                                         text-[10px]
                                         font-normal
                                         text-white
@@ -482,17 +486,17 @@ export default function BestOffers() {
 
                                         lg:text-[14px]
                                     "
-                                >
-                                    {offer.priceSuffix}
-                                </span>
-                            </div>
-                        </div>
+                                                    >
+                                                        {offer.priceSuffix}
+                                                    </span>
+                                                </div>
+                                            </div>
 
-                        {/* Explore */}
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="
+                                            {/* Explore */}
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                className="
                                 h-8
                                 shrink-0
                                 rounded-full
@@ -517,24 +521,24 @@ export default function BestOffers() {
 
                                 lg:text-[14px]
                             "
-                            onClick={()=>router.push(offer.redirect ?? "/")}
-                        >
-                            <span className="whitespace-nowrap hidden md:block">
-                                Explore Now
-                            </span>
+                                                onClick={() => router.push(offer.redirect ?? "/")}
+                                            >
+                                                <span className="whitespace-nowrap hidden md:block">
+                                                    Explore Now
+                                                </span>
 
-                            <ArrowRight />
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </CarouselItem>
-    ))}
-</CarouselContent>
+                                                <ArrowRight />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
                 </Carousel>
 
-<div
-    className="
+                <div
+                    className="
         mt-5
         flex
         items-center
@@ -542,10 +546,10 @@ export default function BestOffers() {
         gap-3
         sm:mt-6
     "
->
-    {/* Domestic / International */}
-    <div
-        className="
+                >
+                    {/* Domestic / International */}
+                    <div
+                        className="
             flex
             shrink-0
             items-center
@@ -557,17 +561,17 @@ export default function BestOffers() {
 
             sm:p-1
         "
-    >
-        <button
-            type="button"
-            onClick={() => {
-                setOfferType("domestic");
+                    >
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setOfferType("domestic");
 
-                setTimeout(() => {
-                    api?.scrollTo(0);
-                }, 0);
-            }}
-            className={`
+                                setTimeout(() => {
+                                    api?.scrollTo(0);
+                                }, 0);
+                            }}
+                            className={`
                 rounded-full
                 px-3
                 py-1.5
@@ -580,26 +584,25 @@ export default function BestOffers() {
                 sm:py-2
                 sm:text-[15px]
 
-                ${
-                    offerType === "domestic"
-                        ? "bg-primary text-white shadow-sm"
-                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                }
+                ${offerType === "domestic"
+                                    ? "bg-primary text-white shadow-sm"
+                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                }
             `}
-        >
-            Domestic
-        </button>
+                        >
+                            Domestic
+                        </button>
 
-        <button
-            type="button"
-            onClick={() => {
-                setOfferType("international");
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setOfferType("international");
 
-                setTimeout(() => {
-                    api?.scrollTo(0);
-                }, 0);
-            }}
-            className={`
+                                setTimeout(() => {
+                                    api?.scrollTo(0);
+                                }, 0);
+                            }}
+                            className={`
                 rounded-full
                 px-3
                 py-1.5
@@ -612,25 +615,24 @@ export default function BestOffers() {
                 sm:py-2
                 sm:text-[15px]
 
-                ${
-                    offerType === "international"
-                        ? "bg-primary text-white shadow-sm"
-                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                }
+                ${offerType === "international"
+                                    ? "bg-primary text-white shadow-sm"
+                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
+                                }
             `}
-        >
-            International
-        </button>
-    </div>
+                        >
+                            International
+                        </button>
+                    </div>
 
-    {/* Previous / Next */}
-    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-        <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => api?.scrollPrev()}
-            className="
+                    {/* Previous / Next */}
+                    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => api?.scrollPrev()}
+                            className="
                 h-8
                 w-8
                 rounded-full
@@ -645,16 +647,16 @@ export default function BestOffers() {
                 sm:h-10
                 sm:w-10
             "
-        >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-        </Button>
+                        >
+                            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </Button>
 
-        <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => api?.scrollNext()}
-            className="
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => api?.scrollNext()}
+                            className="
                 h-8
                 w-8
                 rounded-full
@@ -669,11 +671,11 @@ export default function BestOffers() {
                 sm:h-10
                 sm:w-10
             "
-        >
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-        </Button>
-    </div>
-</div>
+                        >
+                            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </section>
     );

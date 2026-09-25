@@ -325,14 +325,7 @@ export default function DestinationPage() {
 
                           <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/30" />
 
-                          {isLast && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/25">
-                              <div className="flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-3 py-2 text-xs font-medium text-white backdrop-blur-md">
-                                View all
-                                <ArrowRight className="h-3.5 w-3.5" />
-                              </div>
-                            </div>
-                          )}
+                         
                         </button>
                       );
                     }

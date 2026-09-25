@@ -8,6 +8,7 @@ import {
     CableCar,
     ShipWheel,
     Home,
+    FerrisWheel,Car,
     TreePine,
     ShoppingBag,
     Wind,
@@ -15,6 +16,7 @@ import {
     Sunrise,
     Umbrella,
     Caravan,
+    Users,
     Bike,
     Sparkles,
     Waves,
@@ -109,7 +111,7 @@ export const packageData = [
                             "https://images.unsplash.com/photo-1654099602420-c90791787b79?auto=format&fit=crop&w=2400&q=90",
                         alt: "Ooty Lake surrounded by green hills",
                     },
-                   
+
                     {
                         src:
                             "https://images.unsplash.com/photo-1683665446527-0bfa0d7a8822?auto=format&fit=crop&w=2400&q=90",
@@ -309,6 +311,248 @@ export const packageData = [
                         title: "Departure from Tamil Nadu",
                         description:
                             "Enjoy a relaxed morning before checking out and departing for your onward journey.",
+                    },
+                ],
+            },
+            {
+                name: "Rameswaram",
+                category: "Spiritual",
+                subtitle: "The Sacred Island of Temples, Seas & Legends",
+
+                whyVisit: {
+                    title: "Why Visit Rameswaram?",
+                    description:
+                        "Discover one of India's most sacred pilgrimage destinations, known for ancient temples, pristine beaches, coastal landscapes and the legendary Pamban Bridge.",
+                    highlights: [
+                        "Sacred Ramanathaswamy Temple",
+                        "Historic Pamban Bridge",
+                        "Beautiful coastal landscapes",
+                        "Spiritual & cultural experiences",
+                    ],
+                },
+
+                inclusions: [
+                    "3 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Airport / Railway Transfers",
+                    "All Sightseeing (SIC)",
+                    "English Speaking Guide",
+                    "Temple Entry Assistance",
+                    "Train Tickets",
+                    "All Taxes",
+                ],
+
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Early Check-in / Late Check-out",
+                ],
+
+                heroImage:
+                    "https://images.unsplash.com/photo-1706932642959-97cdde19ef0b?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+                gallery: [
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1691075209051-00bf980a8a05?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Temple in Rameswaram",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1544186673-c4881521545f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Ramanathaswamy Temple in Rameswaram",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1760637243905-8f73f60fc240?q=80&w=1033&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Coastal landscape around Rameswaram",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1677935085672-997632c0d618?q=80&w=658&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Historic temple architecture in Tamil Nadu",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1762926411769-43465e697e0f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        alt: "Beautiful coastal scenery near Rameswaram",
+                    },
+
+                ],
+
+                rating: "4.8",
+                reviews: "1.6k",
+
+                location: "Rameswaram, Tamil Nadu",
+                latitude: 9.2876,
+                longitude: 79.3129,
+
+                description:
+                    "Explore the sacred island of Rameswaram, home to the magnificent Ramanathaswamy Temple, historic Pamban Bridge, beautiful beaches and important sites connected with the Ramayana.",
+
+                weather: "24°C - 34°C",
+                idealTrip: "2 - 4 Days",
+                budget: "₹7,000 - ₹15,000",
+
+                duration: "3 Days / 2 Nights",
+                startingPrice: "₹7,999",
+                originalPrice: "₹10,999",
+                offerPrice: "₹7,999",
+                saveAmount: "₹3,000",
+                discount: "27%",
+                validTill: "30 September 2026",
+                groupSize: "2 - 16 People",
+                bestTime: "October - April",
+
+                highlights: [
+                    "Ramanathaswamy Temple",
+                    "Pamban Bridge",
+                    "Dhanushkodi",
+                    "Agni Theertham",
+                    "APJ Abdul Kalam Memorial",
+                    "Kothandaramaswamy Temple",
+                ],
+
+                bestTimeToVisit: {
+                    months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"],
+
+                    seasons: [
+                        {
+                            name: "Winter",
+                            months: "Oct - Feb",
+                            description:
+                                "Comfortable temperatures make this an ideal season for temple visits, sightseeing and exploring the coastal attractions.",
+                            icon: "winter" as const,
+                        },
+                        {
+                            name: "Summer",
+                            months: "Mar - Jun",
+                            description:
+                                "Hot and humid days are common, but early mornings and evenings remain suitable for temple visits and coastal sightseeing.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Jul - Sep",
+                            description:
+                                "Occasional rainfall brings relief from the heat, while coastal conditions can sometimes affect outdoor activities.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Madurai International Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Rameswaram Railway Station",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Auto Rickshaws, Taxis, Buses & Rental Vehicles",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Tamil, English",
+                        icon: "language",
+                    },
+                    {
+                        label: "Permits Required",
+                        value: "Generally Not Required",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indian Rupee (INR)",
+                        icon: "currency",
+                    },
+                ],
+
+                activities: [
+                    {
+                        text: "Temple Tour",
+                        icon: Sparkles,
+                    },
+                    {
+                        text: "Pilgrimage",
+                        icon: Church,
+                    },
+                    {
+                        text: "Beach Visit",
+                        icon: Waves,
+                    },
+                    {
+                        text: "Island Exploration",
+                        icon: MapPin,
+                    },
+                    {
+                        text: "Heritage Walk",
+                        icon: Footprints,
+                    },
+                    {
+                        text: "Photography",
+                        icon: Camera,
+                    },
+                    {
+                        text: "Sightseeing",
+                        icon: Binoculars,
+                    },
+                    {
+                        text: "Sunrise & Sunset",
+                        icon: Sun,
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Light Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Sunglasses & High SPF Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Power Bank & ID Proof",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Personal Medicines",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Rameswaram & Temple Visit",
+                        description:
+                            "Arrive in Rameswaram, check into your hotel and visit the sacred Ramanathaswamy Temple followed by Agni Theertham and nearby spiritual sites.",
+                    },
+                    {
+                        day: 2,
+                        title: "Rameswaram & Dhanushkodi Sightseeing",
+                        description:
+                            "Explore Pamban Bridge, Dhanushkodi, Kothandaramaswamy Temple and the beautiful coastal landscapes at the southern tip of the island.",
+                    },
+                    {
+                        day: 3,
+                        title: "Rameswaram Local Sightseeing & Departure",
+                        description:
+                            "Visit the APJ Abdul Kalam Memorial and other important local attractions before checking out and departing for your onward journey.",
                     },
                 ],
             },
@@ -592,283 +836,7 @@ export const packageData = [
             },
         ],
     },
-    {
-        name: "Meghalaya",
 
-        packages: [
-            {
-                name: "Meghalaya",
-                category: "Nature",
-                subtitle: "The Abode of Clouds, Waterfalls & Living Root Bridges",
-                // Meghalaya
-                whyVisit: {
-                    title: "Why Visit Meghalaya?",
-                    description:
-                        "Explore misty hills, lush forests, dramatic waterfalls and peaceful villages in the enchanting landscapes of Northeast India.",
-                    highlights: [
-                        "Lush green hills & forests",
-                        "Spectacular waterfalls",
-                        "Living root bridges",
-                        "Crystal-clear rivers & caves",
-                    ],
-                },
-                inclusions: [
-                    "6 Nights Accommodation",
-                    "Daily Breakfast",
-                    "Airport Transfers",
-                    "All Sightseeing (SIC)",
-                    "English Speaking Guide",
-                    "Entry Tickets",
-                    "Train Tickets",
-                    "All Taxes",
-                ],
-
-                exclusions: [
-                    "International Flights",
-                    "Lunch & Dinner",
-                    "Personal Expenses",
-                    "Travel Insurance",
-                    "Tips & Gratuities",
-                    "Early Check-in / Late Check-out",
-                ],
-                heroImage:
-                    "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-
-                gallery: [
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Misty green mountains and valleys of Meghalaya",
-                    },
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Lush green forest landscape in Meghalaya",
-                    },
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Dense green forest and natural landscape of Meghalaya",
-                    },
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Mountain landscape surrounded by clouds in Meghalaya",
-                    },
-
-                    {
-                        src:
-                            "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=90",
-                        alt: "Tropical waterfall and lush vegetation in Meghalaya",
-                    },
-                ],
-
-                rating: "4.8",
-                reviews: "2.1k",
-
-                location: "Shillong, Meghalaya",
-                latitude: 25.5788,
-                longitude: 91.8933,
-
-                description:
-                    "Explore Meghalaya's misty hills, spectacular waterfalls, crystal-clear rivers, ancient living root bridges and peaceful villages across Shillong, Cherrapunji, Dawki and Mawlynnong.",
-
-                weather: "12°C - 25°C",
-                idealTrip: "5 - 7 Days",
-                budget: "₹15,000 - ₹30,000",
-
-                duration: "6 Days / 5 Nights",
-                startingPrice: "₹16,999",
-                originalPrice: "₹22,999",
-                offerPrice: "₹16,999",
-                saveAmount: "₹6,000",
-                discount: "26%",
-                validTill: "30 September 2026",
-                groupSize: "2 - 16 People",
-                bestTime: "October - May",
-
-                highlights: [
-                    "Shillong",
-                    "Cherrapunji",
-                    "Dawki",
-                    "Mawlynnong",
-                    "Living Root Bridges",
-                    "Nohkalikai Falls",
-                ],
-
-                activities: [
-                    {
-                        text: "Trekking",
-                        icon: PersonStanding,
-                    },
-                    {
-                        text: "Waterfall Exploring",
-                        icon: Waves,
-                    },
-                    {
-                        text: "Caving",
-                        icon: Mountain,
-                    },
-                    {
-                        text: "River Activities",
-                        icon: Ship,
-                    },
-                    {
-                        text: "Nature Walk",
-                        icon: TreePine,
-                    },
-                    {
-                        text: "Camping",
-                        icon: TentTree,
-                    },
-                    {
-                        text: "Photography",
-                        icon: Camera,
-                    },
-                    {
-                        text: "Village Exploration",
-                        icon: Home,
-                    },
-                ],
-
-                bestTimeToVisit: {
-                    months: [
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                    ],
-
-                    seasons: [
-                        {
-                            name: "Winter",
-                            months: "Nov - Feb",
-                            description:
-                                "Cool and pleasant weather with misty mornings, comfortable sightseeing conditions and beautiful views of Meghalaya's hills and valleys.",
-                            icon: "winter" as const,
-                        },
-                        {
-                            name: "Summer",
-                            months: "Mar - May",
-                            description:
-                                "Mild temperatures and refreshing greenery make this a comfortable season for waterfalls, trekking, sightseeing and exploring villages.",
-                            icon: "summer" as const,
-                        },
-                        {
-                            name: "Monsoon",
-                            months: "Jun - Sep",
-                            description:
-                                "Heavy rainfall creates lush green landscapes and dramatic waterfalls, although rain can make trekking and road travel more challenging.",
-                            icon: "monsoon" as const,
-                        },
-                    ],
-                },
-
-                travelInfo: [
-                    {
-                        label: "Nearest Airport",
-                        value: "Shillong Airport (Umroi)",
-                        icon: "airport",
-                    },
-                    {
-                        label: "Nearest Railway Station",
-                        value: "Guwahati Railway Station",
-                        icon: "railway",
-                    },
-                    {
-                        label: "Local Transport",
-                        value: "Taxis, Shared Cabs & Local Buses",
-                        icon: "transport",
-                    },
-                    {
-                        label: "Languages Spoken",
-                        value: "Khasi, English & Hindi",
-                        icon: "language",
-                    },
-                    {
-                        label: "Permits Required",
-                        value: "Generally Not Required",
-                        icon: "permit",
-                    },
-                    {
-                        label: "Currency",
-                        value: "Indian Rupee (INR)",
-                        icon: "currency",
-                    },
-                ],
-
-                packingItems: [
-                    {
-                        label: "Light & Quick-Dry Clothes",
-                        icon: "clothes",
-                    },
-                    {
-                        label: "Rain Jacket or Poncho",
-                        icon: "clothes",
-                    },
-                    {
-                        label: "Comfortable Trekking Shoes",
-                        icon: "shoes",
-                    },
-                    {
-                        label: "Sunglasses & Sunscreen",
-                        icon: "sunglasses",
-                    },
-                    {
-                        label: "Power Bank & ID Proof",
-                        icon: "powerbank",
-                    },
-                    {
-                        label: "Personal Medicines",
-                        icon: "medicine",
-                    },
-                ],
-
-                itinerary: [
-                    {
-                        day: 1,
-                        title: "Arrival in Shillong & Local Sightseeing",
-                        description:
-                            "Arrive in Shillong and check into your hotel. Explore Shillong Peak, Elephant Falls and the scenic surroundings before relaxing in the evening.",
-                    },
-                    {
-                        day: 2,
-                        title: "Shillong to Cherrapunji",
-                        description:
-                            "Travel towards Cherrapunji through the beautiful Khasi Hills. Visit scenic viewpoints, waterfalls and natural attractions along the way before checking into your stay.",
-                    },
-                    {
-                        day: 3,
-                        title: "Cherrapunji Waterfalls & Caves",
-                        description:
-                            "Explore Cherrapunji's spectacular natural attractions including Nohkalikai Falls, Seven Sisters Falls and nearby caves while enjoying the misty landscapes of the region.",
-                    },
-                    {
-                        day: 4,
-                        title: "Nongriat Living Root Bridge",
-                        description:
-                            "Trek through lush forests towards Nongriat and experience the famous living root bridge. Enjoy the peaceful surroundings and natural pools before returning to Cherrapunji.",
-                    },
-                    {
-                        day: 5,
-                        title: "Dawki & Mawlynnong",
-                        description:
-                            "Visit Dawki and enjoy the scenic Umngot River before continuing to Mawlynnong. Explore the village and surrounding landscapes known for their greenery and natural beauty.",
-                    },
-                    {
-                        day: 6,
-                        title: "Return to Shillong & Departure",
-                        description:
-                            "Enjoy breakfast and some free time before returning towards Shillong. Complete your onward journey with unforgettable memories of Meghalaya's mountains, waterfalls and villages.",
-                    },
-                ],
-            },
-        ],
-    },
     {
         name: "Goa",
 
@@ -3030,13 +2998,13 @@ export const packageData = [
                         alt: "Himalayan landscape near Mussoorie",
                     },
                     {
-                            src:
+                        src:
                             "https://images.unsplash.com/photo-1596788455520-88b30834d8ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODh8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
                         alt: "Himalayan landscape near Mussoorie",
                     },
-                       {
-                            src:
-                    "https://images.unsplash.com/photo-1696070188645-67be6a7a8124?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1696070188645-67be6a7a8124?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fG11c3Nvb3JpZXxlbnwwfDB8MHx8fDA%3D",
                         alt: "Himalayan landscape near Mussoorie",
                     },
                 ],
@@ -3948,7 +3916,7 @@ export const packageData = [
                         icon: "currency",
                     },
                 ],
-   packingItems: [
+                packingItems: [
                     {
                         label: "Comfortable Cotton Clothes",
                         icon: "clothes",
@@ -4009,7 +3977,7 @@ export const packageData = [
                     },
                 ],
 
-               
+
 
                 itinerary: [
                     {
@@ -5361,4 +5329,1082 @@ export const packageData = [
     }
 ];
 
+
+export const InternationalPacakges = [
+    {
+        name: "Bali",
+        packages: [
+            {
+
+                name: "Bali",
+                category: "International",
+                subtitle: "Island Escapes, Temples & Tropical Adventures",
+
+                whyVisit: {
+                    title: "Why Visit Bali?",
+                    description:
+                        "Experience Bali's tropical beaches, ancient temples, lush rice terraces, vibrant culture and unforgettable island adventures.",
+                    highlights: [
+                        "Beautiful tropical beaches",
+                        "Ancient Balinese temples",
+                        "Lush rice terraces & waterfalls",
+                        "Rich local culture & cuisine",
+                    ],
+                },
+
+                inclusions: [
+                    "4 Nights Accommodation",
+                    "Daily Breakfast",
+                    "Private Airport Transfers",
+                    "All Sightseeing as per Itinerary",
+                    "English Speaking Driver",
+                    "Private Transportation",
+                    "All Applicable Taxes",
+                ],
+
+                exclusions: [
+                    "International Flights",
+                    "Lunch & Dinner",
+                    "Visa / Visa on Arrival Charges",
+                    "Personal Expenses",
+                    "Travel Insurance",
+                    "Tips & Gratuities",
+                    "Adventure Activity Charges",
+                ],
+
+                heroImage:
+                    "https://images.unsplash.com/photo-1592364395653-83e648b20cc2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+                gallery: [
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Traditional Balinese temple surrounded by tropical greenery",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Beautiful tropical beach in Bali",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Lush green rice terraces in Bali",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Tropical waterfall surrounded by greenery in Bali",
+                    },
+                    {
+                        src:
+                            "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=2400&q=90",
+                        alt: "Scenic tropical island landscape in Bali",
+                    },
+                ],
+
+                rating: "4.8",
+                reviews: "3.2k",
+
+                location: "Bali, Indonesia",
+                latitude: -8.4095,
+                longitude: 115.1889,
+
+                description:
+                    "Discover the enchanting island of Bali with its golden beaches, ancient temples, lush rice terraces, waterfalls, vibrant markets and unforgettable cultural experiences across Ubud, Kuta, Seminyak and Nusa Dua.",
+
+                weather: "24°C - 31°C",
+                idealTrip: "5 - 8 Days",
+                budget: "₹35,000 - ₹70,000",
+
+                duration: "6 Days / 5 Nights",
+                startingPrice: "$14,999",
+                originalPrice: "$19,999",
+                offerPrice: "$14,999",
+                saveAmount: "$5,000",
+                discount: "25%",
+                validTill: "30 September 2026",
+                groupSize: "2 - 16 People",
+                bestTime: "April - October",
+
+                highlights: [
+                    "Ubud",
+                    "Kuta Beach",
+                    "Seminyak",
+                    "Nusa Dua",
+                    "Tanah Lot Temple",
+                    "Tegallalang Rice Terraces",
+                ],
+
+                activities: [
+                    {
+                        text: "Beach Visit",
+                        icon: Waves,
+                    },
+                    {
+                        text: "Temple Tour",
+                        icon: Church,
+                    },
+                    {
+                        text: "Rice Terrace Walk",
+                        icon: TreePine,
+                    },
+                    {
+                        text: "Waterfall Visit",
+                        icon: Waves,
+                    },
+                    {
+                        text: "Island Exploration",
+                        icon: Compass,
+                    },
+                    {
+                        text: "Cultural Experience",
+                        icon: Users,
+                    },
+                    {
+                        text: "Nature Walk",
+                        icon: Footprints,
+                    },
+                    {
+                        text: "Photography",
+                        icon: Camera,
+                    },
+                ],
+
+                bestTimeToVisit: {
+                    months: [
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Oct",
+                    ],
+
+                    seasons: [
+                        {
+                            name: "Summer",
+                            months: "Apr - Oct",
+                            description:
+                                "Dry weather, sunny beaches and pleasant conditions make this the most popular period for exploring Bali.",
+                            icon: "summer" as const,
+                        },
+                        {
+                            name: "Monsoon",
+                            months: "Nov - Mar",
+                            description:
+                                "Tropical showers bring lush greenery and fewer crowds across Bali's scenic landscapes.",
+                            icon: "monsoon" as const,
+                        },
+                    ],
+                },
+
+                travelInfo: [
+                    {
+                        label: "Nearest Airport",
+                        value: "Ngurah Rai International Airport",
+                        icon: "airport",
+                    },
+                    {
+                        label: "Nearest Railway Station",
+                        value: "Not Applicable",
+                        icon: "railway",
+                    },
+                    {
+                        label: "Local Transport",
+                        value: "Taxis, Private Cars, Scooters & Local Cabs",
+                        icon: "transport",
+                    },
+                    {
+                        label: "Languages Spoken",
+                        value: "Indonesian, Balinese & English",
+                        icon: "language",
+                    },
+                    {
+                        label: "Visa Required",
+                        value: "Visa / Visa on Arrival Depending on Nationality",
+                        icon: "permit",
+                    },
+                    {
+                        label: "Currency",
+                        value: "Indonesian Rupiah (IDR)",
+                        icon: "currency",
+                    },
+                ],
+
+                packingItems: [
+                    {
+                        label: "Light Cotton Clothes",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Swimwear & Beachwear",
+                        icon: "clothes",
+                    },
+                    {
+                        label: "Comfortable Walking Shoes",
+                        icon: "shoes",
+                    },
+                    {
+                        label: "Sunglasses & Sunscreen",
+                        icon: "sunglasses",
+                    },
+                    {
+                        label: "Power Bank & Travel Adapter",
+                        icon: "powerbank",
+                    },
+                    {
+                        label: "Passport & Travel Documents",
+                        icon: "medicine",
+                    },
+                ],
+
+                itinerary: [
+                    {
+                        day: 1,
+                        title: "Arrival in Bali",
+                        description:
+                            "Arrive at Ngurah Rai International Airport and transfer to your hotel. Relax and spend the evening exploring the nearby beach, cafes and local markets.",
+                    },
+                    {
+                        day: 2,
+                        title: "Ubud Cultural Exploration",
+                        description:
+                            "Explore Ubud's cultural attractions including traditional temples, local markets, rice terraces and scenic countryside. Experience the artistic heart of Bali.",
+                    },
+                    {
+                        day: 3,
+                        title: "Waterfalls & Rice Terraces",
+                        description:
+                            "Visit Bali's beautiful waterfalls and explore the famous Tegallalang Rice Terraces. Enjoy the lush tropical landscapes and traditional Balinese surroundings.",
+                    },
+                    {
+                        day: 4,
+                        title: "Temple & Sunset Experience",
+                        description:
+                            "Visit some of Bali's iconic temples and explore the surrounding coastal landscapes. End the day watching a beautiful sunset along the Bali coastline.",
+                    },
+                    {
+                        day: 5,
+                        title: "Beach & Leisure Day",
+                        description:
+                            "Enjoy a relaxed day at Bali's famous beaches. Explore Seminyak, Kuta or Nusa Dua, shop for souvenirs and experience Bali's vibrant beachside atmosphere.",
+                    },
+                    {
+                        day: 6,
+                        title: "Leisure & Departure",
+                        description:
+                            "Enjoy breakfast and some free time for shopping or relaxation before checking out and transferring to the airport for your onward journey.",
+                    },
+                ],
+            },
+        ]
+    },
+
+    {
+        name:"Dubai",
+        packages:[
+             {
+        name: "Dubai",
+        category: "International",
+        subtitle: "Luxury, Shopping, Skyscrapers & Desert Adventures",
+
+        whyVisit: {
+            title: "Why Visit Dubai?",
+            description:
+                "Experience Dubai's futuristic skyline, luxurious shopping malls, golden deserts, iconic landmarks and unforgettable Arabian hospitality.",
+            highlights: [
+                "Burj Khalifa & Dubai skyline",
+                "Luxury shopping & entertainment",
+                "Desert safari & dune adventures",
+                "Modern architecture & Arabian culture",
+            ],
+        },
+
+        inclusions: [
+            "4 Nights Accommodation",
+            "Daily Breakfast",
+            "Private Airport Transfers",
+            "Dubai City Tour",
+            "Desert Safari with Dinner",
+            "All Sightseeing as per Itinerary",
+            "All Applicable Taxes",
+        ],
+
+        exclusions: [
+            "International Flights",
+            "Lunch & Dinner Except Mentioned",
+            "UAE Visa Charges",
+            "Personal Expenses",
+            "Travel Insurance",
+            "Tips & Gratuities",
+            "Optional Activity Charges",
+        ],
+
+        heroImage:
+            "https://images.unsplash.com/photo-1546412414-8035e1776c9a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=90",
+                alt: "Dubai skyline with Burj Khalifa",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1526495124232-a04e1849168c?auto=format&fit=crop&w=2400&q=90",
+                alt: "Dubai desert landscape and safari experience",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=2400&q=90",
+                alt: "Dubai city skyline and modern architecture",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=2400&q=90",
+                alt: "Modern buildings and attractions in Dubai",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=2400&q=90",
+                alt: "Dubai skyline at sunset",
+            },
+        ],
+
+        rating: "4.8",
+        reviews: "4.1k",
+
+        location: "Dubai, United Arab Emirates",
+        latitude: 25.2048,
+        longitude: 55.2708,
+
+        description:
+            "Experience the glamour of Dubai with iconic skyscrapers, luxurious malls, beautiful beaches, desert adventures, world-class attractions and a fascinating blend of modern and Arabian culture.",
+
+        weather: "18°C - 40°C",
+        idealTrip: "4 - 6 Days",
+        budget: "₹45,000 - ₹90,000",
+
+        duration: "5 Days / 4 Nights",
+        startingPrice: "$18,499",
+        originalPrice: "$24,999",
+        offerPrice: "$18,499",
+        saveAmount: "$6,500",
+        discount: "25%",
+        validTill: "30 September 2026",
+        groupSize: "2 - 16 People",
+        bestTime: "November - March",
+
+        highlights: [
+            "Burj Khalifa",
+            "Dubai Mall",
+            "Palm Jumeirah",
+            "Dubai Marina",
+            "Desert Safari",
+            "Museum of the Future",
+        ],
+
+        activities: [
+            {
+                text: "City Sightseeing",
+                icon: Building2,
+            },
+            {
+                text: "Desert Safari",
+                icon: Car,
+            },
+            {
+                text: "Shopping",
+                icon: ShoppingBag,
+            },
+            {
+                text: "Beach Visit",
+                icon: Waves,
+            },
+            {
+                text: "Burj Khalifa Visit",
+                icon: Landmark,
+            },
+            {
+                text: "Dhow Cruise",
+                icon: Ship,
+            },
+            {
+                text: "Photography",
+                icon: Camera,
+            },
+            {
+                text: "Luxury Experience",
+                icon: Sparkles,
+            },
+        ],
+
+        bestTimeToVisit: {
+            months: [
+                "Nov",
+                "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+            ],
+
+            seasons: [
+                {
+                    name: "Winter",
+                    months: "Nov - Mar",
+                    description:
+                        "Cooler temperatures make winter ideal for sightseeing, desert safaris and outdoor activities in Dubai.",
+                    icon: "winter" as const,
+                },
+                {
+                    name: "Summer",
+                    months: "Apr - Oct",
+                    description:
+                        "Hot temperatures make indoor attractions, shopping malls and luxury experiences more comfortable.",
+                    icon: "summer" as const,
+                },
+            ],
+        },
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Dubai International Airport",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "Dubai Metro Network",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "Metro, Taxis, Buses & Rental Cars",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "Arabic & English",
+                icon: "language",
+            },
+            {
+                label: "Visa Required",
+                value: "UAE Tourist Visa",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "UAE Dirham (AED)",
+                icon: "currency",
+            },
+        ],
+
+        packingItems: [
+            {
+                label: "Lightweight Clothes",
+                icon: "clothes",
+            },
+            {
+                label: "Modest Clothing for Religious Sites",
+                icon: "clothes",
+            },
+            {
+                label: "Comfortable Walking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Sunglasses & Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Power Bank & Travel Adapter",
+                icon: "powerbank",
+            },
+            {
+                label: "Passport & Travel Documents",
+                icon: "medicine",
+            },
+        ],
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Dubai",
+                description:
+                    "Arrive at Dubai International Airport and transfer to your hotel. Relax and spend the evening exploring Dubai Marina or enjoying the city's vibrant nightlife.",
+            },
+            {
+                day: 2,
+                title: "Dubai City Tour",
+                description:
+                    "Explore Dubai's iconic attractions including Burj Khalifa, Dubai Mall, Downtown Dubai, Palm Jumeirah and Dubai Marina. Enjoy spectacular views of the modern skyline.",
+            },
+            {
+                day: 3,
+                title: "Desert Safari Adventure",
+                description:
+                    "Enjoy an exciting desert safari with dune bashing, desert photography and traditional Arabian experiences. End the evening with dinner and cultural entertainment under the desert sky.",
+            },
+            {
+                day: 4,
+                title: "Dubai Shopping & Attractions",
+                description:
+                    "Spend the day exploring Dubai's famous shopping destinations and attractions. Visit traditional souks, modern malls and the city's popular entertainment areas.",
+            },
+            {
+                day: 5,
+                title: "Leisure & Departure",
+                description:
+                    "Enjoy breakfast and some free time for shopping or relaxation before checking out and transferring to Dubai International Airport for your onward journey.",
+            },
+        ],
+    },
+        ]
+    },
+
+    {
+        name:"Thailand",
+        packages:[
+              {
+        name: "Thailand",
+        category: "International",
+        subtitle: "Tropical Beaches, Islands & Adventure",
+
+        whyVisit: {
+            title: "Why Visit Thailand?",
+            description:
+                "Explore Thailand's tropical islands, golden temples, vibrant cities, beautiful beaches and exciting adventures across Bangkok, Phuket and Krabi.",
+            highlights: [
+                "Beautiful tropical islands",
+                "Pristine beaches & turquoise waters",
+                "Thai temples & cultural experiences",
+                "Adventure, nightlife & local cuisine",
+            ],
+        },
+
+        inclusions: [
+            "4 Nights Accommodation",
+            "Daily Breakfast",
+            "Airport Transfers",
+            "Island Sightseeing Tours",
+            "Private / Shared Transfers",
+            "All Sightseeing as per Itinerary",
+            "All Applicable Taxes",
+        ],
+
+        exclusions: [
+            "International Flights",
+            "Lunch & Dinner",
+            "Thailand Visa / Entry Charges",
+            "Personal Expenses",
+            "Travel Insurance",
+            "Tips & Gratuities",
+            "Optional Water Sports",
+        ],
+
+        heroImage:
+            "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=2400&q=90",
+                alt: "Tropical beach and islands in Thailand",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=2400&q=90",
+                alt: "Traditional Thai temple in Thailand",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?auto=format&fit=crop&w=2400&q=90",
+                alt: "Beautiful tropical island beach",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=2400&q=90",
+                alt: "Thailand tropical coastline and islands",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=2400&q=90",
+                alt: "Bangkok city and Thai architecture",
+            },
+        ],
+
+        rating: "4.8",
+        reviews: "3.8k",
+
+        location: "Bangkok, Thailand",
+        latitude: 13.7563,
+        longitude: 100.5018,
+
+        description:
+            "Discover Thailand's perfect blend of tropical beaches, stunning islands, ancient temples, vibrant markets, delicious cuisine and unforgettable adventures across Bangkok, Phuket and Krabi.",
+
+        weather: "24°C - 34°C",
+        idealTrip: "5 - 8 Days",
+        budget: "₹30,000 - ₹65,000",
+
+        duration: "6 Days / 5 Nights",
+        startingPrice: "$16,999",
+        originalPrice: "$22,999",
+        offerPrice: "$16,999",
+        saveAmount: "$6,000",
+        discount: "25%",
+        validTill: "30 September 2026",
+        groupSize: "2 - 16 People",
+        bestTime: "November - February",
+
+        highlights: [
+            "Bangkok",
+            "Phuket",
+            "Krabi",
+            "Phi Phi Islands",
+            "Grand Palace",
+            "Thai Temples",
+        ],
+
+        activities: [
+            {
+                text: "Island Hopping",
+                icon: Ship,
+            },
+            {
+                text: "Beach Visit",
+                icon: Waves,
+            },
+            {
+                text: "Temple Tour",
+                icon: Church,
+            },
+            {
+                text: "Snorkeling",
+                icon: Waves,
+            },
+            {
+                text: "City Sightseeing",
+                icon: Building2,
+            },
+            {
+                text: "Thai Food Experience",
+                icon: Utensils,
+            },
+            {
+                text: "Night Market",
+                icon: ShoppingBag,
+            },
+            {
+                text: "Photography",
+                icon: Camera,
+            },
+        ],
+
+        bestTimeToVisit: {
+            months: [
+                "Nov",
+                "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+            ],
+
+            seasons: [
+                {
+                    name: "Winter",
+                    months: "Nov - Feb",
+                    description:
+                        "Cooler and drier weather makes this period ideal for beaches, islands and sightseeing.",
+                    icon: "winter" as const,
+                },
+                {
+                    name: "Summer",
+                    months: "Mar - Jun",
+                    description:
+                        "Warm weather is suitable for beach activities, island tours and exploring Thailand's cities.",
+                    icon: "summer" as const,
+                },
+                {
+                    name: "Monsoon",
+                    months: "Jul - Oct",
+                    description:
+                        "Tropical showers bring lush landscapes and fewer crowds, with weather varying across regions.",
+                    icon: "monsoon" as const,
+                },
+            ],
+        },
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Suvarnabhumi International Airport",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "Bangkok Railway Station",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "Taxis, Metro, Tuk-Tuks, Ferries & Local Cabs",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "Thai & English",
+                icon: "language",
+            },
+            {
+                label: "Visa Required",
+                value: "Depends on Passport & Current Entry Rules",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "Thai Baht (THB)",
+                icon: "currency",
+            },
+        ],
+
+        packingItems: [
+            {
+                label: "Light Cotton Clothes",
+                icon: "clothes",
+            },
+            {
+                label: "Swimwear & Beachwear",
+                icon: "clothes",
+            },
+            {
+                label: "Comfortable Walking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Sunglasses & Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Power Bank & Travel Adapter",
+                icon: "powerbank",
+            },
+            {
+                label: "Passport & Travel Documents",
+                icon: "medicine",
+            },
+        ],
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Bangkok",
+                description:
+                    "Arrive in Bangkok and transfer to your hotel. Relax and spend the evening exploring nearby markets, shopping areas and local streets.",
+            },
+            {
+                day: 2,
+                title: "Bangkok City & Temple Tour",
+                description:
+                    "Explore Bangkok's famous attractions including the Grand Palace, Wat Pho and other iconic temples. Experience the city's vibrant markets and local culture.",
+            },
+            {
+                day: 3,
+                title: "Fly to Phuket",
+                description:
+                    "Travel to Phuket and check into your hotel. Spend the rest of the day relaxing on the beach and exploring Phuket's lively coastal areas.",
+            },
+            {
+                day: 4,
+                title: "Phi Phi Island Excursion",
+                description:
+                    "Enjoy a full-day island-hopping adventure around the Phi Phi Islands. Explore beautiful beaches, turquoise waters and scenic viewpoints with opportunities for swimming and snorkeling.",
+            },
+            {
+                day: 5,
+                title: "Phuket Leisure & Sightseeing",
+                description:
+                    "Explore Phuket's scenic coastline, local markets and cultural attractions. Enjoy free time for shopping, beach activities or relaxing at your resort.",
+            },
+            {
+                day: 6,
+                title: "Leisure & Departure",
+                description:
+                    "Enjoy breakfast and some free time before checking out and transferring to the airport for your onward journey with unforgettable memories of Thailand.",
+            },
+        ],
+    },
+        ]
+    },
+   
+    {
+        name:"Singapore",
+        packages:[
+            
+    {
+        name: "Singapore",
+        category: "International",
+        subtitle: "Modern Cityscapes, Gardens & Family Adventures",
+
+        whyVisit: {
+            title: "Why Visit Singapore?",
+            description:
+                "Discover Singapore's futuristic skyline, world-class attractions, lush gardens, diverse cuisine and vibrant blend of cultures.",
+            highlights: [
+                "Iconic Marina Bay skyline",
+                "Gardens by the Bay",
+                "Universal Studios Singapore",
+                "World-class shopping & cuisine",
+            ],
+        },
+
+        inclusions: [
+            "4 Nights Accommodation",
+            "Daily Breakfast",
+            "Airport Transfers",
+            "Singapore City Tour",
+            "Gardens by the Bay Visit",
+            "All Sightseeing as per Itinerary",
+            "All Applicable Taxes",
+        ],
+
+        exclusions: [
+            "International Flights",
+            "Lunch & Dinner",
+            "Visa Charges",
+            "Personal Expenses",
+            "Travel Insurance",
+            "Tips & Gratuities",
+            "Optional Attraction Tickets",
+        ],
+
+        heroImage:
+            "https://images.unsplash.com/photo-1695305915825-4addf10a8120?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        gallery: [
+            {
+                src:
+                    "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=2400&q=90",
+                alt: "Singapore skyline and Marina Bay",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=2400&q=90",
+                alt: "Modern Singapore city architecture",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1496939376851-89342e90adcd?auto=format&fit=crop&w=2400&q=90",
+                alt: "Gardens and futuristic attractions in Singapore",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2400&q=90",
+                alt: "Singapore cityscape and Marina Bay",
+            },
+            {
+                src:
+                    "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=2400&q=90",
+                alt: "Singapore attractions and urban landscape",
+            },
+        ],
+
+        rating: "4.8",
+        reviews: "2.9k",
+
+        location: "Singapore",
+        latitude: 1.3521,
+        longitude: 103.8198,
+
+        description:
+            "Explore Singapore, a futuristic city-state known for its iconic skyline, beautiful gardens, luxury shopping, diverse cuisine, family attractions and vibrant cultural neighborhoods.",
+
+        weather: "25°C - 32°C",
+        idealTrip: "4 - 6 Days",
+        budget: "₹40,000 - ₹80,000",
+
+        duration: "5 Days / 4 Nights",
+        startingPrice: "$21,499",
+        originalPrice: "$28,999",
+        offerPrice: "$21,499",
+        saveAmount: "$7,500",
+        discount: "25%",
+        validTill: "30 September 2026",
+        groupSize: "2 - 16 People",
+        bestTime: "February - April",
+
+        highlights: [
+            "Marina Bay Sands",
+            "Gardens by the Bay",
+            "Sentosa Island",
+            "Universal Studios",
+            "Merlion Park",
+            "Singapore Flyer",
+        ],
+
+        activities: [
+            {
+                text: "City Sightseeing",
+                icon: Building2,
+            },
+            {
+                text: "Garden Exploration",
+                icon: TreePine,
+            },
+            {
+                text: "Theme Park",
+                icon: FerrisWheel
+            },
+            {
+                text: "Shopping",
+                icon: ShoppingBag,
+            },
+            {
+                text: "River Cruise",
+                icon: Ship,
+            },
+            {
+                text: "Food Experience",
+                icon: Utensils,
+            },
+            {
+                text: "Cultural Walk",
+                icon: Footprints,
+            },
+            {
+                text: "Photography",
+                icon: Camera,
+            },
+        ],
+
+        bestTimeToVisit: {
+            months: [
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+            ],
+
+            seasons: [
+                {
+                    name: "Summer",
+                    months: "Feb - Apr",
+                    description:
+                        "Warm weather and relatively lower rainfall make this a comfortable period for exploring Singapore.",
+                    icon: "summer" as const,
+                },
+                {
+                    name: "Monsoon",
+                    months: "Nov - Jan",
+                    description:
+                        "Frequent tropical showers occur, but most attractions remain easily accessible throughout the year.",
+                    icon: "monsoon" as const,
+                },
+            ],
+        },
+
+        travelInfo: [
+            {
+                label: "Nearest Airport",
+                value: "Singapore Changi Airport",
+                icon: "airport",
+            },
+            {
+                label: "Nearest Railway Station",
+                value: "Woodlands Train Checkpoint",
+                icon: "railway",
+            },
+            {
+                label: "Local Transport",
+                value: "MRT, Buses, Taxis & Ride-Hailing",
+                icon: "transport",
+            },
+            {
+                label: "Languages Spoken",
+                value: "English, Malay, Mandarin & Tamil",
+                icon: "language",
+            },
+            {
+                label: "Visa Required",
+                value: "Singapore Tourist Visa Depending on Nationality",
+                icon: "permit",
+            },
+            {
+                label: "Currency",
+                value: "Singapore Dollar (SGD)",
+                icon: "currency",
+            },
+        ],
+
+        packingItems: [
+            {
+                label: "Light Cotton Clothes",
+                icon: "clothes",
+            },
+            {
+                label: "Comfortable Walking Shoes",
+                icon: "shoes",
+            },
+            {
+                label: "Sunglasses & Sunscreen",
+                icon: "sunglasses",
+            },
+            {
+                label: "Compact Umbrella",
+                icon: "clothes",
+            },
+            {
+                label: "Power Bank & Travel Adapter",
+                icon: "powerbank",
+            },
+            {
+                label: "Passport & Travel Documents",
+                icon: "medicine",
+            },
+        ],
+
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Singapore",
+                description:
+                    "Arrive at Singapore Changi Airport and transfer to your hotel. Relax and spend the evening exploring Marina Bay and the surrounding city attractions.",
+            },
+            {
+                day: 2,
+                title: "Singapore City Tour",
+                description:
+                    "Explore Singapore's iconic attractions including Merlion Park, Marina Bay, Singapore Flyer and the city's famous cultural neighborhoods.",
+            },
+            {
+                day: 3,
+                title: "Sentosa Island Adventure",
+                description:
+                    "Spend the day exploring Sentosa Island and enjoy its beaches, attractions and entertainment. Visit Universal Studios Singapore for an exciting theme-park experience.",
+            },
+            {
+                day: 4,
+                title: "Gardens & Shopping",
+                description:
+                    "Visit Gardens by the Bay and explore Singapore's futuristic Supertree Grove. Later, enjoy shopping and dining along Orchard Road and other popular areas.",
+            },
+            {
+                day: 5,
+                title: "Leisure & Departure",
+                description:
+                    "Enjoy breakfast and some free time for shopping or exploring before checking out and transferring to Changi Airport for your onward journey.",
+            },
+        ],
+    },
+        ]
+    }
+  
+
+]
 
