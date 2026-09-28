@@ -136,10 +136,9 @@ export default function WhyChooseUs() {
                         "
                     >
                         {features.map((feature, index) => (
-                            <Link
+                            <div
                                 key={index}
-                                href="#"
-                                className="
+                                 className="
                                     group
                                     flex
                                     min-h-[58px]
@@ -228,7 +227,7 @@ export default function WhyChooseUs() {
                                 </div>
 
                                 {/* Arrow */}
-                                <ArrowRight
+                                {/* <ArrowRight
                                     className="
                                         ml-2
                                         h-4
@@ -243,8 +242,8 @@ export default function WhyChooseUs() {
                                         sm:w-5
                                     "
                                     strokeWidth={1.8}
-                                />
-                            </Link>
+                                /> */}
+                            </div>
                         ))}
                     </div>
                 </div>

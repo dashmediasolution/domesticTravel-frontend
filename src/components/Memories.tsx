@@ -130,9 +130,9 @@ export default function Memories() {
                             lg:text-[16px]
                         "
                     >
-                        Explore breathtaking destinations across India
+                        Explore breathtaking destinations around the
                         <br className="hidden sm:block" />
-                        with handpicked experiences and best deals.
+                        world with handpicked tour packages and great value.
                     </p>
 
                     {/* Features */}

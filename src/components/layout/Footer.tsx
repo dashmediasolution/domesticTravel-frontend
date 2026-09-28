@@ -239,13 +239,13 @@ const features = [
         icon: Leaf,
         title: "Sustainable Travel",
         description:
-            "Let's explore responsibly for a better tomorrow.",
+            "Travel thoughtfully and explore the world with a focus.",
     },
     {
         icon: Heart,
         title: "Millions of Happy Travelers",
         description:
-            "Join a growing community of travel lovers.",
+            "Community of travelers discovering new destinations",
     },
 ];
 
@@ -347,11 +347,11 @@ export default function Footer() {
                                 lg:leading-[21px]
                             "
                         >
-                            Your gateway to the most
-                            <br />
-                            beautiful destinations in India.
-                            <br />
-                            Explore. Experience. Enjoy.
+                           
+Explore domestic and international 
+tour packages designed to create 
+lifelong memories you'll cherish.
+.
                         </p>
 
 

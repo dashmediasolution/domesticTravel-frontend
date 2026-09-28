@@ -1,64 +1,141 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
 }
 
-type BlogImage {
-  url      String
-  publicId String
+enum PackageType {
+    REGULAR
+    SPECIAL
 }
 
-model AdminUser {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  email        String  @unique
-  passwordHash String
-  isActive     Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum PackageOccasion {
+    NONE
+    CHRISTMAS
+    DIWALI
+    NEW_YEAR
+    VALENTINE
+    HOLI
+    EID
+    SUMMER
+    WINTER
+    FESTIVAL
+    OTHER
 }
 
-model Blog {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  title   String
-  slug    String  @unique
-  excerpt String?
-  content String
-
-  featuredImage BlogImage?
-
-  categoryId String?       @db.ObjectId
-  category   BlogCategory? @relation(fields: [categoryId], references: [id])
-
-  tags String[]
-
-  isPublished Boolean   @default(false)
-  publishedAt DateTime?
-
-  metaTitle       String?
-  metaDescription String?
-  keywords        String[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+enum OfferType {
+    EARLY_BIRD
+    FLASH_SALE
+    SEASONAL
+    FESTIVE
+    LIMITED_TIME
+    SPECIAL
 }
 
-model BlogCategory {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
+model Package {
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    slug        String  @unique
+    category    String
 
-  blogs Blog[]
+    type     PackageType     @default(REGULAR)
+    occasion PackageOccasion @default(NONE)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    subtitle    String?
+    description String?
+
+    location  String?
+    latitude  Float?
+    longitude Float?
+
+    duration  String?
+    groupSize String?
+
+    idealTrip       String?
+    budget          String?
+    bestTimeToVisit String?
+
+    originalPrice Float?
+    offerPrice    Float?
+    discount      Float?
+    saveAmount    Float?
+
+    validTill DateTime?
+
+    rating       Float?
+    reviewsCount Int?
+
+    highlights String[]
+    inclusions String[]
+    exclusions String[]
+
+    whyVisitTitle       String?
+    whyVisitDescription String?
+    whyVisitHighlights  String[]
+
+    heroImage String?
+    gallery   PackageImage[]
+
+    itinerary ItineraryDay[]
+
+    metaTitle       String?
+    metaDescription String?
+    keywords        String[]
+
+    isPublished Boolean @default(false)
+    isFeatured Boolean @default(false)
+
+    publishedAt DateTime?
+
+    offers Offer[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+type PackageImage {
+    url      String
+    publicId String
+}
+
+type ItineraryDay {
+    day         Int
+    title       String
+    description String?
+    activities  String[]
+    meals       String[]
+    overnight   String?
+}
+
+model Offer {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title String
+    slug  String @unique
+
+    type OfferType
+
+    description String?
+
+    packageId String  @db.ObjectId
+    package   Package @relation(fields: [packageId], references: [id])
+
+    originalPrice Float?
+    offerPrice    Float
+    discount      Float?
+    saveAmount    Float?
+
+    startDate DateTime
+    endDate   DateTime
+
+    isActive   Boolean @default(true)
+    isFeatured Boolean @default(false)
+
+    badgeText String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

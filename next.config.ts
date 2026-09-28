@@ -18,32 +18,32 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: "/package/himachal-pradesh/shimla",
-                destination: "/offers/shimla",
+                destination: "/offers/package/shimla",
                 permanent: false,
             },
             {
                 source: "/packages/himachal-pradesh/shimla",
-                destination: "/offers/shimla",
+                destination: "/offers/package/shimla",
                 permanent: false,
             },
             {
                 source: "/package/goa",
-                destination: "/offers/goa",
+                destination: "/offers/package/goa",
                 permanent: false,
             },
             {
                 source: "/packages/goa",
-                destination: "/offers/goa",
+                destination: "/offers/package/goa",
                 permanent: false,
             },
             {
                 source: "/package/ayodhya",
-                destination: "/offers/ayodhya",
+                destination: "/offers/package/ayodhya",
                 permanent: false,
             },
             {
                 source: "/packages/ayodhya",
-                destination: "/offers/ayodhya",
+                destination: "/offers/package/ayodhya",
                 permanent: false,
             },
         ];

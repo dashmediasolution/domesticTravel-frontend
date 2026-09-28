@@ -13,7 +13,7 @@ import {
     Users,
     Utensils,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEarlyBirdCountdown } from "@/hooks/useEarlyBirdCountdown";
 import { Dancing_Script, DM_Serif_Display } from "next/font/google";
 
 import { packageData } from "@/constants/packagesData";
@@ -101,98 +101,7 @@ function getPackageRoute(packageName: string) {
     return `/package/${destinationSlug}/${packageSlug}`;
 }
 
-/* -------------------------------------------------- */
-/* COUNTDOWN                                          */
-/* -------------------------------------------------- */
-
-function useCountdown() {
-    const [timeLeft, setTimeLeft] = useState({
-        days: 2,
-        hours: 18,
-        minutes: 42,
-        seconds: 16,
-    });
-
-    useEffect(() => {
-        const STORAGE_KEY =
-            "wander-india-early-bird-sale-end";
-
-        let savedEndTime =
-            localStorage.getItem(STORAGE_KEY);
-
-        if (!savedEndTime) {
-            const duration =
-                2 * 24 * 60 * 60 * 1000 +
-                18 * 60 * 60 * 1000 +
-                42 * 60 * 1000 +
-                16 * 1000;
-
-            savedEndTime = String(
-                Date.now() + duration
-            );
-
-            localStorage.setItem(
-                STORAGE_KEY,
-                savedEndTime
-            );
-        }
-
-        const endTime = Number(savedEndTime);
-
-        const updateCountdown = () => {
-            const difference =
-                endTime - Date.now();
-
-            if (difference <= 0) {
-                setTimeLeft({
-                    days: 0,
-                    hours: 0,
-                    minutes: 0,
-                    seconds: 0,
-                });
-
-                return;
-            }
-
-            setTimeLeft({
-                days: Math.floor(
-                    difference /
-                        (1000 * 60 * 60 * 24)
-                ),
-
-                hours: Math.floor(
-                    (difference /
-                        (1000 * 60 * 60)) %
-                        24
-                ),
-
-                minutes: Math.floor(
-                    (difference /
-                        (1000 * 60)) %
-                        60
-                ),
-
-                seconds: Math.floor(
-                    (difference / 1000) % 60
-                ),
-            });
-        };
-
-        updateCountdown();
-
-        const interval = setInterval(
-            updateCountdown,
-            1000
-        );
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
-
-    return timeLeft;
-}
-
+ 
 /* -------------------------------------------------- */
 /* DESTINATION BADGE                                 */
 /* -------------------------------------------------- */
@@ -475,7 +384,7 @@ function SmallOfferCard({
                 </div>
 
                 {/* Location */}
-                <div className="ml-[9px] flex min-w-0 flex-1 items-center gap-[4px] text-[10px] text-whitesm:ml-[12px] sm:gap-[5px] sm:text-[8px] lg:ml-[16px] lg:gap-[7px] lg:text-[13px]">
+                <div className="ml-[9px] flex min-w-0 flex-1 items-center gap-[4px] text-[10px] text-[#165E62] sm:ml-[12px] sm:gap-[5px] sm:text-[8px] lg:ml-[16px] lg:gap-[7px] lg:text-[13px]">
                     <MapPin className="h-[9px] w-[9px] shrink-0 text-[#00666A] sm:h-[11px] sm:w-[11px] lg:h-[13px] lg:w-[13px]" />
 
                     <span className="truncate">
@@ -518,13 +427,12 @@ function SmallOfferCard({
 /* -------------------------------------------------- */
 
 export default function EarlyBirdSale() {
-    const {
+      const {
         days,
         hours,
         minutes,
         seconds,
-    } = useCountdown();
-
+    } = useEarlyBirdCountdown();
     return (
         <section className="relative w-full overflow-hidden py-5 px-2">
             <div className="mx-auto gap-3 w-full flex flex-col max-w-[95%]">

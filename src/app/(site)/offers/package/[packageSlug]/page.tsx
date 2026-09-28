@@ -13,8 +13,12 @@ import {
     Sparkles,
     Utensils,
 } from "lucide-react";
-
+import WeatherForecast from "@/components/WheatherForcast";
+import InclusionsExclusions from "@/components/packagess/InclusionExclusion";
+import TravelStories from "@/components/homePage/TravelStories";
+import TravelersReviews from "@/components/Reviews";
 import Itinerary from "@/components/packagess/Itinerary";
+import Memories from "@/components/Memories";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
 import TravelInformation from "@/components/packagess/TravelInformation";
 import OfferCard from "@/components/OfferCard";
@@ -1006,6 +1010,27 @@ export default function OffersPackage() {
                 />
             )}
 
+            {selectedPackage.latitude &&
+                selectedPackage.longitude && (
+                    <WeatherForecast
+                        destination={selectedPackage.name}
+                        latitude={selectedPackage.latitude}
+                        longitude={selectedPackage.longitude}
+                    />
+                )}
+            <div className="w-[93%] flex flex-col gap-12">
+                <InclusionsExclusions
+                    inclusions={selectedPackage?.inclusions ?? []}
+                    exclusions={selectedPackage?.exclusions ?? []}
+                    title={selectedPackage?.whyVisit?.title}
+                    highlights={selectedPackage?.whyVisit?.highlights}
+                />
+
+                <TravelersReviews />
+            </div>
+            <TravelStories />
+
+            <Memories />
             {/* =================================================
                 LIGHTBOX
             ================================================= */}

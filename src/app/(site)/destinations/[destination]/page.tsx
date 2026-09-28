@@ -12,6 +12,7 @@ import { BestPackageByDestination } from "@/components/packagess/BestPackageByDe
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
 import Itinerary from "@/components/packagess/Itinerary";
 import BlogSection from "@/components/BlogSection";
+import TravelStories from "@/components/homePage/TravelStories";
 import WeatherForecast from "@/components/WheatherForcast";
 import TravelersReviews from "@/components/Reviews";
 import DestinationHero from "@/components/destination/DestinationHero";
@@ -631,7 +632,7 @@ export default function DestinationPage() {
 
           <TravelersReviews />
         </div>
-        <BlogSection />
+        <TravelStories />
 
         {/* ==================================================
             MEMORIES

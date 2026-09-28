@@ -774,6 +774,8 @@ export default async function CategoryPage({
                     </section>
                 )}
             </section>
+                <TravelStories />
+
             <div className="w-[91%] ">
                 <TravelersReviews />
             </div>
@@ -781,8 +783,7 @@ export default async function CategoryPage({
 
 
             <Memories />
-            <TravelStories />
-
+        
 
         </main>
     );

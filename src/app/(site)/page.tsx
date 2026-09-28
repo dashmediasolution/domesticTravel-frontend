@@ -11,8 +11,7 @@ import WhyChooseUs from "@/components/homePage/WhyChooseUs";
 import BestOffers from "@/components/homePage/BestOffers";
 import HeroSection from "@/components/homePage/HeroSection";
 import Memories from "@/components/Memories";
-import BlogSection from "@/components/BlogSection";
-import TravelersReviews from "@/components/Reviews";
+ import TravelersReviews from "@/components/Reviews";
 import EarlyBirdSale from "@/components/packagess/EarlyBirdSale";
 const firstBanner: Banner[] = [
   {
@@ -23,7 +22,7 @@ const firstBanner: Banner[] = [
   },
   {
     id: 2,
-    image: "/images/banners/christmasBanner.png",
+    image: "/images/banners/shimla001.png",
     title: "Discover New Destinations",
     redirectUrl: "/package/himachal-pradesh/shimla",
   },
@@ -59,19 +58,19 @@ const thirdBanner: Banner[] = [
     id: 1,
     image: "/images/banners/banner_4.png",
     title: "Explore Incredible India",
-    redirectUrl: "/destinations/india",
+    redirectUrl: "/destinations/meghalaya",
   },
   {
     id: 2,
-    image: "/images/banners/banner_5.png",
+    image: "/images/banners/jimCorbet banner.png",
     title: "Discover New Destinations",
-    redirectUrl: "/destinations",
+    redirectUrl: "/package/uttarakhand/jim-corbett",
   },
   {
     id: 3,
-    image: "/images/banners/banner_6.png",
+    image: "/images/banners/kedarnath banner.png",
     title: "Your Next Adventure Awaits",
-    redirectUrl: "/adventure",
+    redirectUrl: "/package/uttarakhand/kedarnath",
   },
 ];
 export default function Home() {
@@ -85,11 +84,11 @@ export default function Home() {
       <BannerCarousel banners={firstBanner} />
       <ExploreIndia />
       <BestOffers />
-      <BannerCarousel banners={secondBanner} />
+      {/* <BannerCarousel banners={secondBanner} /> */}
       <WhyTravelWithUs />
       <UpcomingPackages />
       <BannerCarousel banners={thirdBanner} />
-      <BlogSection />
+      <TravelStories />
       <WhyChooseUs />
       <div className="w-full flex justify-center items-center my-10">
         <div className="w-[95%] flex justify-center items-center">

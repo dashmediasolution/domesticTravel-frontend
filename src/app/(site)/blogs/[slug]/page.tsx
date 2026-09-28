@@ -39,7 +39,7 @@ function stripHtml(html: string) {
         .trim();
 }
 
- 
+
 
 function createSlug(text: string) {
     return text
@@ -145,34 +145,34 @@ export default async function BlogPage({
     const { content: preparedContent, toc } =
         prepareBlogContent(blog.content);
 
- 
+
     const formattedDate = blog.publishedAt
         ? new Intl.DateTimeFormat("en-IN", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-          }).format(blog.publishedAt)
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        }).format(blog.publishedAt)
         : null;
 
     const relatedBlogs = blog.categoryId
         ? await prisma.blog.findMany({
-              where: {
-                  categoryId: blog.categoryId,
-                  id: {
-                      not: blog.id,
-                  },
-                  publishedAt: {
-                      not: null,
-                  },
-              },
-              include: {
-                  category: true,
-              },
-              orderBy: {
-                  publishedAt: "desc",
-              },
-              take: 4,
-          })
+            where: {
+                categoryId: blog.categoryId,
+                id: {
+                    not: blog.id,
+                },
+                publishedAt: {
+                    not: null,
+                },
+            },
+            include: {
+                category: true,
+            },
+            orderBy: {
+                publishedAt: "desc",
+            },
+            take: 4,
+        })
         : [];
 
     return (
@@ -194,18 +194,20 @@ export default async function BlogPage({
                             <div className="absolute inset-0 bg-[#00383B]" />
                         )}
 
-      <div
-        className="
-          absolute
-          inset-0
-          z-10
-          bg-linear-to-tr
-          from-black/50
-          via-black/20
-          via-30%
-          to-transparent"
-        />
-                        <div className="absolute inset-x-0 bottom-0">
+
+                        <div
+                            className="
+                                absolute
+                                inset-0
+                                z-10
+                                bg-linear-to-tr
+                                from-black/50
+                                via-black/20
+                                via-30%
+                                to-transparent
+                                "
+                        />
+                        <div className="absolute inset-x-0 bottom-0 z-10">
                             <div className="mx-auto w-full max-w-7xl px-5 pb-8 sm:px-8 sm:pb-10 lg:px-10 lg:pb-14">
                                 <div className="max-w-5xl">
                                     {blog.category && (
@@ -219,10 +221,10 @@ export default async function BlogPage({
                                         </Link>
                                     )}
 
-                                    <h1 className="max-w-5xl text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+                                    <h1 className="max-w-5xl text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-xl md:text-3xl lg:text-3xl xl:text-4xl">
                                         {blog.title}
                                     </h1>
-                                        <p className="text-white my-8">{blog.excerpt}</p>
+                                    <p className="text-white my-8">{blog.excerpt}</p>
                                     <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-xs font-medium text-white/95 sm:text-sm">
                                         {formattedDate && (
                                             <div className="flex items-center gap-2">
@@ -231,7 +233,7 @@ export default async function BlogPage({
                                             </div>
                                         )}
 
-                                         
+
 
                                         {blog.category && (
                                             <div className="flex items-center gap-2">
@@ -253,11 +255,7 @@ export default async function BlogPage({
                     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_350px]">
                         {/* Main Content */}
                         <div className="min-w-0">
-                            {blog.excerpt && (
-                                <p className="mb-8 text-sm leading-6 text-gray-500 sm:text-base sm:leading-7">
-                                    {blog.excerpt}
-                                </p>
-                            )}
+
 
                             <div
                                 className="
@@ -382,7 +380,7 @@ export default async function BlogPage({
                             {blog.tags.length > 0 && (
                                 <div className="mt-10 border-t border-gray-200 pt-7 sm:mt-14">
                                     <div className="flex flex-wrap gap-2">
-                                       {blog.tags.map((tag: string) => (
+                                        {blog.tags.map((tag: string) => (
                                             <span
                                                 key={tag}
                                                 className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 sm:px-4 sm:py-2 sm:text-sm"
@@ -424,10 +422,9 @@ export default async function BlogPage({
                                                         leading-5
                                                         transition-colors
                                                         hover:bg-[#2FC2B0]/5
-                                                        ${
-                                                            item.level === 3
-                                                                ? "pl-7"
-                                                                : ""
+                                                        ${item.level === 3
+                                                            ? "pl-7"
+                                                            : ""
                                                         }
                                                     `}
                                                 >
@@ -464,19 +461,19 @@ export default async function BlogPage({
                                         </div>
 
                                         <div className="divide-y divide-gray-100">
-                                           {relatedBlogs.map((relatedBlog: RelatedBlog) => {
+                                            {relatedBlogs.map((relatedBlog: RelatedBlog) => {
                                                 const relatedDate =
                                                     relatedBlog.publishedAt
                                                         ? new Intl.DateTimeFormat(
-                                                              "en-IN",
-                                                              {
-                                                                  day: "numeric",
-                                                                  month: "short",
-                                                                  year: "numeric",
-                                                              }
-                                                          ).format(
-                                                              relatedBlog.publishedAt
-                                                          )
+                                                            "en-IN",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                            }
+                                                        ).format(
+                                                            relatedBlog.publishedAt
+                                                        )
                                                         : null;
 
                                                 return (
