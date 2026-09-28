@@ -60,7 +60,9 @@ async function uploadToCloudinary(
     });
 }
 
-async function deleteCloudinaryImages(publicIds: string[]) {
+async function deleteCloudinaryImages(
+    publicIds: string[]
+) {
     if (!publicIds.length) return;
 
     await Promise.allSettled(
@@ -75,15 +77,18 @@ export async function POST(request: NextRequest) {
 
     try {
         /*
-         * IMPORTANT:
          * Add your existing NextAuth admin/session check here.
          *
          * Example:
          *
          * const session = await auth();
+         *
          * if (!session?.user?.isAdmin) {
          *     return NextResponse.json(
-         *         { success: false, message: "Unauthorized" },
+         *         {
+         *             success: false,
+         *             message: "Unauthorized",
+         *         },
          *         { status: 401 }
          *     );
          * }
@@ -95,6 +100,7 @@ export async function POST(request: NextRequest) {
             name: formData.get("name"),
             slug: formData.get("slug"),
             category: formData.get("category"),
+
             subtitle: formData.get("subtitle"),
             description: formData.get("description"),
 
@@ -114,45 +120,61 @@ export async function POST(request: NextRequest) {
 
             idealTrip: formData.get("idealTrip"),
             budget: formData.get("budget"),
+
             bestTimeToVisit: formData.get(
                 "bestTimeToVisit"
             ),
 
             highlights: JSON.parse(
-                String(formData.get("highlights") || "[]")
+                String(
+                    formData.get("highlights") || "[]"
+                )
             ),
 
             inclusions: JSON.parse(
-                String(formData.get("inclusions") || "[]")
+                String(
+                    formData.get("inclusions") || "[]"
+                )
             ),
 
             exclusions: JSON.parse(
-                String(formData.get("exclusions") || "[]")
+                String(
+                    formData.get("exclusions") || "[]"
+                )
             ),
 
-            whyVisitTitle: formData.get("whyVisitTitle"),
+            whyVisitTitle: formData.get(
+                "whyVisitTitle"
+            ),
+
             whyVisitDescription: formData.get(
                 "whyVisitDescription"
             ),
 
             whyVisitHighlights: JSON.parse(
                 String(
-                    formData.get("whyVisitHighlights") ||
-                        "[]"
+                    formData.get(
+                        "whyVisitHighlights"
+                    ) || "[]"
                 )
             ),
 
             itinerary: JSON.parse(
-                String(formData.get("itinerary") || "[]")
+                String(
+                    formData.get("itinerary") || "[]"
+                )
             ),
 
             metaTitle: formData.get("metaTitle"),
+
             metaDescription: formData.get(
                 "metaDescription"
             ),
 
             keywords: JSON.parse(
-                String(formData.get("keywords") || "[]")
+                String(
+                    formData.get("keywords") || "[]"
+                )
             ),
 
             isPublished:
@@ -170,7 +192,8 @@ export async function POST(request: NextRequest) {
                 {
                     success: false,
                     message: "Validation failed",
-                    errors: validation.error.flatten(),
+                    errors:
+                        validation.error.flatten(),
                 },
                 { status: 400 }
             );
@@ -182,8 +205,12 @@ export async function POST(request: NextRequest) {
 
         const existingPackage =
             await prisma.package.findUnique({
-                where: { slug },
-                select: { id: true },
+                where: {
+                    slug,
+                },
+                select: {
+                    id: true,
+                },
             });
 
         if (existingPackage) {
@@ -200,7 +227,8 @@ export async function POST(request: NextRequest) {
         if (
             data.offerPrice !== undefined &&
             data.originalPrice !== undefined &&
-            data.offerPrice > data.originalPrice
+            data.offerPrice >
+                data.originalPrice
         ) {
             return NextResponse.json(
                 {
@@ -224,7 +252,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "At least one package image is required",
+                    message:
+                        "At least one package image is required",
                 },
                 { status: 400 }
             );
@@ -241,7 +270,11 @@ export async function POST(request: NextRequest) {
         }
 
         for (const file of files) {
-            if (!ALLOWED_TYPES.includes(file.type)) {
+            if (
+                !ALLOWED_TYPES.includes(
+                    file.type
+                )
+            ) {
                 return NextResponse.json(
                     {
                         success: false,
@@ -262,51 +295,69 @@ export async function POST(request: NextRequest) {
             }
         }
 
+        /*
+         * Upload images to Cloudinary
+         */
         const imageData: {
             url: string;
             publicId: string;
-            isHero: boolean;
-            sortOrder: number;
         }[] = [];
 
-        for (let index = 0; index < files.length; index++) {
-            const uploaded = await uploadToCloudinary(
-                files[index],
-                "domesticTravel/packages"
-            );
+        for (
+            let index = 0;
+            index < files.length;
+            index++
+        ) {
+            const uploaded =
+                await uploadToCloudinary(
+                    files[index],
+                    "domesticTravel/packages"
+                );
 
-            uploadedPublicIds.push(uploaded.publicId);
+            uploadedPublicIds.push(
+                uploaded.publicId
+            );
 
             imageData.push({
                 url: uploaded.url,
                 publicId: uploaded.publicId,
-                isHero: index === 0,
-                sortOrder: index,
             });
         }
 
+        /*
+         * Package data
+         */
         const packageData = {
             name: data.name,
+
             slug,
+
             category: data.category,
+
             subtitle:
                 data.subtitle || null,
+
             description:
                 data.description || null,
 
             location:
                 data.location || null,
+
             duration:
                 data.duration || null,
+
             groupSize:
                 data.groupSize || null,
 
             originalPrice:
                 data.originalPrice ?? null,
+
             offerPrice:
                 data.offerPrice ?? null,
+
             discount:
                 data.discount ?? null,
+
             saveAmount:
                 data.saveAmount ?? null,
 
@@ -316,87 +367,116 @@ export async function POST(request: NextRequest) {
 
             rating:
                 data.rating ?? null,
+
             reviewsCount:
                 data.reviewsCount ?? null,
 
             idealTrip:
                 data.idealTrip || null,
+
             budget:
                 data.budget || null,
+
             bestTimeToVisit:
                 data.bestTimeToVisit || null,
 
-            highlights: data.highlights,
-            inclusions: data.inclusions,
-            exclusions: data.exclusions,
+            highlights:
+                data.highlights,
+
+            inclusions:
+                data.inclusions,
+
+            exclusions:
+                data.exclusions,
 
             whyVisitTitle:
                 data.whyVisitTitle || null,
+
             whyVisitDescription:
                 data.whyVisitDescription || null,
+
             whyVisitHighlights:
                 data.whyVisitHighlights,
 
             metaTitle:
                 data.metaTitle || null,
+
             metaDescription:
                 data.metaDescription || null,
-            keywords: data.keywords,
 
-            isPublished: data.isPublished,
-            isFeatured: data.isFeatured,
+            keywords:
+                data.keywords,
+
+            isPublished:
+                data.isPublished,
+
+            isFeatured:
+                data.isFeatured,
+
+            /*
+             * First uploaded image becomes hero image
+             */
+            heroImage:
+                imageData[0]?.url || null,
+
+            /*
+             * Composite type
+             */
+            gallery:
+                imageData,
+
+            /*
+             * Composite type
+             */
+            itinerary:
+                data.itinerary.map(
+                    (item) => ({
+                        day: item.day,
+
+                        title: item.title,
+
+                        description:
+                            item.description ||
+                            null,
+
+                        activities:
+                            item.activities,
+
+                        meals:
+                            item.meals,
+
+                        overnight:
+                            item.overnight ||
+                            null,
+                    })
+                ),
         };
 
+        /*
+         * Create package
+         */
         const createdPackage =
             await prisma.package.create({
-                data: {
-                    ...packageData,
-
-                    images: {
-                        create: imageData,
-                    },
-
-                    itinerary: {
-                        create: data.itinerary.map(
-                            (item) => ({
-                                day: item.day,
-                                title: item.title,
-                                description:
-                                    item.description || null,
-                                activities:
-                                    item.activities,
-                                meals: item.meals,
-                                overnight:
-                                    item.overnight || null,
-                            })
-                        ),
-                    },
-                },
-
-                include: {
-                    images: {
-                        orderBy: {
-                            sortOrder: "asc",
-                        },
-                    },
-
-                    itinerary: {
-                        orderBy: {
-                            day: "asc",
-                        },
-                    },
-                },
+                data: packageData,
             });
 
+        /*
+         * Success
+         */
         return NextResponse.json(
             {
                 success: true,
-                message: "Package created successfully",
+                message:
+                    "Package created successfully",
                 data: createdPackage,
             },
             { status: 201 }
         );
     } catch (error) {
+        /*
+         * If database creation fails after
+         * Cloudinary uploads, remove uploaded images.
+         */
         await deleteCloudinaryImages(
             uploadedPublicIds
         );
@@ -412,8 +492,10 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Invalid package data",
-                    errors: error.flatten(),
+                    message:
+                        "Invalid package data",
+                    errors:
+                        error.flatten(),
                 },
                 { status: 400 }
             );
