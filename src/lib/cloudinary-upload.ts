@@ -1,7 +1,13 @@
-import cloudinary from "./cloudinary";
+ import cloudinary from "./cloudinary";
 
 interface UploadImageOptions {
     file: File;
+    folder: string;
+    publicId?: string;
+}
+
+interface UploadBufferOptions {
+    buffer: Buffer;
     folder: string;
     publicId?: string;
 }
@@ -14,6 +20,18 @@ export async function uploadImageToCloudinary({
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    return uploadBufferToCloudinary({
+        buffer,
+        folder,
+        publicId,
+    });
+}
+
+export async function uploadBufferToCloudinary({
+    buffer,
+    folder,
+    publicId,
+}: UploadBufferOptions) {
     const result = await new Promise<any>(
         (resolve, reject) => {
             const uploadStream =
@@ -29,6 +47,15 @@ export async function uploadImageToCloudinary({
                     (error, result) => {
                         if (error) {
                             reject(error);
+                            return;
+                        }
+
+                        if (!result) {
+                            reject(
+                                new Error(
+                                    "Cloudinary upload failed"
+                                )
+                            );
                             return;
                         }
 
@@ -49,3 +76,23 @@ export async function uploadImageToCloudinary({
         bytes: result.bytes,
     };
 }
+
+export async function deleteFromCloudinary(
+    publicId: string
+) {
+    if (!publicId) {
+        return;
+    }
+
+    const result =
+        await cloudinary.uploader.destroy(
+            publicId,
+            {
+                resource_type: "image",
+                invalidate: true,
+            }
+        );
+
+    return result;
+}
+ 

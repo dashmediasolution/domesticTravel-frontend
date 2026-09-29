@@ -11,61 +11,6 @@ enum PackageType {
     REGULAR
     SPECIAL
 }
-type PackageImage {
-    url      String
-    publicId String
-}
-type BlogImage {
-  url      String
-  publicId String
-}
-model AdminUser {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  email        String  @unique
-  passwordHash String
-  isActive     Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Blog {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  title   String
-  slug    String  @unique
-  excerpt String?
-  content String
-
-  featuredImage BlogImage?
-
-  categoryId String?       @db.ObjectId
-  category   BlogCategory? @relation(fields: [categoryId], references: [id])
-
-  tags String[]
-
-  isPublished Boolean   @default(false)
-  publishedAt DateTime?
-
-  metaTitle       String?
-  metaDescription String?
-    keywords        String[] 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model BlogCategory {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
-
-  blogs Blog[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-
-
 
 enum PackageOccasion {
     NONE
@@ -82,6 +27,7 @@ enum PackageOccasion {
 }
 
 enum OfferType {
+    REGULAR
     EARLY_BIRD
     FLASH_SALE
     SEASONAL
@@ -90,14 +36,95 @@ enum OfferType {
     SPECIAL
 }
 
+enum BannerTargetType {
+    DESTINATION
+    PACKAGE
+    OFFER
+    CUSTOM_URL
+}
+
+type PackageImage {
+    url      String
+    publicId String
+}
+
+type BlogImage {
+    url      String
+    publicId String
+}
+
+type ItineraryDay {
+    day         Int
+    title       String
+    description String?
+    activities  String[]
+    meals       String[]
+    overnight   String?
+}
+
+model AdminUser {
+    id           String  @id @default(auto()) @map("_id") @db.ObjectId
+    name         String
+    email        String  @unique
+    passwordHash String
+    isActive     Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Destination {
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+    slug String @unique
+
+    subtitle    String?
+    description String?
+
+    location  String?
+    idealTrip String?
+    budget    String?
+
+    activities      String[]
+    bestTimeToVisit String[]
+
+    heroImage PackageImage?
+    gallery   PackageImage[]
+
+    metaTitle       String?
+    metaDescription String?
+    keywords        String[]
+
+    isPublished Boolean @default(false)
+    isFeatured  Boolean @default(false)
+
+    publishedAt DateTime?
+
+    whyVisit Json?
+
+    packages    Package[]
+    attractions Attraction[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 model Package {
-    id          String  @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
-    slug        String  @unique
-    category    String
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+    slug String
+
+    category String
 
     type     PackageType     @default(REGULAR)
     occasion PackageOccasion @default(NONE)
+
+    destinationId String      @db.ObjectId
+    destination   Destination @relation(fields: [destinationId], references: [id])
+
+    parentId String?   @db.ObjectId
+    parent   Package?  @relation("PackageHierarchy", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    children Package[] @relation("PackageHierarchy")
 
     subtitle    String?
     description String?
@@ -111,10 +138,9 @@ model Package {
 
     idealTrip       String?
     budget          String?
-    bestTimeToVisit String?
+    bestTimeToVisit String[]
 
     originalPrice Float?
-    offerPrice    Float?
     discount      Float?
     saveAmount    Float?
 
@@ -127,11 +153,9 @@ model Package {
     inclusions String[]
     exclusions String[]
 
-    whyVisitTitle       String?
-    whyVisitDescription String?
-    whyVisitHighlights  String[]
+    whyVisit Json?
 
-    heroImage String?
+     heroImage PackageImage?
     gallery   PackageImage[]
 
     itinerary ItineraryDay[]
@@ -141,7 +165,7 @@ model Package {
     keywords        String[]
 
     isPublished Boolean @default(false)
-    isFeatured Boolean @default(false)
+    isFeatured  Boolean @default(false)
 
     publishedAt DateTime?
 
@@ -149,17 +173,29 @@ model Package {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@unique([destinationId, slug])
 }
 
+model Attraction {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
 
+    name        String
+    description String
 
-type ItineraryDay {
-    day         Int
-    title       String
-    description String?
-    activities  String[]
-    meals       String[]
-    overnight   String?
+    imageUrl String
+    publicId String
+
+    destinationId String      @db.ObjectId
+    destination   Destination @relation(fields: [destinationId], references: [id])
+
+    isPublished Boolean @default(true)
+    sortOrder   Int     @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([destinationId, name])
 }
 
 model Offer {
@@ -192,4 +228,61 @@ model Offer {
     updatedAt DateTime @updatedAt
 }
 
- 
+model Banner {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title String
+
+    imageUrl String
+    publicId String
+    altText  String?
+
+    targetType BannerTargetType
+    targetUrl  String
+
+    isActive   Boolean @default(true)
+    isFeatured Boolean @default(false)
+
+    startDate DateTime?
+    endDate   DateTime?
+
+    sortOrder Int @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Blog {
+    id      String  @id @default(auto()) @map("_id") @db.ObjectId
+    title   String
+    slug    String  @unique
+    excerpt String?
+    content String
+
+    featuredImage BlogImage?
+
+    categoryId String?       @db.ObjectId
+    category   BlogCategory? @relation(fields: [categoryId], references: [id])
+
+    tags     String[]
+    keywords String[]
+
+    isPublished Boolean   @default(false)
+    publishedAt DateTime?
+
+    metaTitle       String?
+    metaDescription String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model BlogCategory {
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String @unique
+
+    blogs Blog[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

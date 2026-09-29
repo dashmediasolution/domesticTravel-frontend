@@ -13,18 +13,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Oswald } from "next/font/google";
 const SLIDE_DURATION = 3000;
-// ============================================================
-// FONT
-// ============================================================
+
 
 const oswald = Oswald({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
 });
 
-// ============================================================
-// DATA
-// ============================================================
+
 
 const destinations = [
 
@@ -46,7 +42,7 @@ const destinations = [
         background: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
         redirect: "/destinations/rajasthan",
         description:
-                "Experience royal palaces, magnificent forts, golden deserts and vibrant culture in India's land of kings.",
+            "Experience royal palaces, magnificent forts, golden deserts and vibrant culture in India's land of kings.",
     },
     {
         id: 3,
@@ -55,7 +51,7 @@ const destinations = [
         image: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         background: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         description:
-                "Discover majestic Himalayan landscapes, peaceful hill towns, sacred temples, thrilling adventures and serene valleys in the beautiful land of Uttarakhand.",
+            "Discover majestic Himalayan landscapes, peaceful hill towns, sacred temples, thrilling adventures and serene valleys in the beautiful land of Uttarakhand.",
     },
     {
         id: 4,
@@ -70,18 +66,14 @@ const destinations = [
 
 ];
 
-// ============================================================
-// HERO COMPONENT
-// ============================================================
+
 
 export default function HeroSection() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const activeDestination = destinations[activeIndex];
 
-    // ========================================================
-    // NEXT SLIDE
-    // ========================================================
+
 
     const nextSlide = () => {
         setActiveIndex(
@@ -90,9 +82,7 @@ export default function HeroSection() {
         );
     };
 
-    // ========================================================
-    // PREVIOUS SLIDE
-    // ========================================================
+
 
     const previousSlide = () => {
         setActiveIndex(
@@ -102,9 +92,6 @@ export default function HeroSection() {
         );
     };
 
-    // ========================================================
-    // AUTO PLAY
-    // ========================================================
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -178,7 +165,7 @@ export default function HeroSection() {
                         />
 
 
-                        {/* Bottom gradient */}
+
 
                         <div
                             className="
@@ -196,9 +183,7 @@ export default function HeroSection() {
                 ))}
             </div>
 
-            {/* ======================================================
-                MAIN CONTAINER
-            ====================================================== */}
+
 
             <div
                 className="
@@ -224,11 +209,8 @@ export default function HeroSection() {
                     lg:pt-0
                 "
             >
-                {/* ==================================================
-                    LEFT CONTENT
-                ================================================== */}
 
-                <div
+                <div 
                     className="
                     h-full
                     flex
@@ -239,13 +221,12 @@ export default function HeroSection() {
                      lg:w-[54%]
                     relative
                     mb:0
-                    top-8
+                    md:top-8
+                    top-0
                     gap-4
                 "
                 >
-                    {/* ==========================================
-                            EYEBROW
-                        ========================================== */}
+
 
                     <p
                         className="
@@ -307,15 +288,6 @@ export default function HeroSection() {
                     >
 
 
-                        {/* ==========================================
-                            HEADING
-                        ========================================== */}
-
-
-
-                        {/* ==========================================
-                            DESCRIPTION
-                        ========================================== */}
 
                         <p
                             className="
@@ -335,9 +307,7 @@ export default function HeroSection() {
                             {activeDestination.description}
                         </p>
 
-                        {/* ==========================================
-                            BUTTONS
-                        ========================================== */}
+
 
                     </motion.div>
 
@@ -405,10 +375,6 @@ export default function HeroSection() {
                         </Button> */}
                 </div>
 
-                {/* ==================================================
-                    RIGHT SIDE
-                    DESTINATION CARDS
-                ================================================== */}
 
                 <div
                     className="
@@ -430,9 +396,7 @@ export default function HeroSection() {
                            xl:w-[47%]
                         "
                 >
-                    {/* ==============================================
-                            DOT PATTERN
-                        ============================================== */}
+
 
                     <div
                         className="
@@ -458,9 +422,6 @@ export default function HeroSection() {
                         }}
                     />
 
-                    {/* ==============================================
-                            DESTINATION CARDS
-                        ============================================== */}
                     <div className="absolute inset-0 overflow-visible">
                         {destinations.map((destination, index) => {
                             const relativeIndex =
@@ -595,9 +556,6 @@ export default function HeroSection() {
                     </div>
                 </div>
 
-                {/* ==================================================
-                    BOTTOM CONTROLS
-                ================================================== */}
 
                 <div
                     className="
@@ -614,9 +572,7 @@ export default function HeroSection() {
                         lg:justify-start
                     "
                 >
-                    {/* ==============================================
-                        PREVIOUS
-                    ============================================== */}
+
 
                     <Button
                         type="button"
@@ -644,9 +600,7 @@ export default function HeroSection() {
                         <ChevronLeft className="h-5 w-5" />
                     </Button>
 
-                    {/* ==============================================
-                        NEXT
-                    ============================================== */}
+
 
                     <Button
                         type="button"
@@ -676,9 +630,6 @@ export default function HeroSection() {
                         <ChevronRight className="h-5 w-5" />
                     </Button>
 
-                    {/* ==============================================
-                        PROGRESS BAR
-                    ============================================== */}
 
                     <div
                         className="

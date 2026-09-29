@@ -1,9 +1,11 @@
-"use client";
+ "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     LayoutDashboard,
+    MapPinned,
+    Package,
     FileText,
     FolderOpen,
     Image,
@@ -12,6 +14,7 @@ import {
     Plane,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+
 import {
     Sidebar,
     SidebarContent,
@@ -30,6 +33,21 @@ const menuItems = [
         title: "Dashboard",
         href: "/admin",
         icon: LayoutDashboard,
+    },
+    {
+        title: "Destinations",
+        href: "/admin/destinations",
+        icon: MapPinned,
+    },
+    {
+        title: "Packages",
+        href: "/admin/packages",
+        icon: Package,
+    },
+       {
+        title: "Offers",
+        href: "/admin/offers",
+        icon: Package,
     },
     {
         title: "Blogs",
@@ -59,8 +77,20 @@ const settingsItems = [
 export default function AdminSidebar() {
     const pathname = usePathname();
 
+    const isMenuItemActive = (href: string) => {
+        if (href === "/admin") {
+            return pathname === "/admin";
+        }
+
+        return (
+            pathname === href ||
+            pathname.startsWith(`${href}/`)
+        );
+    };
+
     return (
         <Sidebar>
+            {/* Header */}
             <SidebarHeader className="border-b">
                 <Link
                     href="/admin"
@@ -70,8 +100,8 @@ export default function AdminSidebar() {
                         <Plane className="size-5 text-white" />
                     </div>
 
-                    <div className="flex flex-col">
-                        <span className="text-lg font-bold tracking-tight text-[#00383B]">
+                    <div className="flex min-w-0 flex-col">
+                        <span className="truncate text-lg font-bold tracking-tight text-[#00383B]">
                             WANDER-INDIA
                         </span>
 
@@ -82,7 +112,9 @@ export default function AdminSidebar() {
                 </Link>
             </SidebarHeader>
 
+            {/* Content */}
             <SidebarContent>
+                {/* Management */}
                 <SidebarGroup>
                     <SidebarGroupLabel>
                         Management
@@ -92,22 +124,36 @@ export default function AdminSidebar() {
                         <SidebarMenu>
                             {menuItems.map((item) => {
                                 const Icon = item.icon;
-
                                 const isActive =
-                                    item.href === "/admin"
-                                        ? pathname === "/admin"
-                                        : pathname.startsWith(item.href);
+                                    isMenuItemActive(
+                                        item.href
+                                    );
 
                                 return (
-                                    <SidebarMenuItem key={item.href}>
+                                    <SidebarMenuItem
+                                        key={item.href}
+                                    >
                                         <SidebarMenuButton
-
-                                            isActive={isActive}
-                                            tooltip={item.title}
+                                             
+                                            isActive={
+                                                isActive
+                                            }
+                                            tooltip={
+                                                item.title
+                                            }
                                         >
-                                            <Link href={item.href} className="flex gap-3 justify-center ">
+                                            <Link
+                                                href={
+                                                    item.href
+                                                }
+                                                className="flex gap-2 justify-center items-center"
+                                             >
                                                 <Icon />
-                                                <span>{item.title}</span>
+                                                <span>
+                                                    {
+                                                        item.title
+                                                    }
+                                                </span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
@@ -117,6 +163,7 @@ export default function AdminSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
 
+                {/* System */}
                 <SidebarGroup>
                     <SidebarGroupLabel>
                         System
@@ -124,32 +171,54 @@ export default function AdminSidebar() {
 
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {settingsItems.map((item) => {
-                                const Icon = item.icon;
+                            {settingsItems.map(
+                                (item) => {
+                                    const Icon =
+                                        item.icon;
 
-                                const isActive =
-                                    pathname.startsWith(item.href);
+                                    const isActive =
+                                        isMenuItemActive(
+                                            item.href
+                                        );
 
-                                return (
-                                    <SidebarMenuItem key={item.href}>
-                                        <SidebarMenuButton
-
-                                            isActive={isActive}
-                                            tooltip={item.title}
+                                    return (
+                                        <SidebarMenuItem
+                                            key={
+                                                item.href
+                                            }
                                         >
-                                            <Link href={item.href}>
-                                                <Icon />
-                                                <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                );
-                            })}
+                                            <SidebarMenuButton
+                                                 
+                                                isActive={
+                                                    isActive
+                                                }
+                                                tooltip={
+                                                    item.title
+                                                }
+                                            >
+                                                <Link
+                                                    href={
+                                                        item.href
+                                                    }
+                                                >
+                                                    <Icon />
+                                                    <span>
+                                                        {
+                                                            item.title
+                                                        }
+                                                    </span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    );
+                                }
+                            )}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
 
+            {/* Footer */}
             <SidebarFooter className="border-t">
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -160,7 +229,7 @@ export default function AdminSidebar() {
                                     callbackUrl: "/",
                                 })
                             }
-                            className="text-red-500 hover:bg-red-50 hover:text-red-600 cursor-pointer"
+                            className="cursor-pointer text-red-500 hover:bg-red-50 hover:text-red-600"
                         >
                             <LogOut />
                             <span>Logout</span>
@@ -171,3 +240,4 @@ export default function AdminSidebar() {
         </Sidebar>
     );
 }
+ 

@@ -1,231 +1,255 @@
 import { z } from "zod";
 
-const packageImageSchema = z.object({
-    url: z.string().min(1),
-    publicId: z.string().min(1),
+const packageTypeSchema = z.enum([
+    "REGULAR",
+    "SPECIAL",
+]);
+
+const packageOccasionSchema = z.enum([
+    "NONE",
+    "CHRISTMAS",
+    "DIWALI",
+    "NEW_YEAR",
+    "VALENTINE",
+    "HOLI",
+    "EID",
+    "SUMMER",
+    "WINTER",
+    "FESTIVAL",
+    "OTHER",
+]);
+
+const whyVisitItemSchema = z.object({
+    id: z.string().optional(),
+
+    title: z
+        .string()
+        .trim()
+        .min(1, "Title is required"),
+
+    description: z
+        .string()
+        .trim()
+        .min(1, "Description is required"),
 });
 
 const itineraryDaySchema = z.object({
-    day: z.number().int().min(1),
-    title: z.string().min(1, "Day title is required"),
-    description: z.string().optional(),
-    activities: z.array(z.string()).default([]),
-    meals: z.array(z.string()).default([]),
-    overnight: z.string().optional(),
+    day: z
+        .number()
+        .int()
+        .min(1),
+
+    title: z
+        .string()
+        .trim()
+        .min(1, "Day title is required"),
+
+    description: z
+        .string()
+        .trim()
+        .default(""),
+
+    activities: z
+        .array(z.string().trim())
+        .default([]),
+
+    meals: z
+        .array(z.string().trim())
+        .default([]),
+
+    overnight: z
+        .string()
+        .trim()
+        .default(""),
 });
 
 export const packageSchema = z.object({
     name: z
         .string()
-        .min(2, "Package name is required"),
+        .trim()
+        .min(
+            2,
+            "Package name must be at least 2 characters"
+        ),
 
     slug: z
         .string()
-        .min(2, "Slug is required"),
+        .trim()
+        .min(2, "Slug is required")
+        .regex(
+            /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+            "Slug can only contain lowercase letters, numbers and hyphens"
+        ),
 
     category: z
         .string()
+        .trim()
         .min(1, "Category is required"),
 
-    type: z.enum(["REGULAR", "SPECIAL"]),
+    type: packageTypeSchema,
 
-    occasion: z.enum([
-        "NONE",
-        "CHRISTMAS",
-        "DIWALI",
-        "NEW_YEAR",
-        "VALENTINE",
-        "HOLI",
-        "EID",
-        "SUMMER",
-        "WINTER",
-        "FESTIVAL",
-        "OTHER",
-    ]),
+    occasion: packageOccasionSchema,
 
-    subtitle: z.string().optional(),
+    destinationId: z
+        .string()
+        .regex(
+            /^[a-f\d]{24}$/i,
+            "Invalid destination"
+        ),
+
+    parentId: z
+        .string()
+        .regex(
+            /^[a-f\d]{24}$/i,
+            "Invalid parent package"
+        )
+        .nullable()
+        .default(null),
+
+    subtitle: z
+        .string()
+        .trim()
+        .default(""),
 
     description: z
         .string()
-        .min(10, "Description should be at least 10 characters"),
+        .trim()
+        .default(""),
 
-    location: z.string().optional(),
+    location: z
+        .string()
+        .trim()
+        .default(""),
 
     latitude: z
         .number()
-        .optional(),
+        .min(-90, "Latitude must be between -90 and 90")
+        .max(90, "Latitude must be between -90 and 90")
+        .nullable()
+        .default(null),
 
     longitude: z
         .number()
-        .optional(),
+        .min(-180, "Longitude must be between -180 and 180")
+        .max(180, "Longitude must be between -180 and 180")
+        .nullable()
+        .default(null),
 
-    duration: z.string().optional(),
+    duration: z
+        .string()
+        .trim()
+        .default(""),
 
-    groupSize: z.string().optional(),
+    groupSize: z
+        .string()
+        .trim()
+        .default(""),
 
-    idealTrip: z.string().optional(),
+    idealTrip: z
+        .string()
+        .trim()
+        .default(""),
 
-    budget: z.string().optional(),
+    budget: z
+        .string()
+        .trim()
+        .default(""),
 
-    bestTimeToVisit: z.string().optional(),
+        
+    bestTimeToVisit: z.array(
+        z
+            .string()
+            .trim()
+            .min(
+                1,
+                "Month cannot be empty"
+            )
+    ),
 
     originalPrice: z
         .number()
-        .nonnegative()
-        .optional(),
+        .min(0, "Original price cannot be negative")
+        .nullable()
+        .default(null),
 
-    offerPrice: z
-        .number()
-        .nonnegative()
-        .optional(),
+    
 
     discount: z
         .number()
         .min(0)
         .max(100)
-        .optional(),
+        .nullable()
+        .default(null),
 
     saveAmount: z
         .number()
-        .nonnegative()
-        .optional(),
+        .min(0)
+        .nullable()
+        .default(null),
 
-    validTill: z.string().optional(),
+    validTill: z
+        .string()
+        .default(""),
 
     rating: z
         .number()
-        .min(0)
-        .max(5)
-        .optional(),
+        .min(0, "Rating cannot be below 0")
+        .max(5, "Rating cannot exceed 5")
+        .nullable()
+        .default(null),
 
     reviewsCount: z
         .number()
-        .int()
-        .nonnegative()
-        .optional(),
+        .int("Reviews count must be a whole number")
+        .min(0, "Reviews count cannot be negative")
+        .nullable()
+        .default(null),
 
     highlights: z
-        .array(z.string())
+        .array(z.string().trim())
         .default([]),
 
     inclusions: z
-        .array(z.string())
+        .array(z.string().trim())
         .default([]),
 
     exclusions: z
-        .array(z.string())
+        .array(z.string().trim())
         .default([]),
 
-    whyVisitTitle: z.string().optional(),
-
-    whyVisitDescription: z.string().optional(),
-
-    whyVisitHighlights: z
-        .array(z.string())
-        .default([]),
-
-    heroImage: z.string().optional(),
-
-    gallery: z
-        .array(packageImageSchema)
+    whyVisit: z
+        .array(whyVisitItemSchema)
         .default([]),
 
     itinerary: z
         .array(itineraryDaySchema)
         .default([]),
 
-    metaTitle: z.string().optional(),
+    metaTitle: z
+        .string()
+        .trim()
+        .default(""),
 
-    metaDescription: z.string().optional(),
+    metaDescription: z
+        .string()
+        .trim()
+        .default(""),
 
     keywords: z
-        .array(z.string())
+        .array(z.string().trim())
         .default([]),
 
-    isPublished: z.boolean(),
+    isPublished: z
+        .boolean()
+        .default(false),
 
-    isFeatured: z.boolean(),
-
-    publishedAt: z.string().optional(),
+    isFeatured: z
+        .boolean()
+        .default(false),
 });
 
-export const offerSchema = z
-    .object({
-        title: z
-            .string()
-            .min(2, "Offer title is required"),
-
-        slug: z
-            .string()
-            .min(2, "Slug is required"),
-
-        type: z.enum([
-            "EARLY_BIRD",
-            "FLASH_SALE",
-            "SEASONAL",
-            "FESTIVE",
-            "LIMITED_TIME",
-            "SPECIAL",
-        ]),
-
-        description: z.string().optional(),
-
-        packageId: z
-            .string()
-            .min(1, "Package is required"),
-
-        originalPrice: z
-            .number()
-            .nonnegative()
-            .optional(),
-
-        offerPrice: z
-            .number()
-            .nonnegative("Offer price is required"),
-
-        discount: z
-            .number()
-            .min(0)
-            .max(100)
-            .optional(),
-
-        saveAmount: z
-            .number()
-            .nonnegative()
-            .optional(),
-
-        startDate: z
-            .string()
-            .min(1, "Start date is required"),
-
-        endDate: z
-            .string()
-            .min(1, "End date is required"),
-
-        isActive: z.boolean(),
-
-        isFeatured: z.boolean(),
-
-        badgeText: z.string().optional(),
-    })
-    .refine(
-        (data) =>
-            new Date(data.endDate) >=
-            new Date(data.startDate),
-        {
-            message:
-                "End date must be after start date",
-            path: ["endDate"],
-        }
-    );
 export type PackageFormInput =
     z.input<typeof packageSchema>;
 
 export type PackageFormValues =
     z.output<typeof packageSchema>;
-
-export type OfferFormInput =
-    z.input<typeof offerSchema>;
-
-export type OfferFormValues =
-    z.output<typeof offerSchema>;
