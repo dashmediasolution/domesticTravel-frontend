@@ -1,18 +1,18 @@
- "use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    LayoutDashboard,
-    MapPinned,
-    Package,
+    ChartNoAxesCombined,
+    CircleDollarSign,
     FileText,
     FolderOpen,
     Image,
-    Settings,
     LogOut,
+    MapPinned,
+    Package,
     Plane,
-} from "lucide-react";
+ } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import {
@@ -32,7 +32,7 @@ const menuItems = [
     {
         title: "Dashboard",
         href: "/admin",
-        icon: LayoutDashboard,
+        icon: ChartNoAxesCombined,
     },
     {
         title: "Destinations",
@@ -44,35 +44,24 @@ const menuItems = [
         href: "/admin/packages",
         icon: Package,
     },
-       {
+    {
+        title: "Banners",
+        href: "/admin/banners",
+        icon: Image,
+    },
+    {
         title: "Offers",
         href: "/admin/offers",
-        icon: Package,
+        icon: CircleDollarSign,
     },
     {
         title: "Blogs",
         href: "/admin/blogs",
         icon: FileText,
     },
-    {
-        title: "Categories",
-        href: "/admin/categories",
-        icon: FolderOpen,
-    },
-    {
-        title: "Media",
-        href: "/admin/media",
-        icon: Image,
-    },
+  
 ];
-
-const settingsItems = [
-    {
-        title: "Settings",
-        href: "/admin/settings",
-        icon: Settings,
-    },
-];
+ 
 
 export default function AdminSidebar() {
     const pathname = usePathname();
@@ -90,31 +79,31 @@ export default function AdminSidebar() {
 
     return (
         <Sidebar>
-            {/* Header */}
             <SidebarHeader className="border-b">
-                <Link
-                    href="/admin"
-                    className="flex items-center gap-3 px-2 py-3"
-                >
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#2FC2B0]">
-                        <Plane className="size-5 text-white" />
-                    </div>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton className="h-fit m-0 p-1">
+                            <Link href="/admin" className="flex gap-3 ">
+                                <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#2FC2B0]">
+                                    <Plane className="size-5 text-white" />
+                                </div>
 
-                    <div className="flex min-w-0 flex-col">
-                        <span className="truncate text-lg font-bold tracking-tight text-[#00383B]">
-                            WANDER-INDIA
-                        </span>
+                                <div className="flex min-w-0 flex-col">
+                                    <span className="truncate text-base font-bold tracking-tight text-[#00383B]">
+                                        WANDER-INDIA
+                                    </span>
 
-                        <span className="text-xs text-muted-foreground">
-                            Admin Panel
-                        </span>
-                    </div>
-                </Link>
+                                    <span className="truncate text-[11px] text-muted-foreground">
+                                        Admin Panel
+                                    </span>
+                                </div>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
             </SidebarHeader>
 
-            {/* Content */}
             <SidebarContent>
-                {/* Management */}
                 <SidebarGroup>
                     <SidebarGroupLabel>
                         Management
@@ -124,6 +113,7 @@ export default function AdminSidebar() {
                         <SidebarMenu>
                             {menuItems.map((item) => {
                                 const Icon = item.icon;
+
                                 const isActive =
                                     isMenuItemActive(
                                         item.href
@@ -135,24 +125,15 @@ export default function AdminSidebar() {
                                     >
                                         <SidebarMenuButton
                                              
-                                            isActive={
-                                                isActive
-                                            }
-                                            tooltip={
-                                                item.title
-                                            }
+                                            isActive={isActive}
+                                            tooltip={item.title}
                                         >
                                             <Link
-                                                href={
-                                                    item.href
-                                                }
-                                                className="flex gap-2 justify-center items-center"
-                                             >
+                                                href={item.href}
+                                            className="flex gap-2">
                                                 <Icon />
                                                 <span>
-                                                    {
-                                                        item.title
-                                                    }
+                                                    {item.title}
                                                 </span>
                                             </Link>
                                         </SidebarMenuButton>
@@ -163,62 +144,9 @@ export default function AdminSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
 
-                {/* System */}
-                <SidebarGroup>
-                    <SidebarGroupLabel>
-                        System
-                    </SidebarGroupLabel>
-
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {settingsItems.map(
-                                (item) => {
-                                    const Icon =
-                                        item.icon;
-
-                                    const isActive =
-                                        isMenuItemActive(
-                                            item.href
-                                        );
-
-                                    return (
-                                        <SidebarMenuItem
-                                            key={
-                                                item.href
-                                            }
-                                        >
-                                            <SidebarMenuButton
-                                                 
-                                                isActive={
-                                                    isActive
-                                                }
-                                                tooltip={
-                                                    item.title
-                                                }
-                                            >
-                                                <Link
-                                                    href={
-                                                        item.href
-                                                    }
-                                                >
-                                                    <Icon />
-                                                    <span>
-                                                        {
-                                                            item.title
-                                                        }
-                                                    </span>
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    );
-                                }
-                            )}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
+               
             </SidebarContent>
 
-            {/* Footer */}
             <SidebarFooter className="border-t">
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -239,5 +167,4 @@ export default function AdminSidebar() {
             </SidebarFooter>
         </Sidebar>
     );
-}
- 
+}   

@@ -1,4 +1,4 @@
- 
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -592,13 +592,13 @@ export default function CreateDestinationForm() {
 
     const addAttraction = () => {
         const newAttraction: AttractionItem =
-            {
-                id: crypto.randomUUID(),
-                name: "",
-                description: "",
-                image: null,
-                imagePreview: null,
-            };
+        {
+            id: crypto.randomUUID(),
+            name: "",
+            description: "",
+            image: null,
+            imagePreview: null,
+        };
 
         const updated = [
             ...attractions,
@@ -800,11 +800,11 @@ export default function CreateDestinationForm() {
 
     const addWhyVisit = () => {
         const newItem: WhyVisitItem =
-            {
-                id: crypto.randomUUID(),
-                title: "",
-                description: "",
-            };
+        {
+            id: crypto.randomUUID(),
+            title: "",
+            description: "",
+        };
 
         const updated = [
             ...whyVisit,
@@ -1044,7 +1044,7 @@ export default function CreateDestinationForm() {
             formData.append(
                 "metaDescription",
                 data.metaDescription ||
-                    ""
+                ""
             );
 
             formData.append(
@@ -1129,7 +1129,7 @@ export default function CreateDestinationForm() {
             if (!response.ok) {
                 throw new Error(
                     result.message ||
-                        "Failed to create destination"
+                    "Failed to create destination"
                 );
             }
 
@@ -1173,7 +1173,7 @@ export default function CreateDestinationForm() {
                 onSubmit,
                 onInvalid
             )}
-            className="space-y-8"
+            className="space-y-8 mb-16"
         >
             {error && (
                 <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
@@ -1304,7 +1304,7 @@ export default function CreateDestinationForm() {
             <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold">
-                        Travel Information
+                        Other Information
                     </h2>
                 </div>
 
@@ -1395,47 +1395,47 @@ export default function CreateDestinationForm() {
 
                     {errors.activities
                         ?.message && (
-                        <p className="text-xs text-red-500">
-                            {
-                                errors
-                                    .activities
-                                    .message
-                            }
-                        </p>
-                    )}
+                            <p className="text-xs text-red-500">
+                                {
+                                    errors
+                                        .activities
+                                        .message
+                                }
+                            </p>
+                        )}
 
                     {activities.length >
                         0 && (
-                        <div className="flex flex-wrap gap-2">
-                            {activities.map(
-                                (
-                                    activity,
-                                    index
-                                ) => (
-                                    <div
-                                        key={`${activity}-${index}`}
-                                        className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
-                                    >
-                                        {
-                                            activity
-                                        }
-
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                removeActivity(
-                                                    index
-                                                )
-                                            }
-                                            className="text-primary/70 hover:text-primary"
+                            <div className="flex flex-wrap gap-2">
+                                {activities.map(
+                                    (
+                                        activity,
+                                        index
+                                    ) => (
+                                        <div
+                                            key={`${activity}-${index}`}
+                                            className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
                                         >
-                                            <X className="size-4" />
-                                        </button>
-                                    </div>
-                                )
-                            )}
-                        </div>
-                    )}
+                                            {
+                                                activity
+                                            }
+
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeActivity(
+                                                        index
+                                                    )
+                                                }
+                                                className="text-primary/70 hover:text-primary"
+                                            >
+                                                <X className="size-4" />
+                                            </button>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        )}
                 </div>
 
                 <div className="mt-6 space-y-3">
@@ -1462,11 +1462,10 @@ export default function CreateDestinationForm() {
                                                 month
                                             )
                                         }
-                                        className={`rounded-lg border px-3 py-2 text-sm transition ${
-                                            selected
+                                        className={`rounded-lg border px-3 py-2 text-sm transition ${selected
                                                 ? "border-primary bg-primary text-white"
                                                 : "bg-white hover:border-primary"
-                                        }`}
+                                            }`}
                                     >
                                         {
                                             month
@@ -1480,14 +1479,14 @@ export default function CreateDestinationForm() {
                     {errors
                         .bestTimeToVisit
                         ?.message && (
-                        <p className="text-xs text-red-500">
-                            {
-                                errors
-                                    .bestTimeToVisit
-                                    .message
-                            }
-                        </p>
-                    )}
+                            <p className="text-xs text-red-500">
+                                {
+                                    errors
+                                        .bestTimeToVisit
+                                        .message
+                                }
+                            </p>
+                        )}
                 </div>
             </section>
 
@@ -1518,7 +1517,7 @@ export default function CreateDestinationForm() {
                 </div>
 
                 {whyVisit.length ===
-                0 ? (
+                    0 ? (
                     <div className="rounded-xl border border-dashed px-5 py-8 text-center">
                         <p className="text-sm text-muted-foreground">
                             No Why Visit items added yet.
@@ -1547,7 +1546,7 @@ export default function CreateDestinationForm() {
                                 const itemErrors =
                                     errors
                                         .whyVisit?.[
-                                        index
+                                    index
                                     ];
 
                                 return (
@@ -1609,14 +1608,14 @@ export default function CreateDestinationForm() {
 
                                                 {itemErrors?.title
                                                     ?.message && (
-                                                    <p className="text-xs text-red-500">
-                                                        {
-                                                            itemErrors
-                                                                .title
-                                                                .message
-                                                        }
-                                                    </p>
-                                                )}
+                                                        <p className="text-xs text-red-500">
+                                                            {
+                                                                itemErrors
+                                                                    .title
+                                                                    .message
+                                                            }
+                                                        </p>
+                                                    )}
                                             </div>
 
                                             <div className="space-y-2">
@@ -1648,14 +1647,14 @@ export default function CreateDestinationForm() {
                                                 {itemErrors
                                                     ?.description
                                                     ?.message && (
-                                                    <p className="text-xs text-red-500">
-                                                        {
-                                                            itemErrors
-                                                                .description
-                                                                .message
-                                                        }
-                                                    </p>
-                                                )}
+                                                        <p className="text-xs text-red-500">
+                                                            {
+                                                                itemErrors
+                                                                    .description
+                                                                    .message
+                                                            }
+                                                        </p>
+                                                    )}
                                             </div>
                                         </div>
                                     </div>
@@ -1667,14 +1666,14 @@ export default function CreateDestinationForm() {
 
                 {errors.whyVisit
                     ?.message && (
-                    <p className="mt-3 text-xs text-red-500">
-                        {
-                            errors
-                                .whyVisit
-                                .message
-                        }
-                    </p>
-                )}
+                        <p className="mt-3 text-xs text-red-500">
+                            {
+                                errors
+                                    .whyVisit
+                                    .message
+                            }
+                        </p>
+                    )}
             </section>
 
             {/* HERO IMAGE */}
@@ -1787,7 +1786,7 @@ export default function CreateDestinationForm() {
                 </div>
 
                 {gallery.length ===
-                0 ? (
+                    0 ? (
                     <div
                         onClick={() =>
                             galleryInputRef.current?.click()
@@ -1824,9 +1823,8 @@ export default function CreateDestinationForm() {
                                         alt={
                                             image.file
                                                 .name ||
-                                            `Gallery image ${
-                                                index +
-                                                1
+                                            `Gallery image ${index +
+                                            1
                                             }`
                                         }
                                         className="aspect-square w-full object-cover"
@@ -1871,24 +1869,24 @@ export default function CreateDestinationForm() {
 
                 {gallery.length >
                     0 && (
-                    <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-                        <span>
-                            {
-                                gallery.length
-                            }
-                            /15 images selected
-                        </span>
-
-                        {gallery.length <
-                            15 && (
+                        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
                             <span>
-                                {15 -
-                                    gallery.length}{" "}
-                                remaining
+                                {
+                                    gallery.length
+                                }
+                                /15 images selected
                             </span>
-                        )}
-                    </div>
-                )}
+
+                            {gallery.length <
+                                15 && (
+                                    <span>
+                                        {15 -
+                                            gallery.length}{" "}
+                                        remaining
+                                    </span>
+                                )}
+                        </div>
+                    )}
             </section>
 
             {/* ATTRACTIONS */}
@@ -1919,7 +1917,7 @@ export default function CreateDestinationForm() {
                 </div>
 
                 {attractions.length ===
-                0 ? (
+                    0 ? (
                     <div className="rounded-lg border border-dashed px-4 py-6 text-center">
                         <p className="text-sm text-muted-foreground">
                             No attractions added yet.
@@ -1948,7 +1946,7 @@ export default function CreateDestinationForm() {
                                 const itemErrors =
                                     errors
                                         .attractions?.[
-                                        index
+                                    index
                                     ];
 
                                 return (
@@ -2013,14 +2011,14 @@ export default function CreateDestinationForm() {
                                                     {itemErrors
                                                         ?.name
                                                         ?.message && (
-                                                        <p className="text-xs text-red-500">
-                                                            {
-                                                                itemErrors
-                                                                    .name
-                                                                    .message
-                                                            }
-                                                        </p>
-                                                    )}
+                                                            <p className="text-xs text-red-500">
+                                                                {
+                                                                    itemErrors
+                                                                        .name
+                                                                        .message
+                                                                }
+                                                            </p>
+                                                        )}
                                                 </div>
 
                                                 <div className="space-y-1.5">
@@ -2053,14 +2051,14 @@ export default function CreateDestinationForm() {
                                                     {itemErrors
                                                         ?.description
                                                         ?.message && (
-                                                        <p className="text-xs text-red-500">
-                                                            {
-                                                                itemErrors
-                                                                    .description
-                                                                    .message
-                                                            }
-                                                        </p>
-                                                    )}
+                                                            <p className="text-xs text-red-500">
+                                                                {
+                                                                    itemErrors
+                                                                        .description
+                                                                        .message
+                                                                }
+                                                            </p>
+                                                        )}
                                                 </div>
                                             </div>
 
@@ -2134,14 +2132,14 @@ export default function CreateDestinationForm() {
 
                 {errors.attractions
                     ?.message && (
-                    <p className="mt-3 text-xs text-red-500">
-                        {
-                            errors
-                                .attractions
-                                .message
-                        }
-                    </p>
-                )}
+                        <p className="mt-3 text-xs text-red-500">
+                            {
+                                errors
+                                    .attractions
+                                    .message
+                            }
+                        </p>
+                    )}
             </section>
 
             {/* SEO */}
@@ -2247,35 +2245,35 @@ export default function CreateDestinationForm() {
 
                         {keywords.length >
                             0 && (
-                            <div className="flex flex-wrap gap-2">
-                                {keywords.map(
-                                    (
-                                        keyword,
-                                        index
-                                    ) => (
-                                        <div
-                                            key={`${keyword}-${index}`}
-                                            className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
-                                        >
-                                            {
-                                                keyword
-                                            }
-
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeKeyword(
-                                                        index
-                                                    )
-                                                }
+                                <div className="flex flex-wrap gap-2">
+                                    {keywords.map(
+                                        (
+                                            keyword,
+                                            index
+                                        ) => (
+                                            <div
+                                                key={`${keyword}-${index}`}
+                                                className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
                                             >
-                                                <X className="size-4" />
-                                            </button>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        )}
+                                                {
+                                                    keyword
+                                                }
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        removeKeyword(
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    <X className="size-4" />
+                                                </button>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
                     </div>
                 </div>
             </section>
@@ -2360,22 +2358,22 @@ export default function CreateDestinationForm() {
 
             {/* SUBMIT */}
 
-            <div className="flex justify-end">
-                <Button
-                    type="submit"
-                    size="lg"
-                    disabled={loading}
-                >
-                    {loading && (
-                        <Loader2 className="animate-spin" />
-                    )}
+            {/* SUBMIT */}
+             <div className="fixed  w-[78%] rounded-2xl bottom-0 my-4 flex justify-end left-[20%] right-0 z-50 border-t bg-background/95 p-3 shadow-lg backdrop-blur">
+                     <Button
+                        type="submit"
+                        size="lg"
+                        disabled={loading}
+                        className="min-w-[180px]"
+                    >
+                        {loading && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
 
-                    {loading
-                        ? "Creating..."
-                        : "Create Destination"}
-                </Button>
-            </div>
-        </form>
+                        {loading ? "Creating..." : "Create Destination"}
+                    </Button>
+                </div>
+         </form>
     );
 }
- 
+

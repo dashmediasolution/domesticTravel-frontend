@@ -369,26 +369,20 @@ export default function PackageDestination() {
                                 title="Itinerary"
                                 subtitle={""}
                                 days={selectedPackage.itinerary}
-                                onButtonClick={() =>
-                                    router.push(
-                                        `/destinations/${locationSlug}/itinerary?package=${selectedPackage.name
-                                            .toLowerCase()
-                                            .replace(/\s+/g, "-")}`
-                                    )
-                                }
+                               
                             />
                         )}
 
-                        {selectedPackage.bestTimeToVisit && (
+                       
+
+                    </div>
+                )}
+ {selectedPackage.bestTimeToVisit && (
                             <BestTimeToVisit
                                 months={selectedPackage.bestTimeToVisit.months}
                                 seasons={selectedPackage.bestTimeToVisit.seasons}
                             />
                         )}
-
-                    </div>
-                )}
-
             {selectedPackage.travelInfo.length > 0 && (
                 <TravelInformation
                     destination={selectedPackage.name}

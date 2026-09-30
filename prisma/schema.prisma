@@ -10,6 +10,7 @@ datasource db {
 enum PackageType {
     REGULAR
     SPECIAL
+    UPCOMMING
 }
 
 enum PackageOccasion {
@@ -80,10 +81,10 @@ model Destination {
 
     subtitle    String?
     description String?
-
-    location  String?
-    idealTrip String?
-    budget    String?
+    faqs        FAQ[]
+    location    String?
+    idealTrip   String?
+    budget      String?
 
     activities      String[]
     bestTimeToVisit String[]
@@ -113,6 +114,7 @@ model Package {
     id   String @id @default(auto()) @map("_id") @db.ObjectId
     name String
     slug String
+    faqs FAQ[]
 
     category String
 
@@ -155,8 +157,11 @@ model Package {
 
     whyVisit Json?
 
-     heroImage PackageImage?
+    heroImage PackageImage?
     gallery   PackageImage[]
+
+    travelInformation Json?
+    whatToPack        String[]
 
     itinerary ItineraryDay[]
 
@@ -173,7 +178,7 @@ model Package {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
+ 
     @@unique([destinationId, slug])
 }
 
@@ -250,6 +255,11 @@ model Banner {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([isActive, sortOrder])
+    @@index([isFeatured, isActive])
+    @@index([targetType])
+    @@index([startDate, endDate])
 }
 
 model Blog {
@@ -285,4 +295,50 @@ model BlogCategory {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Inquiry {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    name    String
+    phone   String
+    email   String
+    message String
+
+    status InquiryStatus @default(NEW)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([status])
+    @@index([createdAt])
+}
+
+enum InquiryStatus {
+    NEW
+    CONTACTED
+    RESOLVED
+    CLOSED
+}
+
+model FAQ {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    question String
+    answer   String
+
+    sortOrder Int @default(0)
+
+    destinationId String? @db.ObjectId
+    packageId     String? @db.ObjectId
+
+    destination Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+    package     Package?     @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([destinationId])
+    @@index([packageId])
+    @@index([sortOrder])
 }

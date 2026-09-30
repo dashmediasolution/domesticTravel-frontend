@@ -3,6 +3,7 @@ import { z } from "zod";
 const packageTypeSchema = z.enum([
     "REGULAR",
     "SPECIAL",
+    "UPCOMMING"
 ]);
 
 const packageOccasionSchema = z.enum([
@@ -32,7 +33,19 @@ const whyVisitItemSchema = z.object({
         .trim()
         .min(1, "Description is required"),
 });
-
+const travelInformationItemSchema = z.object({
+    id: z.string().min(1),
+    title: z
+        .string()
+        .trim()
+        .min(1, "Title is required")
+        .max(100, "Title is too long"),
+    value: z
+        .string()
+        .trim()
+        .min(1, "Value is required")
+        .max(300, "Value is too long"),
+});
 const itineraryDaySchema = z.object({
     day: z
         .number()
@@ -71,7 +84,19 @@ export const packageSchema = z.object({
             2,
             "Package name must be at least 2 characters"
         ),
+    travelInformation: z
+        .array(travelInformationItemSchema)
+        .default([]),
 
+    whatToPack: z
+        .array(
+            z
+                .string()
+                .trim()
+                .min(1, "Packing item cannot be empty")
+                .max(150, "Packing item is too long")
+        )
+        .default([]),
     slug: z
         .string()
         .trim()
@@ -155,7 +180,7 @@ export const packageSchema = z.object({
         .trim()
         .default(""),
 
-        
+
     bestTimeToVisit: z.array(
         z
             .string()
@@ -172,7 +197,7 @@ export const packageSchema = z.object({
         .nullable()
         .default(null),
 
-    
+
 
     discount: z
         .number()

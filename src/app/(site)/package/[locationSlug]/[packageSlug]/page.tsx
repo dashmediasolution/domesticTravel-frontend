@@ -16,7 +16,7 @@ import Image from "next/image";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
 import TravelInformation from "@/components/packagess/TravelInformation";
 import WeatherForecast from "@/components/WheatherForcast";
- import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ThingsToDo from "@/components/ThingsToDo";
 export default function PackageDestination() {
@@ -94,44 +94,26 @@ export default function PackageDestination() {
         setActiveImage(index);
     };
 
-  
-  
+
+
     const gallery = selectedPackage?.gallery
 
     return (
         <main className="w-full bg-white flex flex-col justify-center items-center gap-10">
-         <section className="relative w-full">
-        {/* Hero */}
-        <DestinationHero destination={selectedPackage} />
- {
+            <section className="relative w-full">
+                {/* Hero */}
+                <DestinationHero destination={selectedPackage} />
+                {
                     packageSlug === "kashmir" || packageSlug === "jaipur" || packageSlug === "manali" ?
                         <EarlyBirdOfferBanner /> : null
 
                 }
-        {/* Desktop Offer Card */}
-        <div
-            className="
-                absolute
-                right-4
-                top-1/2
-                z-30
-                hidden
-                w-[280px]
-                -translate-y-1/2
-                lg:block
-                xl:right-8
-                xl:w-[320px]
-                2xl:right-12
-                2xl:w-[350px]
-            "
-        >
-            <OfferCard details={packageDetails} />
-        </div>
-    </section>
 
-    {/* Mobile + Tablet Offer Card */}
-    <section
-        className="
+            </section>
+
+            {/* Mobile + Tablet Offer Card */}
+            <section
+                className="
             relative
             z-30
             block
@@ -143,11 +125,11 @@ export default function PackageDestination() {
            
             lg:hidden
         "
-    >
-        <div className="mx-auto w-full max-w-2xl">
-            <OfferCard details={packageDetails} />
-        </div>
-    </section>
+            >
+                <div className="mx-auto w-full max-w-2xl">
+                    <OfferCard details={packageDetails} />
+                </div>
+            </section>
 
             {selectedPackage.activities.length > 0 && (
                 <div className="w-[91%]">
@@ -158,6 +140,39 @@ export default function PackageDestination() {
                     />
                 </div>
             )}
+            {(selectedPackage.itinerary.length > 0 ||
+                selectedPackage.bestTimeToVisit) && (
+                    <div className="flex w-[93%] flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+
+                        {selectedPackage.itinerary.length > 0 && (
+                            <div className="w-full lg:w-[70%]">
+                                <Itinerary
+                                    title="Itinerary"
+                                    subtitle=""
+                                    days={selectedPackage.itinerary}
+                                />
+                            </div>
+                        )}
+
+                        {/* Sticky Offer Card */}
+                        <div
+                            className="
+                hidden
+                w-[280px]
+                shrink-0
+                self-start
+                lg:sticky
+                lg:top-24
+                lg:block
+                xl:w-[320px]
+                2xl:w-[350px]
+            "
+                        >
+                            <OfferCard details={packageDetails} />
+                        </div>
+                    </div>
+                )}
+
 
             <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
                 <div className="font-semibold text-3xl mb-5">
@@ -334,38 +349,34 @@ export default function PackageDestination() {
 
                 </div>
             </section>
-            {(selectedPackage.itinerary.length > 0 ||
-                selectedPackage.bestTimeToVisit) && (
-                    <div className="  flex w-[93%] flex-col gap-8    lg:flex-row lg:items-start lg:justify-between lg:gap-5">
-
-                        {selectedPackage.itinerary.length > 0 && (
-                            <div className="sm:full md:w-[44%]">
-
-                                <Itinerary
-                                    title="Itinerary"
-                                    subtitle={""}
-                                    days={selectedPackage.itinerary}
-                                    onButtonClick={() =>
-                                        router.push(
-                                            `/destinations/${locationSlug}/itinerary?package=${packageSlug}`
-                                        )
-                                    }
-                                />
-                            </div>
-                        )}
-
-                        {selectedPackage.bestTimeToVisit && (
-                            <div className="md:full lg:w-[55%]">
-                                <BestTimeToVisit
-                                    months={selectedPackage.bestTimeToVisit.months}
-                                    seasons={selectedPackage.bestTimeToVisit.seasons}
-                                />
-                            </div>
-                        )}
-
+            {selectedPackage.bestTimeToVisit && (
+                <div className="grid w-full gap-7 lg:w-[93%] lg:grid-cols-[55%_45%] lg:items-center">
+                    <div className="w-full self-start">
+                        <BestTimeToVisit
+                            months={selectedPackage.bestTimeToVisit.months}
+                            seasons={selectedPackage.bestTimeToVisit.seasons}
+                        />
                     </div>
-                )}
 
+                    <div className="relative h-[280px] w-full overflow-hidden   top-10 rounded-[24px]">
+                        <Image
+                            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=870&auto=format&fit=crop"
+                            alt="More than a trip, it's an experience"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 40vw"
+                            className="object-cover"
+                        />
+
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                            <h3 className="max-w-[280px] text-center font-mono text-3xl font-semibold leading-tight text-white drop-shadow-lg">
+                                More Than a Trip,
+                                <br />
+                                It's an Experience
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            )}
             {selectedPackage.travelInfo.length > 0 && (
                 <TravelInformation
                     destination={selectedPackage.name}

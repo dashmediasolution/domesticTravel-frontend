@@ -1,10 +1,11 @@
 const ALLOWED_IMAGE_TYPES = [
     "image/jpeg",
+    "image/jpg",
     "image/png",
     "image/webp",
 ];
 
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_IMAGE_SIZE = 7 * 1024 * 1024;
 
 export function validateImage(file: File) {
     if (!file || file.size === 0) {

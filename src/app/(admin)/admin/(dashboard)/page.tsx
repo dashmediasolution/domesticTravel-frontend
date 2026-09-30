@@ -1,579 +1,183 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+
 import {
-    Search,
-    Pencil,
-    Trash2,
-    ChevronLeft,
-    ChevronRight,
+    ArrowRight,
+    BookOpen,
+    ImageIcon,
+    MapPin,
+    Package,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+const stats = [
+    {
+        title: "Destinations",
+        value: "—",
+        description: "Total destinations",
+        icon: MapPin,
+        href: "/admin/destinations",
+    },
+    {
+        title: "Packages",
+        value: "—",
+        description: "Total packages",
+        icon: Package,
+        href: "/admin/packages",
+    },
+    {
+        title: "Banners",
+        value: "—",
+        description: "Total banners",
+        icon: ImageIcon,
+        href: "/admin/banners",
+    },
+    {
+        title: "Blogs",
+        value: "—",
+        description: "Total blog posts",
+        icon: BookOpen,
+        href: "/admin/blogs",
+    },
+];
 
-type Destination = {
-    id: string;
-    name: string;
-    heroImage: string | null;
-    budget: string | null;
-    createdAt: string;
-    totalPackages: number;
-};
-
-type Pagination = {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-};
-
-type ApiResponse = {
-    success: boolean;
-    data: Destination[];
-    pagination: Pagination;
-    message?: string;
-};
+const quickActions = [
+    {
+        title: "Create Destination",
+        href: "/admin/destinations/create",
+        icon: MapPin,
+    },
+    {
+        title: "Create Package",
+        href: "/admin/packages/create",
+        icon: Package,
+    },
+    {
+        title: "Create Banner",
+        href: "/admin/banners/create",
+        icon: ImageIcon,
+    },
+    {
+        title: "Create Blog",
+        href: "/admin/blogs/create",
+        icon: BookOpen,
+    },
+];
 
 export default function AdminPage() {
-    const [destinations, setDestinations] = useState<Destination[]>([]);
-    const [pagination, setPagination] = useState<Pagination | null>(null);
-
-    const [search, setSearch] = useState("");
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-
-    const [loading, setLoading] = useState(true);
-    const [deletingId, setDeletingId] = useState<string | null>(null);
-    const [error, setError] = useState("");
-
-    const [page, setPage] = useState(1);
-
-    const limit = 10;
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearch(search.trim());
-            setPage(1);
-        }, 400);
-
-        return () => clearTimeout(timer);
-    }, [search]);
-
-    const fetchDestinations = useCallback(async () => {
-        try {
-            setLoading(true);
-            setError("");
-
-            const params = new URLSearchParams({
-                page: String(page),
-                limit: String(limit),
-            });
-
-            if (debouncedSearch) {
-                params.set("search", debouncedSearch);
-            }
-
-            const response = await fetch(
-                `/api/admin/get-all-destinations?${params.toString()}`,
-                {
-                    method: "GET",
-                    cache: "no-store",
-                }
-            );
-
-            const result: ApiResponse = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(
-                    result.message || "Failed to fetch destinations"
-                );
-            }
-
-            setDestinations(result.data);
-            setPagination(result.pagination);
-        } catch (err) {
-            console.error("Fetch destinations error:", err);
-
-            setDestinations([]);
-            setPagination(null);
-
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : "Failed to fetch destinations"
-            );
-        } finally {
-            setLoading(false);
-        }
-    }, [page, debouncedSearch]);
-
-    useEffect(() => {
-        fetchDestinations();
-    }, [fetchDestinations]);
-
-    const handleDelete = async (id: string) => {
-        try {
-            setDeletingId(id);
-            setError("");
-
-            const response = await fetch(`/api/admin/delete-destination/${id}`, {
-                method: "DELETE",
-            });
-
-            const result = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(
-                    result.message || "Failed to delete destination"
-                );
-            }
-
-            if (
-                pagination &&
-                destinations.length === 1 &&
-                pagination.page > 1
-            ) {
-                setPage((currentPage) => currentPage - 1);
-            } else {
-                await fetchDestinations();
-            }
-        } catch (err) {
-            console.error("Delete destination error:", err);
-
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : "Failed to delete destination"
-            );
-        } finally {
-            setDeletingId(null);
-        }
-    };
-
-    const formatDate = (date: string) => {
-        return new Intl.DateTimeFormat("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-        }).format(new Date(date));
-    };
-
-    const getPageNumbers = () => {
-        if (!pagination) {
-            return [];
-        }
-
-        const { page: currentPage, totalPages } = pagination;
-
-        if (totalPages <= 5) {
-            return Array.from(
-                { length: totalPages },
-                (_, index) => index + 1
-            );
-        }
-
-        if (currentPage <= 3) {
-            return [1, 2, 3, 4, 5];
-        }
-
-        if (currentPage >= totalPages - 2) {
-            return [
-                totalPages - 4,
-                totalPages - 3,
-                totalPages - 2,
-                totalPages - 1,
-                totalPages,
-            ];
-        }
-
-        return [
-            currentPage - 2,
-            currentPage - 1,
-            currentPage,
-            currentPage + 1,
-            currentPage + 2,
-        ];
-    };
-
     return (
-        <div className="p-4 sm:p-6 lg:p-8">
-            <div className="space-y-6">
-                {/* Header */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                            Destinations
-                        </h1>
+        <div className="mx-auto max-w-7xl space-y-6">
+            <div>
+                <h1 className="text-2xl font-semibold tracking-tight">
+                    Dashboard
+                </h1>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Manage all travel destinations.
-                        </p>
-                    </div>
+                <p className="mt-1 text-sm text-muted-foreground">
+                    Manage your WANDER-INDIA website.
+                </p>
+            </div>
 
-                    <Button  >
-                        <Link href="/admin/destinations/create">
-                            Add Destination
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {stats.map((item) => {
+                    const Icon = item.icon;
+
+                    return (
+                        <Link
+                            key={item.title}
+                            href={item.href}
+                        >
+                            <Card className="transition-shadow hover:shadow-md">
+                                <CardContent className="p-5">
+                                    <div className="flex items-start justify-between">
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">
+                                                {item.title}
+                                            </p>
+
+                                            <p className="mt-2 text-3xl font-semibold">
+                                                {item.value}
+                                            </p>
+
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                {item.description}
+                                            </p>
+                                        </div>
+
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                            <Icon className="h-5 w-5" />
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </Link>
-                    </Button>
-                </div>
+                    );
+                })}
+            </div>
 
-                {/* Search */}
-                <div className="flex w-full sm:max-w-md">
-                    <div className="relative w-full">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Card>
+                <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
 
-                        <Input
-                            value={search}
-                            onChange={(event) =>
-                                setSearch(event.target.value)
-                            }
-                            placeholder="Search destination by name..."
-                            className="h-10 pl-9"
-                        />
+                <CardContent>
+                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                        {quickActions.map((item) => {
+                            const Icon = item.icon;
+
+                            return (
+                                <Link
+                                    key={item.title}
+                                    href={item.href}
+                                    className="flex items-center gap-3 rounded-lg border p-4 transition-colors hover:bg-muted"
+                                >
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <Icon className="h-4 w-4" />
+                                    </div>
+
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium">
+                                            {item.title}
+                                        </p>
+
+                                        <p className="text-xs text-muted-foreground">
+                                            Create new
+                                        </p>
+                                    </div>
+
+                                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                                </Link>
+                            );
+                        })}
                     </div>
-                </div>
+                </CardContent>
+            </Card>
 
-                {/* Error */}
-                {error && (
-                    <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                        {error}
-                    </div>
-                )}
+            <Card>
+                <CardHeader>
+                    <CardTitle>Recent Activity</CardTitle>
+                </CardHeader>
 
-                {/* Table */}
-                <div className="overflow-hidden rounded-xl border bg-background">
-                    <div className="overflow-x-auto">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="min-w-[280px]">
-                                        Destination
-                                    </TableHead>
-
-                                    <TableHead className="min-w-[160px]">
-                                        Budget
-                                    </TableHead>
-
-                                    <TableHead className="text-center">
-                                        Packages
-                                    </TableHead>
-
-                                    <TableHead className="min-w-[150px]">
-                                        Created
-                                    </TableHead>
-
-                                    <TableHead className="w-[140px] text-right">
-                                        Actions
-                                    </TableHead>
-                                </TableRow>
-                            </TableHeader>
-
-                            <TableBody>
-                                {loading ? (
-                                    Array.from({ length: 5 }).map(
-                                        (_, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="h-12 w-16 animate-pulse rounded-md bg-muted" />
-
-                                                        <div className="h-4 w-32 animate-pulse rounded bg-muted" />
-                                                    </div>
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <div className="mx-auto h-4 w-8 animate-pulse rounded bg-muted" />
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <div className="ml-auto h-8 w-20 animate-pulse rounded bg-muted" />
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    )
-                                ) : destinations.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell
-                                            colSpan={5}
-                                            className="h-32 text-center"
-                                        >
-                                            <div className="flex flex-col items-center justify-center gap-1">
-                                                <p className="font-medium">
-                                                    No destinations found
-                                                </p>
-
-                                                <p className="text-sm text-muted-foreground">
-                                                    {debouncedSearch
-                                                        ? "Try a different destination name."
-                                                        : "Create your first destination."}
-                                                </p>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ) : (
-                                    destinations.map((destination) => (
-                                        <TableRow key={destination.id}>
-                                            {/* Destination */}
-                                            <TableCell>
-                                                <div className="flex items-center gap-3">
-                                                    <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
-                                                        {destination.heroImage ? (
-                                                            <Image
-                                                                src={
-                                                                    destination.heroImage
-                                                                }
-                                                                alt={
-                                                                    destination.name
-                                                                }
-                                                                fill
-                                                                sizes="64px"
-                                                                className="object-cover"
-                                                            />
-                                                        ) : (
-                                                            <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-foreground">
-                                                                No image
-                                                            </div>
-                                                        )}
-                                                    </div>
-
-                                                    <div className="min-w-0">
-                                                        <p className="truncate font-medium">
-                                                            {
-                                                                destination.name
-                                                            }
-                                                        </p>
-
-                                                        <p className="text-xs text-muted-foreground">
-                                                            {destination.id}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </TableCell>
-
-                                            {/* Budget */}
-                                            <TableCell>
-                                                <span className="text-sm">
-                                                    {destination.budget ||
-                                                        "Not specified"}
-                                                </span>
-                                            </TableCell>
-
-                                            {/* Packages */}
-                                            <TableCell className="text-center">
-                                                <span className="font-medium">
-                                                    {
-                                                        destination.totalPackages
-                                                    }
-                                                </span>
-                                            </TableCell>
-
-                                            {/* Created */}
-                                            <TableCell>
-                                                <span className="text-sm text-muted-foreground">
-                                                    {formatDate(
-                                                        destination.createdAt
-                                                    )}
-                                                </span>
-                                            </TableCell>
-
-                                            {/* Actions */}
-                                            <TableCell>
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="icon"
-
-                                                        title="Edit destination"
-                                                    >
-                                                        <Link
-                                                            href={`/admin/destinations/${destination.id}/edit`}
-                                                        >
-                                                            <Pencil className="h-4 w-4" />
-                                                        </Link>
-                                                    </Button>
-
-                                                    <AlertDialog>
-                                                        <AlertDialogTrigger
-
-                                                        >
-                                                            <Button
-                                                                variant="destructive"
-                                                                size="icon"
-                                                                disabled={
-                                                                    deletingId ===
-                                                                    destination.id
-                                                                }
-                                                                title="Delete destination"
-                                                            >
-                                                                <Trash2 className="h-4 w-4" />
-                                                            </Button>
-                                                        </AlertDialogTrigger>
-
-                                                        <AlertDialogContent>
-                                                            <AlertDialogHeader>
-                                                                <AlertDialogTitle>
-                                                                    Delete{" "}
-                                                                    {
-                                                                        destination.name
-                                                                    }
-                                                                    ?
-                                                                </AlertDialogTitle>
-
-                                                                <AlertDialogDescription>
-                                                                    This action
-                                                                    cannot be
-                                                                    undone.
-                                                                    The
-                                                                    destination
-                                                                    and its
-                                                                    related
-                                                                    data may be
-                                                                    permanently
-                                                                    removed.
-                                                                </AlertDialogDescription>
-                                                            </AlertDialogHeader>
-
-                                                            <AlertDialogFooter>
-                                                                <AlertDialogCancel>
-                                                                    Cancel
-                                                                </AlertDialogCancel>
-
-                                                                <AlertDialogAction
-                                                                    onClick={() =>
-                                                                        handleDelete(
-                                                                            destination.id
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    {deletingId ===
-                                                                        destination.id
-                                                                        ? "Deleting..."
-                                                                        : "Delete"}
-                                                                </AlertDialogAction>
-                                                            </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                    </AlertDialog>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </div>
-
-                {/* Pagination */}
-                {!loading &&
-                    pagination &&
-                    pagination.totalPages > 0 && (
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                            <p className="text-sm text-muted-foreground">
-                                Showing{" "}
-                                <span className="font-medium text-foreground">
-                                    {(pagination.page - 1) *
-                                        pagination.limit +
-                                        1}
-                                </span>{" "}
-                                to{" "}
-                                <span className="font-medium text-foreground">
-                                    {Math.min(
-                                        pagination.page * pagination.limit,
-                                        pagination.total
-                                    )}
-                                </span>{" "}
-                                of{" "}
-                                <span className="font-medium text-foreground">
-                                    {pagination.total}
-                                </span>{" "}
-                                destinations
+                <CardContent>
+                    <div className="flex min-h-40 items-center justify-center rounded-lg border border-dashed">
+                        <div className="text-center">
+                            <p className="text-sm font-medium">
+                                No recent activity
                             </p>
 
-                            <div className="flex items-center justify-end gap-1">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    disabled={!pagination.hasPreviousPage}
-                                    onClick={() =>
-                                        setPage((currentPage) =>
-                                            Math.max(1, currentPage - 1)
-                                        )
-                                    }
-                                    title="Previous page"
-                                >
-                                    <ChevronLeft className="h-4 w-4" />
-                                </Button>
-
-                                {getPageNumbers().map((pageNumber) => (
-                                    <Button
-                                        key={pageNumber}
-                                        variant={
-                                            pageNumber === pagination.page
-                                                ? "default"
-                                                : "outline"
-                                        }
-                                        size="icon"
-                                        onClick={() =>
-                                            setPage(pageNumber)
-                                        }
-                                    >
-                                        {pageNumber}
-                                    </Button>
-                                ))}
-
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    disabled={!pagination.hasNextPage}
-                                    onClick={() =>
-                                        setPage((currentPage) =>
-                                            Math.min(
-                                                pagination.totalPages,
-                                                currentPage + 1
-                                            )
-                                        )
-                                    }
-                                    title="Next page"
-                                >
-                                    <ChevronRight className="h-4 w-4" />
-                                </Button>
-                            </div>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                Your latest admin activity will appear here.
+                            </p>
                         </div>
-                    )}
-            </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }

@@ -238,9 +238,9 @@ export default function OffersPage() {
 
                         className="w-full sm:w-auto"
                     >
-                        <Link href="/offers/create">
+                        <Link href="/admin/offers/create" className="flex">
                             <Plus className="mr-2 h-4 w-4" />
-                            Create Offer
+                            <p>Create Offer</p>   
                         </Link>
                     </Button>
                 </section>

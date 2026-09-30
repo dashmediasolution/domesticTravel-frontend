@@ -12,7 +12,7 @@ import { destinationSchema } from "@/lib/validations/destination";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 7 * 1024 * 1024;
 const MAX_GALLERY_IMAGES = 15;
 const MAX_ATTRACTIONS = 30;
 

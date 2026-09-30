@@ -12,11 +12,12 @@ import { packageSchema } from "@/lib/validations/package";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 7 * 1024 * 1024;
 const MAX_GALLERY_IMAGES = 15;
 
 const ALLOWED_TYPES = [
     "image/jpeg",
+    "image/jpg",
     "image/png",
     "image/webp",
 ];
@@ -63,16 +64,16 @@ function getBoolean(
     return value === "true";
 }
 
-
-
-
-function validateFile(file: File, label: string) {
+function validateFile(
+    file: File,
+    label: string
+) {
     if (!file || file.size === 0) {
         throw new Error(`${label} is required`);
     }
 
     if (file.size > MAX_FILE_SIZE) {
-        throw new Error(`${label} must be 5MB or smaller`);
+        throw new Error(`${label} must be 7MB or smaller`);
     }
 
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -82,7 +83,9 @@ function validateFile(file: File, label: string) {
     }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+    request: NextRequest
+) {
     const uploadedAssets: string[] = [];
 
     try {
@@ -96,7 +99,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "A valid destination is required",
+                    message:
+                        "A valid destination is required",
                 },
                 { status: 400 }
             );
@@ -153,15 +157,37 @@ export async function POST(request: NextRequest) {
             []
         );
 
-        const bestTimeToVisit = parseJSON<string[]>(
-            formData.get("bestTimeToVisit"),
+        const bestTimeToVisit =
+            parseJSON<string[]>(
+                formData.get("bestTimeToVisit"),
+                []
+            );
+
+        const travelInformation =
+            parseJSON<
+                {
+                    id: string;
+                    title: string;
+                    value: string;
+                }[]
+            >(
+                formData.get("travelInformation"),
+                []
+            );
+
+        const whatToPack = parseJSON<string[]>(
+            formData.get("whatToPack"),
             []
         );
 
         const rawData = {
-            name: String(formData.get("name") || ""),
+            name: String(
+                formData.get("name") || ""
+            ),
 
-            slug: String(formData.get("slug") || ""),
+            slug: String(
+                formData.get("slug") || ""
+            ),
 
             category: String(
                 formData.get("category") || ""
@@ -178,20 +204,24 @@ export async function POST(request: NextRequest) {
             destinationId,
 
             parentId:
-                String(formData.get("parentId") || "")
-                    .trim() || null,
+                String(
+                    formData.get("parentId") || ""
+                ).trim() || null,
 
             subtitle:
-                String(formData.get("subtitle") || "")
-                    .trim(),
+                String(
+                    formData.get("subtitle") || ""
+                ).trim(),
 
             description:
-                String(formData.get("description") || "")
-                    .trim(),
+                String(
+                    formData.get("description") || ""
+                ).trim(),
 
             location:
-                String(formData.get("location") || "")
-                    .trim(),
+                String(
+                    formData.get("location") || ""
+                ).trim(),
 
             latitude: getNumber(
                 formData.get("latitude")
@@ -202,20 +232,24 @@ export async function POST(request: NextRequest) {
             ),
 
             duration:
-                String(formData.get("duration") || "")
-                    .trim(),
+                String(
+                    formData.get("duration") || ""
+                ).trim(),
 
             groupSize:
-                String(formData.get("groupSize") || "")
-                    .trim(),
+                String(
+                    formData.get("groupSize") || ""
+                ).trim(),
 
             idealTrip:
-                String(formData.get("idealTrip") || "")
-                    .trim(),
+                String(
+                    formData.get("idealTrip") || ""
+                ).trim(),
 
             budget:
-                String(formData.get("budget") || "")
-                    .trim(),
+                String(
+                    formData.get("budget") || ""
+                ).trim(),
 
             bestTimeToVisit,
 
@@ -232,8 +266,9 @@ export async function POST(request: NextRequest) {
             saveAmount: null,
 
             validTill:
-                String(formData.get("validTill") || "")
-                    .trim(),
+                String(
+                    formData.get("validTill") || ""
+                ).trim(),
 
             rating: getNumber(
                 formData.get("rating")
@@ -253,13 +288,19 @@ export async function POST(request: NextRequest) {
 
             itinerary,
 
+            travelInformation,
+
+            whatToPack,
+
             metaTitle:
-                String(formData.get("metaTitle") || "")
-                    .trim(),
+                String(
+                    formData.get("metaTitle") || ""
+                ).trim(),
 
             metaDescription:
                 String(
-                    formData.get("metaDescription") || ""
+                    formData.get("metaDescription") ||
+                        ""
                 ).trim(),
 
             keywords,
@@ -281,7 +322,8 @@ export async function POST(request: NextRequest) {
                 {
                     success: false,
                     message: "Validation failed",
-                    errors: validation.error.flatten(),
+                    errors:
+                        validation.error.flatten(),
                 },
                 { status: 400 }
             );
@@ -343,7 +385,8 @@ export async function POST(request: NextRequest) {
         const existingPackage =
             await prisma.package.findFirst({
                 where: {
-                    destinationId: data.destinationId,
+                    destinationId:
+                        data.destinationId,
                     slug: data.slug,
                 },
                 select: {
@@ -372,13 +415,17 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Hero image is required",
+                    message:
+                        "Hero image is required",
                 },
                 { status: 400 }
             );
         }
 
-        validateFile(heroImage, "Hero image");
+        validateFile(
+            heroImage,
+            "Hero image"
+        );
 
         const galleryFiles =
             formData
@@ -446,128 +493,98 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        
-        
-        
-
         const publishedAt =
             data.isPublished
                 ? new Date()
                 : null;
 
-        const created =
-            await prisma.package.create({
-                data: {
-                    name: data.name,
+     const created = await prisma.package.create({
+    data: {
+        name: data.name,
 
-                    slug: data.slug,
+        slug: data.slug,
 
-                    category: data.category,
+        category: data.category,
 
-                    type: data.type,
+        type: data.type,
 
-                    occasion: data.occasion,
+        occasion: data.occasion,
 
-                    destinationId:
-                        data.destinationId,
+        destinationId: data.destinationId,
 
-                    parentId:
-                        data.parentId || null,
+        parentId: data.parentId || null,
 
-                    subtitle:
-                        data.subtitle || null,
+        subtitle: data.subtitle || null,
 
-                    description:
-                        data.description || null,
+        description: data.description || null,
 
-                    location:
-                        data.location || null,
+        location: data.location || null,
 
-                    latitude:
-                        data.latitude ?? null,
+        latitude: data.latitude ?? null,
 
-                    longitude:
-                        data.longitude ?? null,
+        longitude: data.longitude ?? null,
 
-                    duration:
-                        data.duration || null,
+        duration: data.duration || null,
 
-                    groupSize:
-                        data.groupSize || null,
+        groupSize: data.groupSize || null,
 
-                    idealTrip:
-                        data.idealTrip || null,
+        idealTrip: data.idealTrip || null,
 
-                    budget:
-                        data.budget || null,
+        budget: data.budget || null,
 
-                    bestTimeToVisit:
-                        data.bestTimeToVisit,
+        bestTimeToVisit: data.bestTimeToVisit,
 
-                    originalPrice:
-                        data.originalPrice ?? null,
- 
-                    discount:
-                        data.discount,
+        originalPrice: data.originalPrice ?? null,
 
-                    saveAmount:
-                        data.saveAmount,
+        discount: data.discount,
 
-                    validTill:
-                        data.validTill
-                            ? new Date(
-                                  data.validTill
-                              )
-                            : null,
+        saveAmount: data.saveAmount,
 
-                    rating:
-                        data.rating ?? null,
+        validTill: data.validTill
+            ? new Date(data.validTill)
+            : null,
 
-                    reviewsCount:
-                        data.reviewsCount ?? null,
+        rating: data.rating ?? null,
 
-                    highlights:
-                        data.highlights,
+        reviewsCount: data.reviewsCount ?? null,
 
-                    inclusions:
-                        data.inclusions,
+        highlights: data.highlights,
 
-                    exclusions:
-                        data.exclusions,
+        inclusions: data.inclusions,
 
-                    whyVisit:
-                        data.whyVisit,
+        exclusions: data.exclusions,
 
-                    heroImage:
-                        uploadedHero.url,
+        whyVisit: data.whyVisit,
 
-                    gallery:
-                        uploadedGallery,
+        travelInformation: data.travelInformation,
 
-                    itinerary:
-                        data.itinerary,
+        whatToPack: data.whatToPack,
 
-                    metaTitle:
-                        data.metaTitle ||
-                        null,
+        heroImage: {
+            url: uploadedHero.url,
+            publicId: uploadedHero.publicId,
+        },
 
-                    metaDescription:
-                        data.metaDescription ||
-                        null,
+        gallery: uploadedGallery.map((image) => ({
+            url: image.url,
+            publicId: image.publicId,
+        })),
 
-                    keywords:
-                        data.keywords,
+        itinerary: data.itinerary,
 
-                    isPublished:
-                        data.isPublished,
+        metaTitle: data.metaTitle || null,
 
-                    isFeatured:
-                        data.isFeatured,
+        metaDescription: data.metaDescription || null,
 
-                    publishedAt,
-                },
-            });
+        keywords: data.keywords,
 
+        isPublished: data.isPublished,
+
+        isFeatured: data.isFeatured,
+
+        publishedAt,
+    },
+});
         return NextResponse.json(
             {
                 success: true,

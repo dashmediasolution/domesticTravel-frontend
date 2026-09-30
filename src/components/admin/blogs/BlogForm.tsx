@@ -57,12 +57,12 @@ const blogSchema = z.object({
     featuredImage: z
         .instanceof(File)
         .refine(
-            (file) => file.size <= 5 * 1024 * 1024,
+            (file) => file.size <= 7 * 1024 * 1024,
             "Image must be less than 5MB"
         )
         .refine(
             (file) =>
-                ["image/jpeg", "image/png", "image/webp"].includes(
+                ["image/jpeg", "image/png", "image/webp","image/jpg"].includes(
                     file.type
                 ),
             "Only JPG, PNG and WebP images are allowed"

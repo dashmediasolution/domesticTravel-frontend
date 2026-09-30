@@ -1,106 +1,138 @@
- 
 "use client";
 
-import { ChevronRight } from "lucide-react";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
+import { MapPin, Moon, Utensils } from "lucide-react";
 
 export interface ItineraryDay {
     day: number;
     title: string;
     description?: string;
+    activities?: string[];
+    meals?: string[];
+    overnight?: string;
 }
 
 interface ItineraryProps {
     title?: string;
     subtitle?: string;
     days: ItineraryDay[];
-    buttonText?: string;
-    onButtonClick?: () => void;
-    defaultOpenDay?: number;
-    className?: string;
     previewDays?: number;
+    className?: string;
 }
 
 export default function Itinerary({
     title = "Itinerary",
     subtitle,
     days,
-    buttonText = "View Detailed Itinerary",
-    onButtonClick,
-    className,
     previewDays = 5,
+    className,
 }: ItineraryProps) {
     const previewItems = days.slice(0, previewDays);
-    const hasMoreDays = days.length > previewDays;
 
     return (
-        <section className={`w-full   ${className ?? ""}`}>
-            <div className="mb-3 flex flex-wrap items-baseline gap-1 sm:mb-5">
+        <section className={`w-full ${className ?? ""}`}>
+            <div className="mb-4 flex flex-wrap items-baseline gap-1 sm:mb-5">
                 <h2 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
                     {title}
                 </h2>
 
                 {subtitle && (
-                    <span className="text-xs text-foreground sm:text-lg">
+                    <span className="text-xs text-muted-foreground sm:text-lg">
                         ({subtitle})
                     </span>
                 )}
             </div>
 
-            <div className="overflow-hidden rounded-[16px] border border-neutral-200 bg-white px-3 shadow-[0_2px_10px_rgba(0,0,0,0.08)] sm:rounded-[20px] sm:px-5 lg:rounded-[24px] lg:px-6">
-                <Accordion>
-                    {previewItems.map((item) => (
-                        <AccordionItem
-                            key={item.day}
-                            value={`day-${item.day}`}
-                            className="border-b border-neutral-200 last:border-b-0"
-                        >
-                            <AccordionTrigger className="w-full py-3 text-left font-bold hover:no-underline sm:py-4">
-                                <div className="flex w-full min-w-0 items-start gap-2 sm:gap-3">
-                                    <span className="flex h-7 min-w-[42px] shrink-0 items-center justify-center rounded-md bg-[#F2F3F4] px-1.5 text-[10px] font-medium text-foreground sm:h-8 sm:min-w-[48px] sm:rounded-lg sm:px-2 sm:text-xs">
-                                        Day {item.day}
-                                    </span>
+            <div className="rounded-[20px] border border-neutral-200 bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-6 lg:rounded-[24px]">
+                <div className="relative">
+                    {previewItems.map((item, index) => {
+                        const isLast =
+                            index === previewItems.length - 1;
 
-                                    <span className="min-w-0 flex-1 whitespace-normal break-words text-left text-xs font-medium leading-5 text-foreground sm:text-base sm:leading-6">
-                                        {item.title}
-                                    </span>
+                        return (
+                            <div
+                                key={item.day}
+                                className="relative flex gap-3 sm:gap-5"
+                            >
+                                {!isLast && (
+                                    <div className="absolute left-[17px] top-10 bottom-0 w-px bg-[#2FC2B0]/40 sm:left-[21px]" />
+                                )}
+
+                                <div className="relative z-10 flex shrink-0 flex-col items-center">
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#00383B] text-[10px] font-semibold text-white shadow-sm sm:h-11 sm:w-11 sm:text-xs">
+                                        Day
+                                        <span className="ml-1">
+                                            {item.day}
+                                        </span>
+                                    </div>
                                 </div>
-                            </AccordionTrigger>
 
-                            {item.description && (
-                                <AccordionContent className="pb-3 pl-[50px] text-[11px] leading-5 text-muted-foreground sm:pb-4 sm:pl-[60px] sm:text-sm sm:leading-6">
-                                    <p className="whitespace-normal break-words">
-                                        {item.description}
-                                    </p>
-                                </AccordionContent>
-                            )}
-                        </AccordionItem>
-                    ))}
-                </Accordion>
+                                <div
+                                    className={`
+                                        min-w-0 flex-1
+                                        rounded-[14px]
+                                        border border-neutral-100
+                                        bg-[#FAFCFC]
+                                        px-4 py-3.5
+                                        shadow-[0_2px_8px_rgba(0,0,0,0.04)]
+                                        sm:rounded-[18px]
+                                        sm:px-5 sm:py-4
+                                        ${isLast ? "mb-0" : "mb-3 sm:mb-4"}
+                                    `}
+                                >
+                                    <h3 className="text-sm font-semibold leading-5 text-[#00383B] sm:text-base sm:leading-6">
+                                        {item.title}
+                                    </h3>
 
-                <div className="flex justify-center py-3 sm:py-5">
-                    <button
-                        type="button"
-                        onClick={onButtonClick}
-                        className="flex h-8 items-center gap-1.5 rounded-full border border-teal-400 px-3 text-[10px] font-medium text-teal-500 transition-colors hover:bg-teal-50 sm:h-10 sm:gap-2 sm:px-5 sm:text-sm"
-                    >
-                        {hasMoreDays
-                            ? buttonText
-                            : "View Detailed Itinerary"}
+                                    {(item.activities?.length ||
+                                        item.meals?.length ||
+                                        item.overnight) && (
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[10px] text-muted-foreground sm:text-xs">
+                                            {item.activities &&
+                                                item.activities.length > 0 && (
+                                                    <div className="flex items-center gap-1">
+                                                        <MapPin className="h-3 w-3 shrink-0 text-[#2FC2B0]" />
+                                                        <span>
+                                                            {item.activities.join(
+                                                                " | "
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                )}
 
-                        <ChevronRight
-                            size={15}
-                            className="sm:h-[18px] sm:w-[18px]"
-                        />
-                    </button>
+                                            {item.meals &&
+                                                item.meals.length > 0 && (
+                                                    <div className="flex items-center gap-1">
+                                                        <Utensils className="h-3 w-3 shrink-0 text-[#2FC2B0]" />
+                                                        <span>
+                                                            {item.meals.join(
+                                                                " | "
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                )}
+
+                                            {item.overnight && (
+                                                <div className="flex items-center gap-1">
+                                                    <Moon className="h-3 w-3 shrink-0 text-[#2FC2B0]" />
+                                                    <span>
+                                                        {item.overnight}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {item.description && (
+                                        <p className="mt-2 text-[11px] leading-5 text-muted-foreground sm:text-sm sm:leading-6">
+                                            {item.description}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>
     );
 }
- 

@@ -5,7 +5,7 @@
 body:has([data-standalone-page]) .site-chrome {
   display: none;
 }
-  
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -77,14 +77,17 @@ body:has([data-standalone-page]) .site-chrome {
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #F7FBFA;
+  --sidebar-foreground: #00383B;
+
+  --sidebar-primary: #2FC2B0;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #E8F8F5;
+  --sidebar-accent-foreground: #00383B;
+
+  --sidebar-border: #DDECE9;
+  --sidebar-ring: #2FC2B0;
 }
 
 .dark {
@@ -125,12 +128,12 @@ body:has([data-standalone-page]) .site-chrome {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  html {
-   
-  }
+
+  html {}
 }
 
 
@@ -238,8 +241,7 @@ body:has([data-standalone-page]) .site-chrome {
 
 /* Hover */
 
-.travel-marker-wrapper:hover
-.travel-marker-dot {
+.travel-marker-wrapper:hover .travel-marker-dot {
   transform: scale(1.25);
 
   box-shadow:
@@ -247,12 +249,12 @@ body:has([data-standalone-page]) .site-chrome {
 }
 
 
-.travel-marker-wrapper:hover
-.travel-marker-ring {
+.travel-marker-wrapper:hover .travel-marker-ring {
   transform: scale(1.3);
 
   background: rgba(32, 199, 181, 0.20);
 }
+
 .travel-map-marker {
   background: transparent !important;
   border: none !important;
@@ -450,6 +452,7 @@ body:has([data-standalone-page]) .site-chrome {
   font-weight: 400;
   font-style: normal;
 }
+
 .input-group-focus {
   border-color: var(--border) !important;
   box-shadow: none !important;
@@ -489,14 +492,14 @@ body:has([data-standalone-page]) .site-chrome {
 }
 
 :root {
-    --font-heading: var(--font-plus-jakarta);
-    --font-subheading: var(--font-plus-jakarta);
-    --font-body: var(--font-inter);
+  --font-heading: var(--font-plus-jakarta);
+  --font-subheading: var(--font-plus-jakarta);
+  --font-body: var(--font-inter);
 }
 
 html,
 body {
-    font-family: var(--font-body);
+  font-family: var(--font-body);
 }
 
 h1,
@@ -505,9 +508,9 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-heading);
+  font-family: var(--font-heading);
 }
 
 .subheading {
-    font-family: var(--font-subheading);
+  font-family: var(--font-subheading);
 }

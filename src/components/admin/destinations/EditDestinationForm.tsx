@@ -91,7 +91,7 @@ type DestinationResponse = {
         publicId?: string | null;
         sortOrder?: number;
     }>;
-    heroImage?: string | null;
+    heroImage?: ExistingImage | null;
     gallery?: ExistingImage[];
     metaTitle?: string | null;
     metaDescription?: string | null;
@@ -511,7 +511,7 @@ export default function EditDestinationForm({
 
         if (
             file.size >
-            5 * 1024 * 1024
+            7 * 1024 * 1024
         ) {
             setError(
                 "Each image must be smaller than 5MB"
@@ -568,7 +568,7 @@ export default function EditDestinationForm({
             if (!response.ok) {
                 throw new Error(
                     result.message ||
-                        "Failed to load destination"
+                    "Failed to load destination"
                 );
             }
 
@@ -666,10 +666,8 @@ export default function EditDestinationForm({
             );
 
             setExistingHeroImage(
-                destination.heroImage ||
-                null
+                destination.heroImage?.url ?? null
             );
-
             setHeroImage(null);
             setHeroPreview(null);
 
@@ -878,18 +876,18 @@ export default function EditDestinationForm({
 
     const addAttraction = () => {
         const newAttraction: AttractionItem =
-            {
-                id:
-                    crypto.randomUUID(),
-                name: "",
-                description: "",
-                image: null,
-                imagePreview: null,
-                existingImageUrl:
-                    null,
-                existing:
-                    false,
-            };
+        {
+            id:
+                crypto.randomUUID(),
+            name: "",
+            description: "",
+            image: null,
+            imagePreview: null,
+            existingImageUrl:
+                null,
+            existing:
+                false,
+        };
 
         const updated = [
             ...attractions,
@@ -1085,12 +1083,12 @@ export default function EditDestinationForm({
 
     const addWhyVisit = () => {
         const newItem: WhyVisitItem =
-            {
-                id:
-                    crypto.randomUUID(),
-                title: "",
-                description: "",
-            };
+        {
+            id:
+                crypto.randomUUID(),
+            title: "",
+            description: "",
+        };
 
         const updated = [
             ...whyVisit,
@@ -1353,7 +1351,7 @@ export default function EditDestinationForm({
             formData.append(
                 "metaDescription",
                 data.metaDescription ||
-                    ""
+                ""
             );
 
             formData.append(
@@ -1486,7 +1484,7 @@ export default function EditDestinationForm({
             if (!response.ok) {
                 throw new Error(
                     result.message ||
-                        "Failed to update destination"
+                    "Failed to update destination"
                 );
             }
 
@@ -1661,7 +1659,7 @@ export default function EditDestinationForm({
             <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold">
-                        Travel Information
+                        Other Information
                     </h2>
                 </div>
 
@@ -1749,36 +1747,36 @@ export default function EditDestinationForm({
 
                     {activities.length >
                         0 && (
-                        <div className="flex flex-wrap gap-2">
-                            {activities.map(
-                                (
-                                    activity,
-                                    index
-                                ) => (
-                                    <div
-                                        key={`${activity}-${index}`}
-                                        className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
-                                    >
-                                        {
-                                            activity
-                                        }
-
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                removeActivity(
-                                                    index
-                                                )
-                                            }
-                                            className="text-primary/70 hover:text-primary"
+                            <div className="flex flex-wrap gap-2">
+                                {activities.map(
+                                    (
+                                        activity,
+                                        index
+                                    ) => (
+                                        <div
+                                            key={`${activity}-${index}`}
+                                            className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
                                         >
-                                            <X className="size-4" />
-                                        </button>
-                                    </div>
-                                )
-                            )}
-                        </div>
-                    )}
+                                            {
+                                                activity
+                                            }
+
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeActivity(
+                                                        index
+                                                    )
+                                                }
+                                                className="text-primary/70 hover:text-primary"
+                                            >
+                                                <X className="size-4" />
+                                            </button>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        )}
                 </div>
 
                 <div className="mt-6 space-y-3">
@@ -1805,11 +1803,10 @@ export default function EditDestinationForm({
                                                 month
                                             )
                                         }
-                                        className={`rounded-lg border px-3 py-2 text-sm transition ${
-                                            selected
+                                        className={`rounded-lg border px-3 py-2 text-sm transition ${selected
                                                 ? "border-primary bg-primary text-white"
                                                 : "bg-white hover:border-primary"
-                                        }`}
+                                            }`}
                                     >
                                         {
                                             month
@@ -1847,7 +1844,7 @@ export default function EditDestinationForm({
                 </div>
 
                 {whyVisit.length ===
-                0 ? (
+                    0 ? (
                     <div className="rounded-xl border border-dashed px-5 py-8 text-center">
                         <p className="text-sm text-muted-foreground">
                             No Why Visit items added yet.
@@ -1876,7 +1873,7 @@ export default function EditDestinationForm({
                                 const itemErrors =
                                     errors
                                         .whyVisit?.[
-                                        index
+                                    index
                                     ];
 
                                 return (
@@ -1937,14 +1934,14 @@ export default function EditDestinationForm({
 
                                                 {itemErrors?.title
                                                     ?.message && (
-                                                    <p className="text-xs text-red-500">
-                                                        {
-                                                            itemErrors
-                                                                .title
-                                                                .message
-                                                        }
-                                                    </p>
-                                                )}
+                                                        <p className="text-xs text-red-500">
+                                                            {
+                                                                itemErrors
+                                                                    .title
+                                                                    .message
+                                                            }
+                                                        </p>
+                                                    )}
                                             </div>
 
                                             <div className="space-y-2">
@@ -1975,14 +1972,14 @@ export default function EditDestinationForm({
                                                 {itemErrors
                                                     ?.description
                                                     ?.message && (
-                                                    <p className="text-xs text-red-500">
-                                                        {
-                                                            itemErrors
-                                                                .description
-                                                                .message
-                                                        }
-                                                    </p>
-                                                )}
+                                                        <p className="text-xs text-red-500">
+                                                            {
+                                                                itemErrors
+                                                                    .description
+                                                                    .message
+                                                            }
+                                                        </p>
+                                                    )}
                                             </div>
                                         </div>
                                     </div>
@@ -2002,20 +1999,20 @@ export default function EditDestinationForm({
 
                 {existingHeroImage &&
                     !heroPreview && (
-                    <div className="relative mb-5 overflow-hidden rounded-xl border">
-                        <img
-                            src={
-                                existingHeroImage
-                            }
-                            alt="Current hero"
-                            className="h-64 w-full object-cover"
-                        />
+                        <div className="relative mb-5 overflow-hidden rounded-xl border">
+                            <img
+                                src={
+                                    existingHeroImage
+                                }
+                                alt="Current hero"
+                                className="h-64 w-full object-cover"
+                            />
 
-                        <div className="absolute left-3 top-3 rounded-md bg-black/70 px-2 py-1 text-xs text-white">
-                            Current Hero Image
+                            <div className="absolute left-3 top-3 rounded-md bg-black/70 px-2 py-1 text-xs text-white">
+                                Current Hero Image
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
                 <div
                     onClick={() =>
@@ -2119,7 +2116,7 @@ export default function EditDestinationForm({
                 </div>
 
                 {gallery.length ===
-                0 ? (
+                    0 ? (
                     <div
                         onClick={() =>
                             galleryInputRef.current?.click()
@@ -2153,10 +2150,9 @@ export default function EditDestinationForm({
                                         src={
                                             image.preview
                                         }
-                                        alt={`Gallery image ${
-                                            index +
+                                        alt={`Gallery image ${index +
                                             1
-                                        }`}
+                                            }`}
                                         className="aspect-square w-full object-cover"
                                     />
 
@@ -2193,24 +2189,24 @@ export default function EditDestinationForm({
 
                 {gallery.length >
                     0 && (
-                    <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-                        <span>
-                            {
-                                gallery.length
-                            }
-                            /15 images
-                        </span>
-
-                        {gallery.length <
-                            15 && (
+                        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
                             <span>
-                                {15 -
-                                    gallery.length}{" "}
-                                remaining
+                                {
+                                    gallery.length
+                                }
+                                /15 images
                             </span>
-                        )}
-                    </div>
-                )}
+
+                            {gallery.length <
+                                15 && (
+                                    <span>
+                                        {15 -
+                                            gallery.length}{" "}
+                                        remaining
+                                    </span>
+                                )}
+                        </div>
+                    )}
             </section>
 
             <section className="rounded-xl border bg-white p-4 shadow-sm sm:p-5">
@@ -2239,7 +2235,7 @@ export default function EditDestinationForm({
                 </div>
 
                 {attractions.length ===
-                0 ? (
+                    0 ? (
                     <div className="rounded-lg border border-dashed px-4 py-6 text-center">
                         <p className="text-sm text-muted-foreground">
                             No attractions added yet.
@@ -2268,7 +2264,7 @@ export default function EditDestinationForm({
                                 const itemErrors =
                                     errors
                                         .attractions?.[
-                                        index
+                                    index
                                     ];
 
                                 return (
@@ -2333,14 +2329,14 @@ export default function EditDestinationForm({
                                                     {itemErrors
                                                         ?.name
                                                         ?.message && (
-                                                        <p className="text-xs text-red-500">
-                                                            {
-                                                                itemErrors
-                                                                    .name
-                                                                    .message
-                                                            }
-                                                        </p>
-                                                    )}
+                                                            <p className="text-xs text-red-500">
+                                                                {
+                                                                    itemErrors
+                                                                        .name
+                                                                        .message
+                                                                }
+                                                            </p>
+                                                        )}
                                                 </div>
 
                                                 <div className="space-y-1.5">
@@ -2373,14 +2369,14 @@ export default function EditDestinationForm({
                                                     {itemErrors
                                                         ?.description
                                                         ?.message && (
-                                                        <p className="text-xs text-red-500">
-                                                            {
-                                                                itemErrors
-                                                                    .description
-                                                                    .message
-                                                            }
-                                                        </p>
-                                                    )}
+                                                            <p className="text-xs text-red-500">
+                                                                {
+                                                                    itemErrors
+                                                                        .description
+                                                                        .message
+                                                                }
+                                                            </p>
+                                                        )}
                                                 </div>
                                             </div>
 
@@ -2390,7 +2386,7 @@ export default function EditDestinationForm({
                                                 </Label>
 
                                                 {!attraction.image &&
-                                                !attraction.existingImageUrl ? (
+                                                    !attraction.existingImageUrl ? (
                                                     <label className="flex h-[123px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed bg-white text-center transition hover:bg-muted/30">
                                                         <ImagePlus className="mb-1.5 size-6 text-muted-foreground" />
 
@@ -2470,24 +2466,24 @@ export default function EditDestinationForm({
 
                                                 {(attraction.image ||
                                                     attraction.existingImageUrl) && (
-                                                    <label className="block cursor-pointer text-center text-[10px] text-primary hover:underline">
-                                                        Replace Image
+                                                        <label className="block cursor-pointer text-center text-[10px] text-primary hover:underline">
+                                                            Replace Image
 
-                                                        <input
-                                                            type="file"
-                                                            accept="image/jpeg,image/png,image/webp"
-                                                            className="hidden"
-                                                            onChange={(
-                                                                event
-                                                            ) =>
-                                                                updateAttractionImage(
-                                                                    attraction.id,
+                                                            <input
+                                                                type="file"
+                                                                accept="image/jpeg,image/png,image/webp"
+                                                                className="hidden"
+                                                                onChange={(
                                                                     event
-                                                                )
-                                                            }
-                                                        />
-                                                    </label>
-                                                )}
+                                                                ) =>
+                                                                    updateAttractionImage(
+                                                                        attraction.id,
+                                                                        event
+                                                                    )
+                                                                }
+                                                            />
+                                                        </label>
+                                                    )}
                                             </div>
                                         </div>
                                     </div>
@@ -2597,35 +2593,35 @@ export default function EditDestinationForm({
 
                         {keywords.length >
                             0 && (
-                            <div className="flex flex-wrap gap-2">
-                                {keywords.map(
-                                    (
-                                        keyword,
-                                        index
-                                    ) => (
-                                        <div
-                                            key={`${keyword}-${index}`}
-                                            className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
-                                        >
-                                            {
-                                                keyword
-                                            }
-
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeKeyword(
-                                                        index
-                                                    )
-                                                }
+                                <div className="flex flex-wrap gap-2">
+                                    {keywords.map(
+                                        (
+                                            keyword,
+                                            index
+                                        ) => (
+                                            <div
+                                                key={`${keyword}-${index}`}
+                                                className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-sm text-primary"
                                             >
-                                                <X className="size-4" />
-                                            </button>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        )}
+                                                {
+                                                    keyword
+                                                }
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        removeKeyword(
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    <X className="size-4" />
+                                                </button>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
                     </div>
                 </div>
             </section>

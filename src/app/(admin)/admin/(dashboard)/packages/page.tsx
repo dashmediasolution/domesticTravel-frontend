@@ -14,11 +14,23 @@ import {
     Package,
     Plus,
     Search,
+    Trash2,
     Users,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type PackageItem = {
     id: string;
@@ -74,6 +86,14 @@ export default function PackagesPage() {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    const [deleteDialogOpen, setDeleteDialogOpen] =
+        useState(false);
+
+    const [selectedPackage, setSelectedPackage] =
+        useState<PackageItem | null>(null);
+
+    const [deleting, setDeleting] = useState(false);
 
     const fetchPackages = useCallback(
         async (page = 1, searchValue = search) => {
@@ -194,9 +214,79 @@ export default function PackagesPage() {
         );
     };
 
+    const openDeleteDialog = (
+        packageItem: PackageItem
+    ) => {
+        setSelectedPackage(packageItem);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (!selectedPackage || deleting) {
+            return;
+        }
+
+        try {
+            setDeleting(true);
+            setError("");
+
+            const response = await fetch(
+                `/api/admin/delete-package/${selectedPackage.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                        "Failed to delete package"
+                );
+            }
+
+            setDeleteDialogOpen(false);
+            setSelectedPackage(null);
+
+            const currentPage =
+                pagination?.page || 1;
+
+            const shouldGoToPreviousPage =
+                packages.length === 1 &&
+                currentPage > 1;
+
+            if (shouldGoToPreviousPage) {
+                await fetchPackages(
+                    currentPage - 1,
+                    search
+                );
+            } else {
+                await fetchPackages(
+                    currentPage,
+                    search
+                );
+            }
+        } catch (error) {
+            console.error(
+                "DELETE_PACKAGE_ERROR:",
+                error
+            );
+
+            setError(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to delete package"
+            );
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     return (
         <div className="space-y-6 p-4 md:p-6">
             {/* Header */}
+
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">
@@ -209,7 +299,10 @@ export default function PackagesPage() {
                 </div>
 
                 <Button  >
-                    <Link href="/admin/packages/create-package" className="flex items-center justify-center">
+                    <Link
+                        href="/admin/packages/create-package"
+                        className="flex items-center justify-center"
+                    >
                         <Plus className="mr-2 h-4 w-4" />
                         Add Package
                     </Link>
@@ -217,6 +310,7 @@ export default function PackagesPage() {
             </div>
 
             {/* Search */}
+
             <div className="flex flex-col gap-3 rounded-xl border bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="relative w-full sm:max-w-md">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -244,6 +338,7 @@ export default function PackagesPage() {
             </div>
 
             {/* Error */}
+
             {error && (
                 <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
                     {error}
@@ -251,6 +346,7 @@ export default function PackagesPage() {
             )}
 
             {/* Table */}
+
             <div className="overflow-hidden rounded-xl border bg-white">
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[1050px] text-sm">
@@ -301,6 +397,7 @@ export default function PackagesPage() {
 
                                                 <div className="space-y-2">
                                                     <div className="h-4 w-40 animate-pulse rounded bg-muted" />
+
                                                     <div className="h-3 w-24 animate-pulse rounded bg-muted" />
                                                 </div>
                                             </div>
@@ -355,173 +452,188 @@ export default function PackagesPage() {
                                     </td>
                                 </tr>
                             ) : (
-                                packages.map(
-                                    (item) => (
-                                        <tr
-                                            key={
-                                                item.id
-                                            }
-                                            className="border-b transition-colors hover:bg-muted/20 last:border-0"
-                                        >
-                                            {/* Package */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
-                                                        {item
-                                                            .heroImage
-                                                            ?.url ? (
-                                                            <Image
-                                                                src={
-                                                                    item.heroImage.url
-                                                                     
-                                                                }
-                                                                alt={
-                                                                    item.name
-                                                                }
-                                                                fill
-                                                                sizes="80px"
-                                                                className="object-cover"
-                                                            />
-                                                        ) : (
-                                                            <div className="flex h-full w-full items-center justify-center">
-                                                                <Package className="h-5 w-5 text-muted-foreground" />
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                packages.map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="border-b transition-colors hover:bg-muted/20 last:border-0"
+                                    >
+                                        {/* Package */}
 
-                                                    <div className="min-w-0">
-                                                        <p className="max-w-[280px] truncate font-semibold">
-                                                            {
+                                        <td className="px-4 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-muted">
+                                                    {item.heroImage
+                                                        ?.url ? (
+                                                        <Image
+                                                            src={
+                                                                item
+                                                                    .heroImage
+                                                                    .url
+                                                            }
+                                                            alt={
                                                                 item.name
                                                             }
-                                                        </p>
-
-                                                        {item.category && (
-                                                            <p className="mt-1 text-xs text-muted-foreground">
-                                                                {
-                                                                    item.category
-                                                                }
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            {/* Price */}
-                                            <td className="px-4 py-4">
-                                                <div>
-                                                     
-
-                                                
-                                                                     <p className="font-semibold">
-
-                                                                {formatPrice(
-                                                                    item.originalPrice
-                                                                )}
-                                                            </p>
-                                                 </div>
-                                            </td>
-
-                                            {/* Duration */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex items-center gap-2 text-muted-foreground">
-                                                    <Clock3 className="h-4 w-4" />
-
-                                                    <span>
-                                                        {item.duration ||
-                                                            "—"}
-                                                    </span>
-                                                </div>
-                                            </td>
-
-                                            {/* Group */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex items-center gap-2 text-muted-foreground">
-                                                    <Users className="h-4 w-4" />
-
-                                                    <span>
-                                                        {item.groupSize ||
-                                                            "—"}
-                                                    </span>
-                                                </div>
-                                            </td>
-
-                                            {/* Status */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex flex-col items-start gap-1">
-                                                    <span
-                                                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                                                            item.isPublished
-                                                                ? "bg-green-100 text-green-700"
-                                                                : "bg-gray-100 text-gray-600"
-                                                        }`}
-                                                    >
-                                                        {item.isPublished
-                                                            ? "Published"
-                                                            : "Draft"}
-                                                    </span>
-
-                                                    {item.isFeatured && (
-                                                        <span className="text-[11px] font-medium text-primary">
-                                                            Featured
-                                                        </span>
+                                                            fill
+                                                            sizes="80px"
+                                                            className="object-cover"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex h-full w-full items-center justify-center">
+                                                            <Package className="h-5 w-5 text-muted-foreground" />
+                                                        </div>
                                                     )}
                                                 </div>
-                                            </td>
 
-                                            {/* Created */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex items-center gap-2 text-muted-foreground">
-                                                    <CalendarDays className="h-4 w-4" />
+                                                <div className="min-w-0">
+                                                    <p className="max-w-[280px] truncate font-semibold">
+                                                        {
+                                                            item.name
+                                                        }
+                                                    </p>
 
-                                                    <span>
-                                                        {formatDate(
-                                                            item.createdAt
-                                                        )}
+                                                    {item.category && (
+                                                        <p className="mt-1 text-xs text-muted-foreground">
+                                                            {
+                                                                item.category
+                                                            }
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        {/* Price */}
+
+                                        <td className="px-4 py-4">
+                                            <p className="font-semibold">
+                                                {formatPrice(
+                                                    item.originalPrice
+                                                )}
+                                            </p>
+                                        </td>
+
+                                        {/* Duration */}
+
+                                        <td className="px-4 py-4">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <Clock3 className="h-4 w-4" />
+
+                                                <span>
+                                                    {item.duration ||
+                                                        "—"}
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        {/* Group */}
+
+                                        <td className="px-4 py-4">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <Users className="h-4 w-4" />
+
+                                                <span>
+                                                    {item.groupSize ||
+                                                        "—"}
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        {/* Status */}
+
+                                        <td className="px-4 py-4">
+                                            <div className="flex flex-col items-start gap-1">
+                                                <span
+                                                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                                                        item.isPublished
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-gray-100 text-gray-600"
+                                                    }`}
+                                                >
+                                                    {item.isPublished
+                                                        ? "Published"
+                                                        : "Draft"}
+                                                </span>
+
+                                                {item.isFeatured && (
+                                                    <span className="text-[11px] font-medium text-primary">
+                                                        Featured
                                                     </span>
-                                                </div>
-                                            </td>
+                                                )}
+                                            </div>
+                                        </td>
 
-                                            {/* Actions */}
-                                            <td className="px-4 py-4">
-                                                <div className="flex justify-end gap-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="icon"
-                                                         
-                                                        title="View package"
-                                                    >
-                                                        <Link
-                                                            href={`/package/${item.slug}`}
-                                                            target="_blank"
-                                                        >
-                                                            <Eye className="h-4 w-4" />
-                                                        </Link>
-                                                    </Button>
+                                        {/* Created */}
 
-                                                    <Button
-                                                        variant="outline"
-                                                        size="icon"
-                                                         
-                                                        title="Edit package"
+                                        <td className="px-4 py-4">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <CalendarDays className="h-4 w-4" />
+
+                                                <span>
+                                                    {formatDate(
+                                                        item.createdAt
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        {/* Actions */}
+
+                                        <td className="px-4 py-4">
+                                            <div className="flex justify-end gap-2">
+                                                <Button
+                                                    variant="outline"
+                                                    size="icon"
+                                                    title="View package"
+                                                     
+                                                >
+                                                    <Link
+                                                        href={`/package/${item.slug}`}
+                                                        target="_blank"
                                                     >
-                                                        <Link
-                                                            href={`/admin/packages/${item.id}/edit`}
-                                                        >
-                                                            <Edit className="h-4 w-4" />
-                                                        </Link>
-                                                    </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                )
+                                                        <Eye className="h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+
+                                                <Button
+                                                    variant="outline"
+                                                    size="icon"
+                                                    title="Edit package"
+                                                     
+                                                >
+                                                    <Link
+                                                        href={`/admin/packages/${item.id}/edit`}
+                                                    >
+                                                        <Edit className="h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+
+                                                <Button
+                                                    variant="outline"
+                                                    size="icon"
+                                                    title="Delete package"
+                                                    className="text-red-500 hover:bg-red-50 hover:text-red-600"
+                                                    onClick={() =>
+                                                        openDeleteDialog(
+                                                            item
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        deleting
+                                                    }
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
                             )}
                         </tbody>
                     </table>
                 </div>
 
                 {/* Pagination */}
+
                 {pagination &&
                     pagination.totalPages > 0 && (
                         <div className="flex flex-col gap-3 border-t px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -573,9 +685,7 @@ export default function PackagesPage() {
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    onClick={
-                                        handleNext
-                                    }
+                                    onClick={handleNext}
                                     disabled={
                                         loading ||
                                         !pagination.hasNextPage
@@ -588,6 +698,55 @@ export default function PackagesPage() {
                         </div>
                     )}
             </div>
+
+            {/* Delete Confirmation */}
+
+            <AlertDialog
+                open={deleteDialogOpen}
+                onOpenChange={(open) => {
+                    if (!deleting) {
+                        setDeleteDialogOpen(open);
+
+                        if (!open) {
+                            setSelectedPackage(null);
+                        }
+                    }
+                }}
+            >
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            Delete package?
+                        </AlertDialogTitle>
+
+                        <AlertDialogDescription>
+                            Are you sure you want to delete{" "}
+                            <span className="font-semibold text-foreground">
+                                {selectedPackage?.name}
+                            </span>
+                            ? This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter>
+                        <AlertDialogCancel
+                            disabled={deleting}
+                        >
+                            Cancel
+                        </AlertDialogCancel>
+
+                        <AlertDialogAction
+                            onClick={handleDelete}
+                            disabled={deleting}
+                            className="bg-red-600 text-white hover:bg-red-700"
+                        >
+                            {deleting
+                                ? "Deleting..."
+                                : "Delete Package"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }

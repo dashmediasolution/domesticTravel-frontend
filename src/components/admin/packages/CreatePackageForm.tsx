@@ -47,11 +47,12 @@ import {
     type PackageFormValues,
 } from "@/lib/validations/package";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 7 * 1024 * 1024;
 const MAX_GALLERY_IMAGES = 15;
 
 const ALLOWED_TYPES = [
     "image/jpeg",
+    "image/jpg",
     "image/png",
     "image/webp",
 ];
@@ -73,7 +74,11 @@ type WhyVisitItem = {
     title: string;
     description: string;
 };
-
+type TravelInformationItem = {
+    id: string;
+    title: string;
+    value: string;
+};
 type ItineraryDay = {
     id: string;
     day: number;
@@ -321,7 +326,144 @@ function StringArrayEditor({
         </Card>
     );
 }
+function TravelInformationEditor({
+    values,
+    onChange,
+}: {
+    values: TravelInformationItem[];
+    onChange: (values: TravelInformationItem[]) => void;
+}) {
+    const addItem = () => {
+        onChange([
+            ...values,
+            {
+                id: crypto.randomUUID(),
+                title: "",
+                value: "",
+            },
+        ]);
+    };
 
+    const updateItem = (
+        id: string,
+        field: keyof TravelInformationItem,
+        value: string
+    ) => {
+        onChange(
+            values.map((item) =>
+                item.id === id
+                    ? {
+                        ...item,
+                        [field]: value,
+                    }
+                    : item
+            )
+        );
+    };
+
+    const removeItem = (id: string) => {
+        onChange(
+            values.filter(
+                (item) => item.id !== id
+            )
+        );
+    };
+
+    return (
+        <Card>
+            <CardHeader>
+                <SectionHeader
+                    title="Travel Information"
+                    description="Add useful information travelers should know before their trip."
+                />
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+                {values.length === 0 ? (
+                    <div className="rounded-xl border border-dashed p-6 text-center">
+                        <p className="text-sm text-muted-foreground">
+                            No travel information added yet.
+                        </p>
+                    </div>
+                ) : (
+                    values.map((item, index) => (
+                        <div
+                            key={item.id}
+                            className="rounded-xl border p-4"
+                        >
+                            <div className="mb-4 flex items-center justify-between">
+                                <p className="text-sm font-semibold">
+                                    Information {index + 1}
+                                </p>
+
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() =>
+                                        removeItem(item.id)
+                                    }
+                                    className="text-destructive hover:text-destructive"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <Label>
+                                        Title
+                                    </Label>
+
+                                    <Input
+                                        value={item.title}
+                                        onChange={(event) =>
+                                            updateItem(
+                                                item.id,
+                                                "title",
+                                                event.target.value
+                                            )
+                                        }
+                                        placeholder="Best Time"
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div>
+                                    <Label>
+                                        Value
+                                    </Label>
+
+                                    <Input
+                                        value={item.value}
+                                        onChange={(event) =>
+                                            updateItem(
+                                                item.id,
+                                                "value",
+                                                event.target.value
+                                            )
+                                        }
+                                        placeholder="March to June"
+                                        className="mt-2"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addItem}
+                >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Travel Information
+                </Button>
+            </CardContent>
+        </Card>
+    );
+}
 function WhyVisitEditor({
     values,
     onChange,
@@ -1049,7 +1191,15 @@ export default function CreatePackageForm({
     onSuccess,
 }: CreatePackageFormProps) {
     const router = useRouter();
+    const [
+        travelInformation,
+        setTravelInformation,
+    ] = useState<TravelInformationItem[]>([]);
 
+    const [
+        whatToPack,
+        setWhatToPack,
+    ] = useState<string[]>([]);
     const [destinationList, setDestinationList] =
         useState<Destination[]>(destinations);
 
@@ -1142,7 +1292,8 @@ export default function CreatePackageForm({
 
             subtitle: "",
             description: "",
-
+            travelInformation: [],
+            whatToPack: [],
             location: "",
             latitude: null,
             longitude: null,
@@ -1154,7 +1305,7 @@ export default function CreatePackageForm({
             bestTimeToVisit: [],
 
             originalPrice: null,
-             discount: null,
+            discount: null,
             saveAmount: null,
 
             validTill: "",
@@ -1207,7 +1358,15 @@ export default function CreatePackageForm({
 
             subtitle:
                 initialData.subtitle || "",
+            travelInformation:
+                Array.isArray(initialData.travelInformation)
+                    ? initialData.travelInformation
+                    : [],
 
+            whatToPack:
+                Array.isArray(initialData.whatToPack)
+                    ? initialData.whatToPack
+                    : [],
             description:
                 initialData.description || "",
 
@@ -1240,8 +1399,8 @@ export default function CreatePackageForm({
             originalPrice:
                 initialData.originalPrice ?? null,
 
-   
-                
+
+
 
             discount:
                 initialData.discount ?? null,
@@ -1330,7 +1489,23 @@ export default function CreatePackageForm({
                 ? initialData.exclusions
                 : []
         );
+        setTravelInformation(
+            Array.isArray(initialData.travelInformation)
+                ? initialData.travelInformation.map((item) => ({
+                    id:
+                        item.id ||
+                        crypto.randomUUID(),
+                    title: item.title || "",
+                    value: item.value || "",
+                }))
+                : []
+        );
 
+        setWhatToPack(
+            Array.isArray(initialData.whatToPack)
+                ? initialData.whatToPack
+                : []
+        );
         setWhyVisit(
             Array.isArray(initialData.whyVisit)
                 ? initialData.whyVisit.map((item) => ({
@@ -1593,8 +1768,8 @@ export default function CreatePackageForm({
                 return;
             }
 
-       
-            
+
+
 
             const formData = new FormData();
 
@@ -1678,8 +1853,8 @@ export default function CreatePackageForm({
                     : ""
             );
 
-       
-            
+
+
 
             formData.append(
                 "type",
@@ -1721,7 +1896,15 @@ export default function CreatePackageForm({
                 "inclusions",
                 JSON.stringify(inclusions)
             );
+            formData.append(
+                "travelInformation",
+                JSON.stringify(travelInformation)
+            );
 
+            formData.append(
+                "whatToPack",
+                JSON.stringify(whatToPack)
+            );
             formData.append(
                 "exclusions",
                 JSON.stringify(exclusions)
@@ -2134,6 +2317,9 @@ export default function CreatePackageForm({
 
                                             <SelectItem value="SPECIAL">
                                                 Special
+                                            </SelectItem>
+                                            <SelectItem value="UPCOMMING">
+                                                Upcomming
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -2664,7 +2850,40 @@ export default function CreatePackageForm({
                 }}
                 placeholder="Personal expenses"
             />
+            <TravelInformationEditor
+                values={travelInformation}
+                onChange={(values) => {
+                    setTravelInformation(values);
 
+                    setValue(
+                        "travelInformation",
+                        values,
+                        {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                        }
+                    );
+                }}
+            />
+
+            <StringArrayEditor
+                title="What To Pack"
+                description="Add items travelers should carry for this trip."
+                values={whatToPack}
+                onChange={(values) => {
+                    setWhatToPack(values);
+
+                    setValue(
+                        "whatToPack",
+                        values,
+                        {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                        }
+                    );
+                }}
+                placeholder="Comfortable walking shoes"
+            />
             <WhyVisitEditor
                 values={whyVisit}
                 onChange={(values) => {

@@ -973,13 +973,7 @@ export default function OffersPackage() {
                             title="Itinerary"
                             subtitle=""
                             days={selectedPackage.itinerary}
-                            onButtonClick={() =>
-                                router.push(
-                                    `/destinations/${packageSlug}/itinerary?package=${selectedPackage.name
-                                        .toLowerCase()
-                                        .replace(/\s+/g, "-")}`
-                                )
-                            }
+                           
                         />
                     )}
 

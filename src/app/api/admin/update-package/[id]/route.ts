@@ -12,11 +12,12 @@ import { packageSchema } from "@/lib/validations/package";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 7 * 1024 * 1024;
 const MAX_GALLERY_IMAGES = 15;
 
 const ALLOWED_TYPES = [
     "image/jpeg",
+    "image/jpg",
     "image/png",
     "image/webp",
 ];
@@ -26,11 +27,21 @@ type CloudinaryUpload = {
     publicId: string;
 };
 
+type TravelInformationItem = {
+    id: string;
+    title: string;
+    value: string;
+};
+
 function parseJSON<T>(
     value: FormDataEntryValue | null,
     fallback: T
 ): T {
-    if (!value || typeof value !== "string") {
+    if (
+        value === null ||
+        typeof value !== "string" ||
+        !value.trim()
+    ) {
         return fallback;
     }
 
@@ -43,7 +54,7 @@ function parseJSON<T>(
 
 function parseNumber(
     value: FormDataEntryValue | null
-) {
+): number | null {
     if (
         value === null ||
         typeof value !== "string" ||
@@ -61,7 +72,7 @@ function parseNumber(
 
 function parseBoolean(
     value: FormDataEntryValue | null
-) {
+): boolean {
     return value === "true";
 }
 
@@ -77,7 +88,7 @@ function validateImage(
 
     if (file.size > MAX_FILE_SIZE) {
         throw new Error(
-            `${fieldName} cannot exceed 5MB`
+            `${fieldName} cannot exceed 7MB`
         );
     }
 
@@ -86,6 +97,10 @@ function validateImage(
             `${fieldName} must be JPG, PNG or WEBP`
         );
     }
+}
+
+function isValidObjectId(value: string) {
+    return /^[a-f\d]{24}$/i.test(value);
 }
 
 export async function PATCH(
@@ -100,7 +115,7 @@ export async function PATCH(
     try {
         const { id } = await context.params;
 
-        if (!id || !/^[a-f\d]{24}$/i.test(id)) {
+        if (!id || !isValidObjectId(id)) {
             return NextResponse.json(
                 {
                     success: false,
@@ -161,15 +176,14 @@ export async function PATCH(
 
         const parentId =
             String(
-                formData.get(
-                    "parentId"
-                ) || ""
+                formData.get("parentId") || ""
             ).trim();
 
         const description =
             String(
                 formData.get("description") || ""
             ).trim();
+
         const type =
             String(
                 formData.get("type") || "REGULAR"
@@ -179,6 +193,7 @@ export async function PATCH(
             String(
                 formData.get("occasion") || "NONE"
             ).trim();
+
         const location =
             String(
                 formData.get("location") || ""
@@ -205,29 +220,44 @@ export async function PATCH(
             ).trim();
 
         /*
+         * Location coordinates
+         */
+
+        const latitude = parseNumber(
+            formData.get("latitude")
+        );
+
+        const longitude = parseNumber(
+            formData.get("longitude")
+        );
+
+        /*
          * Pricing
          */
 
-        const originalPrice =
-            parseNumber(
-                formData.get("originalPrice")
-            );
+        const originalPrice = parseNumber(
+            formData.get("originalPrice")
+        );
 
-      const saveAmount =
-            parseNumber(
-                formData.get("saveAmount")
-            );
-      const discount =
-            parseNumber(
-                formData.get("discount")
-            );
+        const offerPrice = parseNumber(
+            formData.get("offerPrice")
+        );
+
+        const discount = parseNumber(
+            formData.get("discount")
+        );
+
+        const saveAmount = parseNumber(
+            formData.get("saveAmount")
+        );
+
         const validTillValue =
             String(
                 formData.get("validTill") || ""
             ).trim();
 
         /*
-         * Arrays / JSON
+         * Arrays
          */
 
         const bestTimeToVisit =
@@ -257,32 +287,66 @@ export async function PATCH(
             );
 
         const whyVisit =
-            parseJSON(
+            parseJSON<any[]>(
                 formData.get("whyVisit"),
                 []
             );
 
-        const rawItinerary = parseJSON<
-    {
-        id?: string;
-        day: number;
-        title: string;
-        description?: string;
-        activities: string[];
-        meals: string[];
-        overnight?: string;
-    }[]
->(
-    formData.get("itinerary"),
-    []
-);
+        /*
+         * Travel Information
+         */
 
-const itinerary = rawItinerary.map(
-    ({
-        id,
-        ...item
-    }) => item
-);
+        const travelInformation =
+            parseJSON<
+                TravelInformationItem[]
+            >(
+                formData.get(
+                    "travelInformation"
+                ),
+                []
+            );
+
+        /*
+         * What To Pack
+         */
+
+        const whatToPack =
+            parseJSON<string[]>(
+                formData.get("whatToPack"),
+                []
+            );
+
+        /*
+         * Itinerary
+         */
+
+        const rawItinerary =
+            parseJSON<
+                {
+                    id?: string;
+                    day: number;
+                    title: string;
+                    description?: string;
+                    activities: string[];
+                    meals: string[];
+                    overnight?: string;
+                }[]
+            >(
+                formData.get("itinerary"),
+                []
+            );
+
+        const itinerary =
+            rawItinerary.map(
+                ({
+                    id: _id,
+                    ...item
+                }) => item
+            );
+
+        /*
+         * Keywords
+         */
 
         const keywords =
             parseJSON<string[]>(
@@ -322,9 +386,6 @@ const itinerary = rawItinerary.map(
 
         /*
          * Existing gallery
-         *
-         * These are the images the admin
-         * wants to keep.
          */
 
         const existingGallery =
@@ -341,7 +402,7 @@ const itinerary = rawItinerary.map(
             );
 
         /*
-         * Removed gallery public IDs
+         * Removed gallery
          */
 
         const removedGalleryPublicIds =
@@ -353,7 +414,7 @@ const itinerary = rawItinerary.map(
             );
 
         /*
-         * Validation
+         * Basic validation
          */
 
         if (!name) {
@@ -389,11 +450,18 @@ const itinerary = rawItinerary.map(
             );
         }
 
-
-        
-
-  
-        
+        if (
+            !isValidObjectId(destinationId)
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "Invalid destination ID",
+                },
+                { status: 400 }
+            );
+        }
 
         /*
          * Destination
@@ -404,6 +472,10 @@ const itinerary = rawItinerary.map(
                 {
                     where: {
                         id: destinationId,
+                    },
+                    select: {
+                        id: true,
+                        name: true,
                     },
                 }
             );
@@ -425,8 +497,19 @@ const itinerary = rawItinerary.map(
 
         if (parentId) {
             if (
-                parentId === id
+                !isValidObjectId(parentId)
             ) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message:
+                            "Invalid parent package ID",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            if (parentId === id) {
                 return NextResponse.json(
                     {
                         success: false,
@@ -443,6 +526,11 @@ const itinerary = rawItinerary.map(
                         where: {
                             id: parentId,
                         },
+                        select: {
+                            id: true,
+                            destinationId:
+                                true,
+                        },
                     }
                 );
 
@@ -454,6 +542,20 @@ const itinerary = rawItinerary.map(
                             "Parent package not found",
                     },
                     { status: 404 }
+                );
+            }
+
+            if (
+                parentPackage.destinationId !==
+                destinationId
+            ) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message:
+                            "Parent package must belong to the same destination",
+                    },
+                    { status: 400 }
                 );
             }
         }
@@ -471,6 +573,9 @@ const itinerary = rawItinerary.map(
                         id,
                     },
                 },
+                select: {
+                    id: true,
+                },
             });
 
         if (duplicatePackage) {
@@ -485,7 +590,35 @@ const itinerary = rawItinerary.map(
         }
 
         /*
-         * Existing hero
+         * Validate date
+         */
+
+        let validTill: Date | null = null;
+
+        if (validTillValue) {
+            const parsedDate =
+                new Date(validTillValue);
+
+            if (
+                Number.isNaN(
+                    parsedDate.getTime()
+                )
+            ) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message:
+                            "Invalid valid till date",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            validTill = parsedDate;
+        }
+
+        /*
+         * Hero image
          */
 
         let heroImage =
@@ -612,7 +745,10 @@ const itinerary = rawItinerary.map(
                 )
             );
 
-        for (const publicId of removedGalleryPublicIds) {
+        for (
+            const publicId of
+            removedGalleryPublicIds
+        ) {
             if (
                 existingPublicIds.has(
                     publicId
@@ -639,33 +775,6 @@ const itinerary = rawItinerary.map(
         );
 
         /*
-         * Calculated pricing
-         */
-
-   
-        /*
-         * Date
-         */
-
-let validTill: Date | null = null;
-
-if (validTillValue) {
-    const parsedDate = new Date(validTillValue);
-
-    if (Number.isNaN(parsedDate.getTime())) {
-        return NextResponse.json(
-            {
-                success: false,
-                message: "Invalid valid till date",
-            },
-            { status: 400 }
-        );
-    }
-
-    validTill = parsedDate;
-}
-
-        /*
          * Validation object
          */
 
@@ -673,29 +782,65 @@ if (validTillValue) {
             name,
             slug,
             category,
-            subtitle,
+            type,
+            occasion,
+
             destinationId,
+
             parentId:
                 parentId || null,
+
+            subtitle,
             description,
             location,
+
+            latitude,
+            longitude,
+
             duration,
             groupSize,
-            originalPrice,
-            occasion,
-            type,
-             validTill: validTillValue,
             idealTrip,
             budget,
+
             bestTimeToVisit,
+
+            originalPrice,
+            offerPrice,
+            discount,
+            saveAmount,
+
+            validTill:
+                validTillValue,
+
+            rating:
+                parseNumber(
+                    formData.get("rating")
+                ),
+
+            reviewsCount:
+                parseNumber(
+                    formData.get(
+                        "reviewsCount"
+                    )
+                ),
+
             highlights,
             inclusions,
             exclusions,
+
             whyVisit,
+
+            travelInformation,
+
+            whatToPack,
+
             itinerary,
+
             keywords,
+
             metaTitle,
             metaDescription,
+
             isPublished,
             isFeatured,
         };
@@ -712,12 +857,16 @@ if (validTillValue) {
                     message:
                         "Validation failed",
                     errors:
-                        validation.error.flatten()
+                        validation.error
+                            .flatten()
                             .fieldErrors,
                 },
                 { status: 400 }
             );
         }
+
+        const data =
+            validation.data;
 
         /*
          * Published date
@@ -738,7 +887,7 @@ if (validTillValue) {
         }
 
         /*
-         * Update
+         * Update package
          */
 
         const updatedPackage =
@@ -748,47 +897,127 @@ if (validTillValue) {
                 },
 
                 data: {
-                    name,
-                    slug,
-                    category,
-                    subtitle,
+                    name:
+                        data.name,
 
-                    destinationId,
+                    slug:
+                        data.slug,
 
-                    parentId:
-                        parentId ||
+                    category:
+                        data.category,
+
+                    type:
+                        data.type,
+
+                    occasion:
+                        data.occasion,
+
+                    subtitle:
+                        data.subtitle ||
                         null,
 
-                    description,
-                    location,
-                    duration,
-                    groupSize,
+                    destinationId:
+                        data.destinationId,
 
-                    originalPrice,
-                     discount,
-                    saveAmount,
+                    parentId:
+                        data.parentId ||
+                        null,
+
+                    description:
+                        data.description ||
+                        null,
+
+                    location:
+                        data.location ||
+                        null,
+
+                    latitude:
+                        data.latitude ??
+                        null,
+
+                    longitude:
+                        data.longitude ??
+                        null,
+
+                    duration:
+                        data.duration ||
+                        null,
+
+                    groupSize:
+                        data.groupSize ||
+                        null,
+
+                    originalPrice:
+                        data.originalPrice ??
+                        null,
+ 
+
+                    discount:
+                        data.discount ??
+                        null,
+
+                    saveAmount:
+                        data.saveAmount ??
+                        null,
 
                     validTill,
 
-                    idealTrip,
-                    budget,
+                    idealTrip:
+                        data.idealTrip ||
+                        null,
 
-                    bestTimeToVisit,
+                    budget:
+                        data.budget ||
+                        null,
 
-                    highlights,
-                    inclusions,
-                    exclusions,
+                    bestTimeToVisit:
+                        data.bestTimeToVisit,
 
-                    whyVisit,
-                    itinerary,
+                    rating:
+                        data.rating ??
+                        null,
 
-                    keywords,
+                    reviewsCount:
+                        data.reviewsCount ??
+                        null,
 
-                    metaTitle,
-                    metaDescription,
+                    highlights:
+                        data.highlights,
 
-                    isPublished,
-                    isFeatured,
+                    inclusions:
+                        data.inclusions,
+
+                    exclusions:
+                        data.exclusions,
+
+                    whyVisit:
+                        data.whyVisit,
+
+                    travelInformation:
+                        data.travelInformation,
+
+                    whatToPack:
+                        data.whatToPack,
+
+                    itinerary:
+                        data.itinerary,
+
+                    keywords:
+                        data.keywords,
+
+                    metaTitle:
+                        data.metaTitle ||
+                        null,
+
+                    metaDescription:
+                        data.metaDescription ||
+                        null,
+
+                    isPublished:
+                        data.isPublished,
+
+                    isFeatured:
+                        data.isFeatured,
 
                     publishedAt,
 
@@ -802,16 +1031,16 @@ if (validTillValue) {
 
         /*
          * Delete old Cloudinary assets
-         *
-         * Only delete after the database
-         * update succeeds.
          */
 
-        for (const publicId of [
-            ...new Set(
-                oldPublicIdsToDelete
-            ),
-        ]) {
+        for (
+            const publicId of
+            [
+                ...new Set(
+                    oldPublicIdsToDelete
+                ),
+            ]
+        ) {
             try {
                 await deleteFromCloudinary(
                     publicId
@@ -842,21 +1071,17 @@ if (validTillValue) {
 
         /*
          * Rollback newly uploaded
-         * Cloudinary images.
+         * Cloudinary assets.
          */
 
-        for (const publicId of newlyUploadedPublicIds) {
-            try {
-                await deleteFromCloudinary(
-                    publicId
-                );
-            } catch (cleanupError) {
-                console.error(
-                    "CLOUDINARY_ROLLBACK_ERROR:",
-                    cleanupError
-                );
-            }
-        }
+        await Promise.allSettled(
+            newlyUploadedPublicIds.map(
+                (publicId) =>
+                    deleteFromCloudinary(
+                        publicId
+                    )
+            )
+        );
 
         return NextResponse.json(
             {

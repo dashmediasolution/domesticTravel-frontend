@@ -17,6 +17,7 @@ import WeatherForecast from "@/components/WheatherForcast";
 import TravelersReviews from "@/components/Reviews";
 import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
+import WhyVisit from "@/components/WhyVisit";
 import ThingsToDo from "@/components/ThingsToDo";
 
 import {
@@ -75,7 +76,7 @@ export default function DestinationPage() {
   const gallery = destination.gallery ?? [];
 
   const bestTimeToVisit = destination.bestTimeToVisit;
-
+    const whyVisit = destination.whyVisit;
   const attractions = destination.attractions ?? []
 
   const travelInfo = destination.travelInfo ?? [];
@@ -326,7 +327,7 @@ export default function DestinationPage() {
 
                           <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/30" />
 
-                         
+
                         </button>
                       );
                     }
@@ -531,12 +532,12 @@ export default function DestinationPage() {
       <div className="flex w-full flex-col items-center justify-center gap-18">
 
 
-             {attractions.length > 0 && (
-        <PackagesByDestination
-          destination={destination.name}
-          attractions={attractions}
-        />)
-             }
+        {attractions.length > 0 && (
+          <PackagesByDestination
+            destination={destination.name}
+            attractions={attractions}
+          />)
+        }
 
         {activities.length > 0 && (
           <div className="w-[91%]">
@@ -551,79 +552,39 @@ export default function DestinationPage() {
 
 
 
-        {(itinerary.length > 0 ||
-          bestTimeToVisit) && (
-            <div className="mb-8 flex    w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6   lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+    {whyVisit && (itinerary.length > 0 || bestTimeToVisit) && (
+    <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+      <div className="w-full relative top-11">
+        <WhyVisit
+            title={whyVisit.title}
+            highlights={whyVisit.highlights}
+        />
+        </div>
 
-              {itinerary.length > 0 && (
-                <Itinerary
-                  title="Itinerary"
-                  subtitle={""}
-                  days={itinerary}
-                  onButtonClick={() =>
-                    router.push(
-                      `/destinations/${destination.name
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}/itinerary`
-                    )
-                  }
-                />
-              )}
-
-              {bestTimeToVisit && (
-                <div className="lg:w-[60%] md:full">
-
-                  <BestTimeToVisit
+        {bestTimeToVisit && (
+            <div className="md:full lg:w-[60%]">
+                <BestTimeToVisit
                     months={bestTimeToVisit.months}
                     seasons={bestTimeToVisit.seasons}
-                  />
-                </div>
-              )}
-
+                />
             </div>
-          )}
+        )}
+    </div>
+)}
 
         {/* ==================================================
             BEST PACKAGES
         ================================================== */}
-          {packages.length > 0 && 
+        {packages.length > 0 &&
 
-        <BestPackageByDestination
-          location={destination.name}
-          packages={packages}
-        />
+          <BestPackageByDestination
+            location={destination.name}
+            packages={packages}
+          />
         }
 
-        {/* ==================================================
-            TRAVEL INFORMATION
-        ================================================== */}
 
-        {travelInfo.length > 0 && (
-          <TravelInformation
-            destination={destination.name}
-            latitude={
-              destination.latitude ?? 32.2432
-            }
-            longitude={
-              destination.longitude ?? 77.1892
-            }
-            travelInfo={travelInfo}
-            packingItems={packingItems}
-          />
-        )}
 
-        {/* ==================================================
-            WEATHER
-        ================================================== */}
-
-        {destination.latitude &&
-          destination.longitude && (
-            <WeatherForecast
-              destination={destination.name}
-              latitude={destination.latitude}
-              longitude={destination.longitude}
-            />
-          )}
 
         {/* ==================================================
             BLOG
