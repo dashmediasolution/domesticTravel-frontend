@@ -1,7 +1,7 @@
  "use client";
  import React from "react";
 import Link from "next/link";
-import { Menu, Search, Phone, X, ChevronDown } from "lucide-react";
+import { Menu, Search, Phone, X, ChevronDown, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,6 +50,11 @@ export default function Navbar() {
             document.body.style.overflow = "";
         };
     }, [mobileMenuOpen]);
+
+    const openQueryForm = () => {
+        setMobileMenuOpen(false);
+        window.dispatchEvent(new Event("open-query-form"));
+    };
 
     const categories = [
         {
@@ -445,6 +450,33 @@ export default function Navbar() {
 
                     {/* ================= DESKTOP ACTIONS ================= */}
                     <div className="hidden items-center gap-5 md:flex">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={openQueryForm}
+                            className={`
+                                h-10
+                                cursor-pointer
+                                rounded-full
+                                border
+                                bg-transparent
+                                px-3
+                                shadow-none
+                                transition-all
+                                duration-200
+                                hover:border-primary
+                                hover:bg-primary
+                                hover:text-white
+                                ${
+                                    scrolled
+                                        ? "border-black/20 text-black"
+                                        : "border-white text-white"
+                                }
+                            `}
+                        >
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            Query
+                        </Button>
                         <a
                             href="tel:+919876543210"
                             className={`
@@ -658,6 +690,28 @@ export default function Navbar() {
 
                             {/* Mobile Actions */}
                             <div className="mt-2 flex gap-2">
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={openQueryForm}
+                                    className="
+                                        h-11
+                                        flex-1
+                                        cursor-pointer
+                                        rounded-full
+                                        border
+                                        border-black/20
+                                        bg-transparent
+                                        text-black
+                                        shadow-none
+                                        hover:border-primary
+                                        hover:bg-primary
+                                        hover:text-white
+                                    "
+                                >
+                                    <MessageSquare className="mr-2 h-4 w-4" />
+                                    Query
+                                </Button>
                                 <a
                                     href="tel:+919876543210"
                                     className="

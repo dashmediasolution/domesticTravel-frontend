@@ -8,12 +8,23 @@ import {
     ShieldCheck,
     Sparkles,
 } from "lucide-react";
-import Link from "next/link";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
+
+import ContactInquiryForm from "@/app/(site)/ContactInquiryForm";
 
 export default function Memories() {
     return (
-        <section className="w-full  ">
+        <section className="w-full">
             <div
                 className="
                     relative
@@ -24,7 +35,6 @@ export default function Memories() {
                     overflow-hidden
                     rounded-2xl
                     border
-                  
                     bg-[#00383B]
                     bg-cover
                     bg-center
@@ -40,20 +50,19 @@ export default function Memories() {
                 }}
             >
                 {/* Dark Gradient */}
-                
- <div
-        className="
-          absolute
-          inset-0
-          z-10
-          bg-linear-to-tr
-          from-black/50
-          via-black/20
-          via-30%
-          to-transparent
-        "
-      />
-            
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        z-10
+                        bg-linear-to-tr
+                        from-black/50
+                        via-black/20
+                        via-30%
+                        to-transparent
+                    "
+                />
+
                 {/* Content */}
                 <div
                     className="
@@ -94,7 +103,7 @@ export default function Memories() {
                             fontFamily: "cursive",
                         }}
                     >
-                        Your Next Adventure 
+                        Your Next Adventure
                     </p>
 
                     {/* Main Heading */}
@@ -102,12 +111,12 @@ export default function Memories() {
                         className="
                             mt-1
                             text-4xl
-                             uppercase
+                            font-medium
+                            uppercase
                             leading-[0.9]
                             tracking-tight
                             text-white
                             sm:text-5xl
-                            font-medium
                             md:text-6xl
                             lg:text-7xl
                             xl:text-[5.5rem]
@@ -198,7 +207,10 @@ export default function Memories() {
                         {/* Easy Booking */}
                         <div className="flex items-center gap-1.5 sm:gap-2">
                             <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/70 sm:size-8">
-                                <CalendarCheck className="size-3.5 text-white   sm:size-4" fill="primar" />
+                                <CalendarCheck
+                                    className="size-3.5 text-primary sm:size-4"
+                                    fill="currentColor"
+                                />
                             </div>
 
                             <span className="text-[8px] font-medium leading-tight text-white sm:text-[12px]">
@@ -209,34 +221,69 @@ export default function Memories() {
                         </div>
                     </div>
 
-                    {/* CTA */}
+                    {/* CTA + Dialog */}
                     <div className="mt-6 sm:mt-7">
-                        <Link href="/explore-destinations">
-                        <Button
-                            type="button"
-                            className="
-                                h-9
-                                rounded-md
-                                bg-primary
-                                px-4
-                                text-[10px]
-                                cursor-pointer
-                                font-bold
-                                uppercase
-                                text-white
-                                shadow-md
-                                transition-all
-                                hover:bg-primary
-                                hover:shadow-lg
-                                sm:h-10
-                                sm:px-5
-                                sm:text-[11px]
-                            "
-                        >
-                            Explore Packages
-                            <ArrowRight className="ml-1.5 size-3.5 sm:size-4" />
-                        </Button>
-                        </Link>
+                        <Dialog     >
+                            <DialogTrigger  >
+                                <Button
+                                    type="button"
+                                    className="
+                                        h-9
+                                        cursor-pointer
+                                        rounded-md
+                                        bg-primary
+                                        px-4
+                                        text-[10px]
+                                        font-bold
+                                        uppercase
+                                        text-white
+                                        shadow-md
+                                        transition-all
+                                        hover:bg-primary/90
+                                        hover:shadow-lg
+                                        sm:h-10
+                                        sm:px-5
+                                        sm:text-[11px]
+                                    "
+                                >
+                                    Plan Your Trip
+                                    <ArrowRight className="ml-1.5 size-3.5 sm:size-4" />
+                                </Button>
+                            </DialogTrigger>
+
+                            <DialogContent
+                                className="
+                                    w-[calc(100vw-24px)]
+                                    max-w-[770px]
+                                    max-h-[calc(100vh-24px)]
+                                    overflow-y-auto
+                                    overflow-x-hidden
+                                    rounded-2xl
+                                    border-0
+                                    bg-white
+                                    p-0
+                                    shadow-2xl
+
+                                    sm:w-[92vw]
+                                    sm:max-w-[770px]
+                                    sm:rounded-3xl
+
+                                    lg:h-[560px]
+                                    lg:max-h-[560px]
+                                "
+                            >
+                                <DialogHeader className="sr-only">
+                                    <DialogTitle>Plan Your Trip</DialogTitle>
+
+                                    <DialogDescription>
+                                        Fill out the inquiry form and our travel experts will
+                                        contact you.
+                                    </DialogDescription>
+                                </DialogHeader>
+
+                                <ContactInquiryForm />
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 </div>
 

@@ -27,6 +27,7 @@ type AttractionInput = {
     id: string;
     name: string;
     description: string;
+    imageUrl?: string;
 };
 
 type WhyVisitInput = {
@@ -165,19 +166,28 @@ function parseAttractions(
             return [];
         }
 
-        return parsed.filter(
-            (item): item is AttractionInput =>
-                item !== null &&
-                typeof item === "object" &&
-                typeof item.id === "string" &&
-                typeof item.name === "string" &&
-                typeof item.description === "string"
-        );
+        return parsed
+            .filter(
+                (item): item is AttractionInput =>
+                    item !== null &&
+                    typeof item === "object" &&
+                    typeof item.id === "string" &&
+                    typeof item.name === "string" &&
+                    typeof item.description === "string"
+            )
+            .map((item) => ({
+                id: item.id,
+                name: item.name.trim(),
+                description: item.description.trim(),
+                imageUrl:
+                    typeof item.imageUrl === "string"
+                        ? item.imageUrl.trim()
+                        : "",
+            }));
     } catch {
         return [];
     }
 }
-
 function parseBoolean(
     value: FormDataEntryValue | null
 ): boolean {
@@ -218,9 +228,12 @@ export async function POST(
         const idealTrip = String(
             formData.get("idealTrip") || ""
         ).trim();
-
         const budget = String(
             formData.get("budget") || ""
+        ).trim();
+ 
+        const heroImageUrl = String(
+            formData.get("heroImageUrl") || ""
         ).trim();
 
         const metaTitle = String(
@@ -333,37 +346,14 @@ export async function POST(
             );
         }
 
-        const heroFile =
-            formData.get("heroImage");
-
-        if (
-            !(heroFile instanceof File) ||
-            heroFile.size === 0
-        ) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message:
-                        "Hero image is required",
-                    field: "heroImage",
-                },
-                { status: 400 }
+        const galleryFiles = formData
+            .getAll("gallery")
+            .filter(
+                (file): file is File =>
+                    file instanceof File && file.size > 0
             );
-        }
 
-        const galleryFiles =
-            formData
-                .getAll("gallery")
-                .filter(
-                    (file): file is File =>
-                        file instanceof File &&
-                        file.size > 0
-                );
-
-        if (
-            galleryFiles.length >
-            MAX_GALLERY_IMAGES
-        ) {
+        if (galleryFiles.length > MAX_GALLERY_IMAGES) {
             return NextResponse.json(
                 {
                     success: false,
@@ -374,15 +364,47 @@ export async function POST(
             );
         }
 
-        const heroUpload =
-            await uploadToCloudinary(
+        const heroFile = formData.get("heroImage");
+        let heroUpload: CloudinaryUpload;
+
+        if (heroFile instanceof File && heroFile.size > 0) {
+            heroUpload = await uploadToCloudinary(
                 heroFile,
                 "domesticTravel/destinations"
             );
+            uploadedPublicIds.push(heroUpload.publicId);
+        } else {
+            let parsedHeroUrl: URL;
 
-        uploadedPublicIds.push(
-            heroUpload.publicId
-        );
+            try {
+                parsedHeroUrl = new URL(heroImageUrl);
+            } catch {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: "Provide a valid hero image URL or upload an image",
+                        field: "heroImage",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            if (!["http:", "https:"].includes(parsedHeroUrl.protocol)) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: "Hero image URL must use HTTP or HTTPS",
+                        field: "heroImage",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            heroUpload = {
+                url: parsedHeroUrl.toString(),
+                publicId: "",
+            };
+        }
 
         const galleryUploads: CloudinaryUpload[] =
             [];
@@ -401,46 +423,76 @@ export async function POST(
             galleryUploads.push(upload);
         }
 
-        const attractionUploads: {
-            id: string;
-            name: string;
-            description: string;
-            image: CloudinaryUpload;
-        }[] = [];
+     const attractionUploads: {
+    id: string;
+    name: string;
+    description: string;
+    image: CloudinaryUpload;
+}[] = [];
 
-        for (const attraction of attractions) {
-            const imageField =
-                formData.get(
-                    `attractionImage_${attraction.id}`
-                );
+for (const attraction of attractions) {
+    const imageField = formData.get(
+        `attractionImage_${attraction.id}`
+    );
 
-            if (
-                !(imageField instanceof File) ||
-                imageField.size === 0
-            ) {
-                throw new Error(
-                    `Image is required for attraction "${attraction.name}"`
-                );
-            }
+    let attractionImage: CloudinaryUpload;
 
-            const upload =
-                await uploadToCloudinary(
-                    imageField,
-                    "domesticTravel/attractions"
-                );
+    // Upload image
+    if (
+        imageField instanceof File &&
+        imageField.size > 0
+    ) {
+        attractionImage = await uploadToCloudinary(
+            imageField,
+            "domesticTravel/attractions"
+        );
 
-            uploadedPublicIds.push(
-                upload.publicId
+        uploadedPublicIds.push(
+            attractionImage.publicId
+        );
+    } else {
+        // Image URL
+        const imageUrl = attraction.imageUrl?.trim();
+
+        if (!imageUrl) {
+            throw new Error(
+                `Provide an image URL or upload an image for attraction "${attraction.name}"`
             );
-
-            attractionUploads.push({
-                id: attraction.id,
-                name: attraction.name.trim(),
-                description:
-                    attraction.description.trim(),
-                image: upload,
-            });
         }
+
+        let parsedUrl: URL;
+
+        try {
+            parsedUrl = new URL(imageUrl);
+        } catch {
+            throw new Error(
+                `Invalid image URL for attraction "${attraction.name}"`
+            );
+        }
+
+        if (
+            !["http:", "https:"].includes(
+                parsedUrl.protocol
+            )
+        ) {
+            throw new Error(
+                `Image URL must use HTTP or HTTPS for attraction "${attraction.name}"`
+            );
+        }
+
+        attractionImage = {
+            url: parsedUrl.toString(),
+            publicId: "",
+        };
+    }
+
+    attractionUploads.push({
+        id: attraction.id,
+        name: attraction.name.trim(),
+        description: attraction.description.trim(),
+        image: attractionImage,
+    });
+}
 
         const destination =
             await prisma.$transaction(
@@ -535,7 +587,7 @@ export async function POST(
                                     publicId:
                                         attraction
                                             .image
-                                            .publicId,
+                                            .publicId || null,
 
                                     destinationId:
                                         created.id,

@@ -74,11 +74,13 @@ type WhyVisitItem = {
     title: string;
     description: string;
 };
+
 type TravelInformationItem = {
     id: string;
     title: string;
     value: string;
 };
+
 type ItineraryDay = {
     id: string;
     day: number;
@@ -89,15 +91,21 @@ type ItineraryDay = {
     overnight: string;
 };
 
+type ImageSource = "upload" | "url";
+
 type GalleryItem = {
     id: string;
-    file: File;
+    file?: File | null;
     preview: string;
+    url: string;
+    publicId: string | null;
+    source: ImageSource;
+    existing: boolean;
 };
 
 type ExistingImage = {
     url: string;
-    publicId: string;
+    publicId: string | null;
 };
 
 type PackageFormData = PackageFormValues & {
@@ -146,34 +154,37 @@ function slugify(value: string) {
 const parseNumber = (
     value: string | number | null | undefined
 ): number | null => {
-    if (value === null || value === undefined) {
-        return null;
-    }
-
-    if (typeof value === "number") {
-        return Number.isFinite(value) ? value : null;
-    }
+    if (value === null || value === undefined) return null;
+    if (typeof value === "number") return Number.isFinite(value) ? value : null;
 
     const trimmed = value.trim();
-
-    if (!trimmed) {
-        return null;
-    }
+    if (!trimmed) return null;
 
     const number = Number(trimmed);
-
     return Number.isFinite(number) ? number : null;
 };
+
+function isValidImageUrl(value: string) {
+    try {
+        const url = new URL(value);
+        return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+        return false;
+    }
+}
+
+function revokeBlobUrl(url?: string | null) {
+    if (url?.startsWith("blob:")) {
+        URL.revokeObjectURL(url);
+    }
+}
 
 function getErrorMessage(
     errors: FieldErrors<PackageFormValues>,
     field: keyof PackageFormValues
 ) {
     const error = errors[field];
-
-    if (!error) {
-        return null;
-    }
+    if (!error) return null;
 
     if (
         typeof error === "object" &&
@@ -191,9 +202,7 @@ function InputError({
 }: {
     message?: string | null;
 }) {
-    if (!message) {
-        return null;
-    }
+    if (!message) return null;
 
     return (
         <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-destructive">
@@ -203,6 +212,171 @@ function InputError({
     );
 }
 
+function GalleryUploader({
+    images,
+    existingImages,
+    onChange,
+    onRemoveExisting,
+}: {
+    images: GalleryItem[];
+    existingImages: ExistingImage[];
+    onChange: (images: GalleryItem[]) => void;
+    onRemoveExisting: (index: number) => void;
+}) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [imageUrl, setImageUrl] = useState("");
+    const imageCount = images.length + existingImages.length;
+
+    const addImageUrl = () => {
+        const value = imageUrl.trim();
+
+        if (!value) return;
+
+        if (imageCount >= MAX_GALLERY_IMAGES) {
+            alert(`You can add a maximum of ${MAX_GALLERY_IMAGES} gallery images.`);
+            return;
+        }
+
+        if (!isValidImageUrl(value)) {
+            alert("Enter a valid HTTP or HTTPS image URL.");
+            return;
+        }
+
+        onChange([
+            ...images,
+            {
+                id: crypto.randomUUID(),
+                preview: value,
+                url: value,
+                publicId: null,
+                source: "url",
+                existing: false,
+            },
+        ]);
+        setImageUrl("");
+    };
+
+    const addFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(event.target.files || []);
+
+        if (imageCount + files.length > MAX_GALLERY_IMAGES) {
+            alert(`You can add a maximum of ${MAX_GALLERY_IMAGES} gallery images.`);
+            event.target.value = "";
+            return;
+        }
+
+        const invalidFile = files.find(
+            (file) =>
+                !ALLOWED_TYPES.includes(file.type) ||
+                file.size > MAX_FILE_SIZE
+        );
+
+        if (invalidFile) {
+            alert("Use JPG, PNG or WEBP images up to 7MB each.");
+            event.target.value = "";
+            return;
+        }
+
+        onChange([
+            ...images,
+            ...files.map((file) => ({
+                id: crypto.randomUUID(),
+                file,
+                preview: URL.createObjectURL(file),
+                url: "",
+                publicId: null,
+                source: "upload" as const,
+                existing: false,
+            })),
+        ]);
+        event.target.value = "";
+    };
+
+    const removeImage = (id: string) => {
+        const image = images.find((item) => item.id === id);
+        revokeBlobUrl(image?.preview);
+        onChange(images.filter((item) => item.id !== id));
+    };
+
+    return (
+        <div className="space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <Label>Gallery Images</Label>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                        Add uploaded images or direct image URLs. Maximum {MAX_GALLERY_IMAGES} images.
+                    </p>
+                </div>
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => inputRef.current?.click()}
+                    disabled={imageCount >= MAX_GALLERY_IMAGES}
+                >
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload Images
+                </Button>
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    className="hidden"
+                    onChange={addFiles}
+                />
+            </div>
+
+            <div className="flex flex-col gap-2 sm:flex-row">
+                <Input
+                    type="url"
+                    value={imageUrl}
+                    onChange={(event) => setImageUrl(event.target.value)}
+                    placeholder="https://example.com/gallery-image.jpg"
+                />
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addImageUrl}
+                    disabled={imageCount >= MAX_GALLERY_IMAGES || !imageUrl.trim()}
+                >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add URL
+                </Button>
+            </div>
+
+            {imageCount > 0 ? (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                    {existingImages.map((image, index) => (
+                        <div key={`existing-${image.url}-${index}`} className="relative">
+                            <ImagePreview
+                                preview={image.url}
+                                onRemove={() => onRemoveExisting(index)}
+                            />
+                            <span className="absolute bottom-2 left-2 rounded bg-black/70 px-2 py-1 text-[10px] text-white">
+                                Existing
+                            </span>
+                        </div>
+                    ))}
+                    {images.map((image) => (
+                        <div key={image.id} className="relative">
+                            <ImagePreview
+                                preview={image.preview}
+                                onRemove={() => removeImage(image.id)}
+                            />
+                            <span className="absolute bottom-2 left-2 rounded bg-black/70 px-2 py-1 text-[10px] text-white">
+                                {image.source === "upload" ? "Upload" : "URL"}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
+                    No gallery images added.
+                </div>
+            )}
+        </div>
+    );
+}
 function SectionHeader({
     title,
     description,
@@ -918,13 +1092,23 @@ function ImageUploader({
     title,
     description,
     file,
+    existingImage,
+    imageUrl,
+    source,
+    onSourceChange,
     onChange,
+    onUrlChange,
     onRemove,
 }: {
     title: string;
     description: string;
     file: File | null;
+    existingImage?: ExistingImage | null;
+    imageUrl: string;
+    source: ImageSource;
+    onSourceChange: (source: ImageSource) => void;
     onChange: (file: File) => void;
+    onUrlChange: (url: string) => void;
     onRemove: () => void;
 }) {
     const inputRef =
@@ -946,10 +1130,17 @@ function ImageUploader({
         };
     }, [preview]);
 
-    const handleFile = (file: File) => {
+    const currentPreview =
+        source === "url"
+            ? imageUrl.trim()
+            : preview ||
+            existingImage?.url ||
+            null;
+
+    const handleFile = (selectedFile: File) => {
         if (
             !ALLOWED_TYPES.includes(
-                file.type
+                selectedFile.type
             )
         ) {
             alert(
@@ -958,14 +1149,17 @@ function ImageUploader({
             return;
         }
 
-        if (file.size > MAX_FILE_SIZE) {
+        if (
+            selectedFile.size >
+            MAX_FILE_SIZE
+        ) {
             alert(
-                "Image size must be 5MB or smaller."
+                "Image size must be 7MB or smaller."
             );
             return;
         }
 
-        onChange(file);
+        onChange(selectedFile);
     };
 
     return (
@@ -976,11 +1170,93 @@ function ImageUploader({
                 {description}
             </p>
 
-            {preview ? (
+            <div className="mb-4 flex w-fit rounded-lg border bg-muted/30 p-1">
+                <button
+                    type="button"
+                    onClick={() =>
+                        onSourceChange(
+                            "upload"
+                        )
+                    }
+                    className={`rounded-md px-4 py-2 text-sm font-medium transition ${source === "upload"
+                            ? "bg-background shadow-sm"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                >
+                    <Upload className="mr-2 inline-block h-4 w-4" />
+                    Upload
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() =>
+                        onSourceChange(
+                            "url"
+                        )
+                    }
+                    className={`rounded-md px-4 py-2 text-sm font-medium transition ${source === "url"
+                            ? "bg-background shadow-sm"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                >
+                    <ImagePlus className="mr-2 inline-block h-4 w-4" />
+                    Image URL
+                </button>
+            </div>
+
+            {source === "url" ? (
+                <div className="space-y-3">
+                    <Input
+                        value={imageUrl}
+                        onChange={(event) =>
+                            onUrlChange(
+                                event.target
+                                    .value
+                            )
+                        }
+                        placeholder="https://example.com/package-image.jpg"
+                        className="h-11"
+                    />
+
+                    {imageUrl.trim() ? (
+                        <div className="relative max-w-md">
+                            <ImagePreview
+                                preview={
+                                    imageUrl
+                                }
+                                onRemove={
+                                    onRemove
+                                }
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex min-h-[240px] max-w-md items-center justify-center rounded-xl border border-dashed bg-muted/20 px-6 text-center">
+                            <div>
+                                <ImagePlus className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+
+                                <p className="text-sm font-medium">
+                                    Enter an image URL
+                                </p>
+
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                    Use a valid
+                                    HTTP or
+                                    HTTPS
+                                    image URL.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ) : currentPreview ? (
                 <div className="relative max-w-md">
                     <ImagePreview
-                        preview={preview}
-                        onRemove={onRemove}
+                        preview={
+                            currentPreview
+                        }
+                        onRemove={
+                            onRemove
+                        }
                     />
                 </div>
             ) : (
@@ -1000,7 +1276,8 @@ function ImageUploader({
                     </p>
 
                     <p className="mt-1 text-xs text-muted-foreground">
-                        JPG, PNG or WEBP · Max 5MB
+                        JPG, PNG or WEBP · Max
+                        7MB
                     </p>
                 </button>
             )}
@@ -1015,174 +1292,19 @@ function ImageUploader({
                         event.target.files?.[0];
 
                     if (selected) {
-                        handleFile(selected);
+                        handleFile(
+                            selected
+                        );
                     }
 
-                    event.target.value = "";
+                    event.target.value =
+                        "";
                 }}
             />
         </div>
     );
 }
 
-function GalleryUploader({
-    images,
-    onChange,
-}: {
-    images: GalleryItem[];
-    onChange: (
-        images: GalleryItem[]
-    ) => void;
-}) {
-    const inputRef =
-        useRef<HTMLInputElement>(null);
-
-    const addFiles = (files: FileList | null) => {
-        if (!files) {
-            return;
-        }
-
-        const selected = Array.from(files);
-
-        if (
-            images.length + selected.length >
-            MAX_GALLERY_IMAGES
-        ) {
-            alert(
-                `Maximum ${MAX_GALLERY_IMAGES} gallery images are allowed.`
-            );
-            return;
-        }
-
-        const validFiles: File[] = [];
-
-        for (const file of selected) {
-            if (
-                !ALLOWED_TYPES.includes(
-                    file.type
-                )
-            ) {
-                alert(
-                    `${file.name}: Only JPG, PNG and WEBP images are allowed.`
-                );
-                continue;
-            }
-
-            if (file.size > MAX_FILE_SIZE) {
-                alert(
-                    `${file.name}: Image size must be 5MB or smaller.`
-                );
-                continue;
-            }
-
-            validFiles.push(file);
-        }
-
-        const newItems = validFiles.map(
-            (file) => ({
-                id: crypto.randomUUID(),
-                file,
-                preview:
-                    URL.createObjectURL(file),
-            })
-        );
-
-        onChange([
-            ...images,
-            ...newItems,
-        ]);
-    };
-
-    const removeImage = (id: string) => {
-        const image = images.find(
-            (item) => item.id === id
-        );
-
-        if (image) {
-            URL.revokeObjectURL(
-                image.preview
-            );
-        }
-
-        onChange(
-            images.filter(
-                (item) => item.id !== id
-            )
-        );
-    };
-
-    return (
-        <Card>
-            <CardHeader>
-                <SectionHeader
-                    title="Gallery"
-                    description={`Add up to ${MAX_GALLERY_IMAGES} additional package images.`}
-                />
-            </CardHeader>
-
-            <CardContent>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                    {images.map((image) => (
-                        <ImagePreview
-                            key={image.id}
-                            preview={
-                                image.preview
-                            }
-                            onRemove={() =>
-                                removeImage(
-                                    image.id
-                                )
-                            }
-                        />
-                    ))}
-
-                    {images.length <
-                        MAX_GALLERY_IMAGES && (
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    inputRef.current?.click()
-                                }
-                                className="flex aspect-[4/3] flex-col items-center justify-center rounded-xl border border-dashed bg-muted/20 transition hover:bg-muted/40"
-                            >
-                                <ImagePlus className="mb-2 h-6 w-6 text-muted-foreground" />
-
-                                <span className="text-xs font-medium">
-                                    Add Images
-                                </span>
-
-                                <span className="mt-1 text-[10px] text-muted-foreground">
-                                    {
-                                        images.length
-                                    }{" "}
-                                    /{" "}
-                                    {
-                                        MAX_GALLERY_IMAGES
-                                    }
-                                </span>
-                            </button>
-                        )}
-                </div>
-
-                <input
-                    ref={inputRef}
-                    type="file"
-                    multiple
-                    accept="image/jpeg,image/png,image/webp"
-                    className="hidden"
-                    onChange={(event) => {
-                        addFiles(
-                            event.target.files
-                        );
-
-                        event.target.value =
-                            "";
-                    }}
-                />
-            </CardContent>
-        </Card>
-    );
-}
 export default function CreatePackageForm({
     destinations = [],
     mode = "create",
@@ -1216,14 +1338,23 @@ export default function CreatePackageForm({
         setLoadingParents,
     ] = useState(false);
 
+    const [heroImageUrl, setHeroImageUrl] =
+        useState("");
+
     const [heroImage, setHeroImage] =
         useState<File | null>(null);
+
+    const [heroImageSource, setHeroImageSource] =
+        useState<ImageSource>("upload");
 
     const [existingHeroImage, setExistingHeroImage] =
         useState<ExistingImage | null>(null);
 
     const [gallery, setGallery] =
         useState<GalleryItem[]>([]);
+
+    const galleryRef = useRef<GalleryItem[]>([]);
+    galleryRef.current = gallery;
 
     const [existingGallery, setExistingGallery] =
         useState<ExistingImage[]>([]);
@@ -1462,15 +1593,48 @@ export default function CreatePackageForm({
                 Boolean(initialData.isFeatured),
         });
 
+        const existingHero =
+            initialData.heroImage || null;
+
         setExistingHeroImage(
-            initialData.heroImage || null
+            existingHero
         );
+        setHeroImage(null);
+
+setHeroImageUrl("");
+        if (existingHero) {
+            setHeroImageSource(
+                existingHero.publicId
+                    ? "upload"
+                    : "url"
+            );
+            setHeroImageUrl(
+                existingHero.publicId
+                    ? ""
+                    : existingHero.url
+            );
+        } else {
+            setHeroImageUrl("");
+            setHeroImageSource(
+                "upload"
+            );
+        }
 
         setExistingGallery(
             Array.isArray(initialData.gallery)
-                ? initialData.gallery
+                ? initialData.gallery.map(
+                    (image) => ({
+                        url: image.url,
+                        publicId:
+                            image.publicId ??
+                            null,
+                    })
+                )
                 : []
         );
+
+        setGallery([]);
+        setRemovedGalleryPublicIds([]);
 
         setHighlights(
             Array.isArray(initialData.highlights)
@@ -1681,7 +1845,7 @@ export default function CreatePackageForm({
                         await fetch(
                             `/api/admin/get-all-packages?destinationId=${encodeURIComponent(
                                 selectedDestinationId
-                            )}&limit=1000`,
+                            )}&limit=50`,
                             {
                                 cache: "no-store",
                             }
@@ -1729,13 +1893,13 @@ export default function CreatePackageForm({
 
     useEffect(() => {
         return () => {
-            gallery.forEach((item) => {
-                URL.revokeObjectURL(
+            galleryRef.current.forEach((item) => {
+                revokeBlobUrl(
                     item.preview
                 );
             });
         };
-    }, [gallery]);
+    }, []);
 
     const handleNameChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -1762,9 +1926,48 @@ export default function CreatePackageForm({
             setSubmitting(true);
             setServerError("");
             setSuccessMessage("");
+ 
 
-            if (mode === "create" && !heroImage && !existingHeroImage) {
+            if (
+                mode === "create" &&
+                heroImageSource === "url" &&
+                !heroImageUrl.trim()
+            ) {
+                setServerError(
+                    "Hero image URL is required"
+                );
+                return;
+            }
+
+            if (
+                mode === "create" &&
+                heroImageSource === "upload" &&
+                !heroImage
+            ) {
                 setServerError("Hero image is required");
+                return;
+            }
+
+            if (
+                mode === "edit" &&
+                !heroImage &&
+                !heroImageUrl.trim() &&
+                !existingHeroImage
+            ) {
+                setServerError("Hero image is required");
+                return;
+            }
+
+            if (
+                heroImageSource === "url" &&
+                heroImageUrl.trim() &&
+                !isValidImageUrl(
+                    heroImageUrl.trim()
+                )
+            ) {
+                setServerError(
+                    "Please enter a valid hero image URL"
+                );
                 return;
             }
 
@@ -1946,13 +2149,59 @@ export default function CreatePackageForm({
             );
 
             /*
-             * Existing gallery
+ * =========================================================
+ * HERO IMAGE
+ * =========================================================
+ */
+
+            if (
+                heroImageSource === "upload" &&
+                heroImage
+            ) {
+                formData.append(
+                    "heroImage",
+                    heroImage
+                );
+            }
+
+            if (
+                heroImageSource === "url" &&
+                heroImageUrl.trim()
+            ) {
+                formData.append(
+                    "heroImageUrl",
+                    heroImageUrl.trim()
+                );
+            }
+
+            /*
+             * =========================================================
+             * EXISTING GALLERY
+             * =========================================================
+             *
+             * This is needed in edit mode.
+             *
+             * It contains both:
+             *
+             * Cloudinary:
+             * {
+             *   url: "...",
+             *   publicId: "..."
+             * }
+             *
+             * External URL:
+             * {
+             *   url: "...",
+             *   publicId: null
+             * }
              */
 
             if (mode === "edit") {
                 formData.append(
                     "existingGallery",
-                    JSON.stringify(existingGallery)
+                    JSON.stringify(
+                        existingGallery
+                    )
                 );
 
                 formData.append(
@@ -1964,28 +2213,47 @@ export default function CreatePackageForm({
             }
 
             /*
-             * New hero image
-             */
-
-            if (heroImage) {
-                formData.append(
-                    "heroImage",
-                    heroImage
-                );
-            }
-
-            /*
-             * New gallery images
+             * =========================================================
+             * NEW GALLERY IMAGES
+             * =========================================================
+             *
+             * Uploaded files
              */
 
             for (const item of gallery) {
-                if (item.file) {
+                if (
+                    item.source === "upload" &&
+                    item.file
+                ) {
                     formData.append(
                         "gallery",
                         item.file
                     );
                 }
             }
+
+            /*
+             * =========================================================
+             * NEW GALLERY URLS
+             * =========================================================
+             */
+
+            const galleryUrls = gallery
+                .filter(
+                    (item) =>
+                        item.source === "url" &&
+                        item.url.trim()
+                )
+                .map((item) =>
+                    item.url.trim()
+                );
+
+            formData.append(
+                "galleryUrls",
+                JSON.stringify(
+                    galleryUrls
+                )
+            );
 
             /*
              * IMPORTANT:
@@ -2933,32 +3201,135 @@ export default function CreatePackageForm({
                 <CardHeader>
                     <SectionHeader
                         title="Package Images"
-                        description="Upload the main package image and additional gallery images."
+                        description="Upload images or use external image URLs for the package."
                     />
                 </CardHeader>
 
                 <CardContent className="space-y-8">
                     <ImageUploader
                         title="Hero Image *"
-                        description="This image will be used as the main package image. Maximum 5MB."
-                        file={
-                            heroImage
+                        description="Choose an uploaded image or provide an external image URL. Maximum 7MB for uploaded files."
+                        file={heroImage}
+                        existingImage={
+                            existingHeroImage
                         }
-                        onChange={
-                            setHeroImage
-                        }
-                        onRemove={() =>
+                        imageUrl={heroImageUrl}
+                        source={heroImageSource}
+                        onSourceChange={(
+                            source
+                        ) => {
+                            setHeroImageSource(
+                                source
+                            );
+
+                            if (
+                                source ===
+                                "url"
+                            ) {
+                                setHeroImage(null);
+                                setHeroImageUrl("");
+                            } else {
+                                setHeroImageUrl(
+                                    ""
+                                );
+                            }
+                        }}
+                        onChange={(
+                            file
+                        ) => {
+                            setHeroImage(
+                                file
+                            );
+
+                            setHeroImageSource(
+                                "upload"
+                            );
+
+                            setHeroImageUrl(
+                                ""
+                            );
+                        }}
+                        onUrlChange={(
+                            url
+                        ) => {
+                            setHeroImageUrl(
+                                url
+                            );
+
+                            setHeroImageSource(
+                                "url"
+                            );
+
+                            if (
+                                heroImage
+                            ) {
+                                setHeroImage(
+                                    null
+                                );
+                            }
+                        }}
+                        onRemove={() => {
                             setHeroImage(
                                 null
-                            )
-                        }
+                            );
+
+                            setHeroImageUrl(
+                                ""
+                            );
+
+                            setExistingHeroImage(
+                                null
+                            );
+
+                            setHeroImageSource(
+                                "upload"
+                            );
+                        }}
                     />
 
                     <GalleryUploader
                         images={gallery}
+                        existingImages={
+                            existingGallery
+                        }
                         onChange={
                             setGallery
                         }
+                        onRemoveExisting={(
+                            index
+                        ) => {
+                            const image =
+                                existingGallery[
+                                index
+                                ];
+
+                            if (
+                                image?.publicId
+                            ) {
+                                setRemovedGalleryPublicIds(
+                                    (
+                                        previous
+                                    ) => [
+                                            ...previous,
+                                            image.publicId!,
+                                        ]
+                                );
+                            }
+
+                            setExistingGallery(
+                                (
+                                    previous
+                                ) =>
+                                    previous.filter(
+                                        (
+                                            _,
+                                            imageIndex
+                                        ) =>
+                                            imageIndex !==
+                                            index
+                                    )
+                            );
+                        }}
                     />
                 </CardContent>
             </Card>

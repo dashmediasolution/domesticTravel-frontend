@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import QueryFormPopup from "@/components/layout/QueryFormPopup";
 import Providers from "./providers";
 import { Toaster } from "@/components/ui/toast";
 
@@ -23,6 +24,7 @@ export default function SiteLayout({
                     <Footer />
                 </div>
 
+                <QueryFormPopup />
                 <Toaster />
             </div>
         </Providers>

@@ -73,13 +73,28 @@ function validateFile(
     }
 
     if (file.size > MAX_FILE_SIZE) {
-        throw new Error(`${label} must be 7MB or smaller`);
+        throw new Error(
+            `${label} must be 7MB or smaller`
+        );
     }
 
     if (!ALLOWED_TYPES.includes(file.type)) {
         throw new Error(
             `${label} must be JPG, PNG or WEBP`
         );
+    }
+}
+
+function isValidImageUrl(value: string) {
+    try {
+        const url = new URL(value);
+
+        return (
+            url.protocol === "http:" ||
+            url.protocol === "https:"
+        );
+    } catch {
+        return false;
     }
 }
 
@@ -91,9 +106,13 @@ export async function POST(
     try {
         const formData = await request.formData();
 
+        /* =========================================================
+           DESTINATION
+        ========================================================= */
+
         const destinationId = String(
             formData.get("destinationId") || ""
-        );
+        ).trim();
 
         if (!isValidObjectId(destinationId)) {
             return NextResponse.json(
@@ -126,6 +145,10 @@ export async function POST(
                 { status: 404 }
             );
         }
+
+        /* =========================================================
+           JSON FIELDS
+        ========================================================= */
 
         const highlights = parseJSON<string[]>(
             formData.get("highlights"),
@@ -180,18 +203,22 @@ export async function POST(
             []
         );
 
+        /* =========================================================
+           RAW DATA
+        ========================================================= */
+
         const rawData = {
             name: String(
                 formData.get("name") || ""
-            ),
+            ).trim(),
 
             slug: String(
                 formData.get("slug") || ""
-            ),
+            ).trim(),
 
             category: String(
                 formData.get("category") || ""
-            ),
+            ).trim(),
 
             type: String(
                 formData.get("type") || "REGULAR"
@@ -314,6 +341,10 @@ export async function POST(
             ),
         };
 
+        /* =========================================================
+           VALIDATION
+        ========================================================= */
+
         const validation =
             packageSchema.safeParse(rawData);
 
@@ -330,6 +361,10 @@ export async function POST(
         }
 
         const data = validation.data;
+
+        /* =========================================================
+           PARENT PACKAGE VALIDATION
+        ========================================================= */
 
         if (
             data.parentId &&
@@ -382,6 +417,10 @@ export async function POST(
             }
         }
 
+        /* =========================================================
+           DUPLICATE SLUG
+        ========================================================= */
+
         const existingPackage =
             await prisma.package.findFirst({
                 where: {
@@ -405,27 +444,92 @@ export async function POST(
             );
         }
 
+        /* =========================================================
+           HERO IMAGE
+        ========================================================= */
+
         const heroImage =
             formData.get("heroImage");
 
+        const heroImageUrl = String(
+            formData.get("heroImageUrl") || ""
+        ).trim();
+
+        const hasHeroUpload =
+            heroImage instanceof File &&
+            heroImage.size > 0;
+
+        const hasHeroUrl =
+            Boolean(heroImageUrl);
+
+        /*
+         * Require either upload or URL.
+         */
+
         if (
-            !(heroImage instanceof File) ||
-            heroImage.size === 0
+            !hasHeroUpload &&
+            !hasHeroUrl
         ) {
             return NextResponse.json(
                 {
                     success: false,
                     message:
-                        "Hero image is required",
+                        "Hero image or hero image URL is required",
                 },
                 { status: 400 }
             );
         }
 
-        validateFile(
-            heroImage,
-            "Hero image"
-        );
+        /*
+         * Do not allow both at the same time.
+         */
+
+        if (
+            hasHeroUpload &&
+            hasHeroUrl
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "Provide either a hero image upload or a hero image URL, not both",
+                },
+                { status: 400 }
+            );
+        }
+
+        /*
+         * Validate uploaded hero.
+         */
+
+        if (hasHeroUpload) {
+            validateFile(
+                heroImage,
+                "Hero image"
+            );
+        }
+
+        /*
+         * Validate hero URL.
+         */
+
+        if (
+            hasHeroUrl &&
+            !isValidImageUrl(heroImageUrl)
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "Hero image URL must be a valid HTTP or HTTPS URL",
+                },
+                { status: 400 }
+            );
+        }
+
+        /* =========================================================
+           GALLERY
+        ========================================================= */
 
         const galleryFiles =
             formData
@@ -436,8 +540,53 @@ export async function POST(
                         item.size > 0
                 );
 
+        /*
+         * URL gallery images.
+         *
+         * Frontend should send:
+         *
+         * formData.append(
+         *     "galleryUrls",
+         *     JSON.stringify([...])
+         * );
+         */
+
+        const galleryUrls = parseJSON<string[]>(
+            formData.get("galleryUrls"),
+            []
+        )
+            .map((url) => url.trim())
+            .filter(Boolean);
+
+        /*
+         * Validate gallery URLs.
+         */
+
+        for (const url of galleryUrls) {
+            if (!isValidImageUrl(url)) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message:
+                            `Invalid gallery image URL: ${url}`,
+                    },
+                    { status: 400 }
+                );
+            }
+        }
+
+        /*
+         * Total gallery images =
+         *
+         * uploaded files + URL images
+         */
+
+        const totalGalleryImages =
+            galleryFiles.length +
+            galleryUrls.length;
+
         if (
-            galleryFiles.length >
+            totalGalleryImages >
             MAX_GALLERY_IMAGES
         ) {
             return NextResponse.json(
@@ -449,6 +598,10 @@ export async function POST(
             );
         }
 
+        /*
+         * Validate uploaded gallery files.
+         */
+
         for (const file of galleryFiles) {
             validateFile(
                 file,
@@ -456,18 +609,32 @@ export async function POST(
             );
         }
 
-        const uploadedHero =
-            await uploadBufferToCloudinary({
-                buffer: Buffer.from(
-                    await heroImage.arrayBuffer()
-                ),
-                folder:
-                    "domesticTravel/packages",
-            });
+        /* =========================================================
+           UPLOAD HERO
+        ========================================================= */
 
-        uploadedAssets.push(
-            uploadedHero.publicId
-        );
+        let uploadedHero:
+            | UploadedAsset
+            | null = null;
+
+        if (hasHeroUpload) {
+            uploadedHero =
+                await uploadBufferToCloudinary({
+                    buffer: Buffer.from(
+                        await heroImage.arrayBuffer()
+                    ),
+                    folder:
+                        "domesticTravel/packages",
+                });
+
+            uploadedAssets.push(
+                uploadedHero.publicId
+            );
+        }
+
+        /* =========================================================
+           UPLOAD GALLERY
+        ========================================================= */
 
         const uploadedGallery: UploadedAsset[] =
             [];
@@ -493,98 +660,191 @@ export async function POST(
             );
         }
 
+        /* =========================================================
+           FINAL GALLERY
+        ========================================================= */
+
+        const finalGallery = [
+            ...galleryUrls.map((url) => ({
+                url,
+                publicId: null,
+            })),
+
+            ...uploadedGallery.map(
+                (image) => ({
+                    url: image.url,
+                    publicId:
+                        image.publicId,
+                })
+            ),
+        ];
+
+        /* =========================================================
+           PUBLISHED DATE
+        ========================================================= */
+
         const publishedAt =
             data.isPublished
                 ? new Date()
                 : null;
 
-     const created = await prisma.package.create({
-    data: {
-        name: data.name,
+        /* =========================================================
+           HERO IMAGE DATA
+        ========================================================= */
 
-        slug: data.slug,
+        const finalHeroImage =
+            hasHeroUrl
+                ? {
+                      url: heroImageUrl,
+                      publicId: null,
+                  }
+                : {
+                      url: uploadedHero!.url,
+                      publicId:
+                          uploadedHero!.publicId,
+                  };
 
-        category: data.category,
+        /* =========================================================
+           CREATE PACKAGE
+        ========================================================= */
 
-        type: data.type,
+        const created =
+            await prisma.package.create({
+                data: {
+                    name: data.name,
 
-        occasion: data.occasion,
+                    slug: data.slug,
 
-        destinationId: data.destinationId,
+                    category:
+                        data.category,
 
-        parentId: data.parentId || null,
+                    type: data.type,
 
-        subtitle: data.subtitle || null,
+                    occasion:
+                        data.occasion,
 
-        description: data.description || null,
+                    destinationId:
+                        data.destinationId,
 
-        location: data.location || null,
+                    parentId:
+                        data.parentId || null,
 
-        latitude: data.latitude ?? null,
+                    subtitle:
+                        data.subtitle ||
+                        null,
 
-        longitude: data.longitude ?? null,
+                    description:
+                        data.description ||
+                        null,
 
-        duration: data.duration || null,
+                    location:
+                        data.location ||
+                        null,
 
-        groupSize: data.groupSize || null,
+                    latitude:
+                        data.latitude ??
+                        null,
 
-        idealTrip: data.idealTrip || null,
+                    longitude:
+                        data.longitude ??
+                        null,
 
-        budget: data.budget || null,
+                    duration:
+                        data.duration ||
+                        null,
 
-        bestTimeToVisit: data.bestTimeToVisit,
+                    groupSize:
+                        data.groupSize ||
+                        null,
 
-        originalPrice: data.originalPrice ?? null,
+                    idealTrip:
+                        data.idealTrip ||
+                        null,
 
-        discount: data.discount,
+                    budget:
+                        data.budget ||
+                        null,
 
-        saveAmount: data.saveAmount,
+                    bestTimeToVisit:
+                        data.bestTimeToVisit,
 
-        validTill: data.validTill
-            ? new Date(data.validTill)
-            : null,
+                    originalPrice:
+                        data.originalPrice ??
+                        null,
 
-        rating: data.rating ?? null,
+                    discount:
+                        data.discount,
 
-        reviewsCount: data.reviewsCount ?? null,
+                    saveAmount:
+                        data.saveAmount,
 
-        highlights: data.highlights,
+                    validTill:
+                        data.validTill
+                            ? new Date(
+                                  data.validTill
+                              )
+                            : null,
 
-        inclusions: data.inclusions,
+                    rating:
+                        data.rating ??
+                        null,
 
-        exclusions: data.exclusions,
+                    reviewsCount:
+                        data.reviewsCount ??
+                        null,
 
-        whyVisit: data.whyVisit,
+                    highlights:
+                        data.highlights,
 
-        travelInformation: data.travelInformation,
+                    inclusions:
+                        data.inclusions,
 
-        whatToPack: data.whatToPack,
+                    exclusions:
+                        data.exclusions,
 
-        heroImage: {
-            url: uploadedHero.url,
-            publicId: uploadedHero.publicId,
-        },
+                    whyVisit:
+                        data.whyVisit,
 
-        gallery: uploadedGallery.map((image) => ({
-            url: image.url,
-            publicId: image.publicId,
-        })),
+                    travelInformation:
+                        data.travelInformation,
 
-        itinerary: data.itinerary,
+                    whatToPack:
+                        data.whatToPack,
 
-        metaTitle: data.metaTitle || null,
+                    heroImage:
+                        finalHeroImage,
 
-        metaDescription: data.metaDescription || null,
+                    gallery:
+                        finalGallery,
 
-        keywords: data.keywords,
+                    itinerary:
+                        data.itinerary,
 
-        isPublished: data.isPublished,
+                    metaTitle:
+                        data.metaTitle ||
+                        null,
 
-        isFeatured: data.isFeatured,
+                    metaDescription:
+                        data.metaDescription ||
+                        null,
 
-        publishedAt,
-    },
-});
+                    keywords:
+                        data.keywords,
+
+                    isPublished:
+                        data.isPublished,
+
+                    isFeatured:
+                        data.isFeatured,
+
+                    publishedAt,
+                },
+            });
+
+        /* =========================================================
+           SUCCESS
+        ========================================================= */
+
         return NextResponse.json(
             {
                 success: true,
@@ -600,11 +860,16 @@ export async function POST(
             error
         );
 
+        /* =========================================================
+           CLEANUP CLOUDINARY FILES
+        ========================================================= */
+
         await Promise.allSettled(
-            uploadedAssets.map((publicId) =>
-                deleteFromCloudinary(
-                    publicId
-                )
+            uploadedAssets.map(
+                (publicId) =>
+                    deleteFromCloudinary(
+                        publicId
+                    )
             )
         );
 

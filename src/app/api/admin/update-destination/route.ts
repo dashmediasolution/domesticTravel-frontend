@@ -34,9 +34,25 @@ type AttractionInput = {
     name: string;
     description: string;
     imageUrl?: string;
-    publicId?: string;
+    publicId?: string | null;
     sortOrder?: number;
 };
+
+function normalizeImageUrl(value: string, fieldName: string) {
+    let imageUrl: URL;
+
+    try {
+        imageUrl = new URL(value);
+    } catch {
+        throw new Error(`${fieldName} must be a valid HTTP or HTTPS URL`);
+    }
+
+    if (!["http:", "https:"].includes(imageUrl.protocol)) {
+        throw new Error(`${fieldName} must be a valid HTTP or HTTPS URL`);
+    }
+
+    return imageUrl.toString();
+}
 
 function parseJson(value: FormDataEntryValue | null): unknown[] {
     if (typeof value !== "string" || !value.trim()) {
@@ -339,47 +355,45 @@ export async function PATCH(request: NextRequest) {
 
         const heroFile =
             formData.get("heroImage");
-if (
-    heroFile instanceof File &&
-    heroFile.size > 0
-) {
-    validateImage(
-        heroFile,
-        "Hero image"
-    );
+        const heroImageUrl = String(
+            formData.get("heroImageUrl") || ""
+        ).trim();
 
-    const upload =
-        await uploadBufferToCloudinary({
-            buffer: Buffer.from(
-                await heroFile.arrayBuffer()
-            ),
-            folder:
-                "domesticTravel/destinations",
-        });
+        let replacementHeroImage: {
+            url: string;
+            publicId: string;
+        } | null = null;
 
-    newlyUploadedPublicIds.push(
-        upload.publicId
-    );
+        if (heroFile instanceof File && heroFile.size > 0) {
+            validateImage(heroFile, "Hero image");
 
-    if (
-        existingDestination.heroImage
-    ) {
-        const oldHeroPublicId =
-            existingDestination.heroImage
-                .publicId;
+            const upload = await uploadBufferToCloudinary({
+                buffer: Buffer.from(await heroFile.arrayBuffer()),
+                folder: "domesticTravel/destinations",
+            });
 
-        if (oldHeroPublicId) {
-            oldPublicIdsToDelete.push(
-                oldHeroPublicId
-            );
+            newlyUploadedPublicIds.push(upload.publicId);
+            replacementHeroImage = {
+                url: upload.url,
+                publicId: upload.publicId,
+            };
+        } else if (heroImageUrl) {
+            replacementHeroImage = {
+                url: normalizeImageUrl(heroImageUrl, "Hero image URL"),
+                publicId: "",
+            };
         }
-    }
 
-    heroImage = {
-        url: upload.url,
-        publicId: upload.publicId,
-    };
-}
+        if (replacementHeroImage) {
+            const oldHeroPublicId =
+                existingDestination.heroImage?.publicId;
+
+            if (typeof oldHeroPublicId === "string" && oldHeroPublicId) {
+                oldPublicIdsToDelete.push(oldHeroPublicId);
+            }
+
+            heroImage = replacementHeroImage;
+        }
 
         /*
          * ------------------------------------------------
@@ -393,6 +407,10 @@ if (
                     "existingGallery"
                 )
             ) as GalleryImage[];
+
+        for (const image of existingGallery) {
+            image.url = normalizeImageUrl(image.url, "Gallery image URL");
+        }
 
         if (
             existingGallery.length >
@@ -520,13 +538,15 @@ if (
             >();
 
         for (const attraction of attractions) {
-            if (!attraction.clientId) {
+            const imageKey = attraction.clientId || attraction.id;
+
+            if (!imageKey) {
                 continue;
             }
 
             const file =
                 formData.get(
-                    `attractionImage_${attraction.clientId}`
+                    `attractionImage_${imageKey}`
                 );
 
             if (
@@ -552,7 +572,7 @@ if (
                 );
 
                 attractionImageUploads.set(
-                    attraction.clientId,
+                    imageKey,
                     {
                         url: upload.url,
                         publicId:
@@ -672,21 +692,37 @@ if (
                                 );
                             }
 
-                            await tx.attraction.update(
-                                {
-                                    where: {
-                                        id: attraction.id,
-                                    },
-                                    data: {
-                                        name:
-                                            attraction.name,
-                                        description:
-                                            attraction.description,
-                                        sortOrder:
-                                            index,
-                                    },
-                                }
-                            );
+                            const imageKey =
+                                attraction.clientId || attraction.id;
+                            const upload = imageKey
+                                ? attractionImageUploads.get(imageKey)
+                                : undefined;
+                            const imageUrl =
+                                upload?.url ??
+                                attraction.imageUrl ??
+                                existing.imageUrl;
+                            const imageChanged =
+                                imageUrl !== existing.imageUrl;
+
+                            if (imageChanged && existing.publicId) {
+                                oldPublicIdsToDelete.push(existing.publicId);
+                            }
+
+                            await tx.attraction.update({
+                                where: {
+                                    id: attraction.id,
+                                },
+                                data: {
+                                    name: attraction.name,
+                                    description: attraction.description,
+                                    sortOrder: index,
+                                    imageUrl,
+                                    publicId: upload?.publicId ??
+                                        (imageChanged
+                                            ? attraction.publicId ?? null
+                                            : existing.publicId),
+                                },
+                            });
 
                             continue;
                         }
@@ -695,14 +731,20 @@ if (
                          * New attraction
                          */
 
-                        const upload =
-                            attraction.clientId
-                                ? attractionImageUploads.get(
-                                      attraction.clientId
-                                  )
-                                : undefined;
+                        const imageKey =
+                            attraction.clientId || attraction.id;
+                        const upload = imageKey
+                            ? attractionImageUploads.get(imageKey)
+                            : undefined;
+                        const imageUrl = upload?.url ??
+                            (attraction.imageUrl
+                                ? normalizeImageUrl(
+                                    attraction.imageUrl,
+                                    `Image for ${attraction.name}`
+                                )
+                                : null);
 
-                        if (!upload) {
+                        if (!imageUrl) {
                             throw new Error(
                                 `Image is required for new attraction "${attraction.name}"`
                             );
@@ -715,10 +757,11 @@ if (
                                         attraction.name,
                                     description:
                                         attraction.description,
-                                    imageUrl:
-                                        upload.url,
+                                    imageUrl,
                                     publicId:
-                                        upload.publicId,
+                                        upload?.publicId ??
+                                        attraction.publicId ??
+                                        null,
                                     destinationId,
                                     sortOrder:
                                         index,
@@ -884,6 +927,9 @@ if (
         const isClientError =
             message.includes(
                 "required"
+            ) ||
+            message.includes(
+                "URL"
             ) ||
             message.includes(
                 "Invalid attraction"

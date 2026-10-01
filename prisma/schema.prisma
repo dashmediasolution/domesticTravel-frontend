@@ -46,7 +46,7 @@ enum BannerTargetType {
 
 type PackageImage {
     url      String
-    publicId String
+    publicId String?
 }
 
 type BlogImage {
@@ -69,7 +69,6 @@ model AdminUser {
     email        String  @unique
     passwordHash String
     isActive     Boolean @default(true)
-
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -189,7 +188,7 @@ model Attraction {
     description String
 
     imageUrl String
-    publicId String
+    publicId String?
 
     destinationId String      @db.ObjectId
     destination   Destination @relation(fields: [destinationId], references: [id])

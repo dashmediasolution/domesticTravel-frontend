@@ -110,7 +110,7 @@ export default function FAQsPage() {
             }
 
             const response = await fetch(
-                `/api/admin/faqs?${params.toString()}`,
+                `/api/admin/faq?${params.toString()}`,
                 {
                     method: "GET",
                     cache: "no-store",
@@ -242,7 +242,7 @@ export default function FAQsPage() {
                      
                     className="w-full bg-[#2FC2B0] text-white hover:bg-[#25ae9e] sm:w-auto"
                 >
-                    <Link href="/admin/faq/create">
+                    <Link href="/admin/faq/create" className="flex justify-center items-center">
                         <Plus className="mr-2 h-4 w-4" />
                         Add FAQ
                     </Link>
@@ -363,7 +363,7 @@ export default function FAQsPage() {
                                                  
                                                 className="mt-4 bg-[#2FC2B0] hover:bg-[#25ae9e]"
                                             >
-                                                <Link href="/admin/faqs/create">
+                                                <Link href="/admin/faqs/create" className="flex justify-center items-center">
                                                     <Plus className="mr-2 h-4 w-4" />
                                                     Add FAQ
                                                 </Link>

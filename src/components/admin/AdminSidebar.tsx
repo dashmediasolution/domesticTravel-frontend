@@ -54,6 +54,11 @@ const menuItems = [
         href: "/admin/offers",
         icon: CircleDollarSign,
     },
+       {
+        title: "FAQs",
+        href: "/admin/faq",
+        icon: MapPinned,
+    },
     {
         title: "Blogs",
         href: "/admin/blogs",

@@ -221,8 +221,9 @@ export default function HeroSection() {
                      lg:w-[54%]
                     relative
                     mb:0
-                    md:top-8
-                    top-0
+                    md:bottom-8
+                    lg:top-8
+                    bottom-10
                     gap-4
                 "
                 >
@@ -312,9 +313,12 @@ export default function HeroSection() {
                     </motion.div>
 
                     {/* Explore Destination */}
-                    <Link href="/explore-destinations">
-                        <Button
-                            className="
+                    <Button
+                        type="button"
+                        onClick={() =>
+                            window.dispatchEvent(new Event("open-query-form"))
+                        }
+                        className="
             h-9
             shrink-0
             rounded-full
@@ -330,10 +334,10 @@ export default function HeroSection() {
             sm:text-[13px]
             md:text-[17px]
         "
-                        >
-                            Explore Destination
+                    >
+                        Plan your Trip
                             <ArrowRight
-                                className="
+                            className="
                 ml-1
                 h-3.5
                 w-3.5
@@ -341,9 +345,8 @@ export default function HeroSection() {
                 sm:h-4
                 sm:w-4
             "
-                            />
-                        </Button>
-                    </Link>
+                        />
+                    </Button>
 
                     {/* View Packages */}
                     {/* <Button

@@ -20,7 +20,7 @@ const faqItemSchema = z.object({
         .max(5000, "Answer must not exceed 5000 characters"),
 
 
-    });
+});
 
 const createFAQsSchema = z
     .object({
@@ -147,9 +147,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 success: true,
-                message: `${faqs.length} FAQ${
-                    faqs.length > 1 ? "s" : ""
-                } created successfully`,
+                message: `${faqs.length} FAQ${faqs.length > 1 ? "s" : ""
+                    } created successfully`,
                 count: faqs.length,
             },
             { status: 201 }
@@ -164,6 +163,121 @@ export async function POST(request: NextRequest) {
             {
                 success: false,
                 message: "Failed to create FAQs",
+            },
+            { status: 500 }
+        );
+    }
+}
+
+export async function GET(request: NextRequest) {
+    try {
+        const { searchParams } = new URL(request.url);
+
+        const destinationSlug = searchParams.get("destination");
+        const packageSlug = searchParams.get("package");
+
+        if (!destinationSlug && !packageSlug) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "Either destination or package slug is required",
+                },
+                { status: 400 }
+            );
+        }
+
+        // Package FAQ requires destination + package slug
+        if (packageSlug && !destinationSlug) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "Destination slug is required when fetching package FAQs",
+                },
+                { status: 400 }
+            );
+        }
+
+        const destination = await prisma.destination.findUnique({
+            where: {
+                slug: destinationSlug!,
+            },
+            select: {
+                id: true,
+            },
+        });
+
+        if (!destination) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Destination not found",
+                },
+                { status: 404 }
+            );
+        }
+
+        let faqs;
+
+        // Package FAQs
+        if (packageSlug) {
+            const packageData = await prisma.package.findUnique({
+                where: {
+                    destinationId_slug: {
+                        destinationId: destination.id,
+                        slug: packageSlug,
+                    },
+                },
+                select: {
+                    id: true,
+                },
+            });
+
+            if (!packageData) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: "Package not found",
+                    },
+                    { status: 404 }
+                );
+            }
+
+            faqs = await prisma.fAQ.findMany({
+                where: {
+                    packageId: packageData.id,
+                },
+                orderBy: {
+                    sortOrder: "asc",
+                },
+            });
+        } else {
+            // Destination FAQs
+            faqs = await prisma.fAQ.findMany({
+                where: {
+                    destinationId: destination.id,
+                },
+                orderBy: {
+                    sortOrder: "asc",
+                },
+            });
+        }
+
+        return NextResponse.json(
+            {
+                success: true,
+                data: faqs,
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error("Get FAQs error:", error);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Failed to fetch FAQs",
             },
             { status: 500 }
         );

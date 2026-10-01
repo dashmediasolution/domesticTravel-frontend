@@ -16,7 +16,7 @@ const inquirySchema = z.object({
         .max(100, "Name must not exceed 100 characters"),
 
     phone: z
-        .string()
+        .string()   
         .trim()
         .regex(
             /^\+?[0-9]{10,15}$/,

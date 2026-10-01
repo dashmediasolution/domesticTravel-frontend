@@ -15,6 +15,7 @@ import BlogSection from "@/components/BlogSection";
 import TravelStories from "@/components/homePage/TravelStories";
 import WeatherForecast from "@/components/WheatherForcast";
 import TravelersReviews from "@/components/Reviews";
+import FAQSection from "../../FaqSection";
 import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
 import WhyVisit from "@/components/WhyVisit";
@@ -65,7 +66,11 @@ export default function DestinationPage() {
       </main>
     );
   }
+  const faqdest = destinationData.destination.name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
 
+  console.log(destinationData)
 
   const destination = destinationData.destination;
 
@@ -76,7 +81,7 @@ export default function DestinationPage() {
   const gallery = destination.gallery ?? [];
 
   const bestTimeToVisit = destination.bestTimeToVisit;
-    const whyVisit = destination.whyVisit;
+  const whyVisit = destination.whyVisit;
   const attractions = destination.attractions ?? []
 
   const travelInfo = destination.travelInfo ?? [];
@@ -552,25 +557,25 @@ export default function DestinationPage() {
 
 
 
-    {whyVisit && (itinerary.length > 0 || bestTimeToVisit) && (
-    <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
-      <div className="w-full relative top-11">
-        <WhyVisit
-            title={whyVisit.title}
-            highlights={whyVisit.highlights}
-        />
-        </div>
-
-        {bestTimeToVisit && (
-            <div className="md:full lg:w-[60%]">
-                <BestTimeToVisit
-                    months={bestTimeToVisit.months}
-                    seasons={bestTimeToVisit.seasons}
-                />
+        {whyVisit && (itinerary.length > 0 || bestTimeToVisit) && (
+          <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            <div className="w-full relative top-11">
+              <WhyVisit
+                title={whyVisit.title}
+                highlights={whyVisit.highlights}
+              />
             </div>
+
+            {bestTimeToVisit && (
+              <div className="md:full lg:w-[60%]">
+                <BestTimeToVisit
+                  months={bestTimeToVisit.months}
+                  seasons={bestTimeToVisit.seasons}
+                />
+              </div>
+            )}
+          </div>
         )}
-    </div>
-)}
 
         {/* ==================================================
             BEST PACKAGES
@@ -600,6 +605,10 @@ export default function DestinationPage() {
         ================================================== */}
 
         <Memories />
+
+        {
+          faqdest && <FAQSection destinationSlug={faqdest} />
+        }
 
       </div>
     </main>

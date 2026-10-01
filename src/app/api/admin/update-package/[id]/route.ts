@@ -76,6 +76,15 @@ function parseBoolean(
     return value === "true";
 }
 
+    function isValidImageUrl(value: string) {
+        try {
+            const url = new URL(value);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch {
+            return false;
+        }
+    }
+
 function validateImage(
     file: File,
     fieldName: string
@@ -392,7 +401,7 @@ export async function PATCH(
             parseJSON<
                 {
                     url: string;
-                    publicId: string;
+                    publicId: string | null;
                 }[]
             >(
                 formData.get(
@@ -626,11 +635,34 @@ export async function PATCH(
 
         const heroFile =
             formData.get("heroImage");
+            const heroImageUrl = String(
+                formData.get("heroImageUrl") || ""
+            ).trim();
 
-        if (
-            heroFile instanceof File &&
-            heroFile.size > 0
-        ) {
+            const hasHeroFile =
+                heroFile instanceof File && heroFile.size > 0;
+
+            if (hasHeroFile && heroImageUrl) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: "Choose either an uploaded hero image or an image URL",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            if (heroImageUrl && !isValidImageUrl(heroImageUrl)) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: "Hero image URL must use HTTP or HTTPS",
+                    },
+                    { status: 400 }
+                );
+            }
+
+            if (hasHeroFile && heroFile instanceof File) {
             validateImage(
                 heroFile,
                 "Hero image"
@@ -667,6 +699,17 @@ export async function PATCH(
                 publicId:
                     upload.publicId,
             };
+            } else if (heroImageUrl) {
+                if (existingPackage.heroImage?.publicId) {
+                    oldPublicIdsToDelete.push(
+                        existingPackage.heroImage.publicId
+                    );
+                }
+
+                heroImage = {
+                    url: heroImageUrl,
+                    publicId: null,
+                };
         }
 
         /*
@@ -683,6 +726,23 @@ export async function PATCH(
                     file.size > 0
             );
 
+        const galleryUrls = parseJSON<string[]>(
+            formData.get("galleryUrls"),
+            []
+        )
+            .map((url) => url.trim())
+            .filter(Boolean);
+
+        if (galleryUrls.some((url) => !isValidImageUrl(url))) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Gallery image URLs must use HTTP or HTTPS",
+                },
+                { status: 400 }
+            );
+        }
+
         for (const file of validGalleryFiles) {
             validateImage(
                 file,
@@ -692,7 +752,8 @@ export async function PATCH(
 
         const finalGalleryCount =
             existingGallery.length +
-            validGalleryFiles.length;
+                validGalleryFiles.length +
+                galleryUrls.length;
 
         if (
             finalGalleryCount >
@@ -766,12 +827,15 @@ export async function PATCH(
 
         const finalGallery = [
             ...existingGallery,
+                ...galleryUrls.map((url) => ({
+                    url,
+                    publicId: null,
+                })),
             ...newGalleryUploads,
         ].filter(
             (image) =>
-                !removedGalleryPublicIds.includes(
-                    image.publicId
-                )
+                    !image.publicId ||
+                    !removedGalleryPublicIds.includes(image.publicId)
         );
 
         /*

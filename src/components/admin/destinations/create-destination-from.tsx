@@ -41,17 +41,23 @@ const months = [
     "December",
 ];
 
+type ImageSource = "upload" | "url";
 type GalleryItem = {
     id: string;
-    file: File;
-    preview: string;
+    source: "upload" | "url";
+    file: File | null;
+    url: string;
+    publicId: string | null;
+    preview: string | null;
 };
-
 type AttractionItem = {
     id: string;
     name: string;
     description: string;
+    imageSource: ImageSource;
     image: File | null;
+    imageUrl: string;
+    publicId: string | null;
     imagePreview: string | null;
 };
 
@@ -62,8 +68,14 @@ type WhyVisitItem = {
 };
 
 export default function CreateDestinationForm() {
+    const [heroSource, setHeroSource] =
+        useState<ImageSource>("upload");
+
     const [heroImage, setHeroImage] =
         useState<File | null>(null);
+
+    const [heroUrl, setHeroUrl] =
+        useState("");
 
     const [heroPreview, setHeroPreview] =
         useState<string | null>(null);
@@ -76,7 +88,8 @@ export default function CreateDestinationForm() {
 
     const galleryInputRef =
         useRef<HTMLInputElement | null>(null);
-
+    const [heroPublicId, setHeroPublicId] =
+        useState<string | null>(null);
     const objectUrlsRef =
         useRef<Set<string>>(new Set());
 
@@ -478,8 +491,7 @@ export default function CreateDestinationForm() {
     const handleHeroImage = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const file =
-            event.target.files?.[0];
+        const file = event.target.files?.[0];
 
         if (!file) return;
 
@@ -489,27 +501,24 @@ export default function CreateDestinationForm() {
         }
 
         if (heroPreview) {
-            revokePreview(
-                heroPreview
-            );
+            revokePreview(heroPreview);
         }
 
         setHeroImage(file);
-        setHeroPreview(
-            createPreview(file)
-        );
+        setHeroUrl("");
+        setHeroPublicId(null);
+        setHeroPreview(createPreview(file));
 
         setError("");
 
         event.target.value = "";
     };
-
     const removeHeroImage = () => {
-        revokePreview(
-            heroPreview
-        );
+        revokePreview(heroPreview);
 
         setHeroImage(null);
+        setHeroUrl("");
+        setHeroPublicId(null);
         setHeroPreview(null);
 
         setError("");
@@ -545,13 +554,14 @@ export default function CreateDestinationForm() {
             }
         }
 
-        const newImages: GalleryItem[] =
-            files.map((file) => ({
-                id: crypto.randomUUID(),
-                file,
-                preview:
-                    createPreview(file),
-            }));
+        const newImages: GalleryItem[] = files.map((file) => ({
+            id: crypto.randomUUID(),
+            source: "upload",
+            file,
+            url: "",
+            publicId: null,
+            preview: createPreview(file),
+        }));
 
         setGallery(
             (previous) => [
@@ -591,12 +601,14 @@ export default function CreateDestinationForm() {
     };
 
     const addAttraction = () => {
-        const newAttraction: AttractionItem =
-        {
+        const newAttraction: AttractionItem = {
             id: crypto.randomUUID(),
             name: "",
             description: "",
+            imageSource: "upload",
             image: null,
+            imageUrl: "",
+            publicId: null,
             imagePreview: null,
         };
 
@@ -609,14 +621,10 @@ export default function CreateDestinationForm() {
 
         setValue(
             "attractions",
-            updated.map(
-                (attraction) => ({
-                    name:
-                        attraction.name,
-                    description:
-                        attraction.description,
-                })
-            ),
+            updated.map((attraction) => ({
+                name: attraction.name,
+                description: attraction.description,
+            })),
             {
                 shouldValidate: true,
                 shouldDirty: true,
@@ -718,8 +726,7 @@ export default function CreateDestinationForm() {
         id: string,
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const file =
-            event.target.files?.[0];
+        const file = event.target.files?.[0];
 
         if (!file) return;
 
@@ -728,43 +735,62 @@ export default function CreateDestinationForm() {
             return;
         }
 
-        const preview =
-            createPreview(file);
+        const preview = createPreview(file);
 
-        setAttractions(
-            (previous) =>
-                previous.map(
-                    (item) => {
-                        if (
-                            item.id !==
-                            id
-                        ) {
-                            return item;
-                        }
+        setAttractions((previous) =>
+            previous.map((item) => {
+                if (item.id !== id) {
+                    return item;
+                }
 
-                        if (
-                            item.imagePreview
-                        ) {
-                            revokePreview(
-                                item.imagePreview
-                            );
-                        }
+                if (item.imagePreview) {
+                    revokePreview(item.imagePreview);
+                }
 
-                        return {
-                            ...item,
-                            image: file,
-                            imagePreview:
-                                preview,
-                        };
-                    }
-                )
+                return {
+                    ...item,
+                    imageSource: "upload",
+                    image: file,
+                    imageUrl: "",
+                    publicId: null,
+                    imagePreview: preview,
+                };
+            })
         );
 
         setError("");
 
         event.target.value = "";
     };
+    const updateAttractionImageUrl = (
+        id: string,
+        value: string
+    ) => {
+        const url = value.trim();
 
+        setAttractions((previous) =>
+            previous.map((item) => {
+                if (item.id !== id) {
+                    return item;
+                }
+
+                if (item.imagePreview) {
+                    revokePreview(item.imagePreview);
+                }
+
+                return {
+                    ...item,
+                    imageSource: "url",
+                    image: null,
+                    imageUrl: value,
+                    publicId: null,
+                    imagePreview: url || null,
+                };
+            })
+        );
+
+        setError("");
+    };
     const removeAttractionImage = (
         id: string
     ) => {
@@ -790,8 +816,9 @@ export default function CreateDestinationForm() {
                         return {
                             ...item,
                             image: null,
-                            imagePreview:
-                                null,
+                            imageUrl: "",
+                            publicId: null,
+                            imagePreview: null,
                         };
                     }
                 )
@@ -907,16 +934,15 @@ export default function CreateDestinationForm() {
         setError("");
         setSuccess("");
 
-        if (!heroImage) {
-            setError(
-                "Hero image is required"
-            );
+        if (heroSource === "upload" && !heroImage) {
+            setError("Hero image is required");
+            setLoading(false);
+            return;
+        }
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
-
+        if (heroSource === "url" && !heroUrl.trim()) {
+            setError("Hero image URL is required");
+            setLoading(false);
             return;
         }
 
@@ -943,9 +969,25 @@ export default function CreateDestinationForm() {
                 return;
             }
 
-            if (!attraction.image) {
+            if (
+                attraction.imageSource === "upload" &&
+                !attraction.image
+            ) {
                 setError(
-                    `Image is required for ${attraction.name || "attraction"}`
+                    `Upload an image or provide an image URL for ${attraction.name || "attraction"
+                    }`
+                );
+
+                return;
+            }
+
+            if (
+                attraction.imageSource === "url" &&
+                !attraction.imageUrl.trim()
+            ) {
+                setError(
+                    `Image URL is required for ${attraction.name || "attraction"
+                    }`
                 );
 
                 return;
@@ -1014,6 +1056,11 @@ export default function CreateDestinationForm() {
                 "budget",
                 data.budget || ""
             );
+            if (heroSource === "upload" && heroImage) {
+                formData.append("heroImage", heroImage);
+            } else if (heroSource === "url") {
+                formData.append("heroImageUrl", heroUrl.trim());
+            }
 
             formData.append(
                 "activities",
@@ -1068,31 +1115,20 @@ export default function CreateDestinationForm() {
                 )
             );
 
-            formData.append(
-                "heroImage",
-                heroImage
-            );
 
-            gallery.forEach(
-                (image) => {
-                    formData.append(
-                        "gallery",
-                        image.file
-                    );
-                }
-            );
 
-            const attractionData =
-                attractions.map(
-                    (attraction) => ({
-                        id:
-                            attraction.id,
-                        name:
-                            attraction.name.trim(),
-                        description:
-                            attraction.description.trim(),
-                    })
-                );
+
+            const attractionData = attractions.map(
+                (attraction) => ({
+                    id: attraction.id,
+                    name: attraction.name.trim(),
+                    description: attraction.description.trim(),
+                    imageUrl:
+                        attraction.imageSource === "url"
+                            ? attraction.imageUrl.trim()
+                            : "",
+                })
+            );
 
             formData.append(
                 "attractions",
@@ -1142,6 +1178,8 @@ export default function CreateDestinationForm() {
             clearImagePreviews();
 
             setHeroImage(null);
+            setHeroUrl("");
+            setHeroSource("upload");
             setHeroPreview(null);
             setGallery([]);
             setActivities([]);
@@ -1463,8 +1501,8 @@ export default function CreateDestinationForm() {
                                             )
                                         }
                                         className={`rounded-lg border px-3 py-2 text-sm transition ${selected
-                                                ? "border-primary bg-primary text-white"
-                                                : "bg-white hover:border-primary"
+                                            ? "border-primary bg-primary text-white"
+                                            : "bg-white hover:border-primary"
                                             }`}
                                     >
                                         {
@@ -1683,61 +1721,133 @@ export default function CreateDestinationForm() {
                     <h2 className="text-lg font-semibold">
                         Hero Image
                     </h2>
+
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Upload an image or use an external image URL.
+                    </p>
                 </div>
 
-                <div
-                    onClick={() =>
-                        heroInputRef.current?.click()
-                    }
-                    className="flex min-h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
-                >
-                    <ImagePlus className="mb-3 size-8 text-muted-foreground" />
-
-                    <span className="text-sm font-medium">
-                        {heroImage
-                            ? "Change Hero Image"
-                            : "Upload Hero Image"}
-                    </span>
-
-                    <span className="mt-1 text-xs text-muted-foreground">
-                        JPG, PNG or WEBP — Maximum 5MB
-                    </span>
-
-                    <input
-                        ref={
-                            heroInputRef
+                <div className="mb-4 flex gap-2">
+                    <Button
+                        type="button"
+                        variant={
+                            heroSource === "upload"
+                                ? "default"
+                                : "outline"
                         }
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        className="hidden"
-                        onChange={
-                            handleHeroImage
+                        onClick={() => {
+                            setHeroSource("upload");
+                            setHeroUrl("");
+                            setHeroPreview(null);
+                        }}
+                    >
+                        Upload Image
+                    </Button>
+
+                    <Button
+                        type="button"
+                        variant={
+                            heroSource === "url"
+                                ? "default"
+                                : "outline"
                         }
-                    />
+                        onClick={() => {
+                            setHeroSource("url");
+                            setHeroImage(null);
+                            setHeroPreview(null);
+                        }}
+                    >
+                        Image URL
+                    </Button>
                 </div>
 
-                {heroImage &&
-                    heroPreview && (
-                        <div className="relative mt-5 overflow-hidden rounded-xl border">
-                            <img
-                                src={
-                                    heroPreview
-                                }
-                                alt="Hero preview"
-                                className="h-64 w-full object-cover"
+                {heroSource === "upload" ? (
+                    <>
+                        <div
+                            onClick={() =>
+                                heroInputRef.current?.click()
+                            }
+                            className="flex min-h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
+                        >
+                            <ImagePlus className="mb-3 size-8 text-muted-foreground" />
+
+                            <span className="text-sm font-medium">
+                                {heroImage
+                                    ? "Change Hero Image"
+                                    : "Upload Hero Image"}
+                            </span>
+
+                            <span className="mt-1 text-xs text-muted-foreground">
+                                JPG, PNG or WEBP — Maximum 7MB
+                            </span>
+
+                            <input
+                                ref={heroInputRef}
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                className="hidden"
+                                onChange={handleHeroImage}
                             />
-
-                            <button
-                                type="button"
-                                onClick={
-                                    removeHeroImage
-                                }
-                                className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-black"
-                            >
-                                <X className="size-4" />
-                            </button>
                         </div>
-                    )}
+
+                        {heroPreview && (
+                            <div className="relative mt-5 overflow-hidden rounded-xl border">
+                                <img
+                                    src={heroPreview}
+                                    alt="Hero preview"
+                                    className="h-64 w-full object-cover"
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={removeHeroImage}
+                                    className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-black"
+                                >
+                                    <X className="size-4" />
+                                </button>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div className="space-y-3">
+                        <Input
+                            value={heroUrl}
+                            onChange={(event) => {
+                                const url = event.target.value;
+
+                                setHeroUrl(url);
+                                setHeroPreview(url);
+                            }}
+                            placeholder="https://images.unsplash.com/..."
+                        />
+
+                        {heroPreview && (
+                            <div className="relative overflow-hidden rounded-xl border">
+                                <img
+                                    src={heroPreview}
+                                    alt="Hero preview"
+                                    className="h-64 w-full object-cover"
+                                    onError={() =>
+                                        setError(
+                                            "Unable to load the image from this URL"
+                                        )
+                                    }
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setHeroUrl("");
+                                        setHeroPreview(null);
+                                    }}
+                                    className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-red-500"
+                                >
+                                    <X className="size-4" />
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </section>
 
             {/* GALLERY */}
@@ -1754,34 +1864,45 @@ export default function CreateDestinationForm() {
                         </p>
                     </div>
 
-                    <div>
+                    <div className="flex items-center gap-2">
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={() =>
-                                galleryInputRef.current?.click()
-                            }
-                            disabled={
-                                gallery.length >=
-                                15
-                            }
+                            onClick={() => galleryInputRef.current?.click()}
                         >
-                            <Plus className="size-4" />
                             Add Images
                         </Button>
 
-                        <input
-                            ref={
-                                galleryInputRef
-                            }
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            multiple
-                            className="hidden"
-                            onChange={
-                                handleGallery
-                            }
-                        />
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                                const url = window.prompt("Enter image URL");
+
+                                if (!url?.trim()) return;
+
+                                if (gallery.length >= 15) {
+                                    setError(
+                                        "You can upload a maximum of 15 gallery images."
+                                    );
+                                    return;
+                                }
+
+                                setGallery((previous) => [
+                                    ...previous,
+                                    {
+                                        id: crypto.randomUUID(),
+                                        source: "url",
+                                        file: null,
+                                        url: url.trim(),
+                                        publicId: null,
+                                        preview: url.trim(),
+                                    },
+                                ]);
+                            }}
+                        >
+                            Add Image URL
+                        </Button>
                     </div>
                 </div>
 
@@ -1805,65 +1926,40 @@ export default function CreateDestinationForm() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                        {gallery.map(
-                            (
-                                image,
-                                index
-                            ) => (
-                                <div
-                                    key={
-                                        image.id
-                                    }
-                                    className="group relative overflow-hidden rounded-xl border bg-muted"
-                                >
-                                    <img
-                                        src={
-                                            image.preview
-                                        }
-                                        alt={
-                                            image.file
-                                                .name ||
-                                            `Gallery image ${index +
-                                            1
-                                            }`
-                                        }
-                                        className="aspect-square w-full object-cover"
-                                    />
+                        {gallery.map((image, index) => (
+                            <div
+                                key={image.id}
+                                className="group relative overflow-hidden rounded-xl border bg-muted"
+                            >
+                                <img
+                                    src={image.preview || image.url}
+                                    alt={`Gallery image ${index + 1}`}
+                                    className="aspect-square w-full object-cover"
+                                />
 
-                                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1.5">
-                                        <span className="truncate pr-2 text-[10px] font-medium text-white">
-                                            Image{" "}
-                                            {index +
-                                                1}
-                                        </span>
-
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                removeGalleryImage(
-                                                    image.id
-                                                )
-                                            }
-                                            className="shrink-0 rounded-full p-1 text-white hover:bg-red-500"
-                                        >
-                                            <X className="size-3.5" />
-                                        </button>
-                                    </div>
+                                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1.5">
+                                    <span className="truncate pr-2 text-[10px] font-medium text-white">
+                                        Image {index + 1}
+                                    </span>
 
                                     <button
                                         type="button"
-                                        onClick={() =>
-                                            removeGalleryImage(
-                                                image.id
-                                            )
-                                        }
-                                        className="absolute right-2 top-2 rounded-full bg-black/70 p-1.5 text-white opacity-100 transition hover:bg-red-500 sm:opacity-0 sm:group-hover:opacity-100"
+                                        onClick={() => removeGalleryImage(image.id)}
+                                        className="shrink-0 rounded-full p-1 text-white hover:bg-red-500"
                                     >
                                         <X className="size-3.5" />
                                     </button>
                                 </div>
-                            )
-                        )}
+
+                                <button
+                                    type="button"
+                                    onClick={() => removeGalleryImage(image.id)}
+                                    className="absolute right-2 top-2 rounded-full bg-black/70 p-1.5 text-white opacity-100 transition hover:bg-red-500 sm:opacity-0 sm:group-hover:opacity-100"
+                                >
+                                    <X className="size-3.5" />
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 )}
 
@@ -2062,63 +2158,166 @@ export default function CreateDestinationForm() {
                                                 </div>
                                             </div>
 
-                                            <div className="space-y-1.5">
+                                            <div className="space-y-2">
                                                 <Label className="text-xs">
                                                     Image *
                                                 </Label>
 
-                                                {!attraction.image ? (
-                                                    <label className="flex h-[123px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed bg-white text-center transition hover:bg-muted/30">
-                                                        <ImagePlus className="mb-1.5 size-6 text-muted-foreground" />
-
-                                                        <span className="text-xs font-medium">
-                                                            Upload Image
-                                                        </span>
-
-                                                        <span className="mt-0.5 text-[10px] text-muted-foreground">
-                                                            JPG, PNG, WEBP • Max 5MB
-                                                        </span>
-
-                                                        <input
-                                                            type="file"
-                                                            accept="image/jpeg,image/png,image/webp"
-                                                            className="hidden"
-                                                            onChange={(
-                                                                event
-                                                            ) =>
-                                                                updateAttractionImage(
-                                                                    attraction.id,
-                                                                    event
+                                                <div className="flex gap-2">
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant={
+                                                            attraction.imageSource === "upload"
+                                                                ? "default"
+                                                                : "outline"
+                                                        }
+                                                        onClick={() => {
+                                                            setAttractions((previous) =>
+                                                                previous.map((item) =>
+                                                                    item.id === attraction.id
+                                                                        ? {
+                                                                            ...item,
+                                                                            imageSource: "upload",
+                                                                            imageUrl: "",
+                                                                            imagePreview:
+                                                                                item.image
+                                                                                    ? item.imagePreview
+                                                                                    : null,
+                                                                        }
+                                                                        : item
                                                                 )
-                                                            }
-                                                        />
-                                                    </label>
-                                                ) : (
-                                                    <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
-                                                        {attraction.imagePreview && (
-                                                            <img
-                                                                src={
-                                                                    attraction.imagePreview
+                                                            );
+                                                        }}
+                                                    >
+                                                        Upload
+                                                    </Button>
+
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant={
+                                                            attraction.imageSource === "url"
+                                                                ? "default"
+                                                                : "outline"
+                                                        }
+                                                        onClick={() => {
+                                                            setAttractions((previous) =>
+                                                                previous.map((item) =>
+                                                                    item.id === attraction.id
+                                                                        ? {
+                                                                            ...item,
+                                                                            imageSource: "url",
+                                                                            image: null,
+                                                                            imagePreview:
+                                                                                item.imageUrl.trim() ||
+                                                                                null,
+                                                                        }
+                                                                        : item
+                                                                )
+                                                            );
+                                                        }}
+                                                    >
+                                                        Image URL
+                                                    </Button>
+                                                </div>
+
+                                                {attraction.imageSource === "upload" ? (
+                                                    !attraction.image ? (
+                                                        <label className="flex h-[123px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed bg-white text-center transition hover:bg-muted/30">
+                                                            <ImagePlus className="mb-1.5 size-6 text-muted-foreground" />
+
+                                                            <span className="text-xs font-medium">
+                                                                Upload Image
+                                                            </span>
+
+                                                            <span className="mt-0.5 text-[10px] text-muted-foreground">
+                                                                JPG, PNG, WEBP • Max 7MB
+                                                            </span>
+
+                                                            <input
+                                                                type="file"
+                                                                accept="image/jpeg,image/png,image/webp"
+                                                                className="hidden"
+                                                                onChange={(event) =>
+                                                                    updateAttractionImage(
+                                                                        attraction.id,
+                                                                        event
+                                                                    )
                                                                 }
-                                                                alt={
-                                                                    attraction.name ||
-                                                                    "Attraction preview"
-                                                                }
-                                                                className="h-full w-full object-cover"
                                                             />
-                                                        )}
+                                                        </label>
+                                                    ) : (
+                                                        <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
+                                                            {attraction.imagePreview && (
+                                                                <img
+                                                                    src={attraction.imagePreview}
+                                                                    alt={
+                                                                        attraction.name ||
+                                                                        "Attraction preview"
+                                                                    }
+                                                                    className="h-full w-full object-cover"
+                                                                />
+                                                            )}
 
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                removeAttractionImage(
-                                                                    attraction.id
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    removeAttractionImage(
+                                                                        attraction.id
+                                                                    )
+                                                                }
+                                                                className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
+                                                            >
+                                                                <X className="size-3.5" />
+                                                            </button>
+                                                        </div>
+                                                    )
+                                                ) : (
+                                                    <div className="space-y-2">
+                                                        <Input
+                                                            value={attraction.imageUrl}
+                                                            onChange={(event) =>
+                                                                updateAttractionImageUrl(
+                                                                    attraction.id,
+                                                                    event.target.value
                                                                 )
                                                             }
-                                                            className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
-                                                        >
-                                                            <X className="size-3.5" />
-                                                        </button>
+                                                            placeholder="https://images.unsplash.com/..."
+                                                            className="h-9"
+                                                        />
+
+                                                        {attraction.imagePreview && (
+                                                            <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
+                                                                <img
+                                                                    src={attraction.imagePreview}
+                                                                    alt={
+                                                                        attraction.name ||
+                                                                        "Attraction preview"
+                                                                    }
+                                                                    className="h-full w-full object-cover"
+                                                                    onError={() =>
+                                                                        setError(
+                                                                            `Unable to load the image URL for ${attraction.name ||
+                                                                            "this attraction"
+                                                                            }`
+                                                                        )
+                                                                    }
+                                                                />
+
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() =>
+                                                                        removeAttractionImage(
+                                                                            attraction.id
+                                                                        )
+                                                                    }
+                                                                    className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
+                                                                >
+                                                                    <X className="size-3.5" />
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>
@@ -2359,21 +2558,21 @@ export default function CreateDestinationForm() {
             {/* SUBMIT */}
 
             {/* SUBMIT */}
-             <div className="fixed  w-[78%] rounded-2xl bottom-0 my-4 flex justify-end left-[20%] right-0 z-50 border-t bg-background/95 p-3 shadow-lg backdrop-blur">
-                     <Button
-                        type="submit"
-                        size="lg"
-                        disabled={loading}
-                        className="min-w-[180px]"
-                    >
-                        {loading && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        )}
+            <div className="fixed  w-[78%] rounded-2xl bottom-0 my-4 flex justify-end left-[20%] right-0 z-50 border-t bg-background/95 p-3 shadow-lg backdrop-blur">
+                <Button
+                    type="submit"
+                    size="lg"
+                    disabled={loading}
+                    className="min-w-[180px]"
+                >
+                    {loading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
 
-                        {loading ? "Creating..." : "Create Destination"}
-                    </Button>
-                </div>
-         </form>
+                    {loading ? "Creating..." : "Create Destination"}
+                </Button>
+            </div>
+        </form>
     );
 }
 

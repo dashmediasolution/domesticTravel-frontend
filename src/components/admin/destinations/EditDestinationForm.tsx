@@ -61,6 +61,8 @@ type AttractionItem = {
     image: File | null;
     imagePreview: string | null;
     existingImageUrl: string | null;
+    imageUrl: string;
+    imageSource: "upload" | "url";
     existingPublicId?: string;
     existing: boolean;
 };
@@ -115,9 +117,14 @@ export default function EditDestinationForm({
 
     const [existingHeroImage, setExistingHeroImage] =
         useState<string | null>(null);
-
+    const [heroUrl, setHeroUrl] = useState("");
+    const [heroSource, setHeroSource] =
+        useState<"upload" | "url">("upload");
     const [gallery, setGallery] =
         useState<GalleryItem[]>([]);
+
+    const [galleryUrl, setGalleryUrl] =
+        useState("");
 
     const heroInputRef =
         useRef<HTMLInputElement | null>(null);
@@ -668,6 +675,13 @@ export default function EditDestinationForm({
             setExistingHeroImage(
                 destination.heroImage?.url ?? null
             );
+
+            setHeroUrl(
+                destination.heroImage?.url ?? ""
+            );
+
+            setHeroSource("upload");
+
             setHeroImage(null);
             setHeroPreview(null);
 
@@ -722,15 +736,23 @@ export default function EditDestinationForm({
                             image:
                                 null,
                             imagePreview:
-                                null,
+                                item.imageUrl || null,
+
                             existingImageUrl:
-                                item.imageUrl ||
-                                null,
+                                item.imageUrl || null,
+
+                            imageUrl:
+                                item.imageUrl || "",
+
+                            imageSource:
+                                item.publicId
+                                    ? "upload"
+                                    : "url",
+
                             existingPublicId:
-                                item.publicId ||
-                                undefined,
-                            existing:
-                                true,
+                                item.publicId || undefined,
+
+                            existing: true,
                         })
                     )
             );
@@ -846,6 +868,40 @@ export default function EditDestinationForm({
         event.target.value = "";
     };
 
+    const addGalleryUrl = () => {
+        const value = galleryUrl.trim();
+
+        if (!value) return;
+
+        if (gallery.length >= 15) {
+            setError("Maximum 15 gallery images are allowed");
+            return;
+        }
+
+        try {
+            const imageUrl = new URL(value);
+
+            if (!["http:", "https:"].includes(imageUrl.protocol)) {
+                throw new Error();
+            }
+
+            setGallery((previous) => [
+                ...previous,
+                {
+                    id: crypto.randomUUID(),
+                    preview: imageUrl.toString(),
+                    existing: false,
+                    url: imageUrl.toString(),
+                    publicId: "",
+                },
+            ]);
+            setGalleryUrl("");
+            setError("");
+        } catch {
+            setError("Enter a valid HTTP or HTTPS gallery image URL");
+        }
+    };
+
     const removeGalleryImage = (
         id: string
     ) => {
@@ -875,41 +931,24 @@ export default function EditDestinationForm({
     };
 
     const addAttraction = () => {
-        const newAttraction: AttractionItem =
-        {
-            id:
-                crypto.randomUUID(),
+        const newAttraction: AttractionItem = {
+            id: crypto.randomUUID(),
             name: "",
             description: "",
             image: null,
             imagePreview: null,
-            existingImageUrl:
-                null,
-            existing:
-                false,
+            imageUrl: "",
+            imageSource: "upload",
+            existingImageUrl: null,
+            existing: false,
         };
 
-        const updated = [
-            ...attractions,
-            newAttraction,
-        ];
-
+        const updated = [...attractions, newAttraction];
         setAttractions(updated);
-
         setValue(
             "attractions",
-            updated.map(
-                (attraction) => ({
-                    name:
-                        attraction.name,
-                    description:
-                        attraction.description,
-                })
-            ),
-            {
-                shouldValidate: true,
-                shouldDirty: true,
-            }
+            updated.map(({ name, description }) => ({ name, description })),
+            { shouldValidate: true, shouldDirty: true }
         );
     };
 
@@ -1032,8 +1071,11 @@ export default function EditDestinationForm({
                         return {
                             ...item,
                             image: file,
-                            imagePreview:
-                                preview,
+                            imagePreview: preview,
+                            imageUrl: "",
+                            imageSource: "upload",
+                            existingImageUrl: null,
+                            existingPublicId: undefined,
                         };
                     }
                 )
@@ -1043,41 +1085,85 @@ export default function EditDestinationForm({
 
         event.target.value = "";
     };
+    const setAttractionImageSource = (
+        id: string,
+        source: "upload" | "url"
+    ) => {
+        setAttractions((previous) =>
+            previous.map((item) => {
+                if (item.id !== id) return item;
 
+                if (source === "url" && item.imagePreview && item.image) {
+                    revokePreview(item.imagePreview);
+                }
+
+                return {
+                    ...item,
+                    image: source === "url" ? null : item.image,
+                    imagePreview:
+                        source === "url"
+                            ? item.existingImageUrl || null
+                            : item.imagePreview,
+                    imageUrl:
+                        source === "url"
+                            ? item.imageUrl || item.existingImageUrl || ""
+                            : "",
+                    imageSource: source,
+                };
+            })
+        );
+        setError("");
+    };
+
+    const updateAttractionImageUrl = (
+        id: string,
+        value: string
+    ) => {
+        setAttractions((previous) =>
+            previous.map((item) => {
+                if (item.id !== id) {
+                    return item;
+                }
+
+                if (item.imagePreview) {
+                    revokePreview(item.imagePreview);
+                }
+
+                return {
+                    ...item,
+                    image: null,
+                    imagePreview: value.trim() || null,
+                    imageUrl: value,
+                    imageSource: "url",
+                };
+            })
+        );
+
+        setError("");
+    };
     const removeAttractionImage = (
         id: string
     ) => {
-        setAttractions(
-            (previous) =>
-                previous.map(
-                    (item) => {
-                        if (
-                            item.id !==
-                            id
-                        ) {
-                            return item;
-                        }
+        setAttractions((previous) =>
+            previous.map((item) => {
+                if (item.id !== id) {
+                    return item;
+                }
 
-                        if (
-                            item.imagePreview
-                        ) {
-                            revokePreview(
-                                item.imagePreview
-                            );
-                        }
+                if (item.imagePreview) {
+                    revokePreview(item.imagePreview);
+                }
 
-                        return {
-                            ...item,
-                            image: null,
-                            imagePreview:
-                                null,
-                            existingImageUrl:
-                                null,
-                            existingPublicId:
-                                undefined,
-                        };
-                    }
-                )
+                return {
+                    ...item,
+                    image: null,
+                    imagePreview: null,
+                    imageUrl: "",
+                    imageSource: "upload",
+                    existingImageUrl: null,
+                    existingPublicId: undefined,
+                };
+            })
         );
     };
 
@@ -1191,9 +1277,23 @@ export default function EditDestinationForm({
         setError("");
         setSuccess("");
 
+        if (heroSource === "url" && heroUrl.trim()) {
+            try {
+                const imageUrl = new URL(heroUrl.trim());
+
+                if (!["http:", "https:"].includes(imageUrl.protocol)) {
+                    throw new Error();
+                }
+            } catch {
+                setError("Enter a valid HTTP or HTTPS hero image URL");
+                return;
+            }
+        }
+
         if (
             !heroImage &&
-            !existingHeroImage
+            !existingHeroImage &&
+            !(heroSource === "url" && heroUrl.trim())
         ) {
             setError(
                 "Hero image is required"
@@ -1239,14 +1339,39 @@ export default function EditDestinationForm({
             }
 
             if (
+                attraction.imageSource === "upload" &&
                 !attraction.image &&
                 !attraction.existingImageUrl
             ) {
                 setError(
-                    `Image is required for ${attraction.name || "attraction"}`
+                    `Upload an image or provide an image URL for ${attraction.name || "attraction"}`
                 );
 
                 return;
+            }
+
+            if (
+                attraction.imageSource === "url" &&
+                !attraction.imageUrl.trim()
+            ) {
+                setError(
+                    `Image URL is required for ${attraction.name || "attraction"}`
+                );
+
+                return;
+            }
+
+            if (attraction.imageSource === "url") {
+                try {
+                    const imageUrl = new URL(attraction.imageUrl.trim());
+
+                    if (!["http:", "https:"].includes(imageUrl.protocol)) {
+                        throw new Error();
+                    }
+                } catch {
+                    setError(`Enter a valid HTTP or HTTPS image URL for ${attraction.name || "attraction"}`);
+                    return;
+                }
             }
         }
 
@@ -1375,18 +1500,19 @@ export default function EditDestinationForm({
                 )
             );
 
-            if (heroImage) {
+            if (heroSource === "upload" && heroImage) {
                 formData.append(
                     "heroImage",
                     heroImage
                 );
+            } else if (heroSource === "url" && heroUrl.trim()) {
+                formData.append("heroImageUrl", heroUrl.trim());
             }
 
             const existingGallery =
                 gallery
-                    .filter(
-                        (item) =>
-                            item.existing
+                    .filter((item) =>
+                        item.existing || (!item.file && Boolean(item.url))
                     )
                     .map(
                         (item) => ({
@@ -1423,38 +1549,40 @@ export default function EditDestinationForm({
                         );
                     }
                 );
+            const attractionData = attractions.map(
+                (attraction, index) => ({
+                    ...(attraction.existing ? { id: attraction.id } : {}),
+                    clientId: attraction.id,
+                    name: attraction.name.trim(),
+                    description: attraction.description.trim(),
 
-            const attractionData =
-                attractions.map(
-                    (
-                        attraction,
-                        index
-                    ) => ({
-                        id:
-                            attraction.id,
-                        name:
-                            attraction.name.trim(),
-                        description:
-                            attraction.description.trim(),
-                        sortOrder:
-                            index,
-                        imageUrl:
-                            attraction
-                                .existingImageUrl ||
-                            null,
-                        publicId:
-                            attraction
-                                .existingPublicId ||
-                            null,
-                    })
-                );
+                    sortOrder: index,
 
-            formData.append(
-                "attractions",
-                JSON.stringify(
-                    attractionData
-                )
+                    imageUrl:
+                        attraction.imageSource === "url"
+                            ? attraction.imageUrl.trim()
+                            : attraction.existingImageUrl || null,
+
+                    publicId:
+                        attraction.imageSource === "url"
+                            ? null
+                            : attraction.existingPublicId || null,
+                })
             );
+
+            if (heroSource === "upload" && heroImage) {
+                formData.append(
+                    "heroImage",
+                    heroImage
+                );
+            }
+
+            if (heroSource === "url" && heroUrl.trim()) {
+                formData.append(
+                    "heroImageUrl",
+                    heroUrl.trim()
+                );
+            }
 
             attractions.forEach(
                 (attraction) => {
@@ -1804,8 +1932,8 @@ export default function EditDestinationForm({
                                             )
                                         }
                                         className={`rounded-lg border px-3 py-2 text-sm transition ${selected
-                                                ? "border-primary bg-primary text-white"
-                                                : "bg-white hover:border-primary"
+                                            ? "border-primary bg-primary text-white"
+                                            : "bg-white hover:border-primary"
                                             }`}
                                     >
                                         {
@@ -1990,509 +2118,664 @@ export default function EditDestinationForm({
                 )}
             </section>
 
-            <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
-                <div className="mb-6">
-                    <h2 className="text-lg font-semibold">
-                        Hero Image
-                    </h2>
-                </div>
+         <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
+    <div className="mb-6">
+        <h2 className="text-lg font-semibold">
+            Hero Image
+        </h2>
 
-                {existingHeroImage &&
-                    !heroPreview && (
-                        <div className="relative mb-5 overflow-hidden rounded-xl border">
-                            <img
-                                src={
-                                    existingHeroImage
-                                }
-                                alt="Current hero"
-                                className="h-64 w-full object-cover"
-                            />
+        <p className="mt-1 text-sm text-muted-foreground">
+            Upload an image or use an external image URL.
+        </p>
+    </div>
 
-                            <div className="absolute left-3 top-3 rounded-md bg-black/70 px-2 py-1 text-xs text-white">
-                                Current Hero Image
-                            </div>
-                        </div>
-                    )}
+    <div className="mb-5 flex w-full gap-2">
+        <Button
+            type="button"
+            variant={
+                heroSource === "upload"
+                    ? "default"
+                    : "outline"
+            }
+            onClick={() => {
+                setHeroSource("upload");
+                setHeroUrl("");
+            }}
+            className="flex-1"
+        >
+            <ImagePlus className="size-4" />
+            Upload Image
+        </Button>
 
-                <div
-                    onClick={() =>
-                        heroInputRef.current?.click()
-                    }
-                    className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
-                >
-                    <ImagePlus className="mb-3 size-8 text-muted-foreground" />
+        <Button
+            type="button"
+            variant={
+                heroSource === "url"
+                    ? "default"
+                    : "outline"
+            }
+            onClick={() => {
+                setHeroSource("url");
+                setHeroImage(null);
+                setHeroPreview(null);
+            }}
+            className="flex-1"
+        >
+            Image URL
+        </Button>
+    </div>
 
-                    <span className="text-sm font-medium">
-                        {heroImage
-                            ? "Change Selected Hero Image"
-                            : "Replace Hero Image"}
-                    </span>
-
-                    <span className="mt-1 text-xs text-muted-foreground">
-                        JPG, PNG or WEBP — Maximum 5MB
-                    </span>
-
-                    <input
-                        ref={
-                            heroInputRef
-                        }
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        className="hidden"
-                        onChange={
-                            handleHeroImage
-                        }
-                    />
-                </div>
-
-                {heroPreview && (
-                    <div className="relative mt-5 overflow-hidden rounded-xl border">
+    {heroSource === "upload" ? (
+        <>
+            {existingHeroImage &&
+                !heroPreview && (
+                    <div className="relative mb-5 overflow-hidden rounded-xl border">
                         <img
-                            src={
-                                heroPreview
-                            }
-                            alt="New hero preview"
+                            src={existingHeroImage}
+                            alt="Current hero"
                             className="h-64 w-full object-cover"
                         />
 
-                        <div className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 text-xs text-white">
-                            New Hero Image
+                        <div className="absolute left-3 top-3 rounded-md bg-black/70 px-2 py-1 text-xs text-white">
+                            Current Hero Image
                         </div>
+                    </div>
+                )}
+
+            <div
+                onClick={() =>
+                    heroInputRef.current?.click()
+                }
+                className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
+            >
+                <ImagePlus className="mb-3 size-8 text-muted-foreground" />
+
+                <span className="text-sm font-medium">
+                    {heroImage
+                        ? "Change Selected Hero Image"
+                        : "Replace Hero Image"}
+                </span>
+
+                <span className="mt-1 text-xs text-muted-foreground">
+                    JPG, PNG or WEBP — Maximum 5MB
+                </span>
+
+                <input
+                    ref={heroInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    onChange={handleHeroImage}
+                />
+            </div>
+
+            {heroPreview && (
+                <div className="relative mt-5 overflow-hidden rounded-xl border">
+                    <img
+                        src={heroPreview}
+                        alt="New hero preview"
+                        className="h-64 w-full object-cover"
+                    />
+
+                    <div className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 text-xs text-white">
+                        New Hero Image
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={removeHeroImage}
+                        className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-black"
+                    >
+                        <X className="size-4" />
+                    </button>
+                </div>
+            )}
+        </>
+    ) : (
+        <div className="space-y-3">
+            <Label>Hero Image URL</Label>
+
+            <Input
+                value={heroUrl}
+                onChange={(event) => {
+                    const value =
+                        event.target.value;
+
+                    setHeroUrl(value);
+                    setExistingHeroImage(null);
+                    setHeroImage(null);
+                    setHeroPreview(null);
+                    setError("");
+                }}
+                placeholder="https://images.unsplash.com/..."
+            />
+
+            <p className="text-xs text-muted-foreground">
+                Use a direct public image URL.
+            </p>
+
+            {heroUrl.trim() && (
+                <div className="relative overflow-hidden rounded-xl border">
+                    <img
+                        src={heroUrl}
+                        alt="Hero URL preview"
+                        className="h-64 w-full object-cover"
+                    />
+
+                    <div className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 text-xs text-white">
+                        URL Image
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setHeroUrl("");
+                        }}
+                        className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-red-500"
+                    >
+                        <X className="size-4" />
+                    </button>
+                </div>
+            )}
+        </div>
+    )}
+</section>
+
+            <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
+    <div className="mb-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h2 className="text-lg font-semibold">
+                    Gallery
+                </h2>
+
+                <p className="mt-1 text-sm text-muted-foreground">
+                    Keep existing images or add new images using
+                    upload or URL. Maximum 15 images.
+                </p>
+            </div>
+
+            <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                    galleryInputRef.current?.click()
+                }
+                disabled={gallery.length >= 15}
+            >
+                <Plus className="size-4" />
+                Add Images
+            </Button>
+
+            <input
+                ref={galleryInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="hidden"
+                onChange={handleGallery}
+            />
+        </div>
+    </div>
+
+    <div className="mb-5 rounded-xl border bg-muted/20 p-4">
+        <div className="mb-3">
+            <Label className="text-sm">
+                Add Image by URL
+            </Label>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+                Paste a direct public image URL and add it to the
+                gallery.
+            </p>
+        </div>
+
+        <div className="flex flex-col gap-2 sm:flex-row">
+            <Input
+                value={galleryUrl}
+                onChange={(event) =>
+                    setGalleryUrl(event.target.value)
+                }
+                placeholder="https://images.unsplash.com/..."
+            />
+
+            <Button
+                type="button"
+                onClick={addGalleryUrl}
+                disabled={
+                    gallery.length >= 15 ||
+                    !galleryUrl.trim()
+                }
+            >
+                <Plus className="size-4" />
+                Add URL
+            </Button>
+        </div>
+    </div>
+
+    {gallery.length === 0 ? (
+        <div
+            onClick={() =>
+                galleryInputRef.current?.click()
+            }
+            className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
+        >
+            <ImagePlus className="mb-3 size-8 text-muted-foreground" />
+
+            <p className="text-sm font-medium">
+                Add gallery images
+            </p>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+                Upload JPG, PNG or WEBP up to 5MB each
+                or use an image URL above.
+            </p>
+        </div>
+    ) : (
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            {gallery.map((image, index) => (
+                <div
+                    key={image.id}
+                    className="group relative overflow-hidden rounded-xl border bg-muted"
+                >
+                    <img
+                        src={image.preview}
+                        alt={`Gallery image ${index + 1}`}
+                        className="aspect-square w-full object-cover"
+                    />
+
+                    <div className="absolute left-2 top-2 rounded-md bg-black/70 px-2 py-1 text-[10px] font-medium text-white">
+                        {image.existing
+                            ? "Existing"
+                            : image.file
+                              ? "Uploaded"
+                              : "URL"}
+                    </div>
+
+                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1.5">
+                        <span className="truncate pr-2 text-[10px] font-medium text-white">
+                            Image {index + 1}
+                        </span>
 
                         <button
                             type="button"
-                            onClick={
-                                removeHeroImage
+                            onClick={() =>
+                                removeGalleryImage(
+                                    image.id
+                                )
                             }
-                            className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white hover:bg-black"
+                            className="rounded-full p-1 text-white hover:bg-red-500"
                         >
-                            <X className="size-4" />
+                            <X className="size-3.5" />
                         </button>
                     </div>
-                )}
-            </section>
-
-            <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
-                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h2 className="text-lg font-semibold">
-                            Gallery
-                        </h2>
-
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Keep existing images or add new ones. Maximum 15 images.
-                        </p>
-                    </div>
-
-                    <div>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() =>
-                                galleryInputRef.current?.click()
-                            }
-                            disabled={
-                                gallery.length >=
-                                15
-                            }
-                        >
-                            <Plus className="size-4" />
-                            Add Images
-                        </Button>
-
-                        <input
-                            ref={
-                                galleryInputRef
-                            }
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            multiple
-                            className="hidden"
-                            onChange={
-                                handleGallery
-                            }
-                        />
-                    </div>
                 </div>
+            ))}
+        </div>
+    )}
 
-                {gallery.length ===
-                    0 ? (
+    {gallery.length > 0 && (
+        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+            <span>
+                {gallery.length}/15 images
+            </span>
+
+            {gallery.length < 15 && (
+                <span>
+                    {15 - gallery.length} remaining
+                </span>
+            )}
+        </div>
+    )}
+</section>
+
+           <section className="rounded-xl border bg-white p-4 shadow-sm sm:p-5">
+    <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+        <div>
+            <h2 className="text-lg font-semibold">
+                Attractions
+            </h2>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+                Add places and attractions available at this
+                destination.
+            </p>
+        </div>
+
+        <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addAttraction}
+        >
+            <Plus className="size-4" />
+            Add Attraction
+        </Button>
+    </div>
+
+    {attractions.length === 0 ? (
+        <div className="rounded-lg border border-dashed px-4 py-6 text-center">
+            <p className="text-sm text-muted-foreground">
+                No attractions added yet.
+            </p>
+
+            <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onClick={addAttraction}
+            >
+                <Plus className="size-4" />
+                Add First Attraction
+            </Button>
+        </div>
+    ) : (
+        <div className="space-y-3">
+            {attractions.map((attraction, index) => {
+                const itemErrors =
+                    errors.attractions?.[index];
+
+                return (
                     <div
-                        onClick={() =>
-                            galleryInputRef.current?.click()
-                        }
-                        className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition hover:bg-muted/30"
+                        key={attraction.id}
+                        className="rounded-lg border bg-muted/10 p-3 sm:p-4"
                     >
-                        <ImagePlus className="mb-3 size-8 text-muted-foreground" />
+                        <div className="mb-3 flex items-center justify-between">
+                            <h3 className="text-sm font-semibold">
+                                Attraction {index + 1}
+                            </h3>
 
-                        <p className="text-sm font-medium">
-                            Add gallery images
-                        </p>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                    removeAttraction(
+                                        attraction.id
+                                    )
+                                }
+                                className="h-8 px-2 text-red-500 hover:bg-red-50 hover:text-red-600"
+                            >
+                                <X className="size-4" />
 
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            JPG, PNG or WEBP — Maximum 5MB each
-                        </p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                        {gallery.map(
-                            (
-                                image,
-                                index
-                            ) => (
-                                <div
-                                    key={
-                                        image.id
-                                    }
-                                    className="group relative overflow-hidden rounded-xl border bg-muted"
-                                >
-                                    <img
-                                        src={
-                                            image.preview
+                                <span className="hidden sm:inline">
+                                    Remove
+                                </span>
+                            </Button>
+                        </div>
+
+                        <div className="grid gap-3 md:grid-cols-[1fr_220px]">
+                            <div className="space-y-3">
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs">
+                                        Name *
+                                    </Label>
+
+                                    <Input
+                                        value={
+                                            attraction.name
                                         }
-                                        alt={`Gallery image ${index +
-                                            1
-                                            }`}
-                                        className="aspect-square w-full object-cover"
+                                        onChange={(event) =>
+                                            updateAttraction(
+                                                attraction.id,
+                                                "name",
+                                                event.target.value
+                                            )
+                                        }
+                                        placeholder="Kainchi Dham"
+                                        className="h-9"
                                     />
 
-                                    <div className="absolute left-2 top-2 rounded-md bg-black/70 px-2 py-1 text-[10px] font-medium text-white">
-                                        {image.existing
-                                            ? "Existing"
-                                            : "New"}
-                                    </div>
+                                    {itemErrors?.name
+                                        ?.message && (
+                                        <p className="text-xs text-red-500">
+                                            {
+                                                itemErrors
+                                                    .name
+                                                    .message
+                                            }
+                                        </p>
+                                    )}
+                                </div>
 
-                                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1.5">
-                                        <span className="text-[10px] font-medium text-white">
-                                            Image{" "}
-                                            {index +
-                                                1}
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs">
+                                        Description *
+                                    </Label>
+
+                                    <Textarea
+                                        value={
+                                            attraction.description
+                                        }
+                                        onChange={(event) =>
+                                            updateAttraction(
+                                                attraction.id,
+                                                "description",
+                                                event.target.value
+                                            )
+                                        }
+                                        placeholder="Describe this attraction..."
+                                        rows={3}
+                                        className="min-h-[90px] resize-none"
+                                    />
+
+                                    {itemErrors?.description
+                                        ?.message && (
+                                        <p className="text-xs text-red-500">
+                                            {
+                                                itemErrors
+                                                    .description
+                                                    .message
+                                            }
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-xs">
+                                    Image *
+                                </Label>
+
+                                <div className="flex gap-2">
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant={
+                                            attraction.imageSource ===
+                                            "upload"
+                                                ? "default"
+                                                : "outline"
+                                        }
+                                        onClick={() =>
+                                            setAttractionImageSource(
+                                                attraction.id,
+                                                "upload"
+                                            )
+                                        }
+                                        className="flex-1"
+                                    >
+                                        Upload
+                                    </Button>
+
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant={
+                                            attraction.imageSource ===
+                                            "url"
+                                                ? "default"
+                                                : "outline"
+                                        }
+                                        onClick={() =>
+                                            setAttractionImageSource(
+                                                attraction.id,
+                                                "url"
+                                            )
+                                        }
+                                        className="flex-1"
+                                    >
+                                        URL
+                                    </Button>
+                                </div>
+
+                                {attraction.imageSource ===
+                                "url" ? (
+                                    <div className="space-y-2">
+                                        <Input
+                                            value={
+                                                attraction.imageUrl
+                                            }
+                                            onChange={(event) =>
+                                                updateAttractionImageUrl(
+                                                    attraction.id,
+                                                    event.target
+                                                        .value
+                                                )
+                                            }
+                                            placeholder="https://images.unsplash.com/..."
+                                            className="h-9 text-xs"
+                                        />
+
+                                        {attraction.imageUrl.trim() ? (
+                                            <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
+                                                <img
+                                                    src={
+                                                        attraction.imageUrl
+                                                    }
+                                                    alt={
+                                                        attraction.name ||
+                                                        "Attraction preview"
+                                                    }
+                                                    className="h-full w-full object-cover"
+                                                />
+
+                                                <div className="absolute left-1.5 top-1.5 rounded bg-primary px-1.5 py-0.5 text-[9px] text-white">
+                                                    URL
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        removeAttractionImage(
+                                                            attraction.id
+                                                        )
+                                                    }
+                                                    className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
+                                                >
+                                                    <X className="size-3.5" />
+                                                </button>
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                ) : !attraction.image &&
+                                  !attraction.existingImageUrl ? (
+                                    <label className="flex h-[123px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed bg-white text-center transition hover:bg-muted/30">
+                                        <ImagePlus className="mb-1.5 size-6 text-muted-foreground" />
+
+                                        <span className="text-xs font-medium">
+                                            Upload Image
                                         </span>
+
+                                        <span className="mt-0.5 text-[10px] text-muted-foreground">
+                                            JPG, PNG, WEBP • Max 5MB
+                                        </span>
+
+                                        <input
+                                            type="file"
+                                            accept="image/jpeg,image/png,image/webp"
+                                            className="hidden"
+                                            onChange={(event) =>
+                                                updateAttractionImage(
+                                                    attraction.id,
+                                                    event
+                                                )
+                                            }
+                                        />
+                                    </label>
+                                ) : (
+                                    <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
+                                        {attraction.imagePreview ? (
+                                            <>
+                                                <img
+                                                    src={
+                                                        attraction.imagePreview
+                                                    }
+                                                    alt={
+                                                        attraction.name ||
+                                                        "Attraction preview"
+                                                    }
+                                                    className="h-full w-full object-cover"
+                                                />
+
+                                                <div className="absolute left-1.5 top-1.5 rounded bg-primary px-1.5 py-0.5 text-[9px] text-white">
+                                                    New
+                                                </div>
+                                            </>
+                                        ) : attraction.existingImageUrl ? (
+                                            <>
+                                                <img
+                                                    src={
+                                                        attraction.existingImageUrl
+                                                    }
+                                                    alt={
+                                                        attraction.name ||
+                                                        "Attraction"
+                                                    }
+                                                    className="h-full w-full object-cover"
+                                                />
+
+                                                <div className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[9px] text-white">
+                                                    Existing
+                                                </div>
+                                            </>
+                                        ) : null}
 
                                         <button
                                             type="button"
                                             onClick={() =>
-                                                removeGalleryImage(
-                                                    image.id
+                                                removeAttractionImage(
+                                                    attraction.id
                                                 )
                                             }
-                                            className="rounded-full p-1 text-white hover:bg-red-500"
+                                            className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
                                         >
                                             <X className="size-3.5" />
                                         </button>
                                     </div>
-                                </div>
-                            )
-                        )}
-                    </div>
-                )}
-
-                {gallery.length >
-                    0 && (
-                        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-                            <span>
-                                {
-                                    gallery.length
-                                }
-                                /15 images
-                            </span>
-
-                            {gallery.length <
-                                15 && (
-                                    <span>
-                                        {15 -
-                                            gallery.length}{" "}
-                                        remaining
-                                    </span>
                                 )}
-                        </div>
-                    )}
-            </section>
 
-            <section className="rounded-xl border bg-white p-4 shadow-sm sm:p-5">
-                <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                    <div>
-                        <h2 className="text-lg font-semibold">
-                            Attractions
-                        </h2>
+                                {attraction.imageSource ===
+                                    "upload" &&
+                                    (attraction.image ||
+                                        attraction.existingImageUrl) && (
+                                        <label className="block cursor-pointer text-center text-[10px] text-primary hover:underline">
+                                            Replace Image
 
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            Add places and attractions available at this destination.
-                        </p>
-                    </div>
-
-                    <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={
-                            addAttraction
-                        }
-                    >
-                        <Plus className="size-4" />
-                        Add Attraction
-                    </Button>
-                </div>
-
-                {attractions.length ===
-                    0 ? (
-                    <div className="rounded-lg border border-dashed px-4 py-6 text-center">
-                        <p className="text-sm text-muted-foreground">
-                            No attractions added yet.
-                        </p>
-
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            className="mt-3"
-                            onClick={
-                                addAttraction
-                            }
-                        >
-                            <Plus className="size-4" />
-                            Add First Attraction
-                        </Button>
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        {attractions.map(
-                            (
-                                attraction,
-                                index
-                            ) => {
-                                const itemErrors =
-                                    errors
-                                        .attractions?.[
-                                    index
-                                    ];
-
-                                return (
-                                    <div
-                                        key={
-                                            attraction.id
-                                        }
-                                        className="rounded-lg border bg-muted/10 p-3 sm:p-4"
-                                    >
-                                        <div className="mb-3 flex items-center justify-between">
-                                            <h3 className="text-sm font-semibold">
-                                                Attraction{" "}
-                                                {index +
-                                                    1}
-                                            </h3>
-
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() =>
-                                                    removeAttraction(
-                                                        attraction.id
+                                            <input
+                                                type="file"
+                                                accept="image/jpeg,image/png,image/webp"
+                                                className="hidden"
+                                                onChange={(
+                                                    event
+                                                ) =>
+                                                    updateAttractionImage(
+                                                        attraction.id,
+                                                        event
                                                     )
                                                 }
-                                                className="h-8 px-2 text-red-500 hover:bg-red-50 hover:text-red-600"
-                                            >
-                                                <X className="size-4" />
-
-                                                <span className="hidden sm:inline">
-                                                    Remove
-                                                </span>
-                                            </Button>
-                                        </div>
-
-                                        <div className="grid gap-3 md:grid-cols-[1fr_220px]">
-                                            <div className="space-y-3">
-                                                <div className="space-y-1.5">
-                                                    <Label className="text-xs">
-                                                        Name *
-                                                    </Label>
-
-                                                    <Input
-                                                        value={
-                                                            attraction.name
-                                                        }
-                                                        onChange={(
-                                                            event
-                                                        ) =>
-                                                            updateAttraction(
-                                                                attraction.id,
-                                                                "name",
-                                                                event
-                                                                    .target
-                                                                    .value
-                                                            )
-                                                        }
-                                                        placeholder="Kainchi Dham"
-                                                        className="h-9"
-                                                    />
-
-                                                    {itemErrors
-                                                        ?.name
-                                                        ?.message && (
-                                                            <p className="text-xs text-red-500">
-                                                                {
-                                                                    itemErrors
-                                                                        .name
-                                                                        .message
-                                                                }
-                                                            </p>
-                                                        )}
-                                                </div>
-
-                                                <div className="space-y-1.5">
-                                                    <Label className="text-xs">
-                                                        Description *
-                                                    </Label>
-
-                                                    <Textarea
-                                                        value={
-                                                            attraction.description
-                                                        }
-                                                        onChange={(
-                                                            event
-                                                        ) =>
-                                                            updateAttraction(
-                                                                attraction.id,
-                                                                "description",
-                                                                event
-                                                                    .target
-                                                                    .value
-                                                            )
-                                                        }
-                                                        placeholder="Describe this attraction..."
-                                                        rows={
-                                                            3
-                                                        }
-                                                        className="min-h-[90px] resize-none"
-                                                    />
-
-                                                    {itemErrors
-                                                        ?.description
-                                                        ?.message && (
-                                                            <p className="text-xs text-red-500">
-                                                                {
-                                                                    itemErrors
-                                                                        .description
-                                                                        .message
-                                                                }
-                                                            </p>
-                                                        )}
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs">
-                                                    Image *
-                                                </Label>
-
-                                                {!attraction.image &&
-                                                    !attraction.existingImageUrl ? (
-                                                    <label className="flex h-[123px] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed bg-white text-center transition hover:bg-muted/30">
-                                                        <ImagePlus className="mb-1.5 size-6 text-muted-foreground" />
-
-                                                        <span className="text-xs font-medium">
-                                                            Upload Image
-                                                        </span>
-
-                                                        <span className="mt-0.5 text-[10px] text-muted-foreground">
-                                                            JPG, PNG, WEBP • Max 5MB
-                                                        </span>
-
-                                                        <input
-                                                            type="file"
-                                                            accept="image/jpeg,image/png,image/webp"
-                                                            className="hidden"
-                                                            onChange={(
-                                                                event
-                                                            ) =>
-                                                                updateAttractionImage(
-                                                                    attraction.id,
-                                                                    event
-                                                                )
-                                                            }
-                                                        />
-                                                    </label>
-                                                ) : (
-                                                    <div className="relative h-[123px] overflow-hidden rounded-lg border bg-muted">
-                                                        {attraction.imagePreview ? (
-                                                            <>
-                                                                <img
-                                                                    src={
-                                                                        attraction.imagePreview
-                                                                    }
-                                                                    alt={
-                                                                        attraction.name ||
-                                                                        "Attraction preview"
-                                                                    }
-                                                                    className="h-full w-full object-cover"
-                                                                />
-
-                                                                <div className="absolute left-1.5 top-1.5 rounded bg-primary px-1.5 py-0.5 text-[9px] text-white">
-                                                                    New
-                                                                </div>
-                                                            </>
-                                                        ) : attraction.existingImageUrl ? (
-                                                            <>
-                                                                <img
-                                                                    src={
-                                                                        attraction.existingImageUrl
-                                                                    }
-                                                                    alt={
-                                                                        attraction.name ||
-                                                                        "Attraction"
-                                                                    }
-                                                                    className="h-full w-full object-cover"
-                                                                />
-
-                                                                <div className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[9px] text-white">
-                                                                    Existing
-                                                                </div>
-                                                            </>
-                                                        ) : null}
-
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                removeAttractionImage(
-                                                                    attraction.id
-                                                                )
-                                                            }
-                                                            className="absolute right-1.5 top-1.5 rounded-full bg-black/70 p-1.5 text-white transition hover:bg-red-500"
-                                                        >
-                                                            <X className="size-3.5" />
-                                                        </button>
-                                                    </div>
-                                                )}
-
-                                                {(attraction.image ||
-                                                    attraction.existingImageUrl) && (
-                                                        <label className="block cursor-pointer text-center text-[10px] text-primary hover:underline">
-                                                            Replace Image
-
-                                                            <input
-                                                                type="file"
-                                                                accept="image/jpeg,image/png,image/webp"
-                                                                className="hidden"
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    updateAttractionImage(
-                                                                        attraction.id,
-                                                                        event
-                                                                    )
-                                                                }
-                                                            />
-                                                        </label>
-                                                    )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            }
-                        )}
+                                            />
+                                        </label>
+                                    )}
+                            </div>
+                        </div>
                     </div>
-                )}
-            </section>
+                );
+            })}
+        </div>
+    )}
+</section>
 
             <section className="rounded-xl border bg-white p-5 shadow-sm sm:p-6">
                 <div className="mb-6">
