@@ -20,7 +20,7 @@ import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
 import WhyVisit from "@/components/WhyVisit";
 import ThingsToDo from "@/components/ThingsToDo";
-
+import { useEffect } from "react";
 import {
   ArrowRight,
   ChevronLeft,
@@ -39,15 +39,62 @@ export default function DestinationPage() {
   const [activeImage, setActiveImage] = useState<number | null>(null);
   const router = useRouter();
   const pathname = usePathname();
-
-
+  const [destinations, setDestination] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
   const routeDestination = pathname
     .split("/")
     .filter(Boolean)
     .pop();
+console.log(routeDestination)
+  useEffect(() => {
+    const fetchDestination = async () => {
+      try {
+        const response = await fetch(
+        `/api/destinations/${routeDestination}`,           
+          {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+          cache: "no-store",
+        }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch destination data: ${response.status}`
+          );
+        }
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(
+            result.message ||
+            "Failed to fetch featured destinations"
+          );
+        }
+
+        setDestination(result.data ?? []);
+            } catch (error) {
+        console.error(
+          "Featured destinations fetch error:",
+          error
+        );
+
+        setDestination([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDestination();
+  }, []);
 
 
 
+
+console.log(destinations,"abhinav----------")
   const destinationData = featuredDestination.find(
     (item) =>
       item.destination.name
@@ -70,8 +117,7 @@ export default function DestinationPage() {
     .toLowerCase()
     .replace(/\s+/g, "-")
 
-  console.log(destinationData)
-
+ 
   const destination = destinationData.destination;
 
   const packages = destinationData.packages ?? [];
@@ -123,13 +169,21 @@ export default function DestinationPage() {
     );
   };
   console.log(attractions)
+  console.log(destinations?.activities)
+
   return (
     <main className="w-screen bg-white">
 
 
-      <DestinationHero
-        destination={destination}
-      />
+<DestinationHero
+  imageUrl={destinations?.heroImage?.url ?? ""}
+  destination={destinations?.name ?? ""}
+  subtitle={destinations?.subtitle ?? ""}
+  description={destinations?.description ?? ""}
+  idealTrip={destinations?.idealTrip ?? ""}
+  budget={destinations?.budget ?? ""}
+  location={destinations?.location ?? ""}
+/>
 
       <SearachBar bottomPosition="2" />
 
@@ -158,23 +212,23 @@ export default function DestinationPage() {
                 ACTIVITIES
             ================================================== */}
 
-            {activities.length > 0 && (
+            {destinations?.activities?.length > 0 && (
               <div className="mt-6 grid w-full grid-cols-2 gap-x-6 gap-y-5">
 
-                {activities.map((activity) => {
-                  const Icon = activity.icon;
+                {destinations?.activities.map((activity:any) => {
+                  // const Icon = activity.icon;
 
                   return (
                     <div
                       key={activity.text}
                       className="flex w-fit items-center gap-2.5"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      {/* <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                         <Icon className="h-4 w-4" />
-                      </span>
+                      </span> */}
 
                       <span className="text-sm font-semibold text-gray-700 md:text-lg">
-                        {activity.text}
+                        {activity}
                       </span>
                     </div>
                   );

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
     ArrowRight,
     ChevronLeft,
@@ -12,98 +12,333 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Oswald } from "next/font/google";
-const SLIDE_DURATION = 3000;
 
+const SLIDE_DURATION = 3000;
 
 const oswald = Oswald({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
 });
 
+/* ============================================================
+   API TYPES
+============================================================ */
 
+interface ApiDestination {
+    id: string;
+    name: string;
+    subtitle: string;
+    description: string
+    heroImage:
+    | {
+        url: string;
+        publicId: string | null;
+    }
+    | string;
+    budget: string;
+}
 
-const destinations = [
+interface ApiResponse {
+    success: boolean;
+    destinations: ApiDestination[];
+}
 
-    {
-        id: 2,
-        name: "Meghalaya",
-        image: "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+/* ============================================================
+   HERO DESTINATION TYPE
+============================================================ */
 
-        background: "https://images.unsplash.com/photo-1707219004247-0657a598a23d?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        redirect: "/destinations/meghalaya",
-        description:
-            "Explore misty hills, lush forests, dramatic waterfalls and peaceful villages in the enchanting landscapes of Northeast India.",
-    },
-    {
-        id: 1,
-        name: "Rajasthan",
-        image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
+interface HeroDestination {
+    id: string;
+    name: string;
+    subtitle:string
+    image: string;
+    background: string;
+    redirect: string;
+    description: string;
+}
 
-        background: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
-        redirect: "/destinations/rajasthan",
-        description:
-            "Experience royal palaces, magnificent forts, golden deserts and vibrant culture in India's land of kings.",
-    },
-    {
-        id: 3,
-        name: "Uttarakhand",
-        redirect: "/destinations/uttarakhand",
-        image: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        background: "https://images.unsplash.com/photo-1604027179698-5fc67dfe55b8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        description:
-            "Discover majestic Himalayan landscapes, peaceful hill towns, sacred temples, thrilling adventures and serene valleys in the beautiful land of Uttarakhand.",
-    },
-    {
-        id: 4,
-        name: "Goa",
-        image: "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        redirect: "/package/goa",
-        background: "https://images.unsplash.com/photo-1642516864335-2ca9d8b3a511?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+const getShortDescription = (text: string) => {
+    const words = text.trim().split(/\s+/);
 
-        description:
-            "Relax along golden beaches, explore vibrant coastal culture and enjoy unforgettable sunsets, nightlife and adventures.",
-    },
+    if (words.length <= 20) {
+        return text;
+    }
 
-];
-
-
+    return `${words.slice(0, 20).join(" ")}...`;
+};
+/* ============================================================
+   COMPONENT
+============================================================ */
 
 export default function HeroSection() {
+    const [destinations, setDestinations] = useState<
+        HeroDestination[]
+    >([]);
+
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const activeDestination = destinations[activeIndex];
+    const [loading, setLoading] = useState(true);
 
+    const [error, setError] = useState<string | null>(null);
 
+    /* ============================================================
+       FETCH FEATURED DESTINATIONS
+    ============================================================ */
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        const fetchDestinations = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                const response = await fetch(
+                    "/api/featured-destinations",
+                    {
+                        method: "GET",
+                        headers: {
+                            Accept: "application/json",
+                        },
+                        cache: "force-cache",
+                        signal: controller.signal,
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to fetch destinations: ${response.status}`
+                    );
+                }
+
+                const data: ApiResponse = await response.json();
+
+                if (
+                    !data.success ||
+                    !Array.isArray(data.destinations)
+                ) {
+                    throw new Error(
+                        "Invalid destinations API response"
+                    );
+                }
+
+                const formattedDestinations: HeroDestination[] =
+                    data.destinations
+                        .filter(
+                            (destination) =>
+                                destination?.id &&
+                                destination?.name &&
+                                destination?.heroImage
+                        )
+                        .map((destination) => {
+                            /* ----------------------------------------
+                               Get image URL
+                            ---------------------------------------- */
+
+                            const image =
+                                typeof destination.heroImage ===
+                                    "string"
+                                    ? destination.heroImage
+                                    : destination.heroImage.url;
+
+                            /* ----------------------------------------
+                               Generate destination slug
+                            ---------------------------------------- */
+
+                            const slug = destination.name
+                                .trim()
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]+/g, "-")
+                                .replace(/^-+|-+$/g, "");
+
+                            return {
+                                id: destination.id,
+                                name: destination.name,
+                                image,
+                                subtitle:destination.subtitle,
+                                background: image,
+                                redirect: `/destinations/${slug}`,
+                                description:destination.description
+                            };
+                        });
+
+                setDestinations(formattedDestinations);
+
+                setActiveIndex(0);
+            } catch (err) {
+                if (
+                    err instanceof DOMException &&
+                    err.name === "AbortError"
+                ) {
+                    return;
+                }
+
+                console.error(
+                    "Failed to load featured destinations:",
+                    err
+                );
+
+                setError(
+                    err instanceof Error
+                        ? err.message
+                        : "Unable to load destinations"
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDestinations();
+
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
+    /* ============================================================
+       ACTIVE DESTINATION
+    ============================================================ */
+
+    const activeDestination =
+        destinations[activeIndex];
+
+    /* ============================================================
+       NEXT SLIDE
+    ============================================================ */
 
     const nextSlide = () => {
+        if (destinations.length === 0) {
+            return;
+        }
+
         setActiveIndex(
             (current) =>
                 (current + 1) % destinations.length
         );
     };
 
-
+    /* ============================================================
+       PREVIOUS SLIDE
+    ============================================================ */
 
     const previousSlide = () => {
+        if (destinations.length === 0) {
+            return;
+        }
+
         setActiveIndex(
             (current) =>
-                (current - 1 + destinations.length) %
+                (current -
+                    1 +
+                    destinations.length) %
                 destinations.length
         );
     };
 
+    /* ============================================================
+       AUTO SLIDER
+    ============================================================ */
 
     useEffect(() => {
+        if (destinations.length <= 1) {
+            return;
+        }
+
         const interval = setInterval(() => {
             setActiveIndex(
                 (current) =>
-                    (current + 1) % destinations.length
+                    (current + 1) %
+                    destinations.length
             );
         }, SLIDE_DURATION);
 
-        return () => clearInterval(interval);
-    }, []);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [destinations.length]);
 
+    /* ============================================================
+       LOADING STATE
+    ============================================================ */
+
+    if (loading) {
+        return (
+            <section
+                className="
+                    relative
+                    flex
+                    min-h-[40vh]
+                    w-full
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    bg-black
+                    lg:min-h-[650px]
+                "
+            >
+                <div className="text-center text-white">
+                    <div
+                        className="
+                            mx-auto
+                            mb-4
+                            h-8
+                            w-8
+                            animate-spin
+                            rounded-full
+                            border-2
+                            border-white/30
+                            border-t-white
+                        "
+                    />
+
+                    <p className="text-sm text-white/70">
+                        Loading destinations...
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
+    /* ============================================================
+       ERROR / EMPTY STATE
+    ============================================================ */
+
+    if (
+        error ||
+        destinations.length === 0 ||
+        !activeDestination
+    ) {
+        return (
+            <section
+                className="
+                    relative
+                    flex
+                    min-h-[40vh]
+                    w-full
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    bg-black
+                    lg:min-h-[650px]
+                "
+            >
+                <div className="text-center text-white">
+                    <h2 className="text-xl font-semibold">
+                        Unable to load destinations
+                    </h2>
+
+                    <p className="mt-2 text-sm text-white/60">
+                        Please try again later.
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
+    /* ============================================================
+       UI
+    ============================================================ */
+console.log(activeDestination,"dsfsfp")
     return (
         <section
             className="
@@ -113,7 +348,6 @@ export default function HeroSection() {
                 overflow-hidden
                 bg-black
 
-
                 sm:min-h-[40vh]
 
                 lg:h-[calc(100vh-72px)]
@@ -121,69 +355,79 @@ export default function HeroSection() {
                 lg:max-h-[900px]
             "
         >
-
+            {/* =====================================================
+                BACKGROUND SLIDES
+            ===================================================== */}
 
             <div className="absolute inset-0 bg-black">
-                {destinations.map((destination, index) => (
-                    <motion.div
-                        key={destination.id}
-                        initial={false}
-                        animate={{
-                            opacity:
-                                activeIndex === index
-                                    ? 1
-                                    : 0,
+                {destinations.map(
+                    (destination, index) => (
+                        <motion.div
+                            key={destination.id}
+                            initial={false}
+                            animate={{
+                                opacity:
+                                    activeIndex ===
+                                        index
+                                        ? 1
+                                        : 0,
 
-                            scale:
-                                activeIndex === index
-                                    ? 1
-                                    : 1.04,
-                        }}
-                        transition={{
-                            opacity: {
-                                duration: 0.5,
-                                ease: "easeInOut",
-                            },
-                            scale: {
-                                duration: 0.7,
-                                ease: "easeOut",
-                            },
-                        }}
-                        className="
-                            absolute
-                            inset-0
-                        "
-                    >
-                        <Image
-                            src={destination.background}
-                            alt=""
-                            fill
-                            unoptimized
-                            priority={index === 0}
-                            sizes="100vw"
-                            className="object-cover"
-                        />
+                                scale:
+                                    activeIndex ===
+                                        index
+                                        ? 1
+                                        : 1.04,
+                            }}
+                            transition={{
+                                opacity: {
+                                    duration: 0.5,
+                                    ease: "easeInOut",
+                                },
 
-
-
-
-                        <div
+                                scale: {
+                                    duration: 0.7,
+                                    ease: "easeOut",
+                                },
+                            }}
                             className="
                                 absolute
-                                inset-x-0
-                                bottom-0
-                                h-[55%]
-                                bg-linear-to-t
-                                from-black/45
-                                via-black/10
-                                to-transparent
+                                inset-0
                             "
-                        />
-                    </motion.div>
-                ))}
+                        >
+                            <Image
+                                src={
+                                    destination.background
+                                }
+                                alt={`${destination.name} destination`}
+                                fill
+                                unoptimized
+                                priority={
+                                    index === 0
+                                }
+                                sizes="100vw"
+                                className="object-cover"
+                            />
+
+                            <div
+                                className="
+                                    absolute
+                                    inset-x-0
+                                    bottom-0
+                                    h-[55%]
+                                    bg-linear-to-t
+                                    from-black/45
+                                    via-black/10
+                                    to-transparent
+                                "
+                            />
+                        </motion.div>
+                    )
+                )}
             </div>
 
-
+            {/* =====================================================
+                MAIN CONTENT
+            ===================================================== */}
 
             <div
                 className="
@@ -209,43 +453,45 @@ export default function HeroSection() {
                     lg:pt-0
                 "
             >
+                {/* =================================================
+                    LEFT CONTENT
+                ================================================= */}
 
-                <div 
+                <div
                     className="
-                    h-full
-                    flex
-                    flex-1
-                    flex-col
-                    items-start
-                    justify-center
-                     lg:w-[54%]
-                    relative
-                    mb:0
-                    md:bottom-8
-                    lg:top-8
-                    bottom-10
-                    gap-4
-                "
+                        relative
+                        bottom-10
+                        flex
+                        h-full
+                        flex-1
+                        flex-col
+                        items-start
+                        justify-center
+                        gap-4
+                        lg:top-8
+                        lg:w-[54%]
+                        md:bottom-8
+                    "
                 >
+                    {/* TOP TEXT */}
 
-
+                    {/* TOP TEXT */}
                     <p
                         className="
-                                 text-[13px]
-                                font-normal
-                                w-fit
-                                tracking-[-0.2px]
-                                text-white
-                           
-                                sm:text-[15px]
-                            "
+                            w-fit
+                            max-w-[600px]
+                            text-[13px]
+                            font-bold
+                            tracking-[-0.2px]
+                            text-primary
+                            sm:text-[15px]
+                        "
                     >
-                        EXPLORE. EXPERIENCE.
-                        <span className="text-[#2FC2B0]">
-                            {" "}
-                            REMEMBER
-                        </span>
+                        {activeDestination.subtitle}
                     </p>
+
+                    {/* TITLE */}
+
                     <h1
                         className={`
                             ${oswald.className}
@@ -255,16 +501,19 @@ export default function HeroSection() {
                             uppercase
                             leading-[1.1]
                             tracking-[0.5px]
-                            text-white      
+                            text-white
                             sm:text-[38px]
                             md:text-[50px]
                             lg:text-[60px]
                             xl:text-[70px]
                         `}
                     >
-                        Discover Your <br /> Next Holiday
-
+                        Discover Your <br />
+                        Next Holiday
                     </h1>
+
+                    {/* DESTINATION DESCRIPTION */}
+
                     <motion.div
                         key={activeDestination.id}
                         initial={{
@@ -277,305 +526,346 @@ export default function HeroSection() {
                         }}
                         transition={{
                             duration: 0.4,
-                            ease: [0.22, 1, 0.36, 1],
+                            ease: [
+                                0.22,
+                                1,
+                                0.36,
+                                1,
+                            ],
                         }}
                         className="
+                            flex
                             w-full
                             max-w-[650px]
-                            flex
                             flex-col
                             gap-2
                         "
                     >
-
-
-
                         <p
                             className="
-                           
                                 max-w-[470px]
                                 text-[15px]
                                 font-normal
                                 leading-[1.3]
-                                md:leading-[1.45]
                                 text-white
-
                                 sm:text-[17px]
-
+                                md:leading-[1.45]
                                 lg:text-[18px]
                             "
                         >
-                            {activeDestination.description}
+                            
+                            sdsd    {activeDestination.description}
+                            
                         </p>
-
-
-
                     </motion.div>
 
-                    {/* Explore Destination */}
+                    {/* PLAN TRIP */}
+
                     <Button
                         type="button"
                         onClick={() =>
-                            window.dispatchEvent(new Event("open-query-form"))
+                            window.dispatchEvent(
+                                new Event(
+                                    "open-query-form"
+                                )
+                            )
                         }
                         className="
-            h-9
-            shrink-0
-            rounded-full
-            bg-[#2FC2B0]
-            px-3
-            text-[12px]
-            font-medium
-            text-white
-            shadow-none
-            hover:bg-[#25AD9D]
-            sm:h-10
-            sm:px-4
-            sm:text-[13px]
-            md:text-[17px]
-        "
+                            h-9
+                            shrink-0
+                            rounded-full
+                            bg-[#2FC2B0]
+                            px-3
+                            text-[12px]
+                            font-medium
+                            text-white
+                            shadow-none
+                            hover:bg-[#25AD9D]
+
+                            sm:h-10
+                            sm:px-4
+                            sm:text-[13px]
+
+                            md:text-[17px]
+                        "
                     >
                         Plan your Trip
-                            <ArrowRight
+
+                        <ArrowRight
                             className="
-                ml-1
-                h-3.5
-                w-3.5
-                sm:ml-2
-                sm:h-4
-                sm:w-4
-            "
+                                ml-1
+                                h-3.5
+                                w-3.5
+
+                                sm:ml-2
+                                sm:h-4
+                                sm:w-4
+                            "
                         />
                     </Button>
-
-                    {/* View Packages */}
-                    {/* <Button
-                            variant="outline"
-                            className="
-            h-9
-            shrink-0
-            rounded-full
-            border-white
-            bg-transparent
-            px-3
-            text-[12px]
-            font-normal
-            text-white
-            shadow-none
-            backdrop-blur-sm
-            hover:bg-white
-            hover:text-black
-
-            sm:h-10
-            sm:px-4
-            sm:text-[13px]
-               md:text-[17px]
-        "
-                        >
-                            <Link href="/packages">
-                                View Packages
-                            </Link>
-                        </Button> */}
                 </div>
 
+                {/* =================================================
+                    DESTINATION CARDS
+                ================================================= */}
 
                 <div
                     className="
-                            relative
-                            mt-10
-                            h-[300px]
-                            w-full
-                            hidden
-                            lg:flex
-                            lg:absolute
-                           lg:right-[-10px]
-                            lg:top-1/2
-                            lg:mt-0
-                            lg:h-[430px]
-                            lg:w-[48%]
-                            lg:-translate-y-1/2
+                        relative
+                        mt-10
+                        hidden
+                        h-[300px]
+                        w-full
 
-                           xl:right-[-20px]
-                           xl:w-[47%]
-                        "
+                        lg:absolute
+                        lg:right-[-10px]
+                        lg:top-1/2
+                        lg:mt-0
+                        lg:flex
+                        lg:h-[430px]
+                        lg:w-[48%]
+                        lg:-translate-y-1/2
+
+                        xl:right-[-20px]
+                        xl:w-[47%]
+                    "
                 >
-
+                    {/* DOT PATTERN */}
 
                     <div
                         className="
-                                pointer-events-none
-                                absolute
-                                -left-3
-                                -top-6
-                                z-0
-                                hidden
-                                h-[185px]
-                                w-[200px]
-                                opacity-90
+                            pointer-events-none
+                            absolute
+                            -left-3
+                            -top-6
+                            z-0
+                            hidden
+                            h-[185px]
+                            w-[200px]
+                            opacity-90
+                            sm:block
 
-                                sm:block
-
-                                lg:-left-9
-                                lg:-top-0
-                            "
+                            lg:-left-9
+                            lg:-top-0
+                        "
                         style={{
                             backgroundImage:
                                 "radial-gradient(circle, white 3px, transparent 3px)",
-                            backgroundSize: "12px 12px",
+                            backgroundSize:
+                                "12px 12px",
                         }}
                     />
 
                     <div className="absolute inset-0 overflow-visible">
-                        {destinations.map((destination, index) => {
-                            const relativeIndex =
-                                (index -
-                                    activeIndex -
-                                    1 +
-                                    destinations.length) %
-                                destinations.length;
+                        {destinations.map(
+                            (
+                                destination,
+                                index
+                            ) => {
+                                const relativeIndex =
+                                    (index -
+                                        activeIndex -
+                                        1 +
+                                        destinations.length) %
+                                    destinations.length;
 
-                            // Hide cards outside the 4 visible slots
-                            if (relativeIndex > 3) {
-                                return null;
-                            }
+                                /*
+                                 * Hide cards outside
+                                 * the 4 visible slots.
+                                 */
 
-                            const cardPositions = [
-                                // ACTIVE
-                                {
-                                    left: "0%",
-                                    top: "35px",
-                                    width: "235px",
-                                    height: "320px",
-                                    zIndex: 40,
-                                },
-                                // SMALL 1
-                                {
-                                    left: "249px",
-                                    top: "60px",
-                                    width: "187px",
-                                    height: "280px",
-                                    zIndex: 30,
-                                },
-                                // SMALL 2
-                                {
-                                    left: "450px",
-                                    top: "60px",
-                                    width: "187px",
-                                    height: "280px",
-                                    zIndex: 20,
-                                },
-                                // SMALL 3
-                                {
-                                    left: "650px",
-                                    top: "60px",
-                                    width: "187px",
-                                    height: "280px",
-                                    zIndex: 10,
-                                },
-                            ];
+                                if (
+                                    relativeIndex >
+                                    3
+                                ) {
+                                    return null;
+                                }
 
-                            const position = cardPositions[relativeIndex];
-                            const isActive = relativeIndex === 0;
+                                const cardPositions =
+                                    [
+                                        /* ACTIVE */
+                                        {
+                                            left: "0%",
+                                            top: "35px",
+                                            width: "235px",
+                                            height: "320px",
+                                            zIndex: 40,
+                                        },
 
-                            return (
-                                <motion.div
-                                    key={destination.id}
-                                    initial={
-                                        relativeIndex === 0
-                                            ? {
-                                                opacity: 0,
-                                                x: 80,
-                                            }
-                                            : false
-                                    }
-                                    animate={{
-                                        left: position.left,
-                                        top: position.top,
-                                        width: position.width,
-                                        height: position.height,
-                                        opacity: 1,
-                                        x: 0,
-                                    }}
-                                    transition={{
-                                        duration: relativeIndex === 0 ? 0.7 : relativeIndex === 3 ? 0 : 0.7,
-                                        ease: [0.22, 1, 0.36, 1],
-                                    }}
-                                    className="
-                    absolute
-                    overflow-hidden
-                     
-                    rounded-[22px]
-                    border
-                    border-white/15
-                    shadow-[0_10px_35px_rgba(0,0,0,0.22)]
-                "
-                                    style={{
-                                        zIndex: position.zIndex,
-                                    }}
-                                >
-                                    {/* IMAGE */}
-                                    <Link href={destination.redirect}>
-                                        <Image
-                                            src={destination.image}
-                                            alt={destination.name}
-                                            fill
-                                            unoptimized
-                                            priority={isActive}
-                                            sizes="235px"
-                                            className="
-                                            object-cover
-                                            transition-transform
-                                            duration-700
-                                            hover:scale-105
-                                        "
-                                        />
-                                    </Link>
-                                    {/* DESTINATION NAME */}
-                                    <div
+                                        /* SMALL 1 */
+                                        {
+                                            left: "249px",
+                                            top: "60px",
+                                            width: "187px",
+                                            height: "280px",
+                                            zIndex: 30,
+                                        },
+
+                                        /* SMALL 2 */
+                                        {
+                                            left: "450px",
+                                            top: "60px",
+                                            width: "187px",
+                                            height: "280px",
+                                            zIndex: 20,
+                                        },
+
+                                        /* SMALL 3 */
+                                        {
+                                            left: "650px",
+                                            top: "60px",
+                                            width: "187px",
+                                            height: "280px",
+                                            zIndex: 10,
+                                        },
+                                    ];
+
+                                const position =
+                                    cardPositions[
+                                    relativeIndex
+                                    ];
+
+                                const isActive =
+                                    relativeIndex ===
+                                    0;
+
+                                return (
+                                    <motion.div
+                                        key={
+                                            destination.id
+                                        }
+                                        initial={
+                                            relativeIndex ===
+                                                0
+                                                ? {
+                                                    opacity: 0,
+                                                    x: 80,
+                                                }
+                                                : false
+                                        }
+                                        animate={{
+                                            left: position.left,
+                                            top: position.top,
+                                            width: position.width,
+                                            height: position.height,
+                                            opacity: 1,
+                                            x: 0,
+                                        }}
+                                        transition={{
+                                            duration:
+                                                relativeIndex ===
+                                                    0
+                                                    ? 0.7
+                                                    : relativeIndex ===
+                                                        3
+                                                        ? 0
+                                                        : 0.7,
+
+                                            ease: [
+                                                0.22,
+                                                1,
+                                                0.36,
+                                                1,
+                                            ],
+                                        }}
                                         className="
-                        absolute
-                        bottom-5
-                        left-4
-                        right-3
-                    "
+                                            absolute
+                                            overflow-hidden
+                                            rounded-[22px]
+                                            border
+                                            border-white/15
+                                            shadow-[0_10px_35px_rgba(0,0,0,0.22)]
+                                        "
+                                        style={{
+                                            zIndex:
+                                                position.zIndex,
+                                        }}
                                     >
-                                        <h2
-                                            className={`
-                            ${oswald.className}
-                            font-semibold
-                            uppercase
-                            leading-none
-                            tracking-[0.5px]
-                            text-white
-                            ${isActive ? "text-[32px]" : "text-[22px]"}
-                        `}
+                                        {/* IMAGE */}
+
+                                        <Link
+                                            href={
+                                                destination.redirect
+                                            }
                                         >
-                                            {destination.name}
-                                        </h2>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                                            <Image
+                                                src={
+                                                    destination.image
+                                                }
+                                                alt={
+                                                    destination.name
+                                                }
+                                                fill
+                                                unoptimized
+                                                priority={
+                                                    isActive
+                                                }
+                                                sizes="235px"
+                                                className="
+                                                    object-cover
+                                                    transition-transform
+                                                    duration-700
+                                                    hover:scale-105
+                                                "
+                                            />
+                                        </Link>
+
+                                        {/* DESTINATION NAME */}
+
+                                        <div
+                                            className="
+                                                absolute
+                                                bottom-5
+                                                left-4
+                                                right-3
+                                            "
+                                        >
+                                            <h2
+                                                className={`
+                                                    ${oswald.className}
+                                                    font-semibold
+                                                    uppercase
+                                                    leading-none
+                                                    tracking-[0.5px]
+                                                    text-white
+                                                    ${isActive
+                                                        ? "text-[32px]"
+                                                        : "text-[22px]"
+                                                    }
+                                                `}
+                                            >
+                                                {
+                                                    destination.name
+                                                }
+                                            </h2>
+                                        </div>
+                                    </motion.div>
+                                );
+                            }
+                        )}
                     </div>
                 </div>
 
+                {/* =================================================
+                    CONTROLS
+                ================================================= */}
 
                 <div
                     className="
                         relative
                         z-50
-                           hidden
-                            lg:flex
+                        bottom-20
+                        hidden
                         items-center
                         justify-end
                         gap-3
-                        bottom-20
-                        lg:mt-0
+                        lg:flex
                         lg:ml-[55%]
+                        lg:mt-0
                         lg:justify-start
                     "
                 >
-
+                    {/* PREVIOUS */}
 
                     <Button
                         type="button"
@@ -592,10 +882,10 @@ export default function HeroSection() {
                             text-white
                             shadow-none
                             backdrop-blur-sm
-
+                            hover:border-primary
                             hover:bg-primary
                             hover:text-white
-                            hover:border-primary
+
                             sm:h-10
                             sm:w-10
                         "
@@ -603,17 +893,15 @@ export default function HeroSection() {
                         <ChevronLeft className="h-5 w-5" />
                     </Button>
 
-
+                    {/* NEXT */}
 
                     <Button
                         type="button"
-
                         variant="outline"
                         size="icon"
                         onClick={nextSlide}
                         aria-label="Next destination"
                         className="
-                            
                             h-9
                             w-9
                             rounded-full
@@ -622,9 +910,9 @@ export default function HeroSection() {
                             text-white
                             shadow-none
                             backdrop-blur-sm
+                            hover:border-primary
                             hover:bg-primary
                             hover:text-white
-                            hover:border-primary
 
                             sm:h-10
                             sm:w-10
@@ -633,6 +921,7 @@ export default function HeroSection() {
                         <ChevronRight className="h-5 w-5" />
                     </Button>
 
+                    {/* PROGRESS BAR */}
 
                     <div
                         className="
@@ -643,11 +932,8 @@ export default function HeroSection() {
                             bg-white/50
 
                             sm:block
-
                             md:w-[320px]
-
                             lg:w-[400px]
-
                             xl:w-[500px]
                         "
                     >
@@ -660,7 +946,9 @@ export default function HeroSection() {
                                 width: "100%",
                             }}
                             transition={{
-                                duration: SLIDE_DURATION / 1000,
+                                duration:
+                                    SLIDE_DURATION /
+                                    1000,
                                 ease: "linear",
                             }}
                             className="
@@ -670,9 +958,7 @@ export default function HeroSection() {
                         />
                     </div>
 
-                    {/* ==============================================
-                        SLIDE NUMBER
-                    ============================================== */}
+                    {/* SLIDE NUMBER */}
 
                     <motion.span
                         key={`number-${activeIndex}`}
@@ -686,13 +972,11 @@ export default function HeroSection() {
                         }}
                         className={`
                             ${oswald.className}
-
                             ml-1
                             text-[28px]
                             font-medium
                             leading-none
                             text-white
-
                             sm:text-[34px]
                         `}
                     >

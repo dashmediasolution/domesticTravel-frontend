@@ -1,7 +1,16 @@
- "use client";
- import React from "react";
+"use client";
+
+import React from "react";
 import Link from "next/link";
-import { Menu, Search, Phone, X, ChevronDown, MessageSquare } from "lucide-react";
+import {
+    Menu,
+    Search,
+    Phone,
+    X,
+    ChevronDown,
+    MessageSquare,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,7 +19,6 @@ import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -18,14 +26,33 @@ import {
 import { TbPlaneInflight } from "react-icons/tb";
 import { IoBusOutline } from "react-icons/io5";
 import { FiMapPin } from "react-icons/fi";
-import { FaRegBuilding, FaUmbrellaBeach } from "react-icons/fa";
+
+import {
+    FaRegBuilding,
+    FaUmbrellaBeach,
+    FaMountain,
+    FaHiking,
+    FaCampground,
+    FaLeaf,
+    FaWater,
+    FaMosque,
+    FaChurch,
+} from "react-icons/fa";
+
+import { GiDesert, GiTempleDoor } from "react-icons/gi";
 
 export default function Navbar() {
+    const [categories, setCategories] = useState<string[]>([]);
     const pathname = usePathname();
+
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const [destinationsOpen, setDestinationsOpen] = useState(false);
+
+    // =========================
+    // SCROLL HANDLER
+    // =========================
 
     useEffect(() => {
         const handleScroll = () => {
@@ -39,6 +66,10 @@ export default function Navbar() {
         };
     }, []);
 
+    // =========================
+    // MOBILE BODY SCROLL
+    // =========================
+
     useEffect(() => {
         if (mobileMenuOpen) {
             document.body.style.overflow = "hidden";
@@ -51,61 +82,104 @@ export default function Navbar() {
         };
     }, [mobileMenuOpen]);
 
+    // =========================
+    // QUERY FORM
+    // =========================
+
     const openQueryForm = () => {
         setMobileMenuOpen(false);
         window.dispatchEvent(new Event("open-query-form"));
     };
 
-    const categories = [
-        {
-            name: "Beaches",
-            href: "/category/beaches",
-            icon: "🏖️",
-            description: "Relax by the sea",
-        },
-        {
-            name: "Mountains",
-            href: "/category/mountains",
-            icon: "⛰️",
-            description: "Explore the mountains",
-        },
-        {
-            name: "Desert",
-            href: "/category/desert",
-            icon: "🏜️",
-            description: "Discover desert adventures",
-        },
-        {
-            name: "Lakes",
-            href: "/category/lakes",
-            icon: "🏞️",
-            description: "Peaceful lakeside escapes",
-        },
-        {
-            name: "Adventure",
-            href: "/category/adventure",
-            icon: "🧗",
-            description: "Thrilling experiences",
-        },
-        {
-            name: "Camping",
-            href: "/category/camping",
-            icon: "🏕️",
-            description: "Stay close to nature",
-        },
-        {
-            name: "Spiritual",
-            href: "/category/spiritual",
-            icon: "🛕",
-            description: "Spiritual journeys",
-        },
-        {
-            name: "Nature",
-            href: "/category/nature",
-            icon: "🌿",
-            description: "Reconnect with nature",
-        },
-    ];
+    // =========================
+    // FETCH CATEGORIES
+    // =========================
+
+    const fetchCategories = async () => {
+        try {
+            const category = await fetch("/api/categories", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                },
+                cache: "no-store",
+            });
+
+            const response = await category.json();
+
+            console.log(response, "Response");
+
+            if (!response.success) {
+                throw new Error(
+                    response.message || "Failed to fetch Category"
+                );
+            }
+
+            setCategories(response?.data || []);
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+            setCategories([]);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    // =========================
+    // CATEGORY ICON
+    // =========================
+
+    const getCategoryIcon = (category: string) => {
+        const name = category.toLowerCase();
+
+        if (name.includes("beach")) {
+            return <FaUmbrellaBeach className="h-5 w-5" />;
+        }
+
+        if (name.includes("mountain")) {
+            return <FaMountain className="h-5 w-5" />;
+        }
+
+        if (name.includes("desert")) {
+            return <GiDesert className="h-5 w-5" />;
+        }
+
+        if (name.includes("lake")) {
+            return <FaWater className="h-5 w-5" />;
+        }
+
+        if (name.includes("adventure")) {
+            return <FaHiking className="h-5 w-5" />;
+        }
+
+        if (name.includes("camp")) {
+            return <FaCampground className="h-5 w-5" />;
+        }
+
+        if (name.includes("spiritual")) {
+            return <GiTempleDoor className="h-5 w-5" />;
+        }
+
+        if (name.includes("nature")) {
+            return <FaLeaf className="h-5 w-5" />;
+        }
+
+        if (name.includes("religious")) {
+            return <FaMosque className="h-5 w-5" />;
+        }
+
+        if (name.includes("church")) {
+            return <FaChurch className="h-5 w-5" />;
+        }
+
+        // Default icon
+        return <FiMapPin className="h-5 w-5" />;
+    };
+
+    // =========================
+    // DESTINATIONS
+    // =========================
 
     const destinations = [
         {
@@ -156,10 +230,11 @@ export default function Navbar() {
             icon: "🏖️",
             description: "Beaches & nightlife",
         },
-      
     ];
-    
-    
+
+    // =========================
+    // NAV ITEMS
+    // =========================
 
     const navItems = [
         {
@@ -212,7 +287,8 @@ export default function Navbar() {
                         lg:px-8
                     "
                 >
-                    {/* Logo */}
+                    {/* ================= LOGO ================= */}
+
                     <Link
                         href="/"
                         className="
@@ -228,90 +304,99 @@ export default function Navbar() {
                     </Link>
 
                     {/* ================= DESKTOP NAV ================= */}
+
                     <NavigationMenu className="hidden md:flex">
                         <NavigationMenuList className="gap-1">
 
-                            {/* Flights */}
-                            <NavigationMenuItem>
-                                     <Link
-                                        href="/flights"
-                                        className={`
-                                            flex
-                                            items-center
-                                            gap-2
-                                            
-                                            px-3
-                                            py-1.5
-                                             text-[15px]
-                                            font-medium
-                                            transition-colors
-                                            hover:bg-white/10
-                                            hover:text-primary
-                                            ${pathname === "/flights"
-                                                ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"}
-                                        `}
-                                    >
-                                        <TbPlaneInflight className="h-5 w-5" />
-                                        Flights
-                                    </Link>
-                             </NavigationMenuItem>
+                            {/* ================= FLIGHTS ================= */}
 
-                            {/* Hotels */}
                             <NavigationMenuItem>
-                                     <Link
-                                        href="/hotels"
-                                        className={`
-                                            flex
-                                            items-center
-                                            gap-2
-
-                                            px-3
-                                            py-1.5
-                                             text-[15px]
-                                            font-medium
-                                            transition-colors
-                                            hover:bg-white/10
-                                            hover:text-primary
-                                            ${pathname === "/hotels"
+                                <Link
+                                    href="/flights"
+                                    className={`
+                                        flex
+                                        items-center
+                                        gap-2
+                                        px-3
+                                        py-1.5
+                                        text-[15px]
+                                        font-medium
+                                        transition-colors
+                                        hover:bg-white/10
+                                        hover:text-primary
+                                        ${
+                                            pathname === "/flights"
                                                 ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"}
-                                        `}
-                                    >
-                                        <FaRegBuilding className="h-5 w-5" />
-                                        Hotels
-                                    </Link>
-                             </NavigationMenuItem>
+                                                : "border-b-2 border-b-transparent"
+                                        }
+                                    `}
+                                >
+                                    <TbPlaneInflight className="h-5 w-5" />
+                                    Flights
+                                </Link>
+                            </NavigationMenuItem>
 
-                            {/* Bus */}
+                            {/* ================= HOTELS ================= */}
+
                             <NavigationMenuItem>
-                                     <Link
-                                        href="/bus"
-                                        className={`
-                                            flex
-                                            items-center
-                                            gap-2
-                                            px-3
-                                            py-1.5
-                                             text-[15px]
-                                            font-medium
-                                            transition-colors
-                                            hover:bg-white/10
-                                            hover:text-primary
-                                            ${pathname === "/bus"
+                                <Link
+                                    href="/hotels"
+                                    className={`
+                                        flex
+                                        items-center
+                                        gap-2
+                                        px-3
+                                        py-1.5
+                                        text-[15px]
+                                        font-medium
+                                        transition-colors
+                                        hover:bg-white/10
+                                        hover:text-primary
+                                        ${
+                                            pathname === "/hotels"
                                                 ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"}
-                                        `}
-                                    >
-                                        <IoBusOutline className="h-5 w-5" />
-                                        Bus
-                                    </Link>
-                             </NavigationMenuItem>
+                                                : "border-b-2 border-b-transparent"
+                                        }
+                                    `}
+                                >
+                                    <FaRegBuilding className="h-5 w-5" />
+                                    Hotels
+                                </Link>
+                            </NavigationMenuItem>
+
+                            {/* ================= BUS ================= */}
+
+                            <NavigationMenuItem>
+                                <Link
+                                    href="/bus"
+                                    className={`
+                                        flex
+                                        items-center
+                                        gap-2
+                                        px-3
+                                        py-1.5
+                                        text-[15px]
+                                        font-medium
+                                        transition-colors
+                                        hover:bg-white/10
+                                        hover:text-primary
+                                        ${
+                                            pathname === "/bus"
+                                                ? "border-b-2 border-b-primary"
+                                                : "border-b-2 border-b-transparent"
+                                        }
+                                    `}
+                                >
+                                    <IoBusOutline className="h-5 w-5" />
+                                    Bus
+                                </Link>
+                            </NavigationMenuItem>
 
                             {/* ================= CATEGORIES ================= */}
+
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger
-                                    className={`
+                                    className="
                                         bg-transparent
                                         text-[15px]
                                         font-medium
@@ -319,30 +404,38 @@ export default function Navbar() {
                                         hover:text-primary
                                         data-[state=open]:bg-white/10
                                         data-[state=open]:text-primary
-                                    `}
+                                    "
                                 >
                                     <FaUmbrellaBeach className="mr-2 h-5 w-5" />
                                     Categories
                                 </NavigationMenuTrigger>
 
                                 <NavigationMenuContent>
-                                <div className="w-[420px] p-3">
-                                <div className="mb-4">
+                                    <div className="w-[420px] p-3">
+
+                                        <div className="mb-4">
                                             <h3 className="text-sm font-semibold">
                                                 Explore by Category
                                             </h3>
 
                                             <p className="mt-1 text-xs text-muted-foreground">
-                                                Find your perfect trip based on your
-                                                travel style.
+                                                Find your perfect trip based on
+                                                your travel style.
                                             </p>
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-2">
-                                            {categories.map((category) => (
-                                               
+
+                                            {categories.map(
+                                                (category, index) => (
                                                     <Link
-                                                        href={category.href}
+                                                        key={index}
+                                                        href={`/category/${category
+                                                            .toLowerCase()
+                                                            .replace(
+                                                                /\s+/g,
+                                                                "-"
+                                                            )}`}
                                                         className="
                                                             flex
                                                             items-center
@@ -355,29 +448,47 @@ export default function Navbar() {
                                                             hover:bg-muted
                                                         "
                                                     >
-                                                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-xl">
-                                                            {category.icon}
+
+                                                        {/* CATEGORY ICON */}
+
+                                                        <span
+                                                            className="
+                                                                flex
+                                                                h-10
+                                                                w-10
+                                                                shrink-0
+                                                                items-center
+                                                                justify-center
+                                                                rounded-lg
+                                                                bg-muted
+                                                                text-primary
+                                                            "
+                                                        >
+                                                            {getCategoryIcon(
+                                                                category
+                                                            )}
                                                         </span>
+
+                                                        {/* CATEGORY NAME */}
 
                                                         <div>
                                                             <p className="text-sm font-medium">
-                                                                {category.name}
-                                                            </p>
-
-                                                            <p className="text-xs text-muted-foreground">
-                                                                {category.description}
+                                                                {category}
                                                             </p>
                                                         </div>
+
                                                     </Link>
-                                             ))}
+                                                )
+                                            )}
+
                                         </div>
 
-                                       
                                     </div>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
 
                             {/* ================= DESTINATIONS ================= */}
+
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger
                                     className="
@@ -395,61 +506,94 @@ export default function Navbar() {
                                 </NavigationMenuTrigger>
 
                                 <NavigationMenuContent>
-    <div className="w-[420px] p-3">
-        <div className="mb-3">
-            <h3 className="text-sm font-semibold">
-                Explore by Category
-            </h3>
 
-            <p className="mt-1 text-xs text-muted-foreground">
-                Find your perfect trip based on your travel style.
-            </p>
-        </div>
+                                    <div className="w-[420px] p-3">
 
-        <div className="grid grid-cols-2 gap-1.5">
-            {destinations.map((category) => (
-                
-                    <Link
-                        href={category.href}
-                        className="
-                            flex
-                            items-center
-                            gap-2.5
-                            rounded-lg
-                            p-2.5
-                            no-underline
-                            outline-none
-                            transition-colors
-                            hover:bg-muted
-                        "
-                    >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted text-lg">
-                            {category.icon}
-                        </span>
+                                        <div className="mb-3">
+                                            <h3 className="text-sm font-semibold">
+                                                Explore Destinations
+                                            </h3>
 
-                        <div>
-                            <p className="text-sm font-medium">
-                                {category.name}
-                            </p>
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                Discover popular travel
+                                                destinations.
+                                            </p>
+                                        </div>
 
-                            <p className="text-[11px] text-muted-foreground">
-                                {category.description}
-                            </p>
-                        </div>
-                    </Link>
-             ))}
-        </div>
+                                        <div className="grid grid-cols-2 gap-1.5">
 
-     
-    </div>
-</NavigationMenuContent>
+                                            {destinations.map(
+                                                (destination, index) => (
+                                                    <Link
+                                                        key={index}
+                                                        href={
+                                                            destination.href
+                                                        }
+                                                        className="
+                                                            flex
+                                                            items-center
+                                                            gap-2.5
+                                                            rounded-lg
+                                                            p-2.5
+                                                            no-underline
+                                                            outline-none
+                                                            transition-colors
+                                                            hover:bg-muted
+                                                        "
+                                                    >
 
+                                                        <span
+                                                            className="
+                                                                flex
+                                                                h-8
+                                                                w-8
+                                                                shrink-0
+                                                                items-center
+                                                                justify-center
+                                                                rounded-md
+                                                                bg-muted
+                                                                text-lg
+                                                            "
+                                                        >
+                                                            {
+                                                                destination.icon
+                                                            }
+                                                        </span>
+
+                                                        <div>
+                                                            <p className="text-sm font-medium">
+                                                                {
+                                                                    destination.name
+                                                                }
+                                                            </p>
+
+                                                            <p className="text-[11px] text-muted-foreground">
+                                                                {
+                                                                    destination.description
+                                                                }
+                                                            </p>
+                                                        </div>
+
+                                                    </Link>
+                                                )
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                </NavigationMenuContent>
                             </NavigationMenuItem>
+
                         </NavigationMenuList>
                     </NavigationMenu>
 
                     {/* ================= DESKTOP ACTIONS ================= */}
+
                     <div className="hidden items-center gap-5 md:flex">
+
+                        {/* QUERY */}
+
                         <Button
                             type="button"
                             variant="ghost"
@@ -477,6 +621,9 @@ export default function Navbar() {
                             <MessageSquare className="mr-2 h-4 w-4" />
                             Query
                         </Button>
+
+                        {/* PHONE */}
+
                         <a
                             href="tel:+919876543210"
                             className={`
@@ -507,9 +654,11 @@ export default function Navbar() {
                                 +91 98765 43210
                             </span>
                         </a>
+
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* ================= MOBILE MENU BUTTON ================= */}
+
                     <Button
                         type="button"
                         variant="ghost"
@@ -547,9 +696,11 @@ export default function Navbar() {
                             <Menu className="h-5 w-5" />
                         )}
                     </Button>
+
                 </div>
 
                 {/* ================= MOBILE NAV ================= */}
+
                 <div
                     className={`
                         overflow-hidden
@@ -566,13 +717,16 @@ export default function Navbar() {
                         }
                     `}
                 >
+
                     <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6">
+
                         <div className="flex flex-col">
 
-                            {/* Main Links */}
-                            {navItems.map((item,indx) => (
+                            {/* ================= MOBILE MAIN LINKS ================= */}
+
+                            {navItems.map((item, index) => (
                                 <Link
-                                    key={indx}
+                                    key={index}
                                     href={item.href}
                                     onClick={() =>
                                         setMobileMenuOpen(false)
@@ -590,106 +744,244 @@ export default function Navbar() {
                                         transition-colors
                                         hover:bg-black/5
                                         hover:text-primary
-                                        ${pathname === item.href
-                                            ? "border-b-2 border-b-primary"
-                                            : "border-b-2 border-b-transparent"}
+                                        ${
+                                            pathname === item.href
+                                                ? "border-b-2 border-b-primary"
+                                                : "border-b-2 border-b-transparent"
+                                        }
                                     `}
                                 >
                                     {item.icon}
+
                                     <span>{item.label}</span>
                                 </Link>
                             ))}
 
-                            {/* Categories */}
+                            {/* ================= MOBILE CATEGORIES ================= */}
+
                             <div className="mt-2 rounded-xl bg-gray-50 p-3">
+
                                 <button
                                     type="button"
                                     aria-expanded={categoriesOpen}
-                                    onClick={() => setCategoriesOpen((open) => !open)}
-                                    className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left hover:bg-white"
+                                    onClick={() =>
+                                        setCategoriesOpen(
+                                            (open) => !open
+                                        )
+                                    }
+                                    className="
+                                        flex
+                                        w-full
+                                        items-center
+                                        justify-between
+                                        rounded-lg
+                                        px-2
+                                        py-2
+                                        text-left
+                                        hover:bg-white
+                                    "
                                 >
+
                                     <span className="flex items-center gap-2">
-                                    <FaUmbrellaBeach className="h-5 w-5" />
-                                    <span className="font-medium">
-                                        Categories
+
+                                        <FaUmbrellaBeach className="h-5 w-5" />
+
+                                        <span className="font-medium">
+                                            Categories
+                                        </span>
+
                                     </span>
-                                    </span>
+
                                     <ChevronDown
-                                        className={`h-5 w-5 transition-transform ${categoriesOpen ? "rotate-180" : ""}`}
+                                        className={`
+                                            h-5
+                                            w-5
+                                            transition-transform
+                                            ${
+                                                categoriesOpen
+                                                    ? "rotate-180"
+                                                    : ""
+                                            }
+                                        `}
                                     />
+
                                 </button>
 
-                                {categoriesOpen && <div className="mt-2 grid grid-cols-2 gap-1">
-                                    {categories.map((category,index) => (
-                                        <Link
-                                            key={index}
-                                            href={category.href}
-                                            onClick={() =>
-                                                setMobileMenuOpen(false)
-                                            }
-                                            className="
-                                                rounded-lg
-                                                px-2
-                                                py-2
-                                                text-sm
-                                                text-gray-700
-                                                hover:bg-white
-                                                hover:text-primary
-                                            "
-                                        >
-                                            {category.icon} {category.name}
-                                        </Link>
-                                    ))}
-                                </div>}
+                                {categoriesOpen && (
+                                    <div className="mt-2 grid grid-cols-2 gap-1">
+
+                                        {categories.map(
+                                            (category, index) => (
+                                                <Link
+                                                    key={index}
+                                                    href={`/category/${category
+                                                        .toLowerCase()
+                                                        .replace(
+                                                            /\s+/g,
+                                                            "-"
+                                                        )}`}
+                                                    onClick={() =>
+                                                        setMobileMenuOpen(
+                                                            false
+                                                        )
+                                                    }
+                                                    className="
+                                                        flex
+                                                        items-center
+                                                        gap-2.5
+                                                        rounded-lg
+                                                        px-2
+                                                        py-2
+                                                        text-sm
+                                                        text-gray-700
+                                                        hover:bg-white
+                                                        hover:text-primary
+                                                    "
+                                                >
+
+                                                    {/* ICON */}
+
+                                                    <span
+                                                        className="
+                                                            flex
+                                                            h-8
+                                                            w-8
+                                                            shrink-0
+                                                            items-center
+                                                            justify-center
+                                                            rounded-md
+                                                            bg-white
+                                                            text-primary
+                                                        "
+                                                    >
+                                                        {getCategoryIcon(
+                                                            category
+                                                        )}
+                                                    </span>
+
+                                                    {/* NAME */}
+
+                                                    <span>
+                                                        {category}
+                                                    </span>
+
+                                                </Link>
+                                            )
+                                        )}
+
+                                    </div>
+                                )}
+
                             </div>
 
-                            {/* Destinations */}
+                            {/* ================= MOBILE DESTINATIONS ================= */}
+
                             <div className="mt-2 rounded-xl bg-gray-50 p-3">
+
                                 <button
                                     type="button"
                                     aria-expanded={destinationsOpen}
-                                    onClick={() => setDestinationsOpen((open) => !open)}
-                                    className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left hover:bg-white"
+                                    onClick={() =>
+                                        setDestinationsOpen(
+                                            (open) => !open
+                                        )
+                                    }
+                                    className="
+                                        flex
+                                        w-full
+                                        items-center
+                                        justify-between
+                                        rounded-lg
+                                        px-2
+                                        py-2
+                                        text-left
+                                        hover:bg-white
+                                    "
                                 >
+
                                     <span className="flex items-center gap-2">
-                                    <FiMapPin className="h-5 w-5" />
-                                    <span className="font-medium">
-                                        Destinations
+
+                                        <FiMapPin className="h-5 w-5" />
+
+                                        <span className="font-medium">
+                                            Destinations
+                                        </span>
+
                                     </span>
-                                    </span>
+
                                     <ChevronDown
-                                        className={`h-5 w-5 transition-transform ${destinationsOpen ? "rotate-180" : ""}`}
+                                        className={`
+                                            h-5
+                                            w-5
+                                            transition-transform
+                                            ${
+                                                destinationsOpen
+                                                    ? "rotate-180"
+                                                    : ""
+                                            }
+                                        `}
                                     />
+
                                 </button>
 
-                                {destinationsOpen && <div className="mt-2 grid grid-cols-2 gap-1">
-                                    {destinations.map((destination,index) => (
-                                        <Link
-                                            key={index}
-                                            href={destination.href}
-                                            onClick={() =>
-                                                setMobileMenuOpen(false)
-                                            }
-                                            className="
-                                                rounded-lg
-                                                px-2
-                                                py-2
-                                                text-sm
-                                                text-gray-700
-                                                hover:bg-white
-                                                hover:text-primary
-                                            "
-                                        >
-                                            {destination.name}
-                                        </Link>
-                                    ))}
-                                </div>}
+                                {destinationsOpen && (
+                                    <div className="mt-2 grid grid-cols-2 gap-1">
+
+                                        {destinations.map(
+                                            (destination, index) => (
+                                                <Link
+                                                    key={index}
+                                                    href={
+                                                        destination.href
+                                                    }
+                                                    onClick={() =>
+                                                        setMobileMenuOpen(
+                                                            false
+                                                        )
+                                                    }
+                                                    className="
+                                                        flex
+                                                        items-center
+                                                        gap-2
+                                                        rounded-lg
+                                                        px-2
+                                                        py-2
+                                                        text-sm
+                                                        text-gray-700
+                                                        hover:bg-white
+                                                        hover:text-primary
+                                                    "
+                                                >
+
+                                                    <span className="text-lg">
+                                                        {
+                                                            destination.icon
+                                                        }
+                                                    </span>
+
+                                                    <span>
+                                                        {
+                                                            destination.name
+                                                        }
+                                                    </span>
+
+                                                </Link>
+                                            )
+                                        )}
+
+                                    </div>
+                                )}
+
                             </div>
 
                             <div className="my-3 h-px w-full bg-black/10" />
 
-                            {/* Mobile Actions */}
+                            {/* ================= MOBILE ACTIONS ================= */}
+
                             <div className="mt-2 flex gap-2">
+
+                                {/* QUERY */}
+
                                 <Button
                                     type="button"
                                     variant="ghost"
@@ -712,6 +1004,9 @@ export default function Navbar() {
                                     <MessageSquare className="mr-2 h-4 w-4" />
                                     Query
                                 </Button>
+
+                                {/* CONTACT */}
+
                                 <a
                                     href="tel:+919876543210"
                                     className="
@@ -735,6 +1030,8 @@ export default function Navbar() {
                                     Contact
                                 </a>
 
+                                {/* SEARCH */}
+
                                 <Button
                                     type="button"
                                     variant="ghost"
@@ -756,12 +1053,15 @@ export default function Navbar() {
                                     <Search className="mr-2 h-4 w-4" />
                                     Search
                                 </Button>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
             </nav>
         </>
     );
 }
- 

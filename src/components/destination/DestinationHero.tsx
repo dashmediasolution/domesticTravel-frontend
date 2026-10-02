@@ -1,68 +1,75 @@
-
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-
 import {
   CalendarDays,
   MapPin,
-  Play,
   Star,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
-
-interface Destination {
-  name: string;
-  subtitle: string;
-  heroImage: string;
-  rating: string | number;
-  reviews: string | number;
-  packagesCount?: string | number;
-  location: string;
-  description: string;
-  weather: string;
-  idealTrip: string;
-  budget: string;
-}
 
 interface DestinationHeroProps {
-  destination: Destination;
+  imageUrl: string;
+  destination: string;
+  subtitle?: string;
+  description?: string;
+  idealTrip?: string;
+  budget?: string;
+  location?: string;
+  rating?: string | number;
+  reviews?: string | number;
+  packagesCount?: string | number;
+  weather?: string;
 }
 
 export default function DestinationHero({
+  imageUrl,
   destination,
+  subtitle,
+  description,
+  idealTrip,
+  budget,
+  location,
+  rating,
+  reviews,
+  packagesCount,
+  weather,
 }: DestinationHeroProps) {
-  const pathname = usePathname();
-
   return (
     <section
-        className="
-          relative
-          h-[50vh]
-          min-h-[400px]
-          w-full
-          overflow-hidden
-          sm:h-[58vh]
-          sm:min-h-[560px]
-          md:h-[70vh]
-          md:min-h-[600px]
-          lg:h-[85vh]
-          lg:min-h-[650px]
-        "
+      className="
+        relative
+        h-[50vh]
+        min-h-[400px]
+        w-full
+        overflow-hidden
+        sm:h-[58vh]
+        sm:min-h-[560px]
+        md:h-[70vh]
+        md:min-h-[600px]
+        lg:h-[85vh]
+        lg:min-h-[650px]
+      "
     >
-      {/* Background */}
+      {/* ==================================================
+          BACKGROUND
+      ================================================== */}
 
-      <Image
-        src={destination.heroImage}
-        alt={destination.name}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      {imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt={destination || "Destination"}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gray-300" />
+      )}
 
-      {/* Overlay */}
+      {/* ==================================================
+          OVERLAY
+      ================================================== */}
 
       <div
         className="
@@ -77,7 +84,9 @@ export default function DestinationHero({
         "
       />
 
-      {/* Content */}
+      {/* ==================================================
+          CONTENT
+      ================================================== */}
 
       <div
         className="
@@ -106,7 +115,9 @@ export default function DestinationHero({
             text-white
           "
         >
-          {/* Destination Name */}
+          {/* ==================================================
+              DESTINATION NAME
+          ================================================== */}
 
           <h1
             className="
@@ -124,28 +135,34 @@ export default function DestinationHero({
               lg:tracking-[0.1em]
             "
           >
-            {destination.name}
+            {destination}
           </h1>
 
-          {/* Subtitle */}
+          {/* ==================================================
+              SUBTITLE
+          ================================================== */}
 
-          <p
-            className="
-              mt-1
-              w-full
-              text-[13px]
-              font-medium
-              leading-5
-              text-white/95
-              sm:text-base
-              md:text-lg
-              lg:text-xl
-            "
-          >
-            {destination.subtitle}
-          </p>
+          {subtitle && (
+            <p
+              className="
+                mt-1
+                w-full
+                text-[13px]
+                font-medium
+                leading-5
+                text-white/95
+                sm:text-base
+                md:text-lg
+                lg:text-xl
+              "
+            >
+              {subtitle}
+            </p>
+          )}
 
-          {/* Rating / Packages / Location */}
+          {/* ==================================================
+              RATING / PACKAGES / LOCATION
+          ================================================== */}
 
           <div
             className="
@@ -164,105 +181,131 @@ export default function DestinationHero({
           >
             {/* Rating */}
 
-            <div className="flex items-center gap-1.5">
-              <div className="flex gap-0.5">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
+            {rating !== undefined && rating !== null && (
+              <div className="flex items-center gap-1.5">
+                <div className="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className="
+                        h-3.5
+                        w-3.5
+                        fill-amber-400
+                        text-amber-400
+                        sm:h-4
+                        sm:w-4
+                        md:h-5
+                        md:w-5
+                      "
+                    />
+                  ))}
+                </div>
+
+                <span className="font-medium">
+                  {rating}
+                </span>
+
+                {reviews !== undefined &&
+                  reviews !== null && (
+                    <span className="text-white/70">
+                      ({reviews})
+                    </span>
+                  )}
+              </div>
+            )}
+
+            {/* Packages */}
+
+            {packagesCount !== undefined &&
+              packagesCount !== null && (
+                <>
+                  {rating !== undefined &&
+                    rating !== null && (
+                      <span className="text-white/40">
+                        |
+                      </span>
+                    )}
+
+                  <div className="flex items-center gap-1">
+                    <CalendarDays
+                      className="
+                        h-4
+                        w-4
+                        text-primary
+                        sm:h-4.5
+                        sm:w-4.5
+                        md:h-5
+                        md:w-5
+                      "
+                    />
+
+                    <span>
+                      {packagesCount}
+                    </span>
+                  </div>
+                </>
+              )}
+
+            {/* Location */}
+
+            {location && (
+              <>
+                {(rating !== undefined &&
+                  rating !== null) ||
+                (packagesCount !== undefined &&
+                  packagesCount !== null) ? (
+                  <span className="text-white/40">
+                    |
+                  </span>
+                ) : null}
+
+                <div className="flex items-center gap-1">
+                  <MapPin
                     className="
-                      h-3.5
-                      w-3.5
-                      fill-amber-400
-                      text-amber-400
-                      sm:h-4
-                      sm:w-4
+                      h-4
+                      w-4
+                      text-primary
+                      sm:h-4.5
+                      sm:w-4.5
                       md:h-5
                       md:w-5
                     "
                   />
-                ))}
-              </div>
 
-              <span className="font-medium">
-                {destination.rating}
-              </span>
-
-              <span className="text-white/70">
-                ({destination.reviews})
-              </span>
-            </div>
-
-
-            {/* Packages */}
-            {
-              destination.packagesCount &&
-              <>
-              <span className="text-white/40">|</span>
-              <div className="flex items-center gap-1">
-                <CalendarDays
-                  className="
-                  h-4
-                  w-4
-                  text-primary
-                  sm:h-4.5
-                  sm:w-4.5
-                  md:h-5
-                  md:w-5
-                "
-                />
-
-                <span>
-                  {destination.packagesCount}
-                </span>
-              </div>
+                  <span>{location}</span>
+                </div>
               </>
-            }
-
-            <span className="text-white/40">|</span>
-
-            {/* Location */}
-
-            <div className="flex items-center gap-1">
-              <MapPin
-                className="
-                  h-4
-                  w-4
-                  text-primary
-                  sm:h-4.5
-                  sm:w-4.5
-                  md:h-5
-                  md:w-5
-                "
-              />
-
-              <span>
-                {destination.location}
-              </span>
-            </div>
+            )}
           </div>
 
-          {/* Description */}
+          {/* ==================================================
+              DESCRIPTION
+          ================================================== */}
 
-          <p
-            className="
-              mt-2
-              w-full
-              text-[12px]
-              leading-[18px]
-              text-white/80
-              sm:mt-3
-              sm:max-w-[600px]
-              sm:text-sm
-              sm:leading-6
-              md:text-base
-              md:leading-7
-              lg:text-[20px]
-            "
-          >
-            {destination.description}
-          </p>
+          {description && (
+            <p
+              className="
+                mt-2
+                w-full
+                text-[12px]
+                leading-[18px]
+                text-white/80
+                sm:mt-3
+                sm:max-w-[600px]
+                sm:text-sm
+                sm:leading-6
+                md:text-base
+                md:leading-7
+                lg:text-[20px]
+              "
+            >
+              {description}
+            </p>
+          )}
 
-          {/* Info Cards */}
+          {/* ==================================================
+              INFO CARDS
+          ================================================== */}
 
           <div
             className="
@@ -282,66 +325,23 @@ export default function DestinationHero({
           >
             <InfoCard
               label="State"
-              value={destination.name}
+              value={destination}
             />
 
             <InfoCard
               label="Weather"
-              value={destination.weather}
+              value={weather}
             />
 
             <InfoCard
               label="Ideal Trip"
-              value={destination.idealTrip}
+              value={idealTrip}
             />
 
             <InfoCard
               label="Budget"
-              value={destination.budget}
+              value={budget}
             />
-          </div>
-
-          {/* Actions */}
-
-          <div
-            className="
-              mt-3
-              flex
-              flex-wrap
-              items-center
-              gap-2.5
-              sm:mt-4
-              sm:gap-3
-              md:mt-5
-            "
-          >
-           {/* {!pathname.startsWith("/package") && (
-  <Link
-    href={`/packages/${destination.name
-      .toLowerCase()
-      .replace(/\s+/g, "-")}`}
-    className="
-      rounded-full
-      bg-primary
-      px-4
-      py-2
-      text-[11px]
-      font-medium
-      text-white
-      transition
-      hover:opacity-90
-      sm:px-5
-      sm:py-2.5
-      sm:text-sm
-      md:text-base
-    "
-  >
-    Explore Packages
-  </Link>
-)} */}
-
- 
- 
           </div>
         </div>
       </div>
@@ -354,8 +354,12 @@ function InfoCard({
   value,
 }: {
   label: string;
-  value: string;
+  value?: string;
 }) {
+  if (!value) {
+    return null;
+  }
+
   return (
     <div
       className="
@@ -420,4 +424,3 @@ function InfoCard({
     </div>
   );
 }
-

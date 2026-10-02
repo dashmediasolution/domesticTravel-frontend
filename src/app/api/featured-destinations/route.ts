@@ -17,51 +17,21 @@ export async function GET() {
                 name: true,
                 subtitle: true,
                 heroImage: true,
-
-                packages: {
-                    where: {
-                        isPublished: true,
-                    },
-                    select: {
-                        originalPrice: true,
-                        rating: true,
-                    },
-                    orderBy: {
-                        originalPrice: "asc",
-                    },
-                },
+                budget: true,
+                description:true
             },
             orderBy: {
                 createdAt: "desc",
             },
         });
 
-        const data = destinations.map((destination) => {
-            const packages = destination.packages;
+ 
 
-            const packageWithPrice = packages.find(
-                (pkg) => pkg.originalPrice !== null
-            );
-
-            const packageWithRating = packages.find(
-                (pkg) => pkg.rating !== null
-            );
-
-            return {
-                id: destination.id,
-                name: destination.name,
-                subtitle: destination.subtitle,
-                heroImage: destination.heroImage,
-
-                price: packageWithPrice?.originalPrice ?? null,
-                rating: packageWithRating?.rating ?? null,
-            };
-        });
 
         return NextResponse.json(
             {
                 success: true,
-                data,
+                destinations,
             },
             { status: 200 }
         );

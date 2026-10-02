@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { featuredDestination } from "@/constants/destinationData";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 import {
     Carousel,
     CarouselContent,
@@ -16,33 +17,93 @@ import {
 
 import {
     Star,
-    Bookmark,
-    IndianRupee,
     ArrowUpRight,
 } from "lucide-react";
 
 import { MdOutlineArrowOutward } from "react-icons/md";
-import { Button } from "../ui/button";
+
+type FeaturedDestination = {
+    id: string;
+    name: string;
+    subtitle: string | null;
+    heroImage: {
+        url: string
+    };
+    budget: string;
+};
 
 export function FeaturedDestination() {
-    const [state, setState] = useState("india");
-    const router = useRouter();
-    const [favorites, setFavorites] = useState<string[]>([]);
+    const [destinations, setDestinations] = useState<FeaturedDestination[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // =========================
+    // FETCH FEATURED DESTINATIONS
+    // =========================
+
+    useEffect(() => {
+        const fetchFeaturedDestinations = async () => {
+            try {
+                const response = await fetch(
+                    "/api/featured-destinations",
+                    {
+                        method: "GET",
+                        headers: {
+                            Accept: "application/json",
+                        },
+                        cache: "no-store",
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to fetch destinations: ${response.status}`
+                    );
+                }
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(
+                        result.message ||
+                        "Failed to fetch featured destinations"
+                    );
+                }
+
+                setDestinations(result.destinations ?? []);
+            } catch (error) {
+                console.error(
+                    "Featured destinations fetch error:",
+                    error
+                );
+
+                setDestinations([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFeaturedDestinations();
+    }, []);
+
     return (
         <section className="relative bottom-8 w-full px-3 sm:px-5 md:bottom-3 md:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-[1440px]">
 
-                {/* HEADER */}
+                {/* ================= HEADER ================= */}
 
                 <div className="mb-5 flex w-full items-center justify-between gap-3 sm:mb-6 md:mb-7">
+
                     <h2
                         className="
                             text-[20px]
                             font-medium
                             tracking-[-0.5px]
                             text-black
+
                             sm:text-[22px]
+
                             md:text-[24px]
+
                             lg:text-[25px]
                         "
                     >
@@ -50,6 +111,7 @@ export function FeaturedDestination() {
                     </h2>
 
                     <Button
+
                         type="button"
                         variant="outline"
                         className="
@@ -64,393 +126,372 @@ export function FeaturedDestination() {
                             text-primary
                             hover:bg-primary
                             hover:text-white
+
                             sm:flex
+
                             md:h-10
                             md:px-5
                             md:text-sm
+
                             lg:h-11
                             lg:text-[15px]
                         "
                     >
                         <Link href="/explore-destinations">
-                            view all destinations
+                            View all destinations
+
+                            <ArrowUpRight className="ml-1.5 h-4 w-4 md:h-5 md:w-5" />
                         </Link>
-                        <ArrowUpRight className="ml-1.5 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                 </div>
 
-                {/* CAROUSEL */}
+                {/* ================= LOADING ================= */}
 
-                <Carousel
-                    opts={{
-                        align: "start",
-                        loop: false,
-                    }}
-                    className="w-full"
-                >
-                    <div className="w-full overflow-hidden rounded-2xl">
-                        <CarouselContent className="-ml-2 sm:-ml-2.5 md:-ml-3 lg:-ml-4">
-
-                            {featuredDestination?.map((item) => {
-                                const destination = item.destination;
-
-                                return (
-                                    <CarouselItem
-                                        key={destination.name}
-                                        className="basis-auto pl-2 sm:pl-2.5 md:pl-3 lg:pl-4"
-                                        onClick={() => {
-                                            router.push(
-                                                `/destinations/${destination.name
-                                                    .toLowerCase()
-                                                    .replaceAll(" ", "-")}`
-                                            );
-                                        }}
-                                    >
-                                        <Card
-                                            className="
-                                                group
-                                                relative
-                                                m-0
-                                                aspect-[2/3]
-                                                w-[180px]
-                                                cursor-pointer
-                                                overflow-hidden
-                                                rounded-[18px]
-                                                border-0
-                                                p-0
-                                                shadow-none
-
-                                                sm:w-[200px]
-                                                sm:rounded-[20px]
-
-                                                md:w-[220px]
-                                                md:rounded-[22px]
-
-                                                lg:w-[275px]
-                                                lg:rounded-[24px]
-                                            "
-                                        >
-                                            <CardContent className="relative h-full w-full p-0">
-
-                                                {/* IMAGE */}
-
-                                                <Image
-                                                    src={destination.heroImage}
-                                                    alt={destination.name}
-                                                    fill
-                                                    unoptimized
-                                                    sizes="(max-width: 639px) 180px, (max-width: 767px) 200px, (max-width: 1023px) 220px, 275px"
-                                                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                                                />
-
-                                                {/* OVERLAY */}
-
-                                                <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/20" />
-
-                                                {/* RATING */}
-
-                                                <div
-                                                    className="
-                                                        absolute
-                                                        left-3
-                                                        top-3
-                                                        flex
-                                                        items-center
-                                                        gap-1
-                                                        text-white
-                                                        sm:left-4
-                                                        sm:top-4
-                                                    "
-                                                >
-                                                    <Star
-                                                        className={`h-5 w-5 cursor-pointer transition-all duration-300 sm:h-6 sm:w-6 ${favorites.includes(destination.name)
-                                                            ? "fill-amber-400 stroke-amber-400"
-                                                            : "fill-transparent   hover:fill-amber-300"
-                                                            }`}
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-
-                                                            setFavorites((prev) => {
-                                                                if (prev.includes(destination.name)) {
-                                                                    return prev.filter((name) => name !== destination.name);
-                                                                }
-
-                                                                return [...prev, destination.name];
-                                                            });
-                                                        }}
-                                                    />
-                                                    <span className="text-xs font-medium sm:text-sm">
-                                                        {destination.rating}
-                                                    </span>
-
-                                                    <span className="text-[10px] opacity-70 sm:text-xs">
-                                                        / 5
-                                                    </span>
-                                                </div>
-
-                                                {/* DESTINATION NAME */}
-
-                                                <div
-                                                    className="
-                                                        absolute
-                                                        left-3
-                                                        right-3
-                                                        top-[21%]
-                                                        flex
-                                                        justify-center
-                                                        sm:left-4
-                                                        sm:right-4
-                                                        md:top-[22%]
-                                                    "
-                                                >
-                                                    <h3
-                                                        className="
-                                                            max-w-full
-                                                            border-b-2
-                                                            border-transparent
-                                                            text-center
-                                                            text-[20px]
-                                                            font-bold
-                                                            leading-tight
-                                                            tracking-[0.08em]
-                                                            transition-all
-                                                            duration-300
-                                                            group-hover:border-current
-                                                            sm:text-[24px]
-                                                            md:text-[27px]
-                                                            lg:text-3xl
-                                                            text-white
-                                                        "
-
-                                                    >
-                                                        {destination.name}
-                                                    </h3>
-                                                </div>
-
-                                                {/* HOVER PRICE */}
-
-                                                <div
-                                                    className="
-                                                        absolute
-                                                        bottom-0
-                                                        left-0
-                                                        flex
-                                                        w-full
-                                                        flex-col
-                                                        items-center
-                                                        justify-center
-                                                        bg-linear-to-t
-                                                        from-black/85
-                                                        via-black/40
-                                                        to-transparent
-                                                        px-3
-                                                        pb-4
-                                                        pt-10
-                                                        text-white
-
-                                                        sm:px-5
-                                                        sm:pb-5
-                                                        sm:pt-12
-
-                                                        md:translate-y-full
-                                                        md:transition-transform
-                                                        md:duration-500
-                                                        md:ease-out
-                                                        md:group-hover:translate-y-0
-                                                    "
-                                                >
-                                                    <p
-                                                        className="
-                                                            text-center
-                                                            text-base
-                                                            font-semibold
-                                                            tracking-[0.12em]
-                                                            sm:text-lg
-                                                            md:text-xl
-                                                        "
-                                                    >
-                                                        Starting at
-                                                    </p>
-
-                                                    <div className="mt-1 flex items-center justify-center gap-0.5 sm:gap-1">
-                                          
-
-                                                        <span
-                                                            className="
-                                                                text-base
-                                                                font-semibold
-                                                                sm:text-lg
-                                                                md:text-xl
-                                                            "
-                                                        >
-                                                            {getStartingPrice(item)}
-                                                        </span>
-                                                    </div>
-
-                                                    <MdOutlineArrowOutward
-                                                        className="
-                                                            mt-2
-                                                            h-6!
-                                                            w-6!
-                                                            rounded-full
-                                                            bg-primary
-                                                            p-1
-                                                            sm:h-7!
-                                                            sm:w-7!
-                                                        "
-                                                    />
-                                                </div>
-
-                                            </CardContent>
-                                        </Card>
-                                    </CarouselItem>
-                                );
-                            })}
-
-                        </CarouselContent>
-                    </div>
-
-                    {/* BOTTOM CONTROLS */}
-
+                {loading && (
                     <div
                         className="
-                            mt-4
                             flex
-                            w-full
-                            items-end
-                            justify-end
-                            gap-3
-                            sm:mt-5
+                            gap-2
+                            overflow-hidden
+
+                            sm:gap-2.5
+
+                            md:gap-3
+
+                            lg:gap-4
                         "
                     >
-
-                        {/* DOMESTIC / INTERNATIONAL */}
-{/* 
-                        <div
-                            className="
-                                flex
-                                min-w-0
-                                items-center
-                                rounded-full
-                                border
-                                border-gray-200
-                                bg-[#F8F8F8]
-                                p-1
-                            "
-                        >
-                            <button
-                                type="button"
-                                onClick={() => setState("india")}
-                                className={`
-                                    whitespace-nowrap
-                                    rounded-full
-                                    px-3
-                                    py-1.5
-                                    text-[11px]
-                                    font-medium
-                                    transition-all
-                                    duration-300
-
-                                    sm:px-4
-                                    sm:py-2
-                                    sm:text-xs
-
-                                    md:px-5
-                                    md:text-[14px]
-
-                                    lg:text-[15px]
-
-                                    ${state === "india"
-                                        ? "bg-primary text-white shadow-sm"
-                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                                    }
-                                `}
-                            >
-                                Domestic
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() => setState("international")}
-                                className={`
-                                    whitespace-nowrap
-                                    rounded-full
-                                    px-3
-                                    py-1.5
-                                    text-[11px]
-                                    font-medium
-                                    transition-all
-                                    duration-300
-
-                                    sm:px-4
-                                    sm:py-2
-                                    sm:text-xs
-
-                                    md:px-5
-                                    md:text-[14px]
-
-                                    lg:text-[15px]
-
-                                    ${state === "international"
-                                        ? "bg-primary text-white shadow-sm"
-                                        : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                                    }
-                                `}
-                            >
-                                International
-                            </button>
-                        </div> */}
-
-                        {/* ARROWS */}
-
-                        <div className="flex shrink-0 gap-2 sm:gap-3 align-right">
-                            <CarouselPrevious
+                        {Array.from({ length: 5 }).map((_, index) => (
+                            <div
+                                key={index}
                                 className="
-                                    static
-                                    m-0
-                                    translate-y-0
-                                    size-8
-                                    rounded-full
-                                    border-0
-                                    bg-[#F6F7F9]
-                                    text-[#7B84A6]
-                                    shadow-none
-                                    hover:bg-primary
-                                    hover:text-white
-                                    sm:size-9
+                                    aspect-[2/3]
+                                    w-[180px]
+                                    shrink-0
+                                    animate-pulse
+                                    rounded-[18px]
+                                    bg-gray-100
+
+                                    sm:w-[200px]
+                                    sm:rounded-[20px]
+
+                                    md:w-[220px]
+                                    md:rounded-[22px]
+
+                                    lg:w-[275px]
+                                    lg:rounded-[24px]
                                 "
                             />
+                        ))}
+                    </div>
+                )}
 
-                            <CarouselNext
-                                className="
-                                    static
-                                    m-0
-                                    translate-y-0
-                                    size-8
-                                    rounded-full
-                                    border-0
-                                    bg-[#F6F7F9]
-                                    text-[#7B84A6]
-                                    shadow-none
-                                    hover:bg-primary
-                                    hover:text-white
-                                    sm:size-9
-                                "
-                            />
+                {/* ================= EMPTY STATE ================= */}
+
+                {!loading && destinations.length === 0 && (
+                    <div className="flex min-h-[250px] items-center justify-center rounded-2xl bg-gray-50">
+                        <p className="text-sm text-gray-500">
+                            No featured destinations available.
+                        </p>
+                    </div>
+                )}
+
+                {/* ================= CAROUSEL ================= */}
+
+                {!loading && destinations.length > 0 && (
+                    <Carousel
+                        opts={{
+                            align: "start",
+                            loop: false,
+                        }}
+                        className="w-full"
+                    >
+                        <div className="w-full overflow-hidden rounded-2xl">
+
+                            <CarouselContent className="-ml-2 sm:-ml-2.5 md:-ml-3 lg:-ml-4">
+
+                                {destinations.map((destination) => {
+                                    const slug = destination.name
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-");
+
+                                    return (
+                                        <CarouselItem
+                                            key={destination.id}
+                                            className="
+                                                basis-auto
+                                                pl-2
+
+                                                sm:pl-2.5
+
+                                                md:pl-3
+
+                                                lg:pl-4
+                                            "
+                                        >
+                                            <Link
+                                                href={`/destinations/${slug}`}
+                                                className="block"
+                                            >
+                                                <Card
+                                                    className="
+                                                        group
+                                                        relative
+                                                        m-0
+                                                        aspect-[2/3]
+                                                        w-[180px]
+                                                        cursor-pointer
+                                                        overflow-hidden
+                                                        rounded-[18px]
+                                                        border-0
+                                                        p-0
+                                                        shadow-none
+
+                                                        sm:w-[200px]
+                                                        sm:rounded-[20px]
+
+                                                        md:w-[220px]
+                                                        md:rounded-[22px]
+
+                                                        lg:w-[275px]
+                                                        lg:rounded-[24px]
+                                                    "
+                                                >
+                                                    <CardContent className="relative h-full w-full p-0">
+
+                                                        {/* ================= IMAGE ================= */}
+
+                                                        <Image
+                                                            src={
+                                                                destination.heroImage.url
+                                                            }
+                                                            alt={
+                                                                destination.name
+                                                            }
+                                                            fill
+                                                            sizes="
+                                                                (max-width: 639px) 180px,
+                                                                (max-width: 767px) 200px,
+                                                                (max-width: 1023px) 220px,
+                                                                275px
+                                                            "
+                                                            unoptimized
+                                                            className="
+                                                                object-cover
+                                                                transition-transform
+                                                                duration-700
+                                                                ease-out
+                                                                group-hover:scale-[1.04]
+                                                            "
+                                                        />
+
+                                                        {/* ================= OVERLAY ================= */}
+
+                                                        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/20" />
+
+
+
+                                                        {/* ================= DESTINATION NAME ================= */}
+
+                                                        <div
+                                                            className="
+                                                            absolute
+                                                            left-3
+                                                            right-3
+                                                            top-[21%]
+                                                            flex
+                                                            flex-col
+                                                            items-center
+                                                            justify-center
+                                                            sm:left-4
+                                                            sm:right-4
+                                                            md:top-[22%]
+                                                        "
+                                                        >
+                                                            <h3
+                                                                className="
+                                                                max-w-full
+                                                                border-b-2
+                                                                border-transparent
+                                                                text-center
+                                                                text-[20px]
+                                                                font-bold
+                                                                leading-tight
+                                                                tracking-[0.08em]
+                                                                text-white
+                                                                transition-all
+                                                                duration-300
+                                                                group-hover:border-current
+
+                                                                sm:text-[24px]
+                                                                md:text-[27px]
+                                                                lg:text-3xl
+                                                            "
+                                                            >
+                                                                {destination.name}
+                                                            </h3>
+                                                            <p
+                                                                className="
+                                                                            mt-1
+                                                                            text-center
+                                                                            text-sm
+                                                                            font-medium
+                                                                            text-white
+                                                                            sm:text-base
+                                                                        "
+                                                            >
+                                                                {destination.subtitle}
+                                                            </p>
+                                                        </div>
+
+                                                        {/* ================= HOVER PRICE ================= */}
+
+                                                        {destination.budget !== "" && (
+                                                            <div
+                                                                className="
+                                                                    absolute
+                                                                    bottom-0
+                                                                    left-0
+                                                                    flex
+                                                                    w-full
+                                                                    flex-col
+                                                                    items-center
+                                                                    justify-center
+                                                                    bg-linear-to-t
+                                                                    from-black/85
+                                                                    via-black/40
+                                                                    to-transparent
+                                                                    px-3
+                                                                    pb-4
+                                                                    pt-10
+                                                                    text-white
+
+                                                                    sm:px-5
+                                                                    sm:pb-5
+                                                                    sm:pt-12
+
+                                                                    md:translate-y-full
+                                                                    md:transition-transform
+                                                                    md:duration-500
+                                                                    md:ease-out
+                                                                    md:group-hover:translate-y-0
+                                                                "
+                                                            >
+                                                                <p
+                                                                    className="
+                                                                        text-center
+                                                                        text-base
+                                                                        font-semibold
+                                                                        tracking-[0.12em]
+
+                                                                        sm:text-lg
+
+                                                                        md:text-xl
+                                                                    "
+                                                                >
+                                                                    Starting at
+                                                                </p>
+
+                                                                <div className="mt-1 flex items-center justify-center gap-0.5 sm:gap-1">
+                                                                    <span
+                                                                        className="
+                                                                            text-base
+                                                                            font-semibold
+
+                                                                            sm:text-lg
+
+                                                                            md:text-xl
+                                                                        "
+                                                                    >
+                                                                        ₹
+                                                                        {destination.budget}
+                                                                    </span>
+                                                                </div>
+
+                                                                <MdOutlineArrowOutward
+                                                                    className="
+                                                                        mt-2
+                                                                        h-6!
+                                                                        w-6!
+                                                                        rounded-full
+                                                                        bg-primary
+                                                                        p-1
+
+                                                                        sm:h-7!
+                                                                        sm:w-7!
+                                                                    "
+                                                                />
+                                                            </div>
+                                                        )}
+
+                                                    </CardContent>
+                                                </Card>
+                                            </Link>
+                                        </CarouselItem>
+                                    );
+                                })}
+
+                            </CarouselContent>
                         </div>
 
-                    </div>
-                </Carousel>
+                        {/* ================= CONTROLS ================= */}
+
+                        <div
+                            className="
+                                mt-4
+                                flex
+                                w-full
+                                items-end
+                                justify-end
+                                gap-3
+
+                                sm:mt-5
+                            "
+                        >
+                            <div className="flex shrink-0 gap-2 sm:gap-3">
+
+                                <CarouselPrevious
+                                    className="
+                                        static
+                                        m-0
+                                        translate-y-0
+                                        size-8
+                                        rounded-full
+                                        border-0
+                                        bg-[#F6F7F9]
+                                        text-[#7B84A6]
+                                        shadow-none
+                                        hover:bg-primary
+                                        hover:text-white
+
+                                        sm:size-9
+                                    "
+                                />
+
+                                <CarouselNext
+                                    className="
+                                        static
+                                        m-0
+                                        translate-y-0
+                                        size-8
+                                        rounded-full
+                                        border-0
+                                        bg-[#F6F7F9]
+                                        text-[#7B84A6]
+                                        shadow-none
+                                        hover:bg-primary
+                                        hover:text-white
+
+                                        sm:size-9
+                                    "
+                                />
+
+                            </div>
+                        </div>
+                    </Carousel>
+                )}
+
             </div>
         </section>
     );
 }
-
-
-/* HELPERS */
-
-function getStartingPrice(item: (typeof featuredDestination)[number]) {
-    return item.packages?.[0]?.startingPrice ?? "₹0";
-}
-
