@@ -140,7 +140,7 @@ model Package {
     idealTrip       String?
     budget          String?
     bestTimeToVisit String[]
-
+    badge         String?
     originalPrice Float?
     discount      Float?
     saveAmount    Float?

@@ -8,25 +8,25 @@ import {
     Leaf,
     Sparkles,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+interface BestTimeToVisitProps {
+    months?: string[];
+    className?: string;
+}
+
+type SeasonType =
+    | "winter"
+    | "spring"
+    | "summer"
+    | "monsoon"
+    | "autumn"
+    | "festival";
 
 interface Season {
     name: string;
     months: string;
     description: string;
-    icon:
-        | "winter"
-        | "summer"
-        | "monsoon"
-        | "spring"
-        | "autumn"
-        | "festival";
-}
-
-interface BestTimeToVisitProps {
-    months: string[];
-    seasons: Season[];
-    className?: string;
+    icon: SeasonType;
 }
 
 const allMonths = [
@@ -44,32 +44,64 @@ const allMonths = [
     "Dec",
 ];
 
+const monthMap: Record<string, string> = {
+    january: "Jan",
+    february: "Feb",
+    march: "Mar",
+    april: "Apr",
+    may: "May",
+    june: "Jun",
+    july: "Jul",
+    august: "Aug",
+    september: "Sep",
+    october: "Oct",
+    november: "Nov",
+    december: "Dec",
+
+    jan: "Jan",
+    feb: "Feb",
+    mar: "Mar",
+    apr: "Apr",
+    jun: "Jun",
+    jul: "Jul",
+    aug: "Aug",
+    sep: "Sep",
+    oct: "Oct",
+    nov: "Nov",
+    dec: "Dec",
+};
+
 const seasonStyles = {
     winter: {
         border: "#BDD8F7",
         icon: "#0D54B3",
         component: Snowflake,
     },
-    summer: {
-        border: "#96D2B4",
-        icon: "#097447",
-        component: Flame,
-    },
-    monsoon: {
-        border: "#BFB4E2",
-        icon: "#484ACA",
-        component: CloudRain,
-    },
+
     spring: {
         border: "#F4C2D7",
         icon: "#C43D73",
         component: Flower2,
     },
+
+    summer: {
+        border: "#96D2B4",
+        icon: "#097447",
+        component: Flame,
+    },
+
+    monsoon: {
+        border: "#BFB4E2",
+        icon: "#484ACA",
+        component: CloudRain,
+    },
+
     autumn: {
         border: "#F3D4A5",
         icon: "#B86B00",
         component: Leaf,
     },
+
     festival: {
         border: "#E7C7F5",
         icon: "#8B3FB5",
@@ -77,17 +109,97 @@ const seasonStyles = {
     },
 };
 
+const seasonData: Record<SeasonType, Season> = {
+    winter: {
+        name: "Winter",
+        months: "December - February",
+        description:
+            "Cool and pleasant weather, ideal for exploring destinations, enjoying scenic landscapes, and experiencing winter attractions.",
+        icon: "winter",
+    },
+
+    spring: {
+        name: "Spring",
+        months: "March - May",
+        description:
+            "Pleasant temperatures, blooming landscapes, and comfortable conditions make spring a great time to explore.",
+        icon: "spring",
+    },
+
+    summer: {
+        name: "Summer",
+        months: "May - June",
+        description:
+            "Warm days are ideal for mountain escapes, outdoor adventures, and exploring cooler destinations.",
+        icon: "summer",
+    },
+
+    monsoon: {
+        name: "Monsoon",
+        months: "July - September",
+        description:
+            "Fresh greenery, misty landscapes, and rejuvenated waterfalls create a beautiful monsoon experience.",
+        icon: "monsoon",
+    },
+
+    autumn: {
+        name: "Autumn",
+        months: "October - November",
+        description:
+            "Clear skies, pleasant temperatures, and beautiful landscapes make autumn an excellent season to travel.",
+        icon: "autumn",
+    },
+
+    festival: {
+        name: "Festival Season",
+        months: "October - November",
+        description:
+            "Experience vibrant celebrations, cultural traditions, local festivals, and memorable seasonal events.",
+        icon: "festival",
+    },
+};
+
+const seasonMonths: Record<SeasonType, string[]> = {
+    winter: ["Dec", "Jan", "Feb"],
+    spring: ["Mar", "Apr", "May"],
+    summer: ["May", "Jun"],
+    monsoon: ["Jul", "Aug", "Sep"],
+    autumn: ["Oct", "Nov"],
+    festival: ["Oct", "Nov"],
+};
+
 export default function BestTimeToVisit({
-    months,
-    seasons,
-    className,
+    months = [],
+    className = "",
 }: BestTimeToVisitProps) {
+    const normalizedMonths = months
+        .map((month) => {
+            const value = String(month).trim().toLowerCase();
+
+            return monthMap[value];
+        })
+        .filter(Boolean);
+ const activeSeasons = (
+    [
+        "winter",
+        "spring",
+        "summer",
+        "monsoon",
+        "autumn",
+    ] as SeasonType[]
+).filter((season) =>
+    seasonMonths[season].some((month) =>
+        normalizedMonths.includes(month)
+    )
+);
+
+    const seasons = activeSeasons.map(
+        (season) => seasonData[season]
+    );
+
     return (
         <section
-            className={cn(
-                "h-full w-full",
-                className
-            )}
+            className={`w-full ${className}`}
         >
             <h2
                 className="
@@ -108,7 +220,6 @@ export default function BestTimeToVisit({
                 className="
                     mb-5
                     flex
-                    h-full
                     w-full
                     gap-1
                     overflow-x-auto
@@ -121,33 +232,34 @@ export default function BestTimeToVisit({
                 "
             >
                 {allMonths.map((month) => {
-                    const isBestMonth = months.includes(month);
+                    const isBestMonth =
+                        normalizedMonths.includes(month);
 
                     return (
                         <div
                             key={month}
-                            className={cn(
-                                `
-                                    flex
-                                    h-7
-                                    min-w-[38px]
-                                    shrink-0
-                                    items-center
-                                    justify-center
-                                    rounded-md
-                                    px-0.5
-                                    text-[10px]
-                                    font-medium
-                                    sm:h-9
-                                    sm:min-w-[45px]
-                                    sm:rounded-lg
-                                    sm:text-sm
-                                    lg:text-base
-                                `,
-                                isBestMonth
-                                    ? "bg-teal-500 text-white"
-                                    : "bg-neutral-100 text-foreground"
-                            )}
+                            className={`
+                                flex
+                                h-7
+                                min-w-[38px]
+                                shrink-0
+                                items-center
+                                justify-center
+                                rounded-md
+                                px-0.5
+                                text-[10px]
+                                font-medium
+                                sm:h-9
+                                sm:min-w-[45px]
+                                sm:rounded-lg
+                                sm:text-sm
+                                lg:text-base
+                                ${
+                                    isBestMonth
+                                        ? "bg-primary text-white"
+                                        : "bg-neutral-100 text-foreground"
+                                }
+                            `}
                         >
                             {month}
                         </div>
@@ -155,112 +267,90 @@ export default function BestTimeToVisit({
                 })}
             </div>
 
-            <div
-                className="
-                    grid
-                    grid-cols-2
-                    gap-2.5
-                    sm:gap-4
-                    lg:grid-cols-3
-                    lg:gap-6
-                "
-            >
-                {seasons.map((season) => {
-                    const style = seasonStyles[season.icon];
-                    const Icon = style.component;
+            {seasons.length > 0 && (
+                <div
+                    className="
+                        grid
+                        w-full
+                        grid-cols-1
+                        gap-4
+                        sm:grid-cols-2
+                        lg:grid-cols-3
+                    "
+                >
+                    {seasons.map((season) => {
+                        const style =
+                            seasonStyles[season.icon];
 
-                    return (
-                        <div
-                            key={season.name}
-                            style={{
-                                borderColor: style.border,
-                            }}
-                            className="
-                                min-h-[165px]
-                                overflow-hidden
-                                rounded-[14px]
-                                border
-                                bg-white
-                                p-3
-                                shadow-sm
-                                sm:min-h-[220px]
-                                sm:rounded-[20px]
-                                sm:p-5
-                                lg:min-h-[287px]
-                                lg:rounded-[24px]
-                                lg:px-6
-                            "
-                        >
-                            <Icon
-                                strokeWidth={2}
+                        const Icon = style.component;
+
+                        return (
+                            <div
+                                key={season.name}
                                 className="
-                                    mb-1.5
-                                    h-5
-                                    w-5
-                                    sm:mb-3
-                                    sm:h-7
-                                    sm:w-7
-                                    lg:h-8
-                                    lg:w-8
+                                    min-h-[200px]
+                                    w-full
+                                    rounded-[20px]
+                                    border
+                                    bg-white
+                                    p-5
+                                    shadow-sm
+                                    sm:min-h-[220px]
+                                    sm:p-6
+                                    lg:min-h-[250px]
                                 "
                                 style={{
-                                    color: style.icon,
-                                }}
-                            />
-
-                            <h3
-                                className="
-                                    font-heading
-                                    text-[18px]
-                                    font-bold
-                                    leading-tight
-                                    sm:text-[25px]
-                                    lg:text-3xl
-                                "
-                                style={{
-                                    color: style.icon,
+                                    borderColor:
+                                        style.border,
                                 }}
                             >
-                                {season.name}
-                            </h3>
+                                <Icon
+                                    className="mb-3 h-8 w-8"
+                                    strokeWidth={2}
+                                    style={{
+                                        color: style.icon,
+                                    }}
+                                />
 
-                            <p
-                                className="
-                                    mt-0.5
-                                    text-[10px]
-                                    leading-4
-                                    text-slate-600
-                                    sm:mt-1
-                                    sm:text-sm
-                                    lg:text-xl
-                                "
-                            >
-                                {season.months}
-                            </p>
+                                <h3
+                                    className="
+                                        text-2xl
+                                        font-bold
+                                        leading-tight
+                                    "
+                                    style={{
+                                        color: style.icon,
+                                    }}
+                                >
+                                    {season.name}
+                                </h3>
 
-                            <p
-                                className="
-                                    mt-2
-                                    line-clamp-3
-                                    text-[10px]
-                                    leading-4
-                                    text-slate-600
-                                    sm:mt-4
-                                    sm:text-sm
-                                    sm:leading-5
-                                    lg:mt-4
-                                    lg:line-clamp-none
-                                    lg:max-w-[250px]
-                                    lg:text-lg
-                                    lg:leading-7
-                                "
-                            >
-                                {season.description}
-                            </p>
-                        </div>
-                    );
-                })}
-            </div>
+                                <p
+                                    className="
+                                        mt-1
+                                        text-sm
+                                        font-medium
+                                        text-slate-600
+                                    "
+                                >
+                                    {season.months}
+                                </p>
+
+                                <p
+                                    className="
+                                        mt-4
+                                        text-sm
+                                        leading-6
+                                        text-slate-600
+                                    "
+                                >
+                                    {season.description}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </section>
     );
 }

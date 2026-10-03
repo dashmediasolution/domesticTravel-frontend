@@ -1,4 +1,5 @@
- 
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -7,10 +8,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Bookmark, Star } from "lucide-react";
+import {   Star } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { useRouter } from "next/navigation";
+
 import {
     Carousel,
     CarouselContent,
@@ -24,7 +26,7 @@ interface PackageProps {
     duration?: string;
     price: string;
     image: string;
-    rating: string;
+    rating?: string;
     tag?: string;
     color?: string;
 }
@@ -32,10 +34,13 @@ interface PackageProps {
 interface DestinationPackage {
     id: string;
     name: string;
-    imageUrl: string;
-    textColor: string;
-    startingPrice: string;
-    rating: string;
+    slug: string;
+    subtitle?: string;
+    originalPrice?: number;
+    heroImage?: {
+        url?: string;
+        publicId?: string | null;
+    };
 }
 
 interface BestPackageByDestinationProps {
@@ -43,8 +48,11 @@ interface BestPackageByDestinationProps {
     packages: DestinationPackage[];
 }
 
-const toSlug = (value: string) =>
-    value.toLowerCase().trim().replace(/\s+/g, "-");
+const formatPrice = (price?: number) => {
+    if (!price) return "Price on request";
+
+    return `₹${price.toLocaleString("en-IN")}`;
+};
 
 export function Package({
     title,
@@ -56,7 +64,7 @@ export function Package({
     color,
 }: PackageProps) {
     return (
-        <Card className="group relative w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0  mb-2">
+        <Card className="group relative mb-2 w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0">
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                     src={image}
@@ -90,44 +98,24 @@ export function Package({
                     </Badge>
                 )}
 
-                <button
-                    type="button"
-                    aria-label={`Bookmark ${title}`}
-                    className="
-                        absolute
-                        right-4
-                        top-4
-                        z-10
-                        transition-all
-                        hover:scale-105
-                    "
-                >
-                    <Bookmark
-                        size={30}
-                        strokeWidth={1.8}
-                        className="
-                            cursor-pointer
-                            text-white
-                            hover:fill-primary
-                            hover:text-primary
-                        "
-                    />
-                </button>
+                
             </div>
 
-            <CardHeader className="gap-1 px-5 pt-0">
-                <CardTitle className="flex justify-between font-heading text-lg font-semibold">
-                    {title}
+            <CardHeader className="gap-1 px-5 pt-4">
+                <CardTitle className="flex justify-between gap-3 font-heading text-lg font-semibold">
+                    <span>{title}</span>
 
-                    <div className="flex items-center">
-                        <Star className="mr-2 fill-amber-400 text-amber-400" />
-                        <span>{rating}</span>
-                        /5
-                    </div>
+                    {rating && (
+                        <div className="flex shrink-0 items-center">
+                            <Star className="mr-2 fill-amber-400 text-amber-400" />
+                            <span>{rating}</span>
+                            /5
+                        </div>
+                    )}
                 </CardTitle>
 
                 {duration && (
-                    <CardDescription className="text-lg">
+                    <CardDescription className="text-base">
                         {duration}
                     </CardDescription>
                 )}
@@ -141,6 +129,7 @@ export function Package({
                 <Button
                     variant="outline"
                     className="
+                        cursor-pointer
                         rounded-full
                         border-primary
                         bg-white
@@ -148,7 +137,6 @@ export function Package({
                         py-4
                         text-md
                         text-primary
-                        cursor-pointer
                         hover:bg-primary
                         hover:text-white
                     "
@@ -170,7 +158,12 @@ export function BestPackageByDestination({
         "#723FB9",
         "#FF03C0",
     ];
-    const router = useRouter()
+
+    const router = useRouter();
+
+    if (!packages?.length) {
+        return null;
+    }
 
     return (
         <section className="flex w-full justify-center">
@@ -197,42 +190,61 @@ export function BestPackageByDestination({
                         className="w-full"
                     >
                         <CarouselContent className="-ml-5">
-                            {packages.map((item, index) => (
-                                <CarouselItem
-                                    key={item.id}
-                                    className="
-                                        pl-5
-                                        basis-full
-                                        sm:basis-1/2
-                                        lg:basis-1/3
-                                        xl:basis-1/4
-                                    "
-                                    onClick={() => {
-                                        router.push(
-                                            `/package/${toSlug(location)}/${toSlug(item.name)}`
-                                        );
-                                    }}
-                                >
-                                    <Package
-                                        title={item.name}
-                                        price={`${item.startingPrice} / person`}
-                                        image={item.imageUrl}
-                                        rating={item.rating}
-                                        color={
-                                            colors[index % colors.length]
-                                        }
-                                        tag={
-                                            index === 0
-                                                ? "Best Seller"
-                                                : index === 1
-                                                  ? "Value for Money"
-                                                  : index === 2
-                                                    ? "Premium"
-                                                    : "Popular"
-                                        }
-                                    />
-                                </CarouselItem>
-                            ))}
+                            {packages.map((item, index) => {
+                                const image = item.heroImage?.url;
+
+                                if (!image) {
+                                    return null;
+                                }
+
+                                return (
+                                    <CarouselItem
+                                        key={item.id}
+                                        className="
+                                            pl-5
+                                            basis-full
+                                            sm:basis-1/2
+                                            lg:basis-1/3
+                                            xl:basis-1/4
+                                        "
+                                        onClick={() => {
+                                            router.push(
+                                                `/package/${location
+                                                    .toLowerCase()
+                                                    .trim()
+                                                    .replace(/\s+/g, "-")}/${item.slug}`
+                                            );
+                                        }}
+                                    >
+                                        <Package
+                                            title={item.name}
+                                            duration={item.subtitle}
+                                            price={
+                                                item.originalPrice
+                                                    ? `₹${item.originalPrice.toLocaleString(
+                                                          "en-IN"
+                                                      )} / person`
+                                                    : "Price on request"
+                                            }
+                                            image={image}
+                                            color={
+                                                colors[
+                                                    index % colors.length
+                                                ]
+                                            }
+                                            tag={
+                                                index === 0
+                                                    ? "Best Seller"
+                                                    : index === 1
+                                                      ? "Value for Money"
+                                                      : index === 2
+                                                        ? "Premium"
+                                                        : "Popular"
+                                            }
+                                        />
+                                    </CarouselItem>
+                                );
+                            })}
                         </CarouselContent>
 
                         <CarouselPrevious
@@ -240,8 +252,6 @@ export function BestPackageByDestination({
                                 -left-4
                                 h-10
                                 w-10
-               
-                              
                             "
                         />
 
@@ -250,7 +260,6 @@ export function BestPackageByDestination({
                                 -right-4
                                 h-10
                                 w-10
-                          
                             "
                         />
                     </Carousel>
@@ -259,4 +268,3 @@ export function BestPackageByDestination({
         </section>
     );
 }
- 

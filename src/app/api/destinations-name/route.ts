@@ -12,47 +12,32 @@ export async function GET() {
                 isPublished: true,
             },
             select: {
-                id: true,
                 name: true,
-                slug: true,
-                subtitle: true,
-                description: true,
-                location: true,
-                idealTrip: true,
-                budget: true,
-                activities: true,
-                bestTimeToVisit: true,
-                heroImage: true,
-                gallery: true,
-                metaTitle: true,
-                metaDescription: true,
-                keywords: true,
-                isPublished: true,
-                isFeatured: true,
-                publishedAt: true,
-                whyVisit: true,
-                createdAt: true,
-                updatedAt: true,
             },
+            distinct: ["name"],
             orderBy: {
-                createdAt: "desc",
+                name: "asc",
             },
         });
+
+        const data = destinations
+            .map((item) => item.name.trim())
+            .filter(Boolean);
 
         return NextResponse.json(
             {
                 success: true,
-                data: destinations,
+                data,
             },
             { status: 200 }
         );
     } catch (error) {
-        console.error("Get all destinations error:", error);
+        console.error("Get destination error:", error);
 
         return NextResponse.json(
             {
                 success: false,
-                message: "Failed to fetch destinations",
+                message: "Failed to fetch destintaions",
             },
             { status: 500 }
         );

@@ -43,6 +43,7 @@ import { GiDesert, GiTempleDoor } from "react-icons/gi";
 
 export default function Navbar() {
     const [categories, setCategories] = useState<string[]>([]);
+    const [destination , setDestinations] = useState<string[]>([]);
     const pathname = usePathname();
 
     const [scrolled, setScrolled] = useState(false);
@@ -121,9 +122,36 @@ export default function Navbar() {
             setCategories([]);
         }
     };
+const fetchDestinations = async () => {
+        try {
+            const category = await fetch("/api/destinations-name", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                },
+                cache: "no-store",
+            });
+
+            const response = await category.json();
+
+            console.log(response, "Response");
+
+            if (!response.success) {
+                throw new Error(
+                    response.message || "Failed to fetch Category"
+                );
+            }
+
+            setDestinations(response?.data || []);
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+            setDestinations([]);
+        }
+    };
 
     useEffect(() => {
         fetchCategories();
+        fetchDestinations()
     }, []);
 
     // =========================
@@ -181,56 +209,56 @@ export default function Navbar() {
     // DESTINATIONS
     // =========================
 
-    const destinations = [
-        {
-            name: "Himachal Pradesh",
-            href: "/destinations/himachal-pradesh",
-            icon: "🏔️",
-            description: "Mountains & hill stations",
-        },
-        {
-            name: "Ladakh",
-            href: "/destinations/ladakh",
-            icon: "🏜️",
-            description: "High mountains & adventure",
-        },
-        {
-            name: "Kerala",
-            href: "/destinations/kerala",
-            icon: "🌴",
-            description: "Backwaters & beaches",
-        },
-        {
-            name: "Rajasthan",
-            href: "/destinations/rajasthan",
-            icon: "🏰",
-            description: "Forts & royal heritage",
-        },
-        {
-            name: "Uttarakhand",
-            href: "/destinations/uttarakhand",
-            icon: "🏔️",
-            description: "Himalayas & spirituality",
-        },
-        {
-            name: "Tamil Nadu",
-            href: "/destinations/tamil-nadu",
-            icon: "🛕",
-            description: "Temples & culture",
-        },
-        {
-            name: "Kashmir",
-            href: "/package/kashmir",
-            icon: "🏞️",
-            description: "Valleys & scenic beauty",
-        },
-        {
-            name: "Goa",
-            href: "/package/goa",
-            icon: "🏖️",
-            description: "Beaches & nightlife",
-        },
-    ];
+    // const destinations = [
+    //     {
+    //         name: "Himachal Pradesh",
+    //         href: "/destinations/himachal-pradesh",
+    //         icon: "🏔️",
+    //         description: "Mountains & hill stations",
+    //     },
+    //     {
+    //         name: "Ladakh",
+    //         href: "/destinations/ladakh",
+    //         icon: "🏜️",
+    //         description: "High mountains & adventure",
+    //     },
+    //     {
+    //         name: "Kerala",
+    //         href: "/destinations/kerala",
+    //         icon: "🌴",
+    //         description: "Backwaters & beaches",
+    //     },
+    //     {
+    //         name: "Rajasthan",
+    //         href: "/destinations/rajasthan",
+    //         icon: "🏰",
+    //         description: "Forts & royal heritage",
+    //     },
+    //     {
+    //         name: "Uttarakhand",
+    //         href: "/destinations/uttarakhand",
+    //         icon: "🏔️",
+    //         description: "Himalayas & spirituality",
+    //     },
+    //     {
+    //         name: "Tamil Nadu",
+    //         href: "/destinations/tamil-nadu",
+    //         icon: "🛕",
+    //         description: "Temples & culture",
+    //     },
+    //     {
+    //         name: "Kashmir",
+    //         href: "/package/kashmir",
+    //         icon: "🏞️",
+    //         description: "Valleys & scenic beauty",
+    //     },
+    //     {
+    //         name: "Goa",
+    //         href: "/package/goa",
+    //         icon: "🏖️",
+    //         description: "Beaches & nightlife",
+    //     },
+    // ];
 
     // =========================
     // NAV ITEMS
@@ -522,13 +550,11 @@ export default function Navbar() {
 
                                         <div className="grid grid-cols-2 gap-1.5">
 
-                                            {destinations.map(
+                                            {destination.map(
                                                 (destination, index) => (
                                                     <Link
                                                         key={index}
-                                                        href={
-                                                            destination.href
-                                                        }
+                                                        href="#"
                                                         className="
                                                             flex
                                                             items-center
@@ -542,7 +568,7 @@ export default function Navbar() {
                                                         "
                                                     >
 
-                                                        <span
+                                                        {/* <span
                                                             className="
                                                                 flex
                                                                 h-8
@@ -558,20 +584,15 @@ export default function Navbar() {
                                                             {
                                                                 destination.icon
                                                             }
-                                                        </span>
+                                                        </span> */}
 
                                                         <div>
                                                             <p className="text-sm font-medium">
                                                                 {
-                                                                    destination.name
+                                                                    destination
                                                                 }
                                                             </p>
 
-                                                            <p className="text-[11px] text-muted-foreground">
-                                                                {
-                                                                    destination.description
-                                                                }
-                                                            </p>
                                                         </div>
 
                                                     </Link>
@@ -927,13 +948,11 @@ export default function Navbar() {
                                 {destinationsOpen && (
                                     <div className="mt-2 grid grid-cols-2 gap-1">
 
-                                        {destinations.map(
+                                        {destination.map(
                                             (destination, index) => (
                                                 <Link
                                                     key={index}
-                                                    href={
-                                                        destination.href
-                                                    }
+                                                    href="#"
                                                     onClick={() =>
                                                         setMobileMenuOpen(
                                                             false
@@ -953,15 +972,15 @@ export default function Navbar() {
                                                     "
                                                 >
 
-                                                    <span className="text-lg">
+                                                    {/* <span className="text-lg">
                                                         {
                                                             destination.icon
                                                         }
-                                                    </span>
+                                                    </span> */}
 
                                                     <span>
                                                         {
-                                                            destination.name
+                                                            destination 
                                                         }
                                                     </span>
 

@@ -19,6 +19,7 @@ interface DestinationHeroProps {
   reviews?: string | number;
   packagesCount?: string | number;
   weather?: string;
+  duration?:string
 }
 
 export default function DestinationHero({
@@ -33,6 +34,7 @@ export default function DestinationHero({
   reviews,
   packagesCount,
   weather,
+  duration
 }: DestinationHeroProps) {
   return (
     <section
@@ -121,7 +123,7 @@ export default function DestinationHero({
 
           <h1
             className="
-              w-fit
+              w-full
               font-(--font-bebas-neue)
               text-[56px]
               font-bold
@@ -324,7 +326,7 @@ export default function DestinationHero({
             "
           >
             <InfoCard
-              label="State"
+              label="Location"
               value={destination}
             />
 
@@ -341,6 +343,10 @@ export default function DestinationHero({
             <InfoCard
               label="Budget"
               value={budget}
+            />
+             <InfoCard
+              label="duration"
+              value={duration}
             />
           </div>
         </div>

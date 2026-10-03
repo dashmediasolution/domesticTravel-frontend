@@ -9,24 +9,33 @@ import {
     Phone,
 } from "lucide-react"
 
-type OfferDetails = {
-    originalPrice: string
-    offerPrice: string
-    saveAmount: string
-    discount: string
-    validTill: string
-    groupSize: string
-}
-
 type OfferCardProps = {
-    details: OfferDetails
+    originalPrice?: number | null
+    offerPrice?: number | null
+    saveAmount?: number | null
+    discount?: number | null
+    validTill?: string | Date | null
+    groupSize?: string | null
     onClaim?: () => void
 }
 
 export default function OfferCard({
-    details,
+    originalPrice,
+    offerPrice,
+    saveAmount,
+    discount,
+    validTill,
+    groupSize,
     onClaim,
 }: OfferCardProps) {
+    const formattedValidTill = validTill
+        ? new Date(validTill).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        })
+        : ""
+
     return (
         <div className="w-full overflow-hidden rounded-xl border border-border bg-white shadow-sm">
 
@@ -47,7 +56,7 @@ export default function OfferCard({
                     </span>
 
                     <span className="text-xs font-medium line-through sm:text-sm">
-                        {details.originalPrice}
+                        {originalPrice ?? "-"}
                     </span>
                 </div>
 
@@ -57,13 +66,13 @@ export default function OfferCard({
                     </span>
 
                     <span className="text-xs font-medium sm:text-sm">
-                        {details.offerPrice}
+                        {offerPrice ?? "-"}
                     </span>
                 </div>
 
                 <div className="mt-3 flex items-baseline gap-1">
                     <span className="text-xl font-bold tracking-tight sm:text-2xl">
-                        {details.offerPrice}
+                        {offerPrice ?? "-"}
                     </span>
 
                     <span className="text-[10px] text-muted-foreground sm:text-xs">
@@ -74,7 +83,7 @@ export default function OfferCard({
                 {/* Savings */}
                 <div className="mt-2 inline-flex max-w-full rounded-full bg-primary px-2.5 py-1.5 text-[10px] font-medium text-white sm:px-3 sm:text-xs">
                     <span className="truncate">
-                        You Save {details.saveAmount} ({details.discount} OFF)
+                        You Save {saveAmount ?? 0} ({discount ?? 0}% OFF)
                     </span>
                 </div>
             </div>
@@ -84,19 +93,25 @@ export default function OfferCard({
                 <div className="space-y-2.5">
 
                     <OfferDetail
-                        icon={<CalendarCheck className="size-3.5 sm:size-4" />}
+                        icon={
+                            <CalendarCheck className="size-3.5 sm:size-4" />
+                        }
                         label="Offer valid till"
-                        value={details.validTill}
+                        value={formattedValidTill}
                     />
 
                     <OfferDetail
-                        icon={<UserRound className="size-3.5 sm:size-4" />}
+                        icon={
+                            <UserRound className="size-3.5 sm:size-4" />
+                        }
                         label="Group Size"
-                        value={details.groupSize}
+                        value={groupSize ?? ""}
                     />
 
                     <OfferDetail
-                        icon={<CheckCircle className="size-3.5 sm:size-4" />}
+                        icon={
+                            <CheckCircle className="size-3.5 sm:size-4" />
+                        }
                         label="Instant Confirmation"
                     />
 

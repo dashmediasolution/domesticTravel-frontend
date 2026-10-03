@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { prisma } from "@/lib/prisma";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-
-type RouteContext = {
+interface RouteContext {
     params: Promise<{
         slug: string;
     }>;
-};
+}
 
 export async function GET(
     request: NextRequest,
@@ -18,56 +14,46 @@ export async function GET(
     try {
         const { slug } = await params;
 
+        console.log("PACKAGE SLUG:", slug);
+
         if (!slug) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Destination slug is required",
+                    message: "Package slug is required",
                 },
                 { status: 400 }
             );
         }
 
-        const destination = await prisma.destination.findUnique({
+        const packageData = await prisma.package.findFirst({
             where: {
                 slug,
+                isPublished: true,
             },
-
             include: {
-                attractions: {
-                    orderBy: {
-                        sortOrder: "asc",
-                    },
-                },
-
                 faqs: {
                     orderBy: {
                         sortOrder: "asc",
                     },
                 },
 
-                packages: {
-                    orderBy: {
-                        createdAt: "desc",
+                offers: {
+                    where: {
+                        isActive: true,
                     },
-                    select:{
-                        id:true,
-                        name:true,
-                        slug:true,
-                        subtitle:true,
-                        originalPrice:true,
-                        heroImage: true
-                    }
-                  
+                    orderBy: {
+                        endDate: "asc",
+                    },
                 },
             },
         });
 
-        if (!destination) {
+        if (!packageData) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Destination not found",
+                    message: "Package not found",
                 },
                 { status: 404 }
             );
@@ -76,17 +62,17 @@ export async function GET(
         return NextResponse.json(
             {
                 success: true,
-                data: destination,
+                data: packageData,
             },
             { status: 200 }
         );
     } catch (error) {
-        console.error("Get destination by slug error:", error);
+        console.error("GET PACKAGE ERROR:", error);
 
         return NextResponse.json(
             {
                 success: false,
-                message: "Failed to fetch destination",
+                message: "Failed to fetch package",
             },
             { status: 500 }
         );

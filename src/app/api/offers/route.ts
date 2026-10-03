@@ -33,15 +33,14 @@ export async function GET() {
                         name: true,
                         slug: true,
                         subtitle: true,
-                        heroImage: true,
-
-                        destination: {
+                        location: true,
+                        category: true,
+                        heroImage: {
                             select: {
-                                id: true,
-                                name: true,
-                                slug: true,
+                                url: true,
                             },
                         },
+                      
                     },
                 },
             },
@@ -51,39 +50,11 @@ export async function GET() {
             },
         });
 
-        const data = offers.map((offer) => ({
-            id: offer.id,
-            title: offer.title,
-            slug: offer.slug,
-
-            subtitle: offer.package.subtitle,
-
-            image: offer.package.heroImage,
-
-            price: offer.offerPrice,
-            originalPrice: offer.originalPrice,
-            discount: offer.discount,
-            saveAmount: offer.saveAmount,
-
-            badgeText: offer.badgeText,
-
-            startDate: offer.startDate,
-            endDate: offer.endDate,
-
-            package: {
-                id: offer.package.id,
-                name: offer.package.name,
-                slug: offer.package.slug,
-            },
-
-            destination: offer.package.destination,
-        }));
-
         return NextResponse.json(
             {
                 success: true,
-                count: data.length,
-                data,
+                count: offers.length,
+                offers,
             },
             { status: 200 }
         );

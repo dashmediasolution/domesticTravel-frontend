@@ -1,63 +1,46 @@
 
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+ import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import SearachBar from "@/components/homePage/SerachBar";
-import PackagesByDestination from "@/components/destination/PackagesByDestination";
-import TravelInformation from "@/components/packagess/TravelInformation";
+ import SearachBar from "@/components/homePage/SerachBar";
+import AttractionsByDestination from "@/components/destination/AttractionsByDestination";
 import { BestPackageByDestination } from "@/components/packagess/BestPackageByDestination";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
-import Itinerary from "@/components/packagess/Itinerary";
-import BlogSection from "@/components/BlogSection";
 import TravelStories from "@/components/homePage/TravelStories";
-import WeatherForecast from "@/components/WheatherForcast";
 import TravelersReviews from "@/components/Reviews";
 import FAQSection from "../../FaqSection";
 import DestinationHero from "@/components/destination/DestinationHero";
 import Memories from "@/components/Memories";
 import WhyVisit from "@/components/WhyVisit";
 import ThingsToDo from "@/components/ThingsToDo";
+import DestinationGallery from "@/components/DestinationGallery";
 import { useEffect } from "react";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 import { featuredDestination } from "@/constants/destinationData";
 
 export default function DestinationPage() {
-  const [activeImage, setActiveImage] = useState<number | null>(null);
-  const router = useRouter();
+
   const pathname = usePathname();
   const [destinations, setDestination] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const routeDestination = pathname
     .split("/")
     .filter(Boolean)
     .pop();
-console.log(routeDestination)
-  useEffect(() => {
+   useEffect(() => {
     const fetchDestination = async () => {
       try {
         const response = await fetch(
-        `/api/destinations/${routeDestination}`,           
+          `/api/destinations/${routeDestination}`,
           {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-          cache: "no-store",
-        }
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+            cache: "no-store",
+          }
         );
 
         if (!response.ok) {
@@ -76,7 +59,7 @@ console.log(routeDestination)
         }
 
         setDestination(result.data ?? []);
-            } catch (error) {
+      } catch (error) {
         console.error(
           "Featured destinations fetch error:",
           error
@@ -94,7 +77,6 @@ console.log(routeDestination)
 
 
 
-console.log(destinations,"abhinav----------")
   const destinationData = featuredDestination.find(
     (item) =>
       item.destination.name
@@ -117,73 +99,29 @@ console.log(destinations,"abhinav----------")
     .toLowerCase()
     .replace(/\s+/g, "-")
 
- 
-  const destination = destinationData.destination;
 
-  const packages = destinationData.packages ?? [];
-
-  const activities = destination.activities ?? [];
-
-  const gallery = destination.gallery ?? [];
-
-  const bestTimeToVisit = destination.bestTimeToVisit;
-  const whyVisit = destination.whyVisit;
-  const attractions = destination.attractions ?? []
-
-  const travelInfo = destination.travelInfo ?? [];
-
-  const packingItems = destination.packingItems ?? [];
-
-  const itinerary = destination.itinerary ?? [];
-
-  const categories = destination.categories ?? [];
-
-
-
-  const openGallery = (index: number) => {
-    setActiveImage(index);
-  };
-
-  const closeGallery = () => {
-    setActiveImage(null);
-  };
-
-  const nextImage = () => {
-    if (activeImage === null || gallery.length === 0) {
-      return;
-    }
-
-    setActiveImage(
-      (activeImage + 1) % gallery.length
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-white">
+        <p className="text-gray-500">
+          Destination fetched
+        </p>
+      </main>
     );
-  };
-
-  const previousImage = () => {
-    if (activeImage === null || gallery.length === 0) {
-      return;
-    }
-
-    setActiveImage(
-      (activeImage - 1 + gallery.length) %
-      gallery.length
-    );
-  };
-  console.log(attractions)
-  console.log(destinations?.activities)
-
+  }
   return (
     <main className="w-screen bg-white">
 
 
-<DestinationHero
-  imageUrl={destinations?.heroImage?.url ?? ""}
-  destination={destinations?.name ?? ""}
-  subtitle={destinations?.subtitle ?? ""}
-  description={destinations?.description ?? ""}
-  idealTrip={destinations?.idealTrip ?? ""}
-  budget={destinations?.budget ?? ""}
-  location={destinations?.location ?? ""}
-/>
+      <DestinationHero
+        imageUrl={destinations?.heroImage?.url ?? ""}
+        destination={destinations?.name ?? ""}
+        subtitle={destinations?.subtitle ?? ""}
+        description={destinations?.description ?? ""}
+        idealTrip={destinations?.idealTrip ?? ""}
+        budget={destinations?.budget ?? ""}
+        location={destinations?.location ?? ""}
+      />
 
       <SearachBar bottomPosition="2" />
 
@@ -205,7 +143,7 @@ console.log(destinations,"abhinav----------")
             </h2>
 
             <p className="mt-3 w-full text-md leading-6 text-gray-400 md:text-[18px]">
-              {destination.description}
+              {destinations?.description}
             </p>
 
             {/* ==================================================
@@ -215,7 +153,7 @@ console.log(destinations,"abhinav----------")
             {destinations?.activities?.length > 0 && (
               <div className="mt-6 grid w-full grid-cols-2 gap-x-6 gap-y-5">
 
-                {destinations?.activities.map((activity:any) => {
+                {destinations?.activities.map((activity: any) => {
                   // const Icon = activity.icon;
 
                   return (
@@ -243,420 +181,70 @@ console.log(destinations,"abhinav----------")
               GALLERY
           ================================================== */}
 
-          {gallery.length > 0 && (
-            <div className="grid w-full grid-cols-12 gap-2.5 lg:w-[55%]">
-
-              {/* ==================================================
-                  MAIN IMAGE
-              ================================================== */}
-
-              <button
-                type="button"
-                onClick={() => openGallery(0)}
-                className="group relative col-span-12 h-65 overflow-hidden rounded-[20px] text-left sm:h-75 lg:col-span-7 lg:h-76.25"
-              >
-                <Image
-                  src={gallery[0].src}
-                  alt={gallery[0].title}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-
-                <div className="absolute bottom-4 left-4 text-white">
-                  <span className="mb-1 block text-[10px] font-medium uppercase tracking-wider text-white/70">
-                    Featured
-                  </span>
-
-                  <h3 className="text-lg font-semibold sm:text-xl">
-                    {gallery[0].title}
-                  </h3>
-                </div>
-              </button>
-
-              {/* ==================================================
-                  RIGHT GALLERY
-              ================================================== */}
-
-              {gallery.length > 1 && (
-                <div className="col-span-12 grid grid-cols-2 gap-2.5 lg:col-span-5">
-
-                  <button
-                    type="button"
-                    onClick={() => openGallery(1)}
-                    className="group relative col-span-2 h-37.5 overflow-hidden rounded-[20px] text-left"
-                  >
-                    <Image
-                      src={gallery[1].src}
-                      alt={gallery[1].title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 25vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-
-                    <div className="absolute bottom-3 left-3 text-white">
-                      <p className="text-xs font-medium">
-                        {gallery[1].title}
-                      </p>
-                    </div>
-                  </button>
-
-                  {gallery.slice(2, 4).map(
-                    (image, index) => {
-                      const actualIndex = index + 2;
-
-                      return (
-                        <button
-                          key={`${image.src}-${index}`}
-                          type="button"
-                          onClick={() =>
-                            openGallery(actualIndex)
-                          }
-                          className="group relative h-36.25 overflow-hidden rounded-[20px] text-left"
-                        >
-                          <Image
-                            src={image.src}
-                            alt={image.title}
-                            fill
-                            sizes="(max-width: 1024px) 50vw, 12vw"
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-
-                          <div className="absolute bottom-3 left-3 text-white">
-                            <p className="text-xs font-medium">
-                              {image.title}
-                            </p>
-                          </div>
-                        </button>
-                      );
-                    }
-                  )}
-
-                </div>
-              )}
-
-              {/* ==================================================
-                  BOTTOM IMAGES
-              ================================================== */}
-
-              {gallery.length > 3 && (
-                <div className="col-span-12 grid grid-cols-3 gap-2.5">
-
-                  {gallery.slice(3, 7).map(
-                    (image, index) => {
-                      const actualIndex = index + 3;
-                      const isWide = index % 2 === 1;
-                      const isLast =
-                        index ===
-                        Math.min(gallery.length - 4, 3);
-
-                      return (
-                        <button
-                          key={`${image.src}-${index}`}
-                          type="button"
-                          onClick={() =>
-                            openGallery(actualIndex)
-                          }
-                          className={`
-                            group
-                            relative
-                            h-27.5
-                            overflow-hidden
-                            rounded-[18px]
-                            text-left
-                            sm:h-32.5
-                            ${isWide
-                              ? "col-span-2"
-                              : "col-span-1"
-                            }
-                          `}
-                        >
-                          <Image
-                            src={image.src}
-                            alt={image.title}
-                            fill
-                            sizes={
-                              isWide
-                                ? "(max-width: 640px) 66vw, 40vw"
-                                : "(max-width: 640px) 33vw, 20vw"
-                            }
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-
-                          <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/30" />
-
-
-                        </button>
-                      );
-                    }
-                  )}
-
-                </div>
-              )}
-
-            </div>
-          )}
-
         </div>
       </section>
-
-
-
-      <Dialog
-        open={activeImage !== null}
-        onOpenChange={(open) => {
-          if (!open) {
-            closeGallery();
-          }
-        }}
-      >
-        <DialogContent
-          className="
-            max-w-5xl
-            overflow-hidden
-            border-0
-            bg-black
-            p-2
-            sm:p-3
-          "
-        >
-          <DialogTitle className="sr-only">
-            {destination.name} Gallery
-          </DialogTitle>
-
-          {activeImage !== null &&
-            gallery[activeImage] && (
-              <div className="relative">
-
-                {/* ==================================================
-                    MAIN IMAGE
-                ================================================== */}
-
-                <div
-                  className="
-                    relative
-                    h-[70vh]
-                    min-h-100
-                    overflow-hidden
-                    rounded-xl
-                    bg-black
-                  "
-                >
-                  <Image
-                    src={gallery[activeImage].src}
-                    alt={gallery[activeImage].title}
-                    fill
-                    className="object-contain"
-                  />
-
-                  {/* ==================================================
-                      IMAGE INFORMATION
-                  ================================================== */}
-
-                  <div
-                    className="
-                      absolute
-                      bottom-0
-                      left-0
-                      right-0
-                      bg-linear-to-t
-                      from-black/80
-                      to-transparent
-                      px-5
-                      pb-5
-                      pt-16
-                    "
-                  >
-                    <p className="text-lg font-medium text-white">
-                      {gallery[activeImage].title}
-                    </p>
-
-                    <p className="mt-1 text-xs text-white/60">
-                      {gallery[activeImage].location}
-                    </p>
-                  </div>
-
-                  {/* ==================================================
-                      PREVIOUS
-                  ================================================== */}
-
-                  <button
-                    type="button"
-                    onClick={previousImage}
-                    aria-label="Previous image"
-                    className="
-                      absolute
-                      left-4
-                      top-1/2
-                      flex
-                      h-10
-                      w-10
-                      -translate-y-1/2
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-white/15
-                      text-white
-                      backdrop-blur
-                      transition
-                      hover:bg-white/25
-                    "
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </button>
-
-                  {/* ==================================================
-                      NEXT
-                  ================================================== */}
-
-                  <button
-                    type="button"
-                    onClick={nextImage}
-                    aria-label="Next image"
-                    className="
-                      absolute
-                      right-4
-                      top-1/2
-                      flex
-                      h-10
-                      w-10
-                      -translate-y-1/2
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-white/15
-                      text-white
-                      backdrop-blur
-                      transition
-                      hover:bg-white/25
-                    "
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </button>
-
-                </div>
-
-                {/* ==================================================
-                    THUMBNAILS
-                ================================================== */}
-
-                <div
-                  className="
-                    mt-2
-                    flex
-                    gap-2
-                    overflow-x-auto
-                    px-1
-                    pb-1
-                  "
-                >
-                  {gallery.map((image, index) => (
-                    <button
-                      key={`${image.src}-${index}`}
-                      type="button"
-                      onClick={() =>
-                        setActiveImage(index)
-                      }
-                      className={`
-                        relative
-                        h-16
-                        w-20
-                        shrink-0
-                        overflow-hidden
-                        rounded-lg
-                        transition
-                        ${activeImage === index
-                          ? "ring-2 ring-primary"
-                          : "opacity-60 hover:opacity-100"
-                        }
-                      `}
-                    >
-                      <Image
-                        src={image.src}
-                        alt={image.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-
-              </div>
-            )}
-        </DialogContent>
-      </Dialog>
+          <DestinationGallery
+            images={destinations?.gallery ?? []}
+            destinationName={destinations?.name ?? ""}
+          />
 
 
       <div className="flex w-full flex-col items-center justify-center gap-18">
 
+        {destinations?.attractions.length > 0 &&
+          (<AttractionsByDestination
+            destination={destinations?.name}
+            attractions={destinations?.attractions} />)}
 
-        {attractions.length > 0 && (
-          <PackagesByDestination
-            destination={destination.name}
-            attractions={attractions}
-          />)
-        }
+        {destinations?.activities?.length > 0 &&
+          (
+            <div className="w-[91%]">
+              <ThingsToDo
+                title={`Best Experiences in ${destinations?.name ?? ""}`}
+                activities={destinations.activities} />
+            </div>
+          )}
 
-        {activities.length > 0 && (
-          <div className="w-[91%]">
 
-            <ThingsToDo
-              title={`Best Experiences in ${destination.name}`}
-              activities={activities}
+
+
+        <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+          <div className="w-full relative top-11">
+            <WhyVisit
+              items={destinations?.whyVisit ?? []}
+              destination={destinations?.name}
             />
           </div>
 
-        )}
-
-
-
-        {whyVisit && (itinerary.length > 0 || bestTimeToVisit) && (
-          <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
-            <div className="w-full relative top-11">
-              <WhyVisit
-                title={whyVisit.title}
-                highlights={whyVisit.highlights}
+          {destinations?.bestTimeToVisit && (
+            <div className="md:full lg:w-[60%]">
+              <BestTimeToVisit
+                months={destinations?.bestTimeToVisit}
               />
             </div>
+          )}
+        </div>
 
-            {bestTimeToVisit && (
-              <div className="md:full lg:w-[60%]">
-                <BestTimeToVisit
-                  months={bestTimeToVisit.months}
-                  seasons={bestTimeToVisit.seasons}
-                />
-              </div>
-            )}
-          </div>
-        )}
 
         {/* ==================================================
             BEST PACKAGES
         ================================================== */}
-        {packages.length > 0 &&
+        {destinations?.packages.length > 0 &&
 
           <BestPackageByDestination
-            location={destination.name}
-            packages={packages}
+            location={destinations?.name}
+            packages={destinations?.packages}
           />
         }
 
 
 
-
-        {/* ==================================================
-            BLOG
-        ================================================== */}
         <div className="w-[95%]">
 
           <TravelersReviews />
         </div>
         <TravelStories />
 
-        {/* ==================================================
-            MEMORIES
-        ================================================== */}
 
         <Memories />
 

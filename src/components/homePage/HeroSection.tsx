@@ -12,7 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Oswald } from "next/font/google";
-
+import HeroSectionSkeleton from "./HeroSectionSkeleton";
 const SLIDE_DURATION = 3000;
 
 const oswald = Oswald({
@@ -263,39 +263,8 @@ export default function HeroSection() {
 
     if (loading) {
         return (
-            <section
-                className="
-                    relative
-                    flex
-                    min-h-[40vh]
-                    w-full
-                    items-center
-                    justify-center
-                    overflow-hidden
-                    bg-black
-                    lg:min-h-[650px]
-                "
-            >
-                <div className="text-center text-white">
-                    <div
-                        className="
-                            mx-auto
-                            mb-4
-                            h-8
-                            w-8
-                            animate-spin
-                            rounded-full
-                            border-2
-                            border-white/30
-                            border-t-white
-                        "
-                    />
+          <HeroSectionSkeleton/>
 
-                    <p className="text-sm text-white/70">
-                        Loading destinations...
-                    </p>
-                </div>
-            </section>
         );
     }
 
@@ -309,29 +278,7 @@ export default function HeroSection() {
         !activeDestination
     ) {
         return (
-            <section
-                className="
-                    relative
-                    flex
-                    min-h-[40vh]
-                    w-full
-                    items-center
-                    justify-center
-                    overflow-hidden
-                    bg-black
-                    lg:min-h-[650px]
-                "
-            >
-                <div className="text-center text-white">
-                    <h2 className="text-xl font-semibold">
-                        Unable to load destinations
-                    </h2>
-
-                    <p className="mt-2 text-sm text-white/60">
-                        Please try again later.
-                    </p>
-                </div>
-            </section>
+                <HeroSectionSkeleton/>
         );
     }
 
