@@ -83,8 +83,7 @@ export async function GET(request: NextRequest) {
                         heroImage: true,
 
                         originalPrice: true,
-                         discount: true,
-                        saveAmount: true,
+ 
 
                         duration: true,
                         groupSize: true,

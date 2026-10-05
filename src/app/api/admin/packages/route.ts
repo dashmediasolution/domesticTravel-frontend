@@ -288,14 +288,10 @@ export async function POST(
                 formData.get("offerPrice")
             ),
 
-            discount: null,
 
-            saveAmount: null,
 
-            validTill:
-                String(
-                    formData.get("validTill") || ""
-                ).trim(),
+
+
 
             rating: getNumber(
                 formData.get("rating")
@@ -327,7 +323,7 @@ export async function POST(
             metaDescription:
                 String(
                     formData.get("metaDescription") ||
-                        ""
+                    ""
                 ).trim(),
 
             keywords,
@@ -361,7 +357,18 @@ export async function POST(
         }
 
         const data = validation.data;
-
+        if (
+            data.originalPrice === null ||
+            data.originalPrice === undefined
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Original price is required",
+                },
+                { status: 400 }
+            );
+        }
         /* =========================================================
            PARENT PACKAGE VALIDATION
         ========================================================= */
@@ -695,14 +702,14 @@ export async function POST(
         const finalHeroImage =
             hasHeroUrl
                 ? {
-                      url: heroImageUrl,
-                      publicId: null,
-                  }
+                    url: heroImageUrl,
+                    publicId: null,
+                }
                 : {
-                      url: uploadedHero!.url,
-                      publicId:
-                          uploadedHero!.publicId,
-                  };
+                    url: uploadedHero!.url,
+                    publicId:
+                        uploadedHero!.publicId,
+                };
 
         /* =========================================================
            CREATE PACKAGE
@@ -769,21 +776,7 @@ export async function POST(
                         data.bestTimeToVisit,
 
                     originalPrice:
-                        data.originalPrice ??
-                        null,
-
-                    discount:
-                        data.discount,
-
-                    saveAmount:
-                        data.saveAmount,
-
-                    validTill:
-                        data.validTill
-                            ? new Date(
-                                  data.validTill
-                              )
-                            : null,
+                        data.originalPrice,
 
                     rating:
                         data.rating ??

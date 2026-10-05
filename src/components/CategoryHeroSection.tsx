@@ -66,24 +66,22 @@ export const CategoryHeroSection: React.FC<
             className="object-cover object-center"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 z-10" />
+         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 z-10" />
       </div>
 
       {/* Content Container */}
-      <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-12 pb-10 flex-1 flex flex-col justify-between">
+      <div className="relative   z-20 container mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-12 pb-10 flex-1 flex flex-col justify-between">
     
 
         {/* Headings */}
-        <div className="max-w-2xl my-auto py-6">
+        <div className="max-w-4xl my-auto  ">
           <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-amber-300 drop-shadow mb-2 sm:mb-3">
             {tagline}
           </p>
 
           <h1 className="font-black uppercase tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-md">
-            <span className="block text-white">{titleTop}</span>
-            <span className="block text-white">{titleBottom}</span>
-          </h1>
+            <span className="block text-white">{titleTop }   {titleBottom}</span>
+           </h1>
 
           <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-slate-100 max-w-lg leading-relaxed drop-shadow font-normal">
             {description}

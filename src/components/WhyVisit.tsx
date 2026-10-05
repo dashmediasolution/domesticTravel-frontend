@@ -78,7 +78,7 @@ export default function WhyVisit({
                         flex
                         flex-col
                         gap-3
-                        ${showScroller ? "max-h-[420px] overflow-y-auto pr-2" : ""}
+                        ${showScroller ? "max-h-[330px] overflow-y-auto pr-2" : ""}
                         [scrollbar-width:thin]
                         [scrollbar-color:#d1d5db_transparent]
                         [&::-webkit-scrollbar]:w-1

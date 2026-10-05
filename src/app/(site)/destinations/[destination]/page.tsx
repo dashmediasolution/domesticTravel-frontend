@@ -17,91 +17,88 @@ import ThingsToDo from "@/components/ThingsToDo";
 import DestinationGallery from "@/components/DestinationGallery";
 import { useEffect } from "react";
 import { Sparkles } from "lucide-react";
-
+import { Spinner } from "@/components/ui/spinner";
 
 export default function DestinationPage() {
-
+ 
   const pathname = usePathname();
-  const [destination, setDestination] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
   const routeDestination = pathname
     .split("/")
     .filter(Boolean)
     .pop();
-  useEffect(() => {
+const [destination, setDestination] = useState<any>(null);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+    if (!routeDestination) return;
+
     const fetchDestination = async () => {
-      try {
-        const response = await fetch(
-          `/api/destinations/${routeDestination}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-            cache: "no-store",
-          }
-        );
+        try {
+            setLoading(true);
 
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch destination data: ${response.status}`
-          );
+            const response = await fetch(
+                `/api/destinations/${routeDestination}`,
+                {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                    cache: "no-store",
+                }
+            );
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to fetch destination data: ${response.status}`
+                );
+            }
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(
+                    result.message || "Failed to fetch destination"
+                );
+            }
+
+            setDestination(result.data);
+        } catch (error) {
+            console.error("Destination fetch error:", error);
+            setDestination(null);
+        } finally {
+            setLoading(false);
         }
-
-        const result = await response.json();
-
-        if (!result.success) {
-          throw new Error(
-            result.message ||
-            "Failed to fetch featured destination"
-          );
-        }
-
-        setDestination(result.data ?? []);
-      } catch (error) {
-        console.error(
-          "Featured destinationfetch error:",
-          error
-        );
-
-        setDestination([]);
-      } finally {
-        setLoading(false);
-      }
     };
 
     fetchDestination();
-  }, []);
+}, [routeDestination]);
 
 
 
+console.log(destination)
 
-
-
-
-  if (!destination) {
+if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-gray-500">
-          Destination not found.
-        </p>
-      </main>
+        <div className="flex min-h-screen w-screen items-center justify-center">
+            <Spinner className="h-10 w-10 text-primary" />
+        </div>
     );
-  }
+}
+
+if (!destination) {
+    return (
+        <main className="flex min-h-screen items-center justify-center bg-white">
+            <p className="text-gray-500">
+                Destination not found.
+            </p>
+        </main>
+    );
+}
   const faqdest = destination.name
     .toLowerCase()
     .replace(/\s+/g, "-")
 
-
-  if (loading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-gray-500">
-          Destination fetched
-        </p>
-      </main>
-    );
-  }
+ 
   return (
     <main className="w-screen bg-white">
 

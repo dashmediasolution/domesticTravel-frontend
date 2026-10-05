@@ -178,20 +178,7 @@ export default function BestOffers() {
 
         fetchOffers();
     }, []);
-
-    /*
-     * Currently the Package model/API does not contain
-     * domestic/international information.
-     *
-     * Therefore both tabs use the same offers.
-     *
-     * When package type is added to the API, this can
-     * be changed to:
-     *
-     * offers.filter(
-     *     (offer) => offer.packageType === offerType
-     * )
-     */
+ 
     const filteredOffers = offers;
 
     const handleTypeChange = (type: OfferType) => {

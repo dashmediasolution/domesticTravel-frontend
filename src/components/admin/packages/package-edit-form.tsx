@@ -4,69 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CreatePackageForm from "./CreatePackageForm";
 
-// type PackageData = {
-//     id: string;
-
-//     name: string;
-//     slug: string;
-//     category: string | null;
-//     subtitle: string | null;
-
-//     destinationId: string;
-//     parentPackageId: string | null;
-
-//     description: string | null;
-//     location: string | null;
-
-//     duration: string | null;
-//     groupSize: string | null;
-
-//     originalPrice: number | null;
-//     offerPrice: number | null;
-
-//     validTill: string | null;
-
-//     idealTrip: string | null;
-//     budget: string | null;
-
-//     bestTimeToVisit: string[];
-
-//     highlights: string[];
-//     inclusions: string[];
-//     exclusions: string[];
-
-//     whyVisit: {
-//         id?: string;
-//         title: string;
-//         description: string;
-//     }[];
-
-//     itinerary: {
-//         id?: string;
-//         day: number;
-//         title: string;
-//         description: string;
-//         activities?: string[];
-//     }[];
-
-//     keywords: string[];
-
-//     metaTitle: string | null;
-//     metaDescription: string | null;
-
-//     isPublished: boolean;
-//     isFeatured: boolean;
-
-//     heroImage: {
-//         url: string;
-//         publicId: string;
-//     } | null;
-
-//     gallery: {
-//         url: string;
-//         publicId: string;
-//     }[];
-// };
 
 export default function PackageEditForm({
     packageId,

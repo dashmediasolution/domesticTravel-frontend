@@ -1436,11 +1436,9 @@ export default function CreatePackageForm({
             bestTimeToVisit: [],
 
             originalPrice: null,
-            discount: null,
-            saveAmount: null,
 
-            validTill: "",
 
+ 
             rating: null,
             reviewsCount: null,
 
@@ -1531,18 +1529,6 @@ export default function CreatePackageForm({
                 initialData.originalPrice ?? null,
 
 
-
-
-            discount:
-                initialData.discount ?? null,
-
-            saveAmount:
-                initialData.saveAmount ?? null,
-
-            validTill:
-                initialData.validTill
-                    ? String(initialData.validTill).slice(0, 10)
-                    : "",
 
             rating:
                 initialData.rating ?? null,
@@ -2069,10 +2055,8 @@ setHeroImageUrl("");
                 values.occasion || "NONE"
             );
 
-            formData.append(
-                "validTill",
-                values.validTill || ""
-            );
+        
+            
 
             formData.append(
                 "rating",
@@ -2960,7 +2944,7 @@ setHeroImageUrl("");
                 <CardHeader>
                     <SectionHeader
                         title="Pricing"
-                        description="Set the package pricing. Discount and savings are calculated on the server."
+                        description="Set the package pricing."
                     />
                 </CardHeader>
 
@@ -2989,19 +2973,7 @@ setHeroImageUrl("");
 
 
 
-                        <div>
-                            <Label>
-                                Valid Till
-                            </Label>
-
-                            <Input
-                                type="date"
-                                {...register(
-                                    "validTill"
-                                )}
-                                className="mt-2"
-                            />
-                        </div>
+                     
 
                         <div>
                             <Label>
@@ -3048,19 +3020,8 @@ setHeroImageUrl("");
                             />
                         </div>
 
-                        <div className="rounded-xl border bg-muted/30 p-4">
-                            <p className="text-sm font-semibold">
-                                Pricing calculation
-                            </p>
-
-                            <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                                Discount and save
-                                amount are calculated
-                                automatically by the
-                                API using the original
-                                and offer prices.
-                            </p>
-                        </div>
+                   
+                   
                     </div>
                 </CardContent>
             </Card>

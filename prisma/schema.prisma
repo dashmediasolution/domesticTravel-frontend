@@ -141,12 +141,7 @@ model Package {
     budget          String?
     bestTimeToVisit String[]
     badge         String?
-    originalPrice Float?
-    discount      Float?
-    saveAmount    Float?
-
-    validTill DateTime?
-
+    originalPrice Float
     rating       Float?
     reviewsCount Int?
 

@@ -170,7 +170,7 @@ export default function PackageHeroSection({
                     {/* Included Information */}
                     <div className="mt-2 flex flex-wrap items-center gap-3 text-[8px] text-white/80 sm:text-[9px] md:text-[10px]">
                         <div className="flex items-center gap-1">
-                            <Utensils className="size-3 text-primary sm:size-3.5 md:size-5" />
+                            <Utensils className="size-3 text-primary sm:size-3.5 md:size-5 " />
                             <span text-lg>Meals Included</span>
                         </div>
 
@@ -182,7 +182,7 @@ export default function PackageHeroSection({
                                     |
                                 </span>
 
-                                <span className="text-xl flex justify-center items-center">
+                                <span className="text-xl flex justify-center font-bold items-center ">
                                     <IndianRupeeIcon className="size-5" />   {originalPrice}
                                 </span>
                             </>

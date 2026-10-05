@@ -199,23 +199,7 @@ export const packageSchema = z.object({
 
 
 
-    discount: z
-        .number()
-        .min(0)
-        .max(100)
-        .nullable()
-        .default(null),
-
-    saveAmount: z
-        .number()
-        .min(0)
-        .nullable()
-        .default(null),
-
-    validTill: z
-        .string()
-        .default(""),
-
+  
     rating: z
         .number()
         .min(0, "Rating cannot be below 0")

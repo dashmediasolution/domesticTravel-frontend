@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -28,6 +27,8 @@ export async function GET(
             );
         }
 
+        const now = new Date();
+
         const destination = await prisma.destination.findUnique({
             where: {
                 slug,
@@ -50,15 +51,47 @@ export async function GET(
                     orderBy: {
                         createdAt: "desc",
                     },
-                    select:{
-                        id:true,
-                        name:true,
-                        slug:true,
-                        subtitle:true,
-                        originalPrice:true,
-                        heroImage: true
-                    }
-                  
+
+                    select: {
+                        id: true,
+                        name: true,
+                        slug: true,
+                        subtitle: true,
+                        originalPrice: true,
+                        heroImage: true,
+
+                        offers: {
+                            where: {
+                                isActive: true,
+                                startDate: {
+                                    lte: now,
+                                },
+                                endDate: {
+                                    gte: now,
+                                },
+                            },
+
+                            select: {
+                                id: true,
+                                title: true,
+                                slug: true,
+                                type: true,
+                                offerPrice: true,
+                                originalPrice: true,
+                                saveAmount: true,
+                                discount: true,
+                                startDate: true,
+                                endDate: true,
+                                badgeText: true,
+                            },
+
+                            orderBy: {
+                                createdAt: "desc",
+                            },
+
+                            take: 1,
+                        },
+                    },
                 },
             },
         });
@@ -73,22 +106,51 @@ export async function GET(
             );
         }
 
+        const packages = destination.packages.map((pkg) => {
+            const activeOffer = pkg.offers?.[0] ?? null;
+
+            return {
+                id: pkg.id,
+                name: pkg.name,
+                slug: pkg.slug,
+                subtitle: pkg.subtitle,
+                originalPrice: pkg.originalPrice,
+                heroImage: pkg.heroImage,
+
+                hasOffer: Boolean(activeOffer),
+
+                offer: activeOffer,
+            };
+        });
+
         return NextResponse.json(
             {
                 success: true,
-                data: destination,
+
+                data: {
+                    ...destination,
+                    packages,
+                },
             },
-            { status: 200 }
+            {
+                status: 200,
+            }
         );
     } catch (error) {
-        console.error("Get destination by slug error:", error);
+        console.error("Destination API error:", error);
 
         return NextResponse.json(
             {
                 success: false,
                 message: "Failed to fetch destination",
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : "Unknown error",
             },
-            { status: 500 }
+            {
+                status: 500,
+            }
         );
     }
 }

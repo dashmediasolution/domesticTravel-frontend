@@ -231,13 +231,14 @@ export default function Itinerary({
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
+                                                        md:text-[12px]
                                                     "
                                                 >
                                                     <MapPin
                                                         className="
                                                             mt-0.5
-                                                            h-3
-                                                            w-3
+                                                            h-4
+                                                            w-4
                                                             shrink-0
                                                             text-[#2FC2B0]
                                                         "
@@ -262,13 +263,15 @@ export default function Itinerary({
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
+                                                       md:text-[12px]
+
                                                     "
                                                 >
                                                     <Utensils
                                                         className="
                                                             mt-0.5
-                                                            h-3
-                                                            w-3
+                                                            h-4
+                                                            w-4
                                                             shrink-0
                                                             text-[#2FC2B0]
                                                         "
@@ -293,13 +296,15 @@ export default function Itinerary({
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
+                                                       md:text-[12px]
+
                                                     "
                                                 >
                                                     <Moon
                                                         className="
                                                             mt-0.5
-                                                            h-3
-                                                            w-3
+                                                            h-4
+                                                            w-4
                                                             shrink-0
                                                             text-[#2FC2B0]
                                                         "
@@ -336,19 +341,13 @@ export default function Itinerary({
                                                 font-bold
                                                 text-[#00383B]
                                                 sm:text-xs
+                                                md:text-sm
                                             "
                                         >
                                             Highlights
                                         </p>
 
-                                        <ChevronDown
-                                            className="
-                                                h-4
-                                                w-4
-                                                shrink-0
-                                                text-[#00383B]/50
-                                            "
-                                        />
+                                      
                                     </div>
 
                                     <div className="mt-1.5 flex flex-col gap-1">
@@ -381,10 +380,10 @@ export default function Itinerary({
 
                                                             <span
                                                                 className="
-                                                                    text-[10px]
-                                                                    leading-4
+                                                                     leading-4
                                                                     text-slate-500
                                                                     sm:text-[11px]
+                                                                    md:text-[13px]
                                                                 "
                                                             >
                                                                 {activity}
@@ -393,7 +392,7 @@ export default function Itinerary({
                                                     )
                                                 )
                                         ) : (
-                                            <span className="text-[10px] text-slate-400">
+                                            <span className="text-[10px] text-slate-400 md:text-base">
                                                 No highlights
                                             </span>
                                         )}
@@ -423,6 +422,7 @@ export default function Itinerary({
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
+                                                        md:text-[13px]
                                                     "
                                                 >
                                                     {meals.join(
@@ -457,6 +457,7 @@ export default function Itinerary({
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
+                                                        md:text-[13px]
                                                     "
                                                 >
                                                     Stay: {overnight}
@@ -466,19 +467,7 @@ export default function Itinerary({
                                     </div>
                                 </div>
 
-                                {/* TOP RIGHT CHEVRON */}
-                                <ChevronDown
-                                    className="
-                                        absolute
-                                        right-3
-                                        top-3
-                                        h-4
-                                        w-4
-                                        text-[#00383B]/45
-                                        sm:right-4
-                                        sm:top-4
-                                    "
-                                />
+                           
                             </div>
                         </div>
                     );

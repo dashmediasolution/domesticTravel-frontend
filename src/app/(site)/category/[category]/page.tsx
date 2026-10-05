@@ -882,8 +882,7 @@ export default function CategoryPage({
 
     const [loading, setLoading] = useState(true);
 
-    const heroData =
-        categoryHeroData[category.toLowerCase()];
+    const heroData =   categoryHeroData[category.toLowerCase()];
 
     const categoryName =
         category.charAt(0).toUpperCase() +
@@ -946,11 +945,11 @@ export default function CategoryPage({
     return (
         <main className="flex w-full flex-col items-center justify-between gap-12 bg-white">
 
-            {heroData && (
+       
                 <CategoryHeroSection
                     data={heroData}
                 />
-            )}
+         
 
             <section className="mx-auto flex w-[91%] flex-col gap-12">
 

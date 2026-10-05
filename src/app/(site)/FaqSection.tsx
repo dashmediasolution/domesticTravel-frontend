@@ -69,7 +69,10 @@ export default function FAQSection({
 
                 setFaqs(result.data || []);
             } catch (error) {
-                if (error instanceof DOMException && error.name === "AbortError") {
+                if (
+                    error instanceof DOMException &&
+                    error.name === "AbortError"
+                ) {
                     return;
                 }
 
@@ -107,7 +110,9 @@ export default function FAQSection({
         return (
             <section className="w-full py-12 sm:py-16">
                 <div className="mx-auto w-full max-w-4xl px-4 text-center sm:px-6">
-                    <p className="text-sm text-red-500">{error}</p>
+                    <p className="text-sm text-red-500">
+                        {error}
+                    </p>
                 </div>
             </section>
         );
@@ -119,7 +124,7 @@ export default function FAQSection({
 
     return (
         <section className="w-full py-12 sm:py-16 lg:py-20">
-            <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
+            <div className="mx-auto w-[94%] px-4 sm:px-6">
                 <div className="mb-8 text-center sm:mb-10">
                     <h2 className="text-2xl font-semibold tracking-tight text-[#00383B] sm:text-3xl lg:text-4xl">
                         {title}
@@ -130,14 +135,14 @@ export default function FAQSection({
                     </p>
                 </div>
 
-                <div className="space-y-3">
+                <div className="columns-1 gap-3 md:columns-2">
                     {faqs.map((faq) => {
                         const isOpen = openId === faq.id;
 
                         return (
                             <div
                                 key={faq.id}
-                                className="overflow-hidden rounded-2xl border border-[#dcefeb] bg-white transition-shadow duration-200 hover:shadow-sm"
+                                className="mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[#dcefeb] bg-white transition-shadow duration-200 hover:shadow-sm"
                             >
                                 <button
                                     type="button"

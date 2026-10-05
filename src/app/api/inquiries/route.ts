@@ -16,7 +16,7 @@ const inquirySchema = z.object({
         .max(100, "Name must not exceed 100 characters"),
 
     phone: z
-        .string()   
+        .string()
         .trim()
         .regex(
             /^\+?[0-9]{10,15}$/,
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
             const { error } =
                 await resend.emails.send(
                     {
-                        from: emailFrom,
+                        from: "WANDER-INDIA <onboarding@resend.dev>",
                         to: [adminEmail],
                         replyTo: inquiry.email,
                         subject: `New Website Inquiry - ${inquiry.name}`,

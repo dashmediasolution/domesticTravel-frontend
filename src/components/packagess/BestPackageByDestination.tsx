@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {   Star } from "lucide-react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { useRouter } from "next/navigation";
@@ -37,6 +37,16 @@ interface DestinationPackage {
     slug: string;
     subtitle?: string;
     originalPrice?: number;
+    hasOffer?: boolean;
+
+    offer?: {
+        offerPrice?: number;
+        originalPrice?: number;
+        discount?: number | null;
+        saveAmount?: number | null;
+        slug: string
+    } | null;
+
     heroImage?: {
         url?: string;
         publicId?: string | null;
@@ -48,8 +58,6 @@ interface BestPackageByDestinationProps {
     packages: DestinationPackage[];
 }
 
- 
-
 export function Package({
     title,
     duration,
@@ -60,7 +68,7 @@ export function Package({
     color,
 }: PackageProps) {
     return (
-        <Card className="group gap-0  relative mb-2 w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0">
+        <Card className="group relative mb-2 w-full gap-0 overflow-hidden rounded-[24px] border-0 bg-white pt-0">
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                     src={image}
@@ -93,8 +101,6 @@ export function Package({
                         {tag}
                     </Badge>
                 )}
-
-                
             </div>
 
             <CardHeader className="gap-1 px-5 pt-4">
@@ -161,6 +167,11 @@ export function BestPackageByDestination({
         return null;
     }
 
+    const destinationSlug = location
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-");
+
     return (
         <section className="flex w-full justify-center">
             <div className="w-[90%]">
@@ -193,6 +204,28 @@ export function BestPackageByDestination({
                                     return null;
                                 }
 
+                                const packagePrice =
+                                    item.hasOffer &&
+                                        item.offer?.offerPrice
+                                        ? `₹${item.offer.offerPrice.toLocaleString(
+                                            "en-IN"
+                                        )} / person`
+                                        : item.originalPrice
+                                            ? `₹${item.originalPrice.toLocaleString(
+                                                "en-IN"
+                                            )} / person`
+                                            : "Price on request";
+
+                                const tag = item.hasOffer
+                                    ? "Special Offer"
+                                    : index === 0
+                                        ? "Best Seller"
+                                        : index === 1
+                                            ? "Value for Money"
+                                            : index === 2
+                                                ? "Premium"
+                                                : "Popular";
+
                                 return (
                                     <CarouselItem
                                         key={item.id}
@@ -205,39 +238,26 @@ export function BestPackageByDestination({
                                             xl:basis-1/4
                                         "
                                         onClick={() => {
-                                            router.push(
-                                                `/package/${location
-                                                    .toLowerCase()
-                                                    .trim()
-                                                    .replace(/\s+/g, "-")}/${item.slug}`
-                                            );
+                                            if (item.hasOffer && item.offer) {
+                                                router.push(`/offers/package/${item.offer.slug}`);
+                                            } else {
+                                                router.push(
+                                                    `/package/${destinationSlug}/${item.slug}`
+                                                );
+                                            }
                                         }}
                                     >
                                         <Package
                                             title={item.name}
                                             duration={item.subtitle}
-                                            price={
-                                                item.originalPrice
-                                                    ? `₹${item.originalPrice.toLocaleString(
-                                                          "en-IN"
-                                                      )} / person`
-                                                    : "Price on request"
-                                            }
+                                            price={packagePrice}
                                             image={image}
                                             color={
                                                 colors[
-                                                    index % colors.length
+                                                index % colors.length
                                                 ]
                                             }
-                                            tag={
-                                                index === 0
-                                                    ? "Best Seller"
-                                                    : index === 1
-                                                      ? "Value for Money"
-                                                      : index === 2
-                                                        ? "Premium"
-                                                        : "Popular"
-                                            }
+                                            tag={tag}
                                         />
                                     </CarouselItem>
                                 );

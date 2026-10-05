@@ -17,35 +17,25 @@ export async function GET() {
                 id: true,
                 name: true,
                 slug: true,
-                category: true,
+
                 type: true,
-                occasion: true,
+
                 subtitle: true,
-                description: true,
+
                 location: true,
-                duration: true,
+
                 groupSize: true,
                 idealTrip: true,
-                budget: true,
+
                 originalPrice: true,
-                discount: true,
-                saveAmount: true,
-                validTill: true,
-                rating: true,
-                reviewsCount: true,
-                highlights: true,
                 heroImage: true,
-                gallery: true,
-                isPublished: true,
-                isFeatured: true,
-                publishedAt: true,
-                createdAt: true,
 
                 destination: {
                     select: {
-                        id: true,
-                        name: true,
+
+
                         slug: true,
+
                     },
                 },
             },
