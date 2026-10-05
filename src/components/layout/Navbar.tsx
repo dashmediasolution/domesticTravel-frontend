@@ -43,7 +43,7 @@ import { GiDesert, GiTempleDoor } from "react-icons/gi";
 
 export default function Navbar() {
     const [categories, setCategories] = useState<string[]>([]);
-    const [destination , setDestinations] = useState<string[]>([]);
+    const [destination, setDestinations] = useState<any>([]);
     const pathname = usePathname();
 
     const [scrolled, setScrolled] = useState(false);
@@ -108,8 +108,7 @@ export default function Navbar() {
 
             const response = await category.json();
 
-            console.log(response, "Response");
-
+ 
             if (!response.success) {
                 throw new Error(
                     response.message || "Failed to fetch Category"
@@ -122,7 +121,7 @@ export default function Navbar() {
             setCategories([]);
         }
     };
-const fetchDestinations = async () => {
+    const fetchDestinations = async () => {
         try {
             const category = await fetch("/api/destinations-name", {
                 method: "GET",
@@ -134,8 +133,7 @@ const fetchDestinations = async () => {
 
             const response = await category.json();
 
-            console.log(response, "Response");
-
+ 
             if (!response.success) {
                 throw new Error(
                     response.message || "Failed to fetch Category"
@@ -150,8 +148,14 @@ const fetchDestinations = async () => {
     };
 
     useEffect(() => {
-        fetchCategories();
-        fetchDestinations()
+        const loadData = async () => {
+            await Promise.all([
+                fetchCategories(),
+                fetchDestinations(),
+            ]);
+        };
+
+        loadData();
     }, []);
 
     // =========================
@@ -205,64 +209,7 @@ const fetchDestinations = async () => {
         return <FiMapPin className="h-5 w-5" />;
     };
 
-    // =========================
-    // DESTINATIONS
-    // =========================
 
-    // const destinations = [
-    //     {
-    //         name: "Himachal Pradesh",
-    //         href: "/destinations/himachal-pradesh",
-    //         icon: "🏔️",
-    //         description: "Mountains & hill stations",
-    //     },
-    //     {
-    //         name: "Ladakh",
-    //         href: "/destinations/ladakh",
-    //         icon: "🏜️",
-    //         description: "High mountains & adventure",
-    //     },
-    //     {
-    //         name: "Kerala",
-    //         href: "/destinations/kerala",
-    //         icon: "🌴",
-    //         description: "Backwaters & beaches",
-    //     },
-    //     {
-    //         name: "Rajasthan",
-    //         href: "/destinations/rajasthan",
-    //         icon: "🏰",
-    //         description: "Forts & royal heritage",
-    //     },
-    //     {
-    //         name: "Uttarakhand",
-    //         href: "/destinations/uttarakhand",
-    //         icon: "🏔️",
-    //         description: "Himalayas & spirituality",
-    //     },
-    //     {
-    //         name: "Tamil Nadu",
-    //         href: "/destinations/tamil-nadu",
-    //         icon: "🛕",
-    //         description: "Temples & culture",
-    //     },
-    //     {
-    //         name: "Kashmir",
-    //         href: "/package/kashmir",
-    //         icon: "🏞️",
-    //         description: "Valleys & scenic beauty",
-    //     },
-    //     {
-    //         name: "Goa",
-    //         href: "/package/goa",
-    //         icon: "🏖️",
-    //         description: "Beaches & nightlife",
-    //     },
-    // ];
-
-    // =========================
-    // NAV ITEMS
-    // =========================
 
     const navItems = [
         {
@@ -282,7 +229,8 @@ const fetchDestinations = async () => {
         },
     ];
 
-    return (
+
+     return (
         <>
             <nav
                 className={`
@@ -294,10 +242,9 @@ const fetchDestinations = async () => {
                     w-full
                     transition-all
                     duration-300
-                    ${
-                        scrolled || mobileMenuOpen
-                            ? "bg-white text-black shadow-sm"
-                            : "bg-transparent text-white"
+                    ${scrolled || mobileMenuOpen
+                        ? "bg-white text-black shadow-sm"
+                        : "bg-transparent text-white"
                     }
                 `}
             >
@@ -352,10 +299,9 @@ const fetchDestinations = async () => {
                                         transition-colors
                                         hover:bg-white/10
                                         hover:text-primary
-                                        ${
-                                            pathname === "/flights"
-                                                ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"
+                                        ${pathname === "/flights"
+                                            ? "border-b-2 border-b-primary"
+                                            : "border-b-2 border-b-transparent"
                                         }
                                     `}
                                 >
@@ -380,10 +326,9 @@ const fetchDestinations = async () => {
                                         transition-colors
                                         hover:bg-white/10
                                         hover:text-primary
-                                        ${
-                                            pathname === "/hotels"
-                                                ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"
+                                        ${pathname === "/hotels"
+                                            ? "border-b-2 border-b-primary"
+                                            : "border-b-2 border-b-transparent"
                                         }
                                     `}
                                 >
@@ -408,10 +353,9 @@ const fetchDestinations = async () => {
                                         transition-colors
                                         hover:bg-white/10
                                         hover:text-primary
-                                        ${
-                                            pathname === "/bus"
-                                                ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"
+                                        ${pathname === "/bus"
+                                            ? "border-b-2 border-b-primary"
+                                            : "border-b-2 border-b-transparent"
                                         }
                                     `}
                                 >
@@ -551,10 +495,10 @@ const fetchDestinations = async () => {
                                         <div className="grid grid-cols-2 gap-1.5">
 
                                             {destination.map(
-                                                (destination, index) => (
+                                                (destination: any) => (
                                                     <Link
-                                                        key={index}
-                                                        href="#"
+                                                        key={destination.name}
+                                                        href={`destinations/${destination.slug}`}
                                                         className="
                                                             flex
                                                             items-center
@@ -589,7 +533,7 @@ const fetchDestinations = async () => {
                                                         <div>
                                                             <p className="text-sm font-medium">
                                                                 {
-                                                                    destination
+                                                                    destination.name
                                                                 }
                                                             </p>
 
@@ -632,10 +576,9 @@ const fetchDestinations = async () => {
                                 hover:border-primary
                                 hover:bg-primary
                                 hover:text-white
-                                ${
-                                    scrolled
-                                        ? "border-black/20 text-black"
-                                        : "border-white text-white"
+                                ${scrolled
+                                    ? "border-black/20 text-black"
+                                    : "border-white text-white"
                                 }
                             `}
                         >
@@ -662,10 +605,9 @@ const fetchDestinations = async () => {
                                 hover:border-primary
                                 hover:bg-primary
                                 hover:text-white
-                                ${
-                                    scrolled
-                                        ? "border-black/20 text-black"
-                                        : "border-white text-white"
+                                ${scrolled
+                                    ? "border-black/20 text-black"
+                                    : "border-white text-white"
                                 }
                             `}
                         >
@@ -704,10 +646,9 @@ const fetchDestinations = async () => {
                             hover:border-primary
                             hover:bg-primary
                             hover:text-white
-                            ${
-                                scrolled || mobileMenuOpen
-                                    ? "border-black/20 text-black"
-                                    : "border-white text-white"
+                            ${scrolled || mobileMenuOpen
+                                ? "border-black/20 text-black"
+                                : "border-white text-white"
                             }
                         `}
                     >
@@ -731,10 +672,9 @@ const fetchDestinations = async () => {
                         transition-all
                         duration-300
                         md:hidden
-                        ${
-                            mobileMenuOpen
-                                ? "max-h-[700px] opacity-100"
-                                : "max-h-0 opacity-0"
+                        ${mobileMenuOpen
+                            ? "max-h-[700px] opacity-100"
+                            : "max-h-0 opacity-0"
                         }
                     `}
                 >
@@ -765,10 +705,9 @@ const fetchDestinations = async () => {
                                         transition-colors
                                         hover:bg-black/5
                                         hover:text-primary
-                                        ${
-                                            pathname === item.href
-                                                ? "border-b-2 border-b-primary"
-                                                : "border-b-2 border-b-transparent"
+                                        ${pathname === item.href
+                                            ? "border-b-2 border-b-primary"
+                                            : "border-b-2 border-b-transparent"
                                         }
                                     `}
                                 >
@@ -818,10 +757,9 @@ const fetchDestinations = async () => {
                                             h-5
                                             w-5
                                             transition-transform
-                                            ${
-                                                categoriesOpen
-                                                    ? "rotate-180"
-                                                    : ""
+                                            ${categoriesOpen
+                                                ? "rotate-180"
+                                                : ""
                                             }
                                         `}
                                     />
@@ -935,10 +873,9 @@ const fetchDestinations = async () => {
                                             h-5
                                             w-5
                                             transition-transform
-                                            ${
-                                                destinationsOpen
-                                                    ? "rotate-180"
-                                                    : ""
+                                            ${destinationsOpen
+                                                ? "rotate-180"
+                                                : ""
                                             }
                                         `}
                                     />
@@ -949,10 +886,10 @@ const fetchDestinations = async () => {
                                     <div className="mt-2 grid grid-cols-2 gap-1">
 
                                         {destination.map(
-                                            (destination, index) => (
+                                            (destination: any) => (
                                                 <Link
-                                                    key={index}
-                                                    href="#"
+                                                    key={destination.name}
+                                                    href={`destination/${destination.slug}`}
                                                     onClick={() =>
                                                         setMobileMenuOpen(
                                                             false
@@ -980,7 +917,7 @@ const fetchDestinations = async () => {
 
                                                     <span>
                                                         {
-                                                            destination 
+                                                            destination
                                                         }
                                                     </span>
 

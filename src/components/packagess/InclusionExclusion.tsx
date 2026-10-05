@@ -87,10 +87,7 @@ export default function InclusionsExclusions({
                         </ul>
                     </CardContent>
                 </Card>
-                 <WhyVisit
-                    title={title}
-                    highlights={highlights}
-                    />
+              
             </div>
         </section>
     );

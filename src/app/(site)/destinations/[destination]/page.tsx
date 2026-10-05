@@ -132,7 +132,7 @@ export default function DestinationPage() {
               OVERVIEW
           ================================================== */}
 
-          <div className="w-full lg:w-[45%]">
+          <div className="w-full lg:w-[75%]">
 
             <p className="text-xs font-medium uppercase tracking-wider text-primary">
               Discover
@@ -181,12 +181,12 @@ export default function DestinationPage() {
               GALLERY
           ================================================== */}
 
-        </div>
-      </section>
           <DestinationGallery
             images={destinations?.gallery ?? []}
             destinationName={destinations?.name ?? ""}
           />
+        </div>
+      </section>
 
 
       <div className="flex w-full flex-col items-center justify-center gap-18">

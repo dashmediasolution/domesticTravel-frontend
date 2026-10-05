@@ -7,22 +7,20 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        const destinations = await prisma.destination.findMany({
+        const data = await prisma.destination.findMany({
             where: {
                 isPublished: true,
             },
             select: {
                 name: true,
+                slug:true
             },
-            distinct: ["name"],
-            orderBy: {
+             orderBy: {
                 name: "asc",
             },
         });
 
-        const data = destinations
-            .map((item) => item.name.trim())
-            .filter(Boolean);
+      
 
         return NextResponse.json(
             {
