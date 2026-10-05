@@ -59,7 +59,8 @@ export default function OfferCard({
                         {originalPrice ?? "-"}
                     </span>
                 </div>
-
+                {
+                    offerPrice &&
                 <div className="mt-1.5 flex items-center justify-between gap-3">
                     <span className="text-[11px] text-muted-foreground sm:text-xs">
                         Offer Price
@@ -69,10 +70,11 @@ export default function OfferCard({
                         {offerPrice ?? "-"}
                     </span>
                 </div>
+                }
 
                 <div className="mt-3 flex items-baseline gap-1">
                     <span className="text-xl font-bold tracking-tight sm:text-2xl">
-                        {offerPrice ?? "-"}
+                        {originalPrice ?? "-"}
                     </span>
 
                     <span className="text-[10px] text-muted-foreground sm:text-xs">

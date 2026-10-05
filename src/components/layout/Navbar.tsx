@@ -108,7 +108,7 @@ export default function Navbar() {
 
             const response = await category.json();
 
- 
+
             if (!response.success) {
                 throw new Error(
                     response.message || "Failed to fetch Category"
@@ -133,7 +133,7 @@ export default function Navbar() {
 
             const response = await category.json();
 
- 
+
             if (!response.success) {
                 throw new Error(
                     response.message || "Failed to fetch Category"
@@ -228,9 +228,15 @@ export default function Navbar() {
             icon: <IoBusOutline className="h-5 w-5 shrink-0" />,
         },
     ];
-
-
-     return (
+const destinationEmojis: Record<string, string> = {
+    goa: "🏖️",
+    uttarakhand: "🏔️",
+    rajasthan: "🏜️",
+    "himachal-pradesh": "🏔️",
+    ladakh: "🏕️",
+    "tamil-nadu": "🛕",
+};
+    return (
         <>
             <nav
                 className={`
@@ -254,7 +260,7 @@ export default function Navbar() {
                         flex
                         h-16
                         w-full
-                        max-w-7xl
+                        max-w-[95%]
                         items-center
                         justify-between
                         px-4
@@ -281,7 +287,7 @@ export default function Navbar() {
                     {/* ================= DESKTOP NAV ================= */}
 
                     <NavigationMenu className="hidden md:flex">
-                        <NavigationMenuList className="gap-1">
+                        <NavigationMenuList className="gap-3">
 
                             {/* ================= FLIGHTS ================= */}
 
@@ -494,54 +500,29 @@ export default function Navbar() {
 
                                         <div className="grid grid-cols-2 gap-1.5">
 
-                                            {destination.map(
-                                                (destination: any) => (
-                                                    <Link
-                                                        key={destination.name}
-                                                        href={`destinations/${destination.slug}`}
-                                                        className="
-                                                            flex
-                                                            items-center
-                                                            gap-2.5
-                                                            rounded-lg
-                                                            p-2.5
-                                                            no-underline
-                                                            outline-none
-                                                            transition-colors
-                                                            hover:bg-muted
-                                                        "
-                                                    >
+                                        {destination.map((item: any) => (
+    <Link
+        key={item.slug}
+        href={`/destinations/${item.slug}`}
+        className="
+            flex
+            items-center
+            gap-3
+            rounded-xl
+            p-3
+            transition-colors
+            hover:bg-muted
+        "
+    >
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-2xl">
+            {destinationEmojis[item.slug] || "📍"}
+        </span>
 
-                                                        {/* <span
-                                                            className="
-                                                                flex
-                                                                h-8
-                                                                w-8
-                                                                shrink-0
-                                                                items-center
-                                                                justify-center
-                                                                rounded-md
-                                                                bg-muted
-                                                                text-lg
-                                                            "
-                                                        >
-                                                            {
-                                                                destination.icon
-                                                            }
-                                                        </span> */}
-
-                                                        <div>
-                                                            <p className="text-sm font-medium">
-                                                                {
-                                                                    destination.name
-                                                                }
-                                                            </p>
-
-                                                        </div>
-
-                                                    </Link>
-                                                )
-                                            )}
+        <span className="text-sm font-medium">
+            {item.name}
+        </span>
+    </Link>
+))}
 
                                         </div>
 

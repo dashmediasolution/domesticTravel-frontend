@@ -1036,10 +1036,10 @@ export default function CategoryPage({
                                                             From{" "}
                                                             <span className="font-semibold text-white">
                                                                 {pkg.originalPrice !==
-                                                                null
+                                                                    null
                                                                     ? `₹${pkg.originalPrice.toLocaleString(
-                                                                          "en-IN"
-                                                                      )}`
+                                                                        "en-IN"
+                                                                    )}`
                                                                     : "Price on request"}
                                                             </span>
                                                         </p>
@@ -1100,6 +1100,7 @@ export default function CategoryPage({
 
                 {heroData?.bestTimeToVisit && (
                     <section className="mx-auto w-full flex gap-10 mt-8">
+                        
                         <BestTimeToVisit
                             months={
                                 heroData
@@ -1107,13 +1108,13 @@ export default function CategoryPage({
                                     .months
                             }
                         />
-                        
-            {heroData?.whyVisit?.length > 0 && (
-                     <WhyVisit
-                        items={heroData.whyVisit}
-                        destination={categoryName}
-                    />
-             )}
+
+                        {heroData?.whyVisit?.length > 0 && (
+                            <WhyVisit
+                                items={heroData.whyVisit}
+                                destination={categoryName}
+                            />
+                        )}
 
                     </section>
                 )}

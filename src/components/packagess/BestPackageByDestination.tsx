@@ -48,11 +48,7 @@ interface BestPackageByDestinationProps {
     packages: DestinationPackage[];
 }
 
-const formatPrice = (price?: number) => {
-    if (!price) return "Price on request";
-
-    return `₹${price.toLocaleString("en-IN")}`;
-};
+ 
 
 export function Package({
     title,
@@ -64,7 +60,7 @@ export function Package({
     color,
 }: PackageProps) {
     return (
-        <Card className="group relative mb-2 w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0">
+        <Card className="group gap-0  relative mb-2 w-full overflow-hidden rounded-[24px] border-0 bg-white pt-0">
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                     src={image}
@@ -187,9 +183,9 @@ export function BestPackageByDestination({
                             align: "start",
                             loop: false,
                         }}
-                        className="w-full"
+                        className="w-full gap-0"
                     >
-                        <CarouselContent className="-ml-5">
+                        <CarouselContent className="-ml-5 gap-0">
                             {packages.map((item, index) => {
                                 const image = item.heroImage?.url;
 
@@ -202,6 +198,7 @@ export function BestPackageByDestination({
                                         key={item.id}
                                         className="
                                             pl-5
+                                            gap-0
                                             basis-full
                                             sm:basis-1/2
                                             lg:basis-1/3

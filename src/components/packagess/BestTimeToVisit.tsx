@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import {
     CloudRain,
     Flame,
@@ -7,6 +8,8 @@ import {
     Flower2,
     Leaf,
     Sparkles,
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 
 interface BestTimeToVisitProps {
@@ -172,6 +175,11 @@ export default function BestTimeToVisit({
     months = [],
     className = "",
 }: BestTimeToVisitProps) {
+    const carouselRef = useRef<HTMLDivElement>(null);
+
+    const [isAtStart, setIsAtStart] = useState(true);
+    const [isAtEnd, setIsAtEnd] = useState(false);
+
     const normalizedMonths = months
         .map((month) => {
             const value = String(month).trim().toLowerCase();
@@ -179,23 +187,68 @@ export default function BestTimeToVisit({
             return monthMap[value];
         })
         .filter(Boolean);
- const activeSeasons = (
-    [
-        "winter",
-        "spring",
-        "summer",
-        "monsoon",
-        "autumn",
-    ] as SeasonType[]
-).filter((season) =>
-    seasonMonths[season].some((month) =>
-        normalizedMonths.includes(month)
-    )
-);
+
+    const activeSeasons = (
+        [
+            "winter",
+            "spring",
+            "summer",
+            "monsoon",
+            "autumn",
+        ] as SeasonType[]
+    ).filter((season) =>
+        seasonMonths[season].some((month) =>
+            normalizedMonths.includes(month)
+        )
+    );
 
     const seasons = activeSeasons.map(
         (season) => seasonData[season]
     );
+
+    const showCarouselButtons = seasons.length > 3;
+
+    const updateScrollState = () => {
+        const container = carouselRef.current;
+
+        if (!container) {
+            return;
+        }
+
+        const { scrollLeft, scrollWidth, clientWidth } =
+            container;
+
+        setIsAtStart(scrollLeft <= 5);
+
+        setIsAtEnd(
+            scrollLeft + clientWidth >= scrollWidth - 5
+        );
+    };
+
+    const scrollCarousel = (direction: "left" | "right") => {
+        const container = carouselRef.current;
+
+        if (!container) {
+            return;
+        }
+
+        const cardWidth =
+            container.querySelector<HTMLElement>(
+                "[data-season-card]"
+            )?.offsetWidth || 300;
+
+        const gap = 16;
+
+        container.scrollBy({
+            left:
+                direction === "right"
+                    ? cardWidth + gap
+                    : -(cardWidth + gap),
+            behavior: "smooth",
+        });
+
+        setTimeout(updateScrollState, 350);
+    };
 
     return (
         <section
@@ -216,6 +269,7 @@ export default function BestTimeToVisit({
                 Best Time to Visit
             </h2>
 
+            {/* MONTHS */}
             <div
                 className="
                     mb-5
@@ -267,88 +321,187 @@ export default function BestTimeToVisit({
                 })}
             </div>
 
+            {/* SEASON CAROUSEL */}
             {seasons.length > 0 && (
-                <div
-                    className="
-                        grid
-                        w-full
-                        grid-cols-1
-                        gap-4
-                        sm:grid-cols-2
-                        lg:grid-cols-3
-                    "
-                >
-                    {seasons.map((season) => {
-                        const style =
-                            seasonStyles[season.icon];
+                <div className="relative w-full">
+                    {/* LEFT BUTTON */}
+                    {showCarouselButtons && (
+                        <button
+                            type="button"
+                            onClick={() =>
+                                scrollCarousel("left")
+                            }
+                            disabled={isAtStart}
+                            aria-label="Previous seasons"
+                            className="
+                                absolute
+                                left-0
+                                top-1/2
+                                z-10
+                                hidden
+                                h-10
+                                w-10
+                                -translate-x-1/2
+                                -translate-y-1/2
+                                items-center
+                                justify-center
+                                rounded-full
+                                border
+                                border-slate-200
+                                bg-white
+                                text-slate-700
+                                shadow-md
+                                transition-all
+                                hover:bg-slate-50
+                                disabled:cursor-not-allowed
+                                disabled:opacity-40
+                                sm:flex
+                            "
+                        >
+                            <ChevronLeft className="h-5 w-5" />
+                        </button>
+                    )}
 
-                        const Icon = style.component;
+                    {/* CARDS */}
+                    <div
+                        ref={carouselRef}
+                        onScroll={updateScrollState}
+                        className="
+                            flex
+                            w-full
+                            gap-4
+                            overflow-x-auto
+                            pb-4
+                            scroll-smooth
+                            [scrollbar-width:thin]
+                            [scrollbar-color:#d1d5db_transparent]
+                            [&::-webkit-scrollbar]:h-1
+                            [&::-webkit-scrollbar-track]:bg-transparent
+                            [&::-webkit-scrollbar-thumb]:rounded-full
+                            [&::-webkit-scrollbar-thumb]:bg-gray-300
+                        "
+                    >
+                        {seasons.map((season) => {
+                            const style =
+                                seasonStyles[season.icon];
 
-                        return (
-                            <div
-                                key={season.name}
-                                className="
-                                    min-h-[200px]
-                                    w-full
-                                    rounded-[20px]
-                                    border
-                                    bg-white
-                                    p-5
-                                    shadow-sm
-                                    sm:min-h-[220px]
-                                    sm:p-6
-                                    lg:min-h-[250px]
-                                "
-                                style={{
-                                    borderColor:
-                                        style.border,
-                                }}
-                            >
-                                <Icon
-                                    className="mb-3 h-8 w-8"
-                                    strokeWidth={2}
-                                    style={{
-                                        color: style.icon,
-                                    }}
-                                />
+                            const Icon =
+                                style.component;
 
-                                <h3
+                            return (
+                                <div
+                                    key={season.name}
+                                    data-season-card
                                     className="
-                                        text-2xl
-                                        font-bold
-                                        leading-tight
+                                        min-h-[200px]
+                                        w-[280px]
+                                        shrink-0
+                                        rounded-[20px]
+                                        border
+                                        bg-white
+                                        p-5
+                                        shadow-sm
+                                        transition-all
+                                        duration-300
+                                        hover:-translate-y-1
+                                        hover:shadow-md
+                                        sm:min-h-[220px]
+                                        sm:w-[320px]
+                                        sm:p-6
+                                        lg:min-h-[250px]
+                                        lg:w-[calc((100%-32px)/3)]
                                     "
                                     style={{
-                                        color: style.icon,
+                                        borderColor:
+                                            style.border,
                                     }}
                                 >
-                                    {season.name}
-                                </h3>
+                                    <Icon
+                                        className="mb-3 h-8 w-8"
+                                        strokeWidth={2}
+                                        style={{
+                                            color:
+                                                style.icon,
+                                        }}
+                                    />
 
-                                <p
-                                    className="
-                                        mt-1
-                                        text-sm
-                                        font-medium
-                                        text-slate-600
-                                    "
-                                >
-                                    {season.months}
-                                </p>
+                                    <h3
+                                        className="
+                                            text-2xl
+                                            font-bold
+                                            leading-tight
+                                        "
+                                        style={{
+                                            color:
+                                                style.icon,
+                                        }}
+                                    >
+                                        {season.name}
+                                    </h3>
 
-                                <p
-                                    className="
-                                        mt-4
-                                        text-sm
-                                        leading-6
-                                        text-slate-600
-                                    "
-                                >
-                                    {season.description}
-                                </p>
-                            </div>
-                        );
-                    })}
+                                    <p
+                                        className="
+                                            mt-1
+                                            text-sm
+                                            font-medium
+                                            text-slate-600
+                                        "
+                                    >
+                                        {season.months}
+                                    </p>
+
+                                    <p
+                                        className="
+                                            mt-4
+                                             text-sm
+                                            leading-6
+                                            text-slate-600
+                                        "
+                                    >
+                                        {season.description}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* RIGHT BUTTON */}
+                    {showCarouselButtons && (
+                        <button
+                            type="button"
+                            onClick={() =>
+                                scrollCarousel("right")
+                            }
+                            disabled={isAtEnd}
+                            aria-label="Next seasons"
+                            className="
+                                absolute
+                                right-0
+                                top-1/2
+                                z-10
+                                hidden
+                                h-10
+                                w-10
+                                translate-x-1/2
+                                -translate-y-1/2
+                                items-center
+                                justify-center
+                                rounded-full
+                                border
+                                border-slate-200
+                                bg-white
+                                text-slate-700
+                                shadow-md
+                                transition-all
+                                hover:bg-slate-50
+                                disabled:cursor-not-allowed
+                                disabled:opacity-40
+                                sm:flex
+                            "
+                        >
+                            <ChevronRight className="h-5 w-5" />
+                        </button>
+                    )}
                 </div>
             )}
         </section>

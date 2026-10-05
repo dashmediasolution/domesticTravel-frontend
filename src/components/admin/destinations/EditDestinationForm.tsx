@@ -1569,7 +1569,20 @@ export default function EditDestinationForm({
                             : attraction.existingPublicId || null,
                 })
             );
-
+formData.append(
+    "attractions",
+    JSON.stringify(attractionData)
+);
+attractions.forEach(
+    (attraction) => {
+        if (attraction.image) {
+            formData.append(
+                `attractionImage_${attraction.id}`,
+                attraction.image
+            );
+        }
+    }
+);
             if (heroSource === "upload" && heroImage) {
                 formData.append(
                     "heroImage",

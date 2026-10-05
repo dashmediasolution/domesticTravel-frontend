@@ -195,7 +195,7 @@ export default function PackageDestination() {
             </section>
 
 
-            <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+            <div className="mb-14 flex w-[95%] flex-col gap-8 px-3  sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
                 <div className="w-full relative top-11">
                     <WhyVisit
                         items={packageDatas?.whyVisit ?? []}
@@ -204,7 +204,7 @@ export default function PackageDestination() {
                 </div>
 
                 {packageDatas?.bestTimeToVisit && (
-                    <div className="md:full lg:w-[60%]">
+                    <div className="md:full relative top-10 lg:w-[60%]">
                         <BestTimeToVisit
                             months={packageDatas?.bestTimeToVisit}
                         />

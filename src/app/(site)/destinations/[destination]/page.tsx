@@ -1,9 +1,9 @@
 
 "use client";
 
- import { useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
- import SearachBar from "@/components/homePage/SerachBar";
+import SearachBar from "@/components/homePage/SerachBar";
 import AttractionsByDestination from "@/components/destination/AttractionsByDestination";
 import { BestPackageByDestination } from "@/components/packagess/BestPackageByDestination";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
@@ -16,20 +16,19 @@ import WhyVisit from "@/components/WhyVisit";
 import ThingsToDo from "@/components/ThingsToDo";
 import DestinationGallery from "@/components/DestinationGallery";
 import { useEffect } from "react";
+import { Sparkles } from "lucide-react";
 
-
-import { featuredDestination } from "@/constants/destinationData";
 
 export default function DestinationPage() {
 
   const pathname = usePathname();
-  const [destinations, setDestination] = useState<any>(null);
+  const [destination, setDestination] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const routeDestination = pathname
     .split("/")
     .filter(Boolean)
     .pop();
-   useEffect(() => {
+  useEffect(() => {
     const fetchDestination = async () => {
       try {
         const response = await fetch(
@@ -54,14 +53,14 @@ export default function DestinationPage() {
         if (!result.success) {
           throw new Error(
             result.message ||
-            "Failed to fetch featured destinations"
+            "Failed to fetch featured destination"
           );
         }
 
         setDestination(result.data ?? []);
       } catch (error) {
         console.error(
-          "Featured destinations fetch error:",
+          "Featured destinationfetch error:",
           error
         );
 
@@ -77,16 +76,10 @@ export default function DestinationPage() {
 
 
 
-  const destinationData = featuredDestination.find(
-    (item) =>
-      item.destination.name
-        .toLowerCase()
-        .replace(/\s+/g, "-") ===
-      routeDestination?.toLowerCase()
-  );
 
 
-  if (!destinationData) {
+
+  if (!destination) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-white">
         <p className="text-gray-500">
@@ -95,7 +88,7 @@ export default function DestinationPage() {
       </main>
     );
   }
-  const faqdest = destinationData.destination.name
+  const faqdest = destination.name
     .toLowerCase()
     .replace(/\s+/g, "-")
 
@@ -114,13 +107,13 @@ export default function DestinationPage() {
 
 
       <DestinationHero
-        imageUrl={destinations?.heroImage?.url ?? ""}
-        destination={destinations?.name ?? ""}
-        subtitle={destinations?.subtitle ?? ""}
-        description={destinations?.description ?? ""}
-        idealTrip={destinations?.idealTrip ?? ""}
-        budget={destinations?.budget ?? ""}
-        location={destinations?.location ?? ""}
+        imageUrl={destination?.heroImage?.url ?? ""}
+        destination={destination?.name ?? ""}
+        subtitle={destination?.subtitle ?? ""}
+        description={destination?.description ?? ""}
+        idealTrip={destination?.idealTrip ?? ""}
+        budget={destination?.budget ?? ""}
+        location={destination?.location ?? ""}
       />
 
       <SearachBar bottomPosition="2" />
@@ -142,36 +135,29 @@ export default function DestinationPage() {
               Overview
             </h2>
 
-            <p className="mt-3 w-full text-md leading-6 text-gray-400 md:text-[18px]">
-              {destinations?.description}
+            <p className="mt-3 w-full line  text-md leading-6 text-gray-400 md:text-[16px]">
+              {destination?.description}
             </p>
 
             {/* ==================================================
                 ACTIVITIES
             ================================================== */}
-
-            {destinations?.activities?.length > 0 && (
+            {destination?.activities?.length > 0 && (
               <div className="mt-6 grid w-full grid-cols-2 gap-x-6 gap-y-5">
+                {destination.activities.map((activity: string, index: number) => (
+                  <div
+                    key={`${activity}-${index}`}
+                    className="flex w-fit items-center gap-2.5"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Sparkles className="h-4 w-4" />
+                    </span>
 
-                {destinations?.activities.map((activity: any) => {
-                  // const Icon = activity.icon;
-
-                  return (
-                    <div
-                      key={activity.text}
-                      className="flex w-fit items-center gap-2.5"
-                    >
-                      {/* <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                        <Icon className="h-4 w-4" />
-                      </span> */}
-
-                      <span className="text-sm font-semibold text-gray-700 md:text-lg">
-                        {activity}
-                      </span>
-                    </div>
-                  );
-                })}
-
+                    <span className="text-sm font-semibold text-gray-700 md:text-lg">
+                      {activity}
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -182,8 +168,8 @@ export default function DestinationPage() {
           ================================================== */}
 
           <DestinationGallery
-            images={destinations?.gallery ?? []}
-            destinationName={destinations?.name ?? ""}
+            images={destination?.gallery ?? []}
+            destinationName={destination?.name ?? ""}
           />
         </div>
       </section>
@@ -191,35 +177,35 @@ export default function DestinationPage() {
 
       <div className="flex w-full flex-col items-center justify-center gap-18">
 
-        {destinations?.attractions.length > 0 &&
+        {destination?.attractions.length > 0 &&
           (<AttractionsByDestination
-            destination={destinations?.name}
-            attractions={destinations?.attractions} />)}
+            destination={destination?.name}
+            attractions={destination?.attractions} />)}
 
-        {destinations?.activities?.length > 0 &&
+        {destination?.activities?.length > 0 &&
           (
-            <div className="w-[91%]">
+            <div className="w-[91%] ">
               <ThingsToDo
-                title={`Best Experiences in ${destinations?.name ?? ""}`}
-                activities={destinations.activities} />
+                title={`Best Experiences in ${destination?.name ?? ""}`}
+                activities={destination.activities} />
             </div>
           )}
 
 
 
 
-        <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-5">
+        <div className="mb-8 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-14">
           <div className="w-full relative top-11">
             <WhyVisit
-              items={destinations?.whyVisit ?? []}
-              destination={destinations?.name}
+              items={destination?.whyVisit ?? []}
+              destination={destination?.name}
             />
           </div>
 
-          {destinations?.bestTimeToVisit && (
-            <div className="md:full lg:w-[60%]">
+          {destination?.bestTimeToVisit && (
+            <div className="md:full relative top-10  lg:w-[60%]">
               <BestTimeToVisit
-                months={destinations?.bestTimeToVisit}
+                months={destination?.bestTimeToVisit}
               />
             </div>
           )}
@@ -229,11 +215,11 @@ export default function DestinationPage() {
         {/* ==================================================
             BEST PACKAGES
         ================================================== */}
-        {destinations?.packages.length > 0 &&
+        {destination?.packages.length > 0 &&
 
           <BestPackageByDestination
-            location={destinations?.name}
-            packages={destinations?.packages}
+            location={destination?.name}
+            packages={destination?.packages}
           />
         }
 

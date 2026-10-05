@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export async function GET() {
     try {
@@ -18,15 +18,12 @@ export async function GET() {
                 subtitle: true,
                 heroImage: true,
                 budget: true,
-                description:true
+                description: true,
             },
             orderBy: {
                 createdAt: "desc",
             },
         });
-
- 
-
 
         return NextResponse.json(
             {

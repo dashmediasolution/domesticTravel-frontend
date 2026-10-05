@@ -110,7 +110,7 @@ export function FeaturedDestination() {
                         Featured Destinations
                     </h2>
 
-                    <Button
+                    {/* <Button
 
                         type="button"
                         variant="outline"
@@ -142,7 +142,7 @@ export function FeaturedDestination() {
 
                             <ArrowUpRight className="ml-1.5 h-4 w-4 md:h-5 md:w-5" />
                         </Link>
-                    </Button>
+                    </Button> */}
                 </div>
 
                 {/* ================= LOADING ================= */}

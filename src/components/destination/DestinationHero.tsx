@@ -19,7 +19,7 @@ interface DestinationHeroProps {
   reviews?: string | number;
   packagesCount?: string | number;
   weather?: string;
-  duration?:string
+  duration?: string
 }
 
 export default function DestinationHero({
@@ -100,6 +100,7 @@ export default function DestinationHero({
           w-[94%]
           max-w-[1400px]
           items-center
+        
           pb-7
           top-5
           sm:w-[92%]
@@ -110,8 +111,8 @@ export default function DestinationHero({
         <div
           className="
             flex
-            w-full
-            max-w-[700px]
+             w-full
+            max-w-[70%]
             flex-col
             gap-0.5
             text-white
@@ -192,8 +193,8 @@ export default function DestinationHero({
                       className="
                         h-3.5
                         w-3.5
-                        fill-amber-400
-                        text-amber-400
+                        fill-primary
+                        text-primary
                         sm:h-4
                         sm:w-4
                         md:h-5
@@ -254,8 +255,8 @@ export default function DestinationHero({
               <>
                 {(rating !== undefined &&
                   rating !== null) ||
-                (packagesCount !== undefined &&
-                  packagesCount !== null) ? (
+                  (packagesCount !== undefined &&
+                    packagesCount !== null) ? (
                   <span className="text-white/40">
                     |
                   </span>
@@ -287,19 +288,21 @@ export default function DestinationHero({
           {description && (
             <p
               className="
-                mt-2
-                w-full
-                text-[12px]
-                leading-[18px]
-                text-white/80
-                sm:mt-3
-                sm:max-w-[600px]
-                sm:text-sm
-                sm:leading-6
-                md:text-base
-                md:leading-7
-                lg:text-[20px]
-              "
+            mt-2
+            line-clamp-2
+            overflow-hidden
+            text-[12px]
+            leading-[18px]
+            text-white/80
+            sm:mt-3
+            sm:line-clamp-3
+            sm:max-w-[600px]
+            sm:text-sm
+            sm:leading-6
+            md:text-base
+            md:leading-6
+            lg:text-[17px]
+        "
             >
               {description}
             </p>
@@ -344,7 +347,7 @@ export default function DestinationHero({
               label="Budget"
               value={budget}
             />
-             <InfoCard
+            <InfoCard
               label="duration"
               value={duration}
             />
