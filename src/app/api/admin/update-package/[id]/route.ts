@@ -252,22 +252,8 @@ export async function PATCH(
             formData.get("offerPrice")
         );
 
-        const discount = parseNumber(
-            formData.get("discount")
-        );
-
-        const saveAmount = parseNumber(
-            formData.get("saveAmount")
-        );
-
-        const validTillValue =
-            String(
-                formData.get("validTill") || ""
-            ).trim();
-
-        /*
-         * Arrays
-         */
+    
+    
 
         const bestTimeToVisit =
             parseJSON<string[]>(
@@ -598,34 +584,7 @@ export async function PATCH(
             );
         }
 
-        /*
-         * Validate date
-         */
-
-        let validTill: Date | null = null;
-
-        if (validTillValue) {
-            const parsedDate =
-                new Date(validTillValue);
-
-            if (
-                Number.isNaN(
-                    parsedDate.getTime()
-                )
-            ) {
-                return NextResponse.json(
-                    {
-                        success: false,
-                        message:
-                            "Invalid valid till date",
-                    },
-                    { status: 400 }
-                );
-            }
-
-            validTill = parsedDate;
-        }
-
+     
         /*
          * Hero image
          */
@@ -870,11 +829,8 @@ export async function PATCH(
 
             originalPrice,
             offerPrice,
-            discount,
-            saveAmount,
-
-            validTill:
-                validTillValue,
+ 
+          
 
             rating:
                 parseNumber(
@@ -1013,19 +969,8 @@ export async function PATCH(
 
                     originalPrice:
                         data.originalPrice ??
-                        null,
+                        0,
  
-
-                    discount:
-                        data.discount ??
-                        null,
-
-                    saveAmount:
-                        data.saveAmount ??
-                        null,
-
-                    validTill,
-
                     idealTrip:
                         data.idealTrip ||
                         null,

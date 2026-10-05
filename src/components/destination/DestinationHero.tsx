@@ -121,8 +121,7 @@ export default function DestinationHero({
           {/* ==================================================
               DESTINATION NAME
           ================================================== */}
-
-          <h1
+           <h1
             className="
               w-full
               font-(--font-bebas-neue)

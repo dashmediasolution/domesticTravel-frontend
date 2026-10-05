@@ -8,15 +8,12 @@ import {
     Car,
     Clock3,
     MapPin,
-    Plane,
     ShieldCheck,
     Users,
     Utensils,
 } from "lucide-react";
-import { useEarlyBirdCountdown } from "@/hooks/useEarlyBirdCountdown";
 import { Dancing_Script, DM_Serif_Display } from "next/font/google";
-
-import { packageData } from "@/constants/packagesData";
+import { useEffect, useState } from "react";
 
 const dancingScript = Dancing_Script({
     subsets: ["latin"],
@@ -28,122 +25,145 @@ const dmSerif = DM_Serif_Display({
     weight: "400",
 });
 
-/* -------------------------------------------------- */
-/* EARLY BIRD PACKAGES                                */
-/* -------------------------------------------------- */
+/* ================================================== */
+/* TYPES                                              */
+/* ================================================== */
 
-const earlyBirdPackages = [
-    { id: 1, name: "Manali" },
-    { id: 2, name: "Kashmir" },
-    { id: 3, name: "jaipur" },
-    { id: 4, name: "Darjeeling" },
-];
+type PackageImage = {
+    url: string;
+    publicId?: string | null;
+};
 
-/* -------------------------------------------------- */
+type EarlyBirdPackage = {
+    id: string;
+    name: string;
+    slug: string;
+    subtitle: string | null;
+    description: string | null;
+    duration: string | null;
+    groupSize: string | null;
+    location: string | null;
+    idealTrip: string | null;
+    heroImage: PackageImage | null;
+};
+
+type EarlyBirdOffer = {
+    id: string;
+    title: string;
+    slug: string;
+
+    originalPrice: number | null;
+    offerPrice: number;
+    discount: number | null;
+    saveAmount: number | null;
+
+    validTill: string;
+    badgeText: string | null;
+
+    package: EarlyBirdPackage;
+};
+
+/* ================================================== */
 /* HELPERS                                            */
-/* -------------------------------------------------- */
+/* ================================================== */
 
-function normalizeName(value: string) {
-    return value
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, "-");
+function formatPrice(
+    price: number | null | undefined
+) {
+    if (price == null) {
+        return "₹0";
+    }
+
+    return `₹${Number(price).toLocaleString("en-IN")}`;
 }
 
-function getPackageInfo(packageName: string) {
-    const slug = normalizeName(packageName);
+function getPackageRoute(
+    offer: EarlyBirdOffer
+) {
+    return `/offers/package/${offer.slug}`;
+}
 
-    for (const destination of packageData) {
-        const foundPackage = destination.packages?.find(
-            (item) => normalizeName(item.name) === slug
+/* ================================================== */
+/* COUNTDOWN HOOK                                     */
+/* ================================================== */
+
+function useCountdown(
+    endDate: string | null | undefined
+) {
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
+
+    useEffect(() => {
+        if (!endDate) {
+            return;
+        }
+
+        const calculate = () => {
+            const end = new Date(endDate).getTime();
+            const now = Date.now();
+
+            const difference = end - now;
+
+            if (difference <= 0) {
+                setTimeLeft({
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0,
+                });
+
+                return;
+            }
+
+            const totalSeconds = Math.floor(
+                difference / 1000
+            );
+
+            const days = Math.floor(
+                totalSeconds / 86400
+            );
+
+            const hours = Math.floor(
+                (totalSeconds % 86400) / 3600
+            );
+
+            const minutes = Math.floor(
+                (totalSeconds % 3600) / 60
+            );
+
+            const seconds =
+                totalSeconds % 60;
+
+            setTimeLeft({
+                days,
+                hours,
+                minutes,
+                seconds,
+            });
+        };
+
+        calculate();
+
+        const interval = setInterval(
+            calculate,
+            1000
         );
 
-        if (foundPackage) {
-            return {
-                package: foundPackage,
-                destination: destination.name,
-            };
-        }
-    }
-
-    const destination = packageData.find(
-        (item) => normalizeName(item.name) === slug
-    );
-
-    if (destination?.packages?.length) {
-        return {
-            package: destination.packages[0],
-            destination: destination.name,
+        return () => {
+            clearInterval(interval);
         };
-    }
+    }, [endDate]);
 
-    return undefined;
+    return timeLeft;
 }
 
-function getPackage(packageName: string) {
-    return getPackageInfo(packageName)?.package;
-}
-
-function getPackageRoute(packageName: string) {
-    const info = getPackageInfo(packageName);
-
-    if (!info) {
-        return "/";
-    }
-
-    const destinationSlug = normalizeName(info.destination);
-    const packageSlug = normalizeName(info.package.name);
-
-    if (destinationSlug === packageSlug) {
-        return `/package/${destinationSlug}`;
-    }
-
-    return `/package/${destinationSlug}/${packageSlug}`;
-}
-
- 
-/* -------------------------------------------------- */
-/* DESTINATION BADGE                                 */
-/* -------------------------------------------------- */
-
-function DestinationBadge({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return (
-        <div className="inline-flex h-[23px] items-center gap-[5px] rounded-[7px] bg-primary px-[10px] text-[9px] font-bold text-white shadow-sm sm:h-[27px] sm:px-[12px] sm:text-[10px] lg:h-[30px] lg:gap-[6px] lg:px-[14px] lg:text-[11px]">
- 
-            <span>{children}</span>
-        </div>
-    );
-}
-
-/* -------------------------------------------------- */
-/* SAVE BADGE                                         */
-/* -------------------------------------------------- */
-
-function SaveBadge({
-    amount,
-}: {
-    amount?: string;
-}) {
-    return (
-        <div className="absolute right-[10px] top-[9px] z-10 flex h-[62px] w-[72px] rotate-[-3deg] flex-col items-center justify-center rounded-[50%] bg-[#00646A] text-center text-white sm:right-[14px] sm:top-[12px] sm:h-[72px] sm:w-[84px] lg:right-[18px] lg:top-[14px] lg:h-[82px] lg:w-[96px]">
-            <span className="text-[7px] leading-[9px] sm:text-[8px] sm:leading-[10px] lg:text-[9px] lg:leading-[11px]">
-                Save Up To
-            </span>
-
-            <span className="mt-[1px] text-[17px] font-bold leading-[19px] sm:text-[20px] sm:leading-[22px] lg:text-[23px] lg:leading-[25px]">
-                {amount || "Offer"}
-            </span>
-        </div>
-    );
-}
-
-/* -------------------------------------------------- */
+/* ================================================== */
 /* COUNTDOWN ITEM                                     */
-/* -------------------------------------------------- */
+/* ================================================== */
 
 function CountdownItem({
     value,
@@ -153,78 +173,205 @@ function CountdownItem({
     label: string;
 }) {
     return (
-        <div className="flex h-[45px] w-[39px] flex-col items-center justify-center rounded-[8px] bg-[#FFF8DC] sm:h-[50px] sm:w-[46px] lg:h-[58px] lg:w-[54px]">
-            <span className="text-[15px] font-bold leading-[15px] text-[#00545A] sm:text-[17px] sm:leading-[17px] lg:text-[20px] lg:leading-[20px]">
+        <div className="flex h-[42px] w-[39px] flex-col items-center justify-center rounded-lg bg-[#FFF8DC] sm:h-[48px] sm:w-[45px] lg:h-[54px] lg:w-[50px]">
+            <span className="text-[14px] font-bold leading-none text-[#00545A] sm:text-[16px] lg:text-[18px]">
                 {String(value).padStart(2, "0")}
             </span>
 
-            <span className="mt-[3px] text-[6px] font-medium text-[#5F8182] sm:text-[7px] lg:mt-[4px] lg:text-[8px]">
+            <span className="mt-1 text-[6px] font-medium text-[#5F8182] sm:text-[7px] lg:text-[8px]">
                 {label}
             </span>
         </div>
     );
 }
 
-/* -------------------------------------------------- */
-/* FEATURED CARD                                      */
-/* -------------------------------------------------- */
+/* ================================================== */
+/* COUNTDOWN DISPLAY                                  */
+/* ================================================== */
 
-function FeaturedCard() {
-    const packageName = "Manali";
-    const offer = getPackage(packageName);
-    const packageRoute = getPackageRoute(packageName);
+function CountdownDisplay({
+    endDate,
+}: {
+    endDate: string | null | undefined;
+}) {
+    const {
+        days,
+        hours,
+        minutes,
+        seconds,
+    } = useCountdown(endDate);
 
-    if (!offer) {
-        return (
-            <div className="flex h-[268px] w-full items-center justify-center rounded-[8px] bg-[#EAF5F4] text-sm text-[#005D65]">
-                Manali package not found
-            </div>
-        );
+    if (!endDate) {
+        return null;
     }
 
     return (
-        <div className="relative h-[268px] w-full overflow-hidden rounded-[8px] sm:h-[310px] lg:h-[350px]">
-            <Image
-                src={offer.heroImage}
-                alt={offer.name}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 630px"
-            />
+        <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-2 sm:mt-6 lg:mt-7">
+            {/* Label */}
+            <div className="mr-1 flex items-center gap-1.5 sm:mr-2">
+                <Clock3 className="h-4 w-4 text-[#00636A] sm:h-5 sm:w-5" />
 
- 
+                <span className="text-[11px] font-bold text-[#165E62] sm:text-[13px] lg:text-[14px]">
+                    Offer ends in
+                </span>
+            </div>
+
+            {/* Countdown */}
+            <div className="flex gap-1 sm:gap-1.5">
+                <CountdownItem
+                    value={days}
+                    label="Days"
+                />
+
+                <CountdownItem
+                    value={hours}
+                    label="Hrs"
+                />
+
+                <CountdownItem
+                    value={minutes}
+                    label="Min"
+                />
+
+                <CountdownItem
+                    value={seconds}
+                    label="Sec"
+                />
+            </div>
+        </div>
+    );
+}
+
+/* ================================================== */
+/* DESTINATION BADGE                                  */
+/* ================================================== */
+
+function DestinationBadge({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <div className="inline-flex min-h-[25px] items-center rounded-[7px] bg-primary px-3 text-[9px] font-bold text-white shadow-sm sm:min-h-[28px] sm:px-3.5 sm:text-[10px] lg:min-h-[30px] lg:px-4 lg:text-[11px]">
+            {children}
+        </div>
+    );
+}
+
+/* ================================================== */
+/* SAVE BADGE                                         */
+/* ================================================== */
+
+function SaveBadge({
+    amount,
+    discount,
+}: {
+    amount?: number | null;
+    discount?: number | null;
+}) {
+    let mainText = "Offer";
+
+    if (amount != null) {
+        mainText = formatPrice(amount);
+    } else if (discount != null) {
+        mainText = `${discount}%`;
+    }
+
+    return (
+        <div className="absolute right-3 top-3 z-10 flex h-[65px] w-[72px] rotate-[-3deg] flex-col items-center justify-center rounded-full bg-[#00646A] text-center text-white shadow-md sm:right-4 sm:top-4 sm:h-[74px] sm:w-[82px] lg:h-[82px] lg:w-[92px]">
+            <span className="text-[7px] leading-none sm:text-[8px]">
+                Save Up To
+            </span>
+
+            <span className="mt-1 text-[15px] font-bold leading-none sm:text-[18px] lg:text-[21px]">
+                {mainText}
+            </span>
+
+            {discount != null &&
+                amount != null && (
+                    <span className="mt-1 text-[7px] sm:text-[8px]">
+                        {discount}% OFF
+                    </span>
+                )}
+        </div>
+    );
+}
+
+/* ================================================== */
+/* FEATURED CARD                                      */
+/* ================================================== */
+
+function FeaturedCard({
+    offer,
+}: {
+    offer: EarlyBirdOffer;
+}) {
+    const packageRoute =
+        getPackageRoute(offer);
+
+    const image =
+        offer.package.heroImage?.url;
+
+    return (
+        <div className="relative min-h-[430px] w-full overflow-hidden rounded-xl sm:min-h-[470px] lg:h-[350px] lg:min-h-0">
+            {/* Image */}
+            {image ? (
+                <Image
+                    src={image}
+                    alt={
+                        offer.package.heroImage
+                            ?.url
+                            ? offer.package.name
+                            : "Travel package"
+                    }
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 900px"
+                />
+            ) : (
+                <div className="absolute inset-0 bg-[#EAF5F4]" />
+            )}
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/5" />
+
             {/* Destination */}
-            <div className="absolute left-[14px] top-[10px] sm:left-[18px] sm:top-[14px] lg:left-[22px] lg:top-[18px]">
+            <div className="absolute left-3 top-3 sm:left-4 sm:top-4 lg:left-5 lg:top-5">
                 <DestinationBadge>
-                    {offer.name.toUpperCase()}
+                    {offer.package.name.toUpperCase()}
                 </DestinationBadge>
             </div>
 
             {/* Save */}
             <SaveBadge
-                amount={
-                    offer.saveAmount ||
-                    offer.discount
-                }
+                amount={offer.saveAmount}
+                discount={offer.discount}
             />
 
             {/* Content */}
-            <div className="absolute bottom-[15px] left-[20px] right-[15px] text-white sm:bottom-[20px] sm:left-[26px] sm:right-[22px] lg:bottom-[25px] lg:left-[32px] lg:right-[28px]">
+            <div className="absolute inset-x-4 bottom-4 text-white sm:inset-x-5 sm:bottom-5 lg:inset-x-7 lg:bottom-6">
                 {/* Duration */}
-                <div className="mb-[7px] flex items-center gap-[7px] text-[9px] sm:mb-[9px] sm:gap-[9px] sm:text-[11px] lg:mb-[11px] lg:gap-[10px] lg:text-[13px]">
-                    <span className="flex items-center gap-[4px] sm:gap-[5px]">
-                        <CalendarDays className="h-[12px] w-[12px] sm:h-[14px] sm:w-[14px] lg:h-[16px] lg:w-[16px]" />
+                <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] sm:text-[11px] lg:text-[13px]">
+                    {offer.package.duration && (
+                        <span className="flex items-center gap-1">
+                            <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
 
-                        {offer.duration}
-                    </span>
+                            {offer.package.duration}
+                        </span>
+                    )}
 
-                    {offer.idealTrip && (
+                    {offer.package.idealTrip && (
                         <>
-                            <span>|</span>
+                            <span className="opacity-60">
+                                |
+                            </span>
 
                             <span>
-                                {offer.idealTrip}
+                                {
+                                    offer.package
+                                        .idealTrip
+                                }
                             </span>
                         </>
                     )}
@@ -232,310 +379,385 @@ function FeaturedCard() {
 
                 {/* Title */}
                 <h2
-                    className={`${dmSerif.className} text-[24px] leading-[25px] sm:text-[34px] sm:leading-[36px] lg:text-[44px] lg:leading-[46px]`}
+                    className={`${dmSerif.className} text-2xl leading-tight sm:text-3xl lg:text-[42px]`}
                 >
-                    {offer.subtitle ||
-                        offer.name}
+                    {offer.package.subtitle ||
+                        offer.package.name}
                 </h2>
 
                 {/* Description */}
-                <p className="mt-[3px] max-w-[470px] text-[9px] font-medium text-white/90 sm:mt-[5px] sm:text-[11px] lg:mt-[7px] lg:text-[13px] lg:leading-[19px]">
-                    {offer.description}
-                </p>
+                {offer.package
+                    .description && (
+                    <p className="mt-1 line-clamp-2 max-w-xl text-[9px] font-medium text-white/90 sm:text-[11px] lg:text-[13px]">
+                        {
+                            offer.package
+                                .description
+                        }
+                    </p>
+                )}
 
                 {/* Features */}
-                <div className="mt-[11px] flex flex-wrap items-center gap-x-[15px] gap-y-[5px] text-[8px] sm:mt-[14px] sm:gap-x-[20px] sm:gap-y-[7px] sm:text-[10px] lg:mt-[18px] lg:gap-x-[26px] lg:gap-y-[9px] lg:text-[12px]">
-                    <span className="flex items-center gap-[4px] sm:gap-[5px]">
-                        <ShieldCheck className="h-[12px] w-[12px] sm:h-[14px] sm:w-[14px] lg:h-[17px] lg:w-[17px]" />
+                <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[8px] sm:text-[10px] lg:mt-4 lg:gap-x-6 lg:text-[12px]">
+                    <span className="flex items-center gap-1">
+                        <ShieldCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
                         Hotel Stay
                     </span>
 
-                    <span className="flex items-center gap-[4px] sm:gap-[5px]">
-                        <Utensils className="h-[12px] w-[12px] sm:h-[14px] sm:w-[14px] lg:h-[17px] lg:w-[17px]" />
+                    <span className="flex items-center gap-1">
+                        <Utensils className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
                         Meals
                     </span>
 
-                    <span className="flex items-center gap-[4px] sm:gap-[5px]">
-                        <Car className="h-[12px] w-[12px] sm:h-[14px] sm:w-[14px] lg:h-[17px] lg:w-[17px]" />
+                    <span className="flex items-center gap-1">
+                        <Car className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
                         Sightseeing
                     </span>
 
-                    <span className="flex items-center gap-[4px] sm:gap-[5px]">
-                        <ShieldCheck className="h-[12px] w-[12px] sm:h-[14px] sm:w-[14px] lg:h-[17px] lg:w-[17px]" />
-                        Travel Insurance
+                    <span className="flex items-center gap-1">
+                        <ShieldCheck className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
+                        Insurance
                     </span>
                 </div>
 
-                {/* Price */}
-                <div className="mt-[12px] flex items-end gap-[22px] sm:mt-[16px] sm:gap-[28px] lg:mt-[20px] lg:gap-[35px]">
+                {/* Bottom */}
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-3 sm:mt-4">
+                    {/* Price */}
                     <div>
-                        <p className="mb-[1px] text-[8px] sm:text-[10px] lg:text-[14px]">
+                        <p className="text-[8px] sm:text-[10px] lg:text-[12px]">
                             Starting from
                         </p>
 
                         <div className="flex items-end">
-                            <span className="text-[24px] font-bold leading-[24px] sm:text-[30px] sm:leading-[30px] lg:text-[38px] lg:leading-[38px]">
-                                {offer.startingPrice ||
-                                    offer.offerPrice}
+                            <span className="text-2xl font-bold leading-none sm:text-3xl lg:text-[36px]">
+                                {formatPrice(
+                                    offer.offerPrice
+                                )}
                             </span>
 
-                            <span className="mb-[2px] ml-[5px] text-[8px] sm:mb-[3px] sm:text-[10px] lg:mb-[5px] lg:text-[12px]">
-                                per person
+                            <span className="mb-0.5 ml-1 text-[8px] sm:text-[10px]">
+                                / person
                             </span>
                         </div>
                     </div>
 
+                    {/* CTA */}
                     <Link
                         href={packageRoute}
-                        className="flex h-[35px] items-center gap-[9px] rounded-full bg-primary px-[19px] text-[10px] font-bold text-white transition-all duration-200 hover:bg-primary/90 sm:h-[42px] sm:gap-[10px] sm:px-[23px] sm:text-[12px] lg:h-[50px] lg:gap-[12px] lg:px-[30px] lg:text-[14px]"
+                        className="flex h-9 items-center gap-2 rounded-full bg-primary px-4 text-[9px] font-bold text-white transition hover:bg-primary/90 sm:h-10 sm:px-5 sm:text-[11px] lg:h-11 lg:px-6 lg:text-[12px]"
                     >
                         Book Early
 
-                        <ArrowRight className="h-[13px] w-[13px] sm:h-[15px] sm:w-[15px] lg:h-[18px] lg:w-[18px]" />
+                        <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Link>
                 </div>
             </div>
 
-            {/* Group */}
-            <div className="absolute bottom-[15px] right-[14px] flex items-center gap-[5px] rounded-full bg-[#00474C]/90 px-[9px] py-[5px] text-[8px] text-white sm:bottom-[20px] sm:right-[20px] sm:gap-[6px] sm:px-[11px] sm:py-[6px] sm:text-[9px] lg:bottom-[25px] lg:right-[28px] lg:gap-[7px] lg:px-[14px] lg:py-[8px] lg:text-[11px]">
-                <Users className="h-[11px] w-[11px] sm:h-[13px] sm:w-[13px] lg:h-[15px] lg:w-[15px]" />
+            {/* Group Size */}
+            {offer.package.groupSize && (
+                <div className="absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full bg-[#00474C]/90 px-3 py-1.5 text-[8px] text-white sm:flex sm:bottom-4 sm:right-4 sm:text-[9px] lg:bottom-5 lg:right-6 lg:text-[10px]">
+                    <Users className="h-3 w-3 lg:h-4 lg:w-4" />
 
-                {offer.groupSize ||
-                    "Limited Seats"}
-            </div>
+                    {offer.package.groupSize}
+                </div>
+            )}
         </div>
     );
 }
 
-/* -------------------------------------------------- */
+/* ================================================== */
 /* SMALL OFFER CARD                                   */
-/* -------------------------------------------------- */
+/* ================================================== */
 
 function SmallOfferCard({
-    packageName,
+    offer,
 }: {
-    packageName: string;
+    offer: EarlyBirdOffer;
 }) {
-    const offer = getPackage(packageName);
-    const packageRoute = getPackageRoute(packageName);
+    const packageRoute =
+        getPackageRoute(offer);
 
-    if (!offer) {
-        return (
-            <div className="flex h-[207px] w-full items-center justify-center rounded-[8px] bg-[#EAF5F4] text-xs text-[#005D65]">
-                {packageName} package not found
-            </div>
-        );
-    }
+    const image =
+        offer.package.heroImage?.url;
 
     return (
-        <div className="h-[207px] w-full overflow-hidden rounded-[8px] bg-white shadow-[0_4px_16px_rgba(0,70,75,0.10)] sm:h-[235px] lg:h-[255px]">
+        <div className="w-full overflow-hidden rounded-xl bg-white shadow-[0_4px_16px_rgba(0,70,75,0.10)]">
             {/* Image */}
-            <div className="relative h-[158px] w-full sm:h-[180px] lg:h-[195px]">
-                <Image
-                    src={offer.heroImage}
-                    alt={offer.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                />
+            <div className="relative h-[190px] w-full sm:h-[210px] lg:h-[195px]">
+                {image ? (
+                    <Image
+                        src={image}
+                        alt={offer.package.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                ) : (
+                    <div className="absolute inset-0 bg-[#EAF5F4]" />
+                )}
 
-                {/* Gradient */}
-                <div className="absolute inset-x-0 bottom-0 h-[75px] bg-gradient-to-t from-black/75 to-transparent sm:h-[90px] lg:h-[100px]" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
 
                 {/* Destination */}
-                <div className="absolute left-[9px] top-[9px] sm:left-[13px] sm:top-[12px] lg:left-[16px] lg:top-[15px]">
+                <div className="absolute left-3 top-3">
                     <DestinationBadge>
-                        {offer.name.toUpperCase()}
+                        {offer.package.name.toUpperCase()}
                     </DestinationBadge>
                 </div>
 
                 {/* Save */}
                 <SaveBadge
-                    amount={
-                        offer.saveAmount ||
-                        offer.discount
-                    }
+                    amount={offer.saveAmount}
+                    discount={offer.discount}
                 />
 
-                {/* Text */}
-                <div className="absolute bottom-[9px] left-[12px] right-[10px] text-white sm:bottom-[13px] sm:left-[16px] sm:right-[14px] lg:bottom-[16px] lg:left-[20px] lg:right-[18px]">
+                {/* Content */}
+                <div className="absolute bottom-3 left-4 right-4 text-white">
                     <h3
-                        className={`${dmSerif.className} text-[13px] leading-[16px] sm:text-[17px] sm:leading-[20px] lg:text-[21px] lg:leading-[24px]`}
+                        className={`${dmSerif.className} text-xl leading-tight`}
                     >
-                        {offer.subtitle ||
-                            offer.name}
+                        {offer.package
+                            .subtitle ||
+                            offer.package.name}
                     </h3>
 
-                    <p className="mt-[1px] line-clamp-1 text-[8px] font-medium sm:text-[10px] lg:mt-[3px] lg:text-[11px]">
-                        {offer.description}
-                    </p>
+                    {offer.package
+                        .description && (
+                        <p className="mt-1 line-clamp-1 text-[9px] sm:text-[10px]">
+                            {
+                                offer.package
+                                    .description
+                            }
+                        </p>
+                    )}
                 </div>
             </div>
 
             {/* Details */}
-            <div className="flex h-[49px] w-full items-center px-[11px] sm:h-[55px] sm:px-[15px] lg:h-[60px] lg:px-[18px]">
+            <div className="flex min-h-[68px] items-center gap-2 px-3 py-2 sm:gap-3 sm:px-4">
                 {/* Duration */}
-                <div className="flex shrink-0 items-center gap-[5px] text-[10px] text-[#165E62] sm:gap-[6px] sm:text-[9px] lg:gap-[7px] lg:text-[13px]">
-                    <CalendarDays className="h-[11px] w-[11px] sm:h-[13px] sm:w-[13px] lg:h-[15px] lg:w-[15px]" />
+                {offer.package.duration && (
+                    <div className="flex shrink-0 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px]">
+                        <CalendarDays className="h-3.5 w-3.5" />
 
-                    <span>
-                        {offer.duration}
-                    </span>
-                </div>
+                        <span>
+                            {
+                                offer.package
+                                    .duration
+                            }
+                        </span>
+                    </div>
+                )}
 
                 {/* Location */}
-                <div className="ml-[9px] flex min-w-0 flex-1 items-center gap-[4px] text-[10px] text-[#165E62] sm:ml-[12px] sm:gap-[5px] sm:text-[8px] lg:ml-[16px] lg:gap-[7px] lg:text-[13px]">
-                    <MapPin className="h-[9px] w-[9px] shrink-0 text-[#00666A] sm:h-[11px] sm:w-[11px] lg:h-[13px] lg:w-[13px]" />
+                <div className="flex min-w-0 flex-1 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px]">
+                    <MapPin className="h-3.5 w-3.5 shrink-0" />
 
                     <span className="truncate">
-                        {offer.location ||
+                        {offer.package
+                            .location ||
                             "India"}
                     </span>
                 </div>
 
                 {/* Price */}
-                <div className="ml-[5px] flex flex-col gap-1 shrink-0 sm:ml-[8px] lg:ml-[10px]">
-                    <p className="text-[8px] leading-[7px] text-[#679092] sm:text-[7px] sm:leading-[8px] lg:text-[11px] lg:leading-[12px]">
-                        Starting from
+                <div className="shrink-0">
+                    <p className="text-[7px] text-[#679092] sm:text-[8px]">
+                        From
                     </p>
 
-                    <p className="text-[13px] font-bold leading-[14px] text-[#00666A] sm:text-[16px] sm:leading-[17px] lg:text-[19px] lg:leading-[20px]">
-                        {offer.startingPrice ||
-                            offer.offerPrice}
-                    </p>
-
-                    <p className="text-[6px] leading-[7px] text-[#679092] sm:text-[7px] sm:leading-[8px] lg:text-[11px] lg:leading-[9px]">
-                        per person
+                    <p className="text-sm font-bold text-[#00666A] sm:text-base">
+                        {formatPrice(
+                            offer.offerPrice
+                        )}
                     </p>
                 </div>
 
                 {/* Arrow */}
                 <Link
                     href={packageRoute}
-                    aria-label={`View ${offer.name} package`}
-                    className="ml-[8px] flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full border border-[#A9C9CA] text-[#00666A] transition-all duration-200 hover:bg-[#00666A] hover:text-white sm:ml-[11px] sm:h-[28px] sm:w-[28px] lg:ml-[14px] lg:h-[34px] lg:w-[34px]"
+                    aria-label={`View ${offer.package.name} package`}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#A9C9CA] text-[#00666A] transition hover:bg-[#00666A] hover:text-white"
                 >
-                    <ArrowRight className="h-[9px] w-[9px] sm:h-[12px] sm:w-[12px] lg:h-[15px] lg:w-[15px]" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
             </div>
         </div>
     );
 }
 
-/* -------------------------------------------------- */
+/* ================================================== */
 /* MAIN COMPONENT                                     */
-/* -------------------------------------------------- */
+/* ================================================== */
 
 export default function EarlyBirdSale() {
-      const {
-        days,
-        hours,
-        minutes,
-        seconds,
-    } = useEarlyBirdCountdown();
+    const [offers, setOffers] = useState<
+        EarlyBirdOffer[]
+    >([]);
+
+    const [loading, setLoading] =
+        useState(true);
+
+    useEffect(() => {
+        let mounted = true;
+
+        async function fetchOffers() {
+            try {
+                const response = await fetch(
+                    "/api/early-bird",
+                    {
+                        cache: "no-store",
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to fetch early bird offers"
+                    );
+                }
+
+                const result =
+                    await response.json();
+
+                if (!mounted) {
+                    return;
+                }
+
+                if (
+                    result?.success &&
+                    Array.isArray(result.data)
+                ) {
+                    setOffers(result.data);
+                } else {
+                    setOffers([]);
+                }
+            } catch (error) {
+                console.error(
+                    "Early bird offers error:",
+                    error
+                );
+
+                if (mounted) {
+                    setOffers([]);
+                }
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        fetchOffers();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    /*
+     * IMPORTANT:
+     * These checks happen AFTER all hooks.
+     *
+     * This prevents:
+     * "React has detected a change in the order
+     * of Hooks called by EarlyBirdSale."
+     */
+
+    if (loading) {
+        return null;
+    }
+
+    if (offers.length === 0) {
+        return null;
+    }
+
+    const featuredOffer = offers[0];
+
+    const smallOffers = offers.slice(1, 4);
+
     return (
-        <section className="relative w-full overflow-hidden py-5 px-2">
-            <div className="mx-auto gap-3 w-full flex flex-col max-w-[95%]">
-                {/* TOP SECTION */}
-                <div className="grid grid-cols-1 lg:grid-cols-[500px_minmax(0,1fr)]">
-                    {/* LEFT */}
-                    <div className="flex w-full flex-col items-center justify-center py-8 lg:max-h-[350px] lg:py-0">
+        <section className="w-full overflow-hidden px-2 py-5 sm:px-3 lg:px-5">
+            <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 sm:gap-5 lg:gap-6">
+
+                {/* ================================================== */}
+                {/* TOP SECTION                                      */}
+                {/* ================================================== */}
+
+                <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-[minmax(320px,0.55fr)_minmax(0,1.45fr)] lg:gap-5">
+
+                    {/* ================================================== */}
+                    {/* LEFT CONTENT                                       */}
+                    {/* ================================================== */}
+
+                    <div className="flex w-full flex-col items-center justify-center px-2 py-6 text-center sm:py-8 lg:px-4 lg:py-0">
+
                         {/* Labels */}
-                        <div className="flex items-center gap-2 whitespace-nowrap">
-                            <span className="flex h-[22px] items-center gap-[3px] rounded-full bg-primary px-[9px] text-[8px] font-bold text-white sm:h-[25px] sm:px-[11px] sm:text-[9px] lg:h-[30px] lg:gap-[5px] lg:px-[14px] lg:text-[11px]">
-                                <span className="text-md">
-                                    ⚡
-                                </span>
-
-                                LIVE NOW
+                        <div className="flex flex-wrap items-center justify-center gap-2">
+                            <span className="flex h-6 items-center gap-1 rounded-full bg-primary px-2.5 text-[8px] font-bold text-white sm:h-7 sm:px-3 sm:text-[9px] lg:h-8 lg:px-3.5 lg:text-[10px]">
+                                ⚡ LIVE NOW
                             </span>
 
-                            <span className="text-[12px] font-semibold text-[#00606A] sm:text-[14px] lg:text-[16px]">
+                            <span className="text-[11px] font-semibold text-[#00606A] sm:text-[13px] lg:text-[15px]">
                                 Limited Time Deals
-                            </span>
-
-                            <span className="text-[12px] text-[#B0C4C5] sm:text-[14px] lg:text-[16px]">
-                                |
-                            </span>
-
-                            <span className="text-[12px] text-[#6D9294] sm:text-[14px] lg:text-[16px]">
-                                Book Before It's Gone
                             </span>
                         </div>
 
                         {/* Heading */}
-                        <div className="mt-[20px] lg:mt-[28px]">
+                        <div className="mt-5 sm:mt-6 lg:mt-7">
                             <h1
-                                className={`${dancingScript.className} text-[54px] font-semibold leading-[45px] text-[#005D65] sm:text-[62px] sm:leading-[53px] lg:text-[76px] lg:leading-[68px]`}
+                                className={`${dancingScript.className} text-[48px] font-semibold leading-[42px] text-[#005D65] sm:text-[58px] sm:leading-[50px] lg:text-[70px] lg:leading-[62px]`}
                             >
                                 Early Bird
                             </h1>
 
-                            <div className="relative">
-                                <h2
-                                    className={`${dmSerif.className} ml-[96px] mt-[2px] text-[60px] leading-[62px] text-[#005D65] sm:ml-[110px] sm:text-[70px] sm:leading-[72px] lg:ml-[135px] lg:text-[84px] lg:leading-[82px]`}
-                                >
-                                    Sale
-                                </h2>
-                            </div>
+                            <h2
+                                className={`${dmSerif.className} ml-16 mt-1 text-[52px] leading-[55px] text-[#005D65] sm:ml-20 sm:text-[64px] sm:leading-[65px] lg:ml-28 lg:text-[76px] lg:leading-[75px]`}
+                            >
+                                Sale
+                            </h2>
                         </div>
 
                         {/* Subtitle */}
-                        <p className="mt-[8px] text-[13px] font-semibold text-[#176A72] sm:text-[15px] lg:mt-[12px] lg:text-[17px]">
-                            Book early. Travel more. Save more.
+                        <p className="mt-2 text-[11px] font-semibold text-[#176A72] sm:text-[13px] lg:mt-3 lg:text-[15px]">
+                            Book early. Travel more.
+                            Save more.
                         </p>
 
                         {/* Countdown */}
-                        <div className="mt-[25px] flex items-center lg:mt-[30px]">
-                            <div className="mr-[9px] flex items-center gap-[5px] lg:mr-[13px] lg:gap-[7px]">
-                                <Clock3 className="h-[14px] w-[14px] text-[#00636A] sm:h-[16px] sm:w-[16px] lg:h-[19px] lg:w-[19px]" />
-
-                                <span className="text-[12px] font-bold text-[#165E62] sm:text-[14px] lg:text-[16px]">
-                                    Offer ends in
-                                </span>
-                            </div>
-
-                            <div className="flex gap-[3px] lg:gap-[5px]">
-                                <CountdownItem
-                                    value={days}
-                                    label="Days"
-                                />
-
-                                <CountdownItem
-                                    value={hours}
-                                    label="Hours"
-                                />
-
-                                <CountdownItem
-                                    value={minutes}
-                                    label="Mins"
-                                />
-
-                                <CountdownItem
-                                    value={seconds}
-                                    label="Secs"
-                                />
-                            </div>
-                        </div>
+                        <CountdownDisplay
+                            endDate={
+                                featuredOffer.validTill
+                            }
+                        />
                     </div>
 
-                    {/* RIGHT FEATURED CARD */}
+                    {/* ================================================== */}
+                    {/* FEATURED OFFER                                     */}
+                    {/* ================================================== */}
+
                     <div className="w-full min-w-0">
-                        <FeaturedCard />
+                        <FeaturedCard
+                            offer={featuredOffer}
+                        />
                     </div>
                 </div>
 
-                {/* BOTTOM 3 CARDS */}
-                <div className="mt-5.5 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
-                    {earlyBirdPackages
-                        .slice(1)
-                        .map((item) => (
-                            <SmallOfferCard
-                                key={item.id}
-                                packageName={item.name}
-                            />
-                        ))}
-                </div>
+                {/* ================================================== */}
+                {/* SMALL OFFER CARDS                                  */}
+                {/* ================================================== */}
+
+                {smallOffers.length > 0 && (
+                    <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+                        {smallOffers.map(
+                            (offer) => (
+                                <SmallOfferCard
+                                    key={offer.id}
+                                    offer={offer}
+                                />
+                            )
+                        )}
+                    </div>
+                )}
             </div>
         </section>
     );

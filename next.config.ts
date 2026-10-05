@@ -36,16 +36,7 @@ const nextConfig: NextConfig = {
                 destination: "/offers/package/goa",
                 permanent: false,
             },
-            {
-                source: "/package/ayodhya",
-                destination: "/offers/package/ayodhya",
-                permanent: false,
-            },
-            {
-                source: "/packages/ayodhya",
-                destination: "/offers/package/ayodhya",
-                permanent: false,
-            },
+          
         ];
     },
 

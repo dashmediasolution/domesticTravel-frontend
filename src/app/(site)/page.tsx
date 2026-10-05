@@ -14,12 +14,7 @@ import Memories from "@/components/Memories";
  import TravelersReviews from "@/components/Reviews";
 import EarlyBirdSale from "@/components/packagess/EarlyBirdSale";
 const firstBanner: Banner[] = [
-  {
-    id: 1,
-    image: "/images/banners/diwali banner.png",
-    title: "Explore Incredible India",
-    redirectUrl: "/package/ayodhya",
-  },
+ 
   {
     id: 2,
     image: "/images/banners/shimla001.png",

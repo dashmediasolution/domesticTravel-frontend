@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
- 
+
 import ThingsToDo from "@/components/ThingsToDo";
 import Itinerary from "@/components/packagess/Itinerary";
 import TravelInformation from "@/components/packagess/TravelInformation";
@@ -15,7 +15,7 @@ import InclusionsExclusions from "@/components/packagess/InclusionExclusion";
 import OfferCard from "@/components/OfferCard";
 import Memories from "@/components/Memories";
 import DestinationGallery from "@/components/DestinationGallery";
-import DestinationHero from "@/components/destination/DestinationHero";
+import PackageHeroSection from "@/components/packagess/PackageHeroSection";
 export default function OffersPackage() {
     const pathname = usePathname();
 
@@ -52,10 +52,7 @@ export default function OffersPackage() {
                 const result =
                     await response.json();
 
-                console.log(
-                    "Offer API Response:",
-                    result
-                );
+            
 
                 if (
                     !response.ok ||
@@ -112,22 +109,29 @@ export default function OffersPackage() {
         offer.package;
 
 
- 
- 
+
+
     return (
         <main className="flex w-full flex-col items-center gap-10 bg-white">
 
             {/* Hero */}
-
-            <DestinationHero
-                imageUrl={offer?.package.heroImage?.url ?? ""}
-                destination={offer?.package.name ?? ""}
-                subtitle={offer?.package?.subtitle ?? ""}
-                description={offer?.package.description ?? ""}
-                idealTrip={offer?.package.idealTrip ?? ""}
-                budget={offer?.originalPrice ?? ""}
-                location={offer?.location ?? ""}
+            <PackageHeroSection
+                imageUrl={offer?.package?.heroImage?.url ?? ""}
+                destination={offer?.package?.name ?? ""}
+                subtitle={offer?.package?.subtitle}
+                description={offer?.package?.description}
+                duration={offer?.package?.duration}
+                idealTrip={offer?.package?.idealTrip}
+                budget={offer?.package?.budget}
+                location={offer?.package?.location}
+                rating={offer?.package?.rating}
+                reviews={offer?.package?.reviewsCount}
+                offerPrice={offer?.offerPrice}
+                originalPrice={offer?.package?.originalPrice}
+                buttonText="Book Now"
+                buttonHref="#inquiry"
             />
+
 
             {/* Package Overview */}
             {selectedPackage?.travelInformation?.activities?.length > 0 &&
@@ -168,13 +172,17 @@ export default function OffersPackage() {
                             "
                 >
                     <OfferCard
+                        image={selectedPackage?.heroImage.url}
+                        title={offer?.title}
                         originalPrice={selectedPackage?.originalPrice}
-                        offerPrice={selectedPackage?.offerPrice}
+                        offerPrice={offer?.offerPrice}
+                        badge={offer?.badgeText}
                         saveAmount={selectedPackage?.saveAmount}
-                        discount={selectedPackage?.discount}
+                        discount={offer?.discount}
                         validTill={selectedPackage?.validTill}
                         groupSize={selectedPackage?.groupSize}
                     />
+
                 </div>
             </div>
 
@@ -216,43 +224,43 @@ export default function OffersPackage() {
             {/* Travel Information */}
 
             {(selectedPackage?.travelInformation?.length > 0 ||
-                          selectedPackage?.whatToPack?.length > 0 ||
-                          (selectedPackage?.latitude != null &&
-                              selectedPackage?.longitude != null)) && (
-                              <TravelInformation
-                                  destination={selectedPackage?.name ?? ""}
-                                  latitude={selectedPackage?.latitude}
-                                  longitude={selectedPackage?.longitude}
-                                  travelInfo={selectedPackage?.travelInformation ?? []}
-                                  packingItems={selectedPackage?.whatToPack ?? []}
-                              />
-                          )}
-          
-                      {/* ==================================================
+                selectedPackage?.whatToPack?.length > 0 ||
+                (selectedPackage?.latitude != null &&
+                    selectedPackage?.longitude != null)) && (
+                    <TravelInformation
+                        destination={selectedPackage?.name ?? ""}
+                        latitude={selectedPackage?.latitude}
+                        longitude={selectedPackage?.longitude}
+                        travelInfo={selectedPackage?.travelInformation ?? []}
+                        packingItems={selectedPackage?.whatToPack ?? []}
+                    />
+                )}
+
+            {/* ==================================================
                                 WEATHER
                             ================================================== */}
-          
-                      {selectedPackage?.latitude &&
-                          selectedPackage?.longitude && (
-                              <WeatherForecast
-                                  destination={selectedPackage?.name}
-                                  latitude={selectedPackage?.latitude}
-                                  longitude={selectedPackage?.longitude}
-                              />
-                          )}
-                      <div className="w-[93%] flex flex-col gap-12">
-                          <InclusionsExclusions
-                              inclusions={selectedPackage?.inclusions ?? []}
-                              exclusions={selectedPackage?.exclusions ?? []}
-                              title={selectedPackage?.whyVisit?.title}
-                              highlights={selectedPackage?.whyVisit?.highlights}
-                          />
-          
-                          <TravelersReviews />
-                      </div>
-                      <TravelStories />
-          
-                      <Memories />
+
+            {selectedPackage?.latitude &&
+                selectedPackage?.longitude && (
+                    <WeatherForecast
+                        destination={selectedPackage?.name}
+                        latitude={selectedPackage?.latitude}
+                        longitude={selectedPackage?.longitude}
+                    />
+                )}
+            <div className="w-[93%] flex flex-col gap-12">
+                <InclusionsExclusions
+                    inclusions={selectedPackage?.inclusions ?? []}
+                    exclusions={selectedPackage?.exclusions ?? []}
+                    title={selectedPackage?.whyVisit?.title}
+                    highlights={selectedPackage?.whyVisit?.highlights}
+                />
+
+                <TravelersReviews />
+            </div>
+            <TravelStories />
+
+            <Memories />
 
         </main>
     );

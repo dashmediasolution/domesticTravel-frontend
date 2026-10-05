@@ -189,6 +189,10 @@ export default function BestOffers() {
         }, 0);
     };
 
+    if(offers.length < 1)
+    {
+        return null
+    }
     return (
         <section
             className="

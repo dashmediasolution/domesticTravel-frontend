@@ -63,6 +63,8 @@ export default function UpcomingPackages() {
         fetchUpcomingPackages();
     }, []);
 
+
+    console.log(packages,"upcome")
     const handlePackageClick = (
         item: any
     ) => {

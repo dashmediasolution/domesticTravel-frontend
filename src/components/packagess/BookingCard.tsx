@@ -131,7 +131,7 @@ export default function BookingCard({
                 <button
                     type="button"
                     onClick={onBookNow}
-                    className="mb-0.5 flex h-10 items-center flex-nowrap gap-2 rounded-full bg-primary px-5 text-xs font-bold text-white transition-all duration-200 hover:bg-primary sm:px-6"
+                    className="mb-0.5 flex h-10 items-center w-30 flex-nowrap gap-2 rounded-full bg-primary px-5 text-xs font-bold text-white transition-all duration-200 hover:bg-primary sm:px-6"
                 >
                     {buttonText}
 

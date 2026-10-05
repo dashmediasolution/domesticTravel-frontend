@@ -131,9 +131,6 @@ export default function PackageDestination() {
                     reviews={
                         packageDatas?.reviewsCount
                     }
-                    price={
-                        packageDatas?.offerPrice
-                    }
                     originalPrice={
                         packageDatas?.originalPrice
                     }

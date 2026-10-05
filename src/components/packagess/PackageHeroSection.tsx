@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
     CalendarDays,
@@ -25,7 +26,7 @@ interface PackageHeroSectionProps {
     reviews?: string | number;
     packagesCount?: string | number;
     weather?: string;
-    price?: string | number;
+    offerPrice?: string | number;
     originalPrice?: string | number;
     buttonText?: string;
     buttonHref?: string;
@@ -44,12 +45,15 @@ export default function PackageHeroSection({
     reviews,
     packagesCount,
     weather,
-    price,
+    offerPrice,
     originalPrice,
     buttonText = "Book Now",
     buttonHref = "#",
 }: PackageHeroSectionProps) {
-    return (
+
+    const pathname = usePathname();
+    const path =  pathname.split("/")[1]
+      return (
         <section className="relative h-[460px] w-full overflow-hidden sm:h-[430px] md:h-[500px] lg:h-[640px]">
             {/* Background */}
             {imageUrl ? (
@@ -67,15 +71,15 @@ export default function PackageHeroSection({
 
             <div
                 className="
-          absolute
-          inset-0
-          z-10
-          bg-linear-to-tr
-          from-black/50
-          via-black/20
-          via-30%
-          to-transparent
-        "
+                        absolute
+                        inset-0
+                        z-10
+                        bg-linear-to-tr
+                        from-black/50
+                        via-black/20
+                        via-30%
+                        to-transparent
+                        "
             />
 
             {/* Content */}
@@ -83,9 +87,10 @@ export default function PackageHeroSection({
                 <div className="max-w-full text-white  flex gap-2 flex-col ">
 
                     {/* Package Badge */}
+                    {path === "offers" && 
                     <div className="mb-2 inline-flex items-center w-fit rounded-full bg-[#2FC2B0] px-2.5 py-1 text-sm font-semibold uppercase tracking-wide text-white shadow-sm sm:text-xs md:text-sm ">
-                        Domestic Package
-                    </div>
+                      Offer Package
+                    </div> } 
 
                     {/* Destination */}
                     <h1 className="font-(--font-bebas-neue) text-[48px] font-bold uppercase leading-[0.82] tracking-[0.04em] sm:text-[66px] md:text-[82px] lg:text-[100px]">
@@ -168,15 +173,12 @@ export default function PackageHeroSection({
                     </div>
 
                     {/* Included Information */}
-                    <div className="mt-2 flex flex-wrap items-center gap-3 text-[8px] text-white/80 sm:text-[9px] md:text-[10px]">
-                        <div className="flex items-center gap-1">
-                            <Utensils className="size-3 text-primary sm:size-3.5 md:size-5 " />
-                            <span text-lg>Meals Included</span>
-                        </div>
+                    <div className="flex flex-wrap items-center gap-3 text-[8px] text-white/80 sm:text-[9px] md:text-[10px]">
+                         
 
 
 
-                        {originalPrice && (
+                        {originalPrice && offerPrice == undefined  && (
                             <>
                                 <span className="text-white/30">
                                     |
@@ -190,32 +192,32 @@ export default function PackageHeroSection({
                     </div>
 
                     {/* Price + CTA */}
-                    {(price !== undefined ||
+                    {(offerPrice !== undefined ||
                         buttonHref) && (
                             <div className="mt-2.5 flex flex-wrap items-end gap-3 sm:mt-3">
 
-                                {price !== undefined && (
+                                {offerPrice !== undefined && (
                                     <div>
-                                        <p className="text-[8px] text-white/70 sm:text-[9px]">
+                                        <p className="text-[8px] text-white/70 sm:text-[9px] md:text-[14px]">
                                             From
                                         </p>
 
                                         <div className="flex items-baseline gap-1.5">
                                             <span className="text-lg font-bold leading-none text-[#2FC2B0] sm:text-xl md:text-2xl">
-                                                {typeof price ===
+                                                {typeof offerPrice ===
                                                     "number"
-                                                    ? `₹${price.toLocaleString(
+                                                    ? `₹${offerPrice.toLocaleString(
                                                         "en-IN"
                                                     )}`
-                                                    : price}
+                                                    : offerPrice}
                                             </span>
 
-                                            <span className="text-[8px] text-white/80 sm:text-[9px]">
+                                            <span className="text-[8px] text-white/80 sm:text-[9px] md:text-[14px]">
                                                 per person
                                             </span>
 
                                             {originalPrice && (
-                                                <span className="text-[8px] text-white/50 line-through sm:text-[9px]">
+                                                <span className="text-[8px] text-white line-through sm:text-[9px] md:text-lg">
                                                     {typeof originalPrice ===
                                                         "number"
                                                         ? `₹${originalPrice.toLocaleString(
@@ -228,12 +230,15 @@ export default function PackageHeroSection({
                                     </div>
                                 )}
 
+                            </div>
+                        )}
                                 <a
                                     href={`tel:${987654321}`}
                                     className="
                                         rounded-md
                                         bg-[#2FC2B0]
                                         px-3
+                                        w-fit
                                         py-1.5
                                         text-[8px]
                                         font-semibold
@@ -248,8 +253,6 @@ export default function PackageHeroSection({
                                 >
                                     Call Now
                                 </a>
-                            </div>
-                        )}
                 </div>
             </div>
         </section>
