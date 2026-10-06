@@ -14,31 +14,7 @@ const nextConfig: NextConfig = {
         "prisma",
     ],
 
-    async redirects() {
-        return [
-            {
-                source: "/package/himachal-pradesh/shimla",
-                destination: "/offers/package/shimla",
-                permanent: false,
-            },
-            {
-                source: "/packages/himachal-pradesh/shimla",
-                destination: "/offers/package/shimla",
-                permanent: false,
-            },
-            {
-                source: "/package/goa",
-                destination: "/offers/package/goa",
-                permanent: false,
-            },
-            {
-                source: "/packages/goa",
-                destination: "/offers/package/goa",
-                permanent: false,
-            },
-          
-        ];
-    },
+ 
 
     images: {
         remotePatterns: [

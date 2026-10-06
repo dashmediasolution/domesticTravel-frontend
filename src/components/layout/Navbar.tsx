@@ -228,14 +228,14 @@ export default function Navbar() {
             icon: <IoBusOutline className="h-5 w-5 shrink-0" />,
         },
     ];
-// const destinationEmojis: Record<string, string> = {
-//     goa: "🏖️",
-//     uttarakhand: "🏔️",
-//     rajasthan: "🏜️",
-//     "himachal-pradesh": "🏔️",
-//     ladakh: "🏕️",
-//     "tamil-nadu": "🛕",
-// };
+    // const destinationEmojis: Record<string, string> = {
+    //     goa: "🏖️",
+    //     uttarakhand: "🏔️",
+    //     rajasthan: "🏜️",
+    //     "himachal-pradesh": "🏔️",
+    //     ladakh: "🏕️",
+    //     "tamil-nadu": "🛕",
+    // };
     return (
         <>
             <nav
@@ -500,11 +500,11 @@ export default function Navbar() {
 
                                         <div className="grid grid-cols-2 gap-1.5">
 
-                                        {destination.map((item: any) => (
-    <Link
-        key={item.slug}
-        href={`/destinations/${item.slug}`}
-        className="
+                                            {destination.map((item: any) => (
+                                                <Link
+                                                    key={item.slug}
+                                                    href={`/destinations/${item.slug}`}
+                                                    className="
             flex
             items-center
             gap-3
@@ -513,13 +513,13 @@ export default function Navbar() {
             transition-colors
             hover:bg-muted
         "
-    >
-        
-        <span className="text-sm font-medium">
-            {item.name}
-        </span>
-    </Link>
-))}
+                                                >
+
+                                                    <span className="text-sm font-medium">
+                                                        {item.name}
+                                                    </span>
+                                                </Link>
+                                            ))}
 
                                         </div>
 
@@ -811,10 +811,10 @@ export default function Navbar() {
 
                             </div>
 
+ 
                             {/* ================= MOBILE DESTINATIONS ================= */}
 
                             <div className="mt-2 rounded-xl bg-gray-50 p-3">
-
                                 <button
                                     type="button"
                                     aria-expanded={destinationsOpen}
@@ -824,88 +824,74 @@ export default function Navbar() {
                                         )
                                     }
                                     className="
-                                        flex
-                                        w-full
-                                        items-center
-                                        justify-between
-                                        rounded-lg
-                                        px-2
-                                        py-2
-                                        text-left
-                                        hover:bg-white
-                                    "
+            flex
+            w-full
+            items-center
+            justify-between
+            rounded-lg
+            px-2
+            py-2
+            text-left
+            hover:bg-white
+        "
                                 >
-
                                     <span className="flex items-center gap-2">
-
                                         <FiMapPin className="h-5 w-5" />
 
                                         <span className="font-medium">
                                             Destinations
                                         </span>
-
                                     </span>
 
                                     <ChevronDown
                                         className={`
-                                            h-5
-                                            w-5
-                                            transition-transform
-                                            ${destinationsOpen
+                h-5
+                w-5
+                transition-transform
+                ${destinationsOpen
                                                 ? "rotate-180"
                                                 : ""
                                             }
-                                        `}
+            `}
                                     />
-
                                 </button>
 
                                 {destinationsOpen && (
                                     <div className="mt-2 grid grid-cols-2 gap-1">
-
                                         {destination.map(
-                                            (destination: any) => (
+                                            (item: {
+                                                name: string;
+                                                slug: string;
+                                            }) => (
                                                 <Link
-                                                    key={destination.name}
-                                                    href={`destination/${destination.slug}`}
+                                                    key={item.slug}
+                                                    href={`/destinations/${item.slug}`}
                                                     onClick={() =>
                                                         setMobileMenuOpen(
                                                             false
                                                         )
                                                     }
                                                     className="
-                                                        flex
-                                                        items-center
-                                                        gap-2
-                                                        rounded-lg
-                                                        px-2
-                                                        py-2
-                                                        text-sm
-                                                        text-gray-700
-                                                        hover:bg-white
-                                                        hover:text-primary
-                                                    "
+                            flex
+                            items-center
+                            gap-2
+                            rounded-lg
+                            px-2
+                            py-2
+                            text-sm
+                            text-gray-700
+                            hover:bg-white
+                            hover:text-primary
+                        "
                                                 >
-
-                                                    {/* <span className="text-lg">
-                                                        {
-                                                            destination.icon
-                                                        }
-                                                    </span> */}
-
                                                     <span>
-                                                        {
-                                                            destination
-                                                        }
+                                                        {item.name}
                                                     </span>
-
                                                 </Link>
                                             )
                                         )}
-
                                     </div>
                                 )}
-
                             </div>
 
                             <div className="my-3 h-px w-full bg-black/10" />

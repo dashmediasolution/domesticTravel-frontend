@@ -21,15 +21,15 @@ export default function WhyChooseUs() {
                 overflow-hidden
                 bg-white
                 px-3
-                py-8
+                pb-8
 
                 sm:px-5
-                sm:py-10
+                sm:py-5
 
                 md:px-6
 
                 lg:px-12
-                lg:py-12
+                lg:pb-12
             "
         >
             <div

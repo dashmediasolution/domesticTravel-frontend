@@ -161,9 +161,7 @@ ${specialRequests || "None"}
         }
 
         const emailResult = await resend.emails.send({
-            from:
-                process.env.EMAIL_FROM ||
-                "WANDER-INDIA <onboarding@resend.dev>",
+            from:"WANDER-INDIA <onboarding@resend.dev>",
             to: [adminEmail],
             replyTo: email.trim().toLowerCase(),
             subject: `New Booking Request - ${packageData.name}`,

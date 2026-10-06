@@ -177,7 +177,7 @@ const categoryHeroData: Record<string, CategoryHeroData> = {
         },
     },
 
-    beaches: {
+    beach: {
         tagline: "Escape to the Coast",
         titleTop: "Beach",
         titleBottom: "Getaways",
@@ -275,7 +275,104 @@ const categoryHeroData: Record<string, CategoryHeroData> = {
             ],
         },
     },
+heritage: {
+    tagline: "Walk Through India's History",
+    titleTop: "Heritage",
+    titleBottom: "Journeys",
+    description:
+        "Discover India's magnificent forts, ancient monuments, royal palaces and timeless cultural heritage.",
+    backgroundImage:
+        "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=2560&q=80",
+    imageAlt: "Historic Indian heritage monument and architecture",
 
+    stats: [
+        {
+            label: "Destinations",
+            value: "100+",
+            icon: MapPin,
+        },
+        {
+            label: "Tour Packages",
+            value: "350+",
+            icon: Compass,
+        },
+        {
+            label: "Happy Travelers",
+            value: "35K+",
+            icon: CalendarCheck,
+        },
+        {
+            label: "Average Rating",
+            value: "4.8/5",
+            icon: Star,
+        },
+    ],
+
+    whyVisit: [
+        {
+            id: "heritage-1",
+            title: "Historic Monuments",
+            description:
+                "Explore magnificent forts, ancient temples, grand palaces and iconic monuments that showcase India's rich history.",
+        },
+        {
+            id: "heritage-2",
+            title: "Royal Palaces",
+            description:
+                "Experience the grandeur of royal palaces, majestic architecture and stories from India's historic kingdoms.",
+        },
+        {
+            id: "heritage-3",
+            title: "Rich Culture",
+            description:
+                "Discover traditional art, music, festivals, cuisine and customs passed down through generations.",
+        },
+        {
+            id: "heritage-4",
+            title: "Architectural Wonders",
+            description:
+                "Admire remarkable architecture, intricate carvings and timeless structures representing India's diverse heritage.",
+        },
+    ],
+
+    activities: [
+        "Heritage Walks",
+        "Fort Visits",
+        "Palace Tours",
+        "Museum Visits",
+        "Temple Tours",
+        "Cultural Tours",
+        "Photography",
+        "Local Experiences",
+    ],
+
+    bestTimeToVisit: {
+        months: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+        seasons: [
+            {
+                name: "Winter",
+                months: "Oct - Feb",
+                description:
+                    "Cool and pleasant weather makes winter ideal for exploring forts, palaces, monuments and heritage cities.",
+                icon: "winter",
+            },
+            {
+                name: "Summer",
+                months: "Mar - Jun",
+                description:
+                    "Warm weather is suitable for heritage sightseeing, especially during early mornings and late afternoons.",
+                icon: "summer",
+            },
+            {
+                name: "Monsoon",
+                months: "Jul - Sep",
+                description:
+                    "Rain brings fresh greenery and dramatic surroundings to historic sites, although outdoor sightseeing may be affected.",
+                icon: "monsoon",
+            },
+        ],
+    },
+},
     desert: {
         tagline: "Discover the Golden Sands",
         titleTop: "Desert",

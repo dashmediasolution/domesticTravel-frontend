@@ -12,10 +12,11 @@ import WhyChooseUs from "@/components/homePage/WhyChooseUs";
 import BestOffers from "@/components/homePage/BestOffers";
 import HeroSection from "@/components/homePage/HeroSection";
 import Memories from "@/components/Memories";
- import TravelersReviews from "@/components/Reviews";
+import TravelersReviews from "@/components/Reviews";
+import Image from "next/image";
 import EarlyBirdSale from "@/components/packagess/EarlyBirdSale";
 const firstBanner: Banner[] = [
- {
+  {
     id: 1,
     image: "/images/banners/ChristmasOFfer.png",
     title: "Discover New Destinations",
@@ -59,7 +60,7 @@ const thirdBanner: Banner[] = [
     id: 1,
     image: "/images/banners/banner_4.png",
     title: "Explore Incredible India",
-    redirectUrl: "/destinations/meghalaya",
+    redirectUrl: "/package/north-east-india/meghalaya",
   },
   {
     id: 2,
@@ -81,7 +82,7 @@ export default function Home() {
       <SearachBar bottomPosition="3.5" />
       <FeaturedDestination />
       <BrowseByCategory />
-      <EarlyBirdSale/>
+      <EarlyBirdSale />
       <BannerCarousel banners={firstBanner} />
       <ExploreIndia />
       <BestOffers />
@@ -91,13 +92,34 @@ export default function Home() {
       <BannerCarousel banners={thirdBanner} />
       <TravelStories />
       <WhyChooseUs />
-      <div className="w-full flex justify-center items-center my-10">
+
+
+
+      <section className="relative overflow-hidden    flex justify-center items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="/images/behind.png"
+            alt="Plan your trip with WANDER-INDIA"
+            fill
+            priority
+            sizes="90vw"
+            className="object-cover"
+          />
+
+        </div>
+
+        {/* Form */}
+        <div className="relative z-10 py-12 sm:py-16 lg:py-20 w-[70%] flex justify-center items-center">
+          <ContactInquiryForm />
+        </div>
+      </section> 
+       <div className="w-full flex justify-center items-center my-10">
         <div className="w-[95%] flex justify-center items-center">
           <TravelersReviews />
         </div>
       </div>
-      <ContactInquiryForm/>
-      <Memories />
+          <Memories />
     </div>
   );
 }

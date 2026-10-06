@@ -381,6 +381,7 @@ export default function Itinerary({
                                                             <span
                                                                 className="
                                                                      leading-4
+                                                                     text-xs
                                                                     text-slate-500
                                                                     sm:text-[11px]
                                                                     md:text-[13px]

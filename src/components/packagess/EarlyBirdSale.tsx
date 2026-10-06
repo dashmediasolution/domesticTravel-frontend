@@ -334,14 +334,7 @@ function FeaturedCard({
                 </div>
             </div>
 
-            {/* Group Size */}
-            {offer.package.groupSize && (
-                <div className="absolute bottom-3 right-3 hidden items-center gap-1.5 rounded-full bg-[#00474C]/90 px-3 py-1.5 text-[8px] text-white sm:flex sm:bottom-4 sm:right-4 sm:text-[9px] lg:bottom-5 lg:right-6 lg:text-[10px]">
-                    <Users className="h-3 w-3 lg:h-4 lg:w-4" />
-
-                    {offer.package.groupSize}
-                </div>
-            )}
+          
         </div>
     );
 }

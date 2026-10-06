@@ -645,94 +645,19 @@ export default function BestOffers() {
                     className="
                         mt-5
                         flex
-                        items-center
-                        justify-between
+                        items-end
+                        justify-end
                         gap-3
                         sm:mt-6
                     "
                 >
-                    {/* =============================================
-                        DOMESTIC / INTERNATIONAL
-                    ============================================= */}
-
-                    <div
-                        className="
-                            flex
-                            shrink-0
-                            items-center
-                            rounded-full
-                            border
-                            border-gray-200
-                            bg-[#F8F8F8]
-                            p-0.5
-                            sm:p-1
-                        "
-                    >
-                        {/* Domestic */}
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleTypeChange(
-                                    "domestic"
-                                )
-                            }
-                            className={`
-                                rounded-full
-                                px-3
-                                py-1.5
-                                text-[11px]
-                                font-medium
-                                transition-all
-                                duration-300
-                                sm:px-5
-                                sm:py-2
-                                sm:text-[15px]
-                                ${offerType === "domestic"
-                                    ? "bg-primary text-white shadow-sm"
-                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                                }
-                            `}
-                        >
-                            Domestic
-                        </button>
-
-                        {/* International */}
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleTypeChange(
-                                    "international"
-                                )
-                            }
-                            className={`
-                                rounded-full
-                                px-3
-                                py-1.5
-                                text-[11px]
-                                font-medium
-                                transition-all
-                                duration-300
-                                sm:px-5
-                                sm:py-2
-                                sm:text-[15px]
-                                ${offerType ===
-                                    "international"
-                                    ? "bg-primary text-white shadow-sm"
-                                    : "text-[#7380A4]/70 hover:text-[#7380A4]"
-                                }
-                            `}
-                        >
-                            International
-                        </button>
-                    </div>
+                     
 
                     {/* =============================================
                         PREVIOUS / NEXT
                     ============================================= */}
 
-                    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+                    <div className="flex shrink-0 gap-1.5 sm:gap-2 justify-end items-end">
                         <Button
                             type="button"
                             variant="outline"

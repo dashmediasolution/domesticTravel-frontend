@@ -135,13 +135,13 @@ export default function OffersPackage() {
             {
                 offer?.type === "EARLY_BIRD" &&
                 <EarlyBirdOfferBanner
-                badgeText={offer?.badgeText}
-                saveAmount={offer?.saveAmount}
-                discount={offer?.discount}
-                validTill={offer?.endDate}
-                packageName={offer?.badgeText}
-                 location={offer?.package?.location}
-                groupSize={offer?.package?.groupSize}
+                    badgeText={offer?.badgeText}
+                    saveAmount={offer?.saveAmount}
+                    discount={offer?.discount}
+                    validTill={offer?.endDate}
+                    packageName={offer?.badgeText}
+                    location={offer?.package?.location}
+                    groupSize={offer?.package?.groupSize}
                 />
             }
             {/* Package Overview */}
@@ -171,7 +171,7 @@ export default function OffersPackage() {
                 {/* Sticky Offer Card */}
                 <div
                     className="
-                                hidden
+                                 
                                 w-[280px]
                                 shrink-0
                                 self-start
@@ -185,6 +185,8 @@ export default function OffersPackage() {
                     <OfferCard
                         image={selectedPackage?.heroImage.url}
                         title={offer?.title}
+                        id={selectedPackage?.id}
+                        slug={selectedPackage?.slug}
                         originalPrice={selectedPackage?.originalPrice}
                         offerPrice={offer?.offerPrice}
                         badge={offer?.badgeText}
