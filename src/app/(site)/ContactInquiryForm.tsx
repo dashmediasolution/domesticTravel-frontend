@@ -87,11 +87,11 @@ export default function ContactInquiryForm() {
     }
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full flex justify-center items-center mb-4">
             <div
                 className="
         grid
-        w-full
+        w-[95%]
         overflow-hidden
         rounded-2xl
         bg-white
@@ -140,7 +140,7 @@ export default function ContactInquiryForm() {
                             We’re Here to Help You
                         </h3>
 
-                        <p className="mt-1.5 max-w-[330px] text-[11px] leading-4 text-[#587174]">
+                        <p className="mt-1.5 max-w-[80%] text-[11px] leading-4 text-[#587174] md:text-[14px]">
                             Have a question, need assistance or want to
                             plan your next trip? Fill out the form and
                             our travel experts will get back to you

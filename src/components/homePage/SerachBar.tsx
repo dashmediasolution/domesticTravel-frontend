@@ -1,308 +1,501 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
-    Briefcase,
-    Calendar,
+    CalendarDays,
     CircleDollarSign,
     MapPin,
     Search,
-    UsersRound,
     X,
 } from "lucide-react";
-import { packageData } from "@/constants/packagesData";
-import { featuredDestination } from "@/constants/destinationData";
 
 interface SearchBarProps {
     bottomPosition?: string;
 }
 
-type SearchValues = {
-    destination: string;
-    packageType: string;
-    travelMonth: string;
-    travellers: string;
+interface SearchValues {
+    query: string;
+    month: string;
+    maxPrice: string;
     budget: string;
-};
+}
 
-type SearchSuggestion = {
+interface SearchSuggestion {
     name: string;
-    destination: string;
     type: "Destination" | "Package";
-    path: string;
-};
+    destination?: {
+        name: string;
+        slug: string;
+    };
+    slug: string;
+    image?: string;
+}
 
-const emptySearch: SearchValues = {
-    destination: "",
-    packageType: "",
-    travelMonth: "",
-    travellers: "",
+const initialValues: SearchValues = {
+    query: "",
+    month: "",
+    maxPrice: "",
     budget: "",
 };
 
-const toSlug = (value: string) =>
-    value.toLowerCase().trim().replace(/\s+/g, "-");
+const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
+];
 
-export default function SearachBar({ bottomPosition }: SearchBarProps) {
+const budgetOptions = [
+    {
+        value: "Budget",
+        label: "Budget",
+    },
+    {
+        value: "Mid Range",
+        label: "Mid Range",
+    },
+    {
+        value: "Luxury",
+        label: "Luxury",
+    },
+];
+
+export default function SearachBar({
+    bottomPosition = "0",
+}: SearchBarProps) {
     const router = useRouter();
-    const [values, setValues] = useState<SearchValues>(emptySearch);
+
+    const [values, setValues] =
+        useState<SearchValues>(initialValues);
+
+    const [suggestions, setSuggestions] = useState<
+        SearchSuggestion[]
+    >([]);
+
+    const [showSuggestions, setShowSuggestions] =
+        useState(false);
+
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [suggestionField, setSuggestionField] = useState<"destination" | "packageType" | null>(null);
-    const [searchAttempted, setSearchAttempted] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // Build exact destination and package links for the suggestions menu.
-    const suggestions: SearchSuggestion[] = [
-        ...featuredDestination.map((item) => ({
-            name: item.destination.name,
-            destination: item.destination.name,
-            type: "Destination" as const,
-            path: `/destinations/${toSlug(item.destination.name)}`,
-        })),
-        ...packageData.flatMap((group) =>
-            group.packages.map((item) => ({
-                name: item.name,
-                destination: group.name,
-                type: "Package" as const,
-                path:
-                    toSlug(group.name) === toSlug(item.name)
-                        ? `/package/${toSlug(group.name)}`
-                        : `/package/${toSlug(group.name)}/${toSlug(item.name)}`,
-            }))
-        ),
-    ].filter((item, index, items) =>
-        items.findIndex(
-            (match) => match.name === item.name && match.type === item.type
-        ) === index
-    );
+    useEffect(() => {
+        const query = values.query.trim();
 
-    const activeSuggestions = suggestionField
-        ? suggestions
-              .filter((item) => {
-                  const query = values[suggestionField].trim().toLowerCase();
-                  return (
-                      query.length >= 3 &&
-                      item.name.toLowerCase().includes(query) ||
-                      (query.length >= 3 && item.destination.toLowerCase().includes(query))
-                  );
-              })
-              .slice(0, 20)
-        : [];
-
-    const updateValue = (field: keyof SearchValues, value: string) => {
-        setSearchAttempted(false);
-
-        if (field === "destination") {
-            const packageMatch = packageData
-                .flatMap((group) =>
-                    group.packages.map((item) => ({ group, item }))
-                )
-                .find(({ item }) => item.name.toLowerCase() === value.trim().toLowerCase());
-
-            if (packageMatch) {
-                setValues((current) => ({
-                    ...current,
-                    destination: packageMatch.group.name,
-                    packageType: packageMatch.item.name,
-                }));
-                return;
-            }
-        }
-
-        setValues((current) => ({ ...current, [field]: value }));
-    };
-
-    // Exact matches go directly to their real page. Other searches go to Explore.
-    const getSearchPath = () => {
-        const destinationQuery = values.destination.trim().toLowerCase();
-        const packageQuery = values.packageType.trim().toLowerCase();
-        const packageMatch = packageData
-            .flatMap((group) =>
-                group.packages.map((item) => ({ group, item }))
-            )
-            .find(({ item }) => item.name.toLowerCase() === packageQuery);
-
-        if (packageMatch) {
-            const groupSlug = toSlug(packageMatch.group.name);
-            const packageSlug = toSlug(packageMatch.item.name);
-            return groupSlug === packageSlug
-                ? `/package/${groupSlug}`
-                : `/package/${groupSlug}/${packageSlug}`;
-        }
-
-        const destinationMatch = featuredDestination.find(
-            (item) => item.destination.name.toLowerCase() === destinationQuery
-        );
-
-        if (destinationMatch) {
-            return `/destinations/${toSlug(destinationMatch.destination.name)}`;
-        }
-
-        const packageDestination = packageData.find(
-            (item) => item.name.toLowerCase() === destinationQuery
-        );
-
-        if (packageDestination) {
-            return `/package/${toSlug(packageDestination.name)}`;
-        }
-
-        return null;
-    };
-
-    const submitSearch = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setSearchAttempted(true);
-        const searchPath = getSearchPath();
-
-        if (!searchPath) {
+        if (query.length < 2) {
+            setSuggestions([]);
             return;
         }
 
-        router.push(searchPath);
-        setMobileOpen(false);
-        setSuggestionField(null);
-    };
+        const controller = new AbortController();
 
-    const chooseSuggestion = (suggestion: SearchSuggestion) => {
-        if (suggestionField) {
-            updateValue(suggestionField, suggestion.name);
+        const timer = setTimeout(async () => {
+            try {
+                const params = new URLSearchParams({
+                    q: query,
+                    limit: "8",
+                });
 
-            if (suggestion.type === "Package") {
-                setValues((current) => ({
-                    ...current,
-                    destination: suggestion.destination,
-                    packageType: suggestion.name,
-                }));
+                const response = await fetch(
+                    `/api/search?${params.toString()}`,
+                    {
+                        signal: controller.signal,
+                    }
+                );
+
+                if (!response.ok) {
+                    setSuggestions([]);
+                    return;
+                }
+
+                const data = await response.json();
+
+                const destinationSuggestions: SearchSuggestion[] =
+                    (data.destinations ?? []).map(
+                        (item: {
+                            name: string;
+                            slug: string;
+                            image?: string;
+                        }) => ({
+                            name: item.name,
+                            slug: item.slug,
+                            type: "Destination",
+                            image: item.image,
+                        })
+                    );
+
+                const packageSuggestions: SearchSuggestion[] =
+                    (data.packages ?? []).map(
+                        (item: {
+                            name: string;
+                            slug: string;
+                            image?: string;
+                            destination?: {
+                                name: string;
+                                slug: string;
+                            };
+                        }) => ({
+                            name: item.name,
+                            slug: item.slug,
+                            type: "Package",
+                            image: item.image,
+                            destination: item.destination,
+                        })
+                    );
+
+                setSuggestions([
+                    ...destinationSuggestions,
+                    ...packageSuggestions,
+                ]);
+            } catch (error) {
+                if (
+                    error instanceof DOMException &&
+                    error.name === "AbortError"
+                ) {
+                    return;
+                }
+
+                setSuggestions([]);
             }
-        }
-        setSuggestionField(null);
+        }, 300);
+
+        return () => {
+            clearTimeout(timer);
+            controller.abort();
+        };
+    }, [values.query]);
+
+    const updateValue = (
+        field: keyof SearchValues,
+        value: string
+    ) => {
+        setValues((current) => ({
+            ...current,
+            [field]: value,
+        }));
     };
 
-    const fieldClass =
-        "h-full min-w-0 flex-1 border-0 bg-transparent px-1 text-sm outline-none placeholder:text-neutral-400";
+    const selectSuggestion = (
+        suggestion: SearchSuggestion
+    ) => {
+        setValues((current) => ({
+            ...current,
+            query: suggestion.name,
+        }));
 
-    const searchFields = (
+        setShowSuggestions(false);
+    };
+
+    const buildSearchParams = () => {
+        const params = new URLSearchParams();
+
+        const query = values.query.trim();
+
+        if (query) {
+            params.set("q", query);
+        }
+
+        if (values.month) {
+            params.set("month", values.month);
+        }
+
+        if (values.maxPrice) {
+            params.set("maxPrice", values.maxPrice);
+        }
+
+        if (values.budget) {
+            params.set("budget", values.budget);
+        }
+
+        return params;
+    };
+
+    const submitSearch = async (
+        event: FormEvent<HTMLFormElement>
+    ) => {
+        event.preventDefault();
+
+        const params = buildSearchParams();
+
+        if (!params.toString()) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const response = await fetch(
+                `/api/search?${params.toString()}`,
+                {
+                    method: "GET",
+                    cache: "no-store",
+                }
+            );
+
+            if (!response.ok) {
+                return;
+            }
+
+            router.push(`/search-results?${params.toString()}`);
+
+            setShowSuggestions(false);
+            setMobileOpen(false);
+        } catch {
+            return;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fields = (
         <>
             <SearchField
-                icon={<MapPin className="size-6 shrink-0 text-primary" />}
-                label="Destination"
-                value={values.destination}
-                placeholder="Go anywhere"
-                onFocus={() => setSuggestionField("destination")}
-                onChange={(value) => updateValue("destination", value)}
-                className={fieldClass}
-                suggestions={suggestionField === "destination" ? activeSuggestions : []}
-                showNotFound={searchAttempted && suggestionField === "destination" && values.destination.trim().length >= 3 && activeSuggestions.length === 0}
-                onSuggestion={chooseSuggestion}
+                icon={
+                    <MapPin className="size-5 shrink-0 text-primary" />
+                }
+                label="Where to?"
+                value={values.query}
+                placeholder="Destination or package"
+                onFocus={() => setShowSuggestions(true)}
+                onChange={(value) =>
+                    updateValue("query", value)
+                }
+                suggestions={
+                    showSuggestions ? suggestions : []
+                }
+                onSuggestion={selectSuggestion}
             />
+
             <SearchField
-                icon={<Briefcase className="size-6 shrink-0 text-primary" />}
-                label="Package Type"
-                value={values.packageType}
-                placeholder="Select package"
-                onFocus={() => setSuggestionField("packageType")}
-                onChange={(value) => updateValue("packageType", value)}
-                className={fieldClass}
-                suggestions={suggestionField === "packageType" ? activeSuggestions : []}
-                showNotFound={searchAttempted && suggestionField === "packageType" && values.packageType.trim().length >= 3 && activeSuggestions.length === 0}
-                onSuggestion={chooseSuggestion}
+                icon={
+                    <CalendarDays className="size-5 shrink-0 text-primary" />
+                }
+                label="Travel month"
+                value={values.month}
+                placeholder="Any month"
+                onChange={(value) =>
+                    updateValue("month", value)
+                }
+                options={months.map((month) => ({
+                    value: month.value,
+                    label: month.label,
+                }))}
             />
+
             <SearchField
-                icon={<Calendar className="size-6 shrink-0 text-primary" />}
-                label="Travel Month"
-                value={values.travelMonth}
-                placeholder="Select month"
-                inputType="month"
-                onChange={(value) => updateValue("travelMonth", value)}
-                className={fieldClass}
-            />
-            <SearchField
-                icon={<UsersRound className="size-6 shrink-0 text-primary" />}
-                label="Travellers"
-                value={values.travellers}
-                placeholder="2 Adults - 1 Child"
-                onChange={(value) => updateValue("travellers", value)}
-                className={fieldClass}
-                options={[
-                    "1 Traveller",
-                    "2 Travellers",
-                    "3 Travellers",
-                    "4 Travellers",
-                    "5+ Travellers",
-                ]}
-            />
-            <SearchField
-                icon={<CircleDollarSign className="size-6 shrink-0 text-primary" />}
+                icon={
+                    <CircleDollarSign className="size-5 shrink-0 text-primary" />
+                }
                 label="Budget"
-                value={values.budget}
-                placeholder="Your budget"
+                value={values.maxPrice}
+                placeholder="Max price"
                 inputType="number"
                 min="0"
                 max="10000000"
-                maxLength={8}
-                onChange={(value) => updateValue("budget", value.replace(/\D/g, "").slice(0, 8))}
-                className={`${fieldClass} appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`}
+                onChange={(value) =>
+                    updateValue(
+                        "maxPrice",
+                        value.replace(/\D/g, "").slice(0, 8)
+                    )
+                }
+            />
+
+            <SearchField
+                label="Travel style"
+                value={values.budget}
+                placeholder="Any budget"
+                onChange={(value) =>
+                    updateValue("budget", value)
+                }
+                options={budgetOptions}
             />
         </>
     );
 
     return (
         <div
-            className="relative z-20 flex w-full justify-center px-3 sm:px-5 lg:px-8"
-            style={{ bottom: `${bottomPosition}rem` }}
+            className="relative z-30 flex w-full justify-center"
+            style={{
+                bottom: `${bottomPosition}rem`,
+            }}
         >
-            {/* Compact mobile trigger. */}
-            <button
-                type="button"
-                onClick={() => setMobileOpen(true)}
-                className="flex h-14 w-full items-center gap-3 rounded-full bg-white px-5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.15)] md:hidden"
-            >
-                <Search className="size-5 shrink-0 text-primary" />
-                <span className="truncate text-[15px] text-gray-500">
-                    Where do you want to go?
-                </span>
-            </button>
-
-            {/* Full desktop search with the original travel fields. */}
+            {/* Desktop */}
             <form
                 onSubmit={submitSearch}
-                className="hidden w-full max-w-350 items-center gap-2 rounded-2xl border border-neutral-200 bg-white p-3 shadow-[0_18px_50px_rgba(20,45,50,0.14)] md:flex"
+                className="
+                    hidden
+                    w-full
+                    max-w-7xl
+                    items-center
+                    gap-1.5
+                    rounded-2xl
+                    border
+                    border-neutral-200
+                    bg-white
+                    p-2
+                    shadow-[0_15px_45px_rgba(0,56,59,0.14)]
+                    md:flex
+                "
             >
-                {searchFields}
+                <div className="flex min-w-0 flex-1 items-center">
+                    {fields}
+                </div>
+
                 <button
                     type="submit"
-                    className="flex h-13 shrink-0 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white transition hover:opacity-90"
+                    disabled={loading}
+                    className="
+                        flex
+                        h-12
+                        shrink-0
+                        items-center
+                        gap-2
+                        rounded-xl
+                        bg-primary
+                        px-5
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition
+                        hover:opacity-90
+                        disabled:cursor-not-allowed
+                        disabled:opacity-60
+                    "
                 >
                     <Search className="size-4" />
-                    Search
+
+                    {loading ? "Searching..." : "Search"}
                 </button>
             </form>
 
-            {/* Mobile version uses the same fields and submit logic. */}
+            {/* Mobile trigger */}
+            <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                className="
+                    flex
+                    h-14
+                    w-full
+                    items-center
+                    gap-3
+                    rounded-2xl
+                    border
+                    border-neutral-200
+                    bg-white
+                    px-4
+                    text-left
+                    shadow-[0_12px_35px_rgba(0,56,59,0.15)]
+                    md:hidden
+                "
+            >
+                <Search className="size-5 shrink-0 text-primary" />
+
+                <div className="min-w-0">
+                    <p className="text-sm font-semibold text-neutral-900">
+                        Where do you want to go?
+                    </p>
+
+                    <p className="truncate text-xs text-neutral-500">
+                        Search destinations and packages
+                    </p>
+                </div>
+            </button>
+
+            {/* Mobile */}
             {mobileOpen && (
-                <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 p-4 pt-10 md:hidden">
+                <div
+                    className="
+                        fixed
+                        inset-0
+                        z-50
+                        overflow-y-auto
+                        bg-black/40
+                        px-4
+                        py-6
+                        md:hidden
+                    "
+                >
                     <form
                         onSubmit={submitSearch}
-                        className="mx-auto max-w-md rounded-2xl bg-white p-5 shadow-xl"
+                        className="
+                            mx-auto
+                            mt-6
+                            max-w-md
+                            overflow-visible
+                            rounded-2xl
+                            bg-white
+                            p-5
+                            shadow-2xl
+                        "
                     >
-                        <div className="mb-5 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-neutral-900">Plan your trip</h2>
+                        <div className="mb-6 flex items-center justify-between">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                                    Explore India
+                                </p>
+
+                                <h2 className="mt-1 text-xl font-bold text-neutral-900">
+                                    Find your trip
+                                </h2>
+                            </div>
+
                             <button
                                 type="button"
-                                onClick={() => setMobileOpen(false)}
-                                className="rounded-full p-2 text-neutral-500 hover:bg-neutral-100"
-                                aria-label="Close search"
+                                onClick={() =>
+                                    setMobileOpen(false)
+                                }
+                                className="
+                                    flex
+                                    size-9
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-neutral-100
+                                    text-neutral-600
+                                "
                             >
-                                <X className="size-5" />
+                                <X className="size-4" />
                             </button>
                         </div>
-                        <div className="space-y-3">{searchFields}</div>
+
+                        <div className="space-y-4">
+                            {fields}
+                        </div>
+
                         <button
                             type="submit"
-                            className="mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-white"
+                            disabled={loading}
+                            className="
+                                mt-5
+                                flex
+                                h-12
+                                w-full
+                                items-center
+                                justify-center
+                                gap-2
+                                rounded-xl
+                                bg-primary
+                                text-sm
+                                font-semibold
+                                text-white
+                                transition
+                                hover:opacity-90
+                                disabled:opacity-60
+                            "
                         >
                             <Search className="size-4" />
-                            Search
+
+                            {loading
+                                ? "Searching..."
+                                : "Search trips"}
                         </button>
                     </form>
                 </div>
@@ -318,92 +511,194 @@ function SearchField({
     placeholder,
     onChange,
     onFocus,
-    className,
     suggestions = [],
-    showNotFound = false,
     onSuggestion,
-    inputType = "text",
     options,
+    inputType = "text",
     min,
     max,
-    maxLength,
 }: {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     label: string;
     value: string;
     placeholder: string;
     onChange: (value: string) => void;
     onFocus?: () => void;
-    className: string;
     suggestions?: SearchSuggestion[];
-    showNotFound?: boolean;
     onSuggestion?: (suggestion: SearchSuggestion) => void;
+    options?: {
+        value: string;
+        label: string;
+    }[];
     inputType?: string;
-    options?: string[];
     min?: string;
     max?: string;
-    maxLength?: number;
 }) {
     return (
-        <div className="relative flex min-w-0 flex-1 items-center gap-2 border-b border-neutral-100 py-1 md:border-b-0 md:border-r md:pr-2">
-            {icon}
-            <label className="min-w-0 flex-1">
-                <span className="block text-[11px] font-semibold uppercase tracking-wider text-neutral-500">
-                    {label}
-                </span>
-                {options ? (
-                    <select
-                        value={value}
-                        onChange={(event) => onChange(event.target.value)}
-                        className={className}
+        <div
+            className="
+                relative
+                min-w-0
+                flex-1
+                border-b
+                border-neutral-100
+                px-3
+                py-2
+
+                last:border-b-0
+
+                md:border-b-0
+                md:border-r
+                md:px-3
+                md:last:border-r-0
+            "
+        >
+            <div className="flex items-center gap-2">
+                {icon}
+
+                <label className="min-w-0 flex-1">
+                    <span
+                        className="
+                            block
+                            text-[10px]
+                            font-bold
+                            uppercase
+                            tracking-[0.12em]
+                            text-neutral-400
+                        "
                     >
-                        <option value="">{placeholder}</option>
-                        {options.map((option) => (
-                            <option key={option} value={option}>
-                                {option}
+                        {label}
+                    </span>
+
+                    {options ? (
+                        <select
+                            value={value}
+                            onChange={(event) =>
+                                onChange(event.target.value)
+                            }
+                            className="
+                                mt-0.5
+                                w-full
+                                cursor-pointer
+                                border-0
+                                bg-transparent
+                                p-0
+                                text-sm
+                                font-medium
+                                text-neutral-800
+                                outline-none
+                                focus:ring-0
+                            "
+                        >
+                            <option value="">
+                                {placeholder}
                             </option>
-                        ))}
-                    </select>
-                ) : (
-                    <input
-                        value={value}
-                        type={inputType}
-                        min={min}
-                        max={max}
-                        maxLength={inputType === "number" ? undefined : maxLength}
-                        inputMode={inputType === "number" ? "numeric" : undefined}
-                        onFocus={onFocus}
-                        onChange={(event) => onChange(event.target.value)}
-                        placeholder={placeholder}
-                        className={className}
-                        autoComplete="off"
-                    />
-                )}
-            </label>
-            {(suggestions.length > 0 || showNotFound) && (
-                <div className="absolute left-0 top-[calc(100%+12px)] z-40 w-full min-w-60 overflow-hidden rounded-xl border border-neutral-200 bg-white py-1 shadow-lg">
+
+                            {options.map((option) => (
+                                <option
+                                    key={option.value}
+                                    value={option.value}
+                                >
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <input
+                            type={inputType}
+                            value={value}
+                            min={min}
+                            max={max}
+                            onFocus={onFocus}
+                            onChange={(event) =>
+                                onChange(event.target.value)
+                            }
+                            placeholder={placeholder}
+                            autoComplete="off"
+                            className="
+                                mt-0.5
+                                w-full
+                                border-0
+                                bg-transparent
+                                p-0
+                                text-sm
+                                font-medium
+                                text-neutral-800
+                                outline-none
+                                placeholder:text-neutral-400
+                                focus:ring-0
+                            "
+                        />
+                    )}
+                </label>
+            </div>
+
+            {suggestions.length > 0 && (
+                <div
+                    className="
+                        absolute
+                        left-0
+                        top-[calc(100%+8px)]
+                        z-50
+                        w-full
+                        min-w-72
+                        overflow-hidden
+                        rounded-xl
+                        border
+                        border-neutral-200
+                        bg-white
+                        py-1
+                        shadow-xl
+                    "
+                >
                     {suggestions.map((suggestion) => (
                         <button
-                            key={`${suggestion.type}-${suggestion.name}`}
+                            key={`${suggestion.type}-${suggestion.slug}`}
                             type="button"
-                            onClick={() => onSuggestion?.(suggestion)}
-                            className="flex w-full items-center gap-2 px-3 py-2.5 text-left hover:bg-neutral-50"
+                            onClick={() =>
+                                onSuggestion?.(suggestion)
+                            }
+                            className="
+                                flex
+                                w-full
+                                items-center
+                                gap-3
+                                px-3
+                                py-3
+                                text-left
+                                transition
+                                hover:bg-[#f1faf8]
+                            "
                         >
-                            <MapPin className="size-4 shrink-0 text-primary" />
-                            <span className="min-w-0 truncate text-sm text-neutral-800">
-                                {suggestion.name}
-                                <span className="ml-1 text-xs text-neutral-400">
-                                    ({suggestion.destination})
-                                </span>
-                            </span>
-                            <span className="ml-auto text-[10px] text-neutral-400">{suggestion.type}</span>
+                            <div
+                                className="
+                                    flex
+                                    size-9
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-[#e8f8f5]
+                                "
+                            >
+                                <MapPin className="size-4 text-primary" />
+                            </div>
+
+                            <div className="min-w-0">
+                                <p className="truncate text-sm font-semibold text-neutral-800">
+                                    {suggestion.name}
+                                </p>
+
+                                <p className="text-[11px] text-neutral-400">
+                                    {suggestion.type ===
+                                    "Package"
+                                        ? suggestion.destination
+                                              ?.name
+                                        : "Destination"}
+                                </p>
+                            </div>
                         </button>
                     ))}
-                    {showNotFound && (
-                        <p className="px-3 py-3 text-sm text-neutral-500">
-                            No destination or package found.
-                        </p>
-                    )}
                 </div>
             )}
         </div>

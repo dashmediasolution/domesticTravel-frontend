@@ -93,7 +93,7 @@ export default function PackageDestination() {
     const handleBookNow = () => {
         router.push("#inquiry");
     };
-
+console.log(packageDatas,"123454321")
     return (
         <main className="flex w-full flex-col items-center justify-center gap-10 bg-white">
             {/* ==================================================
@@ -107,6 +107,7 @@ export default function PackageDestination() {
                     destination={
                         packageDatas?.name ?? ""
                     }
+                    id={packageDatas?.id}
                     subtitle={
                         packageDatas?.subtitle
                     }
@@ -158,11 +159,15 @@ export default function PackageDestination() {
                         image={
                             packageDatas?.heroImage?.url
                         }
+                        id={packageDatas?.id}
                         imageAlt={
                             packageDatas?.name
                         }
                         title={
                             packageDatas?.name
+                        }
+                         slug={
+                            packageDatas?.slug
                         }
                         days={
                             packageDatas?.duration
@@ -245,8 +250,12 @@ export default function PackageDestination() {
                         imageAlt={
                             packageDatas?.name
                         }
+                        id={packageDatas?.id}
                         title={
                             packageDatas?.name
+                        }
+                        slug={
+                            packageDatas?.slug
                         }
                         days={
                             packageDatas?.duration

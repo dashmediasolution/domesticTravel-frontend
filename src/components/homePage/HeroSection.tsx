@@ -430,7 +430,7 @@ export default function HeroSection() {
                             text-[13px]
                             font-bold
                             tracking-[-0.2px]
-                            text-primary
+                            text-white
                             sm:text-[15px]
                         "
                     >

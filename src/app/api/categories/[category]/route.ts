@@ -31,42 +31,105 @@ export async function GET(
             category.charAt(0).toUpperCase() +
             category.slice(1).toLowerCase();
 
-        const packages =
-            await prisma.package.findMany({
-                where: {
-                    category: normalizedCategory,
-                    isPublished: true,
+        const now = new Date();
+
+        const packages = await prisma.package.findMany({
+            where: {
+                category: normalizedCategory,
+                isPublished: true,
+            },
+
+            select: {
+                id: true,
+                name: true,
+                slug: true,
+                heroImage: true,
+                subtitle: true,
+                originalPrice: true,
+
+                destination: {
+                    select: {
+                        slug: true,
+                    },
                 },
 
-                select: {
-                    id: true,
-                    name: true,
-                    slug: true,
-                    heroImage: true,
-                    subtitle: true,
-                    originalPrice: true,
-
-                    destination: {
-                        select: {
-                            slug: true,
+                offers: {
+                    where: {
+                        isActive: true,
+                        startDate: {
+                            lte: now,
+                        },
+                        endDate: {
+                            gte: now,
                         },
                     },
-                },
 
-                orderBy: [
-                    {
-                        isFeatured: "desc",
+                    select: {
+                        slug: true,
+                        title: true,
+                        offerPrice: true,
+                        originalPrice: true,
+                        discount: true,
+                        saveAmount: true,
+                        badgeText: true,
                     },
-                    {
-                        createdAt: "desc",
-                    },
-                ],
-            });
+
+                    orderBy: [
+                        {
+                            isFeatured: "desc",
+                        },
+                        {
+                            offerPrice: "asc",
+                        },
+                    ],
+
+                    take: 1,
+                },
+            },
+
+            orderBy: [
+                {
+                    isFeatured: "desc",
+                },
+                {
+                    createdAt: "desc",
+                },
+            ],
+        });
+
+        const data = packages.map((pkg) => {
+            const offer = pkg.offers[0] ?? null;
+
+            return {
+                id: pkg.id,
+                name: pkg.name,
+                slug: pkg.slug,
+                heroImage: pkg.heroImage,
+                subtitle: pkg.subtitle,
+                originalPrice: pkg.originalPrice,
+
+                destination: pkg.destination,
+
+                hasOffer: !!offer,
+
+                offer: offer
+                    ? {
+                          slug: offer.slug,
+                          title: offer.title,
+                          offerPrice: offer.offerPrice,
+                          originalPrice: offer.originalPrice,
+                          discount: offer.discount,
+                          saveAmount: offer.saveAmount,
+                          badgeText: offer.badgeText,
+                      }
+                    : null,
+            };
+        });
 
         return NextResponse.json({
             success: true,
-            count: packages.length,
-            packages,
+            count: data.length,
+            packages: data,
         });
     } catch (error) {
         console.error(

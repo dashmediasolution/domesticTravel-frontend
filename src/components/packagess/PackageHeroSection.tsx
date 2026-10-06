@@ -30,12 +30,14 @@ interface PackageHeroSectionProps {
     originalPrice?: string | number;
     buttonText?: string;
     buttonHref?: string;
+    id?:string
 }
 
 export default function PackageHeroSection({
     imageUrl,
     destination,
     subtitle,
+    id,
     description,
     duration,
     idealTrip,

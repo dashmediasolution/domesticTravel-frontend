@@ -60,21 +60,21 @@ export async function GET(
                         originalPrice: true,
                         heroImage: true,
 
-offers: {
-    select: {
-        id: true,
-        title: true,
-         type: true,
-  
-        endDate: true,
-        badgeText: true,
-        isActive: true,
-    },
+                        offers: {
+                            select: {
+                                id: true,
+                                title: true,
+                                type: true,
+                                slug:true,
+                                endDate: true,
+                                badgeText: true,
+                                isActive: true,
+                            },
 
-    orderBy: {
-        createdAt: "desc",
-    },
-},
+                            orderBy: {
+                                createdAt: "desc",
+                            },
+                        },
                     },
                 },
             },
@@ -90,32 +90,32 @@ offers: {
             );
         }
 
-const packages = destination.packages.map((pkg) => {
-    const activeOffer =
-        pkg.offers.find(
-            (offer) => offer.type !== "EARLY_BIRD"
-        ) ?? null;
+        const packages = destination.packages.map((pkg) => {
+            const activeOffer =
+                pkg.offers.find(
+                    (offer) => offer.type !== "EARLY_BIRD"
+                ) ?? null;
 
-    const earlyBirdOffer =
-        pkg.offers.find(
-            (offer) => offer.type === "EARLY_BIRD"
-        ) ?? null;
+            const earlyBirdOffer =
+                pkg.offers.find(
+                    (offer) => offer.type === "EARLY_BIRD"
+                ) ?? null;
 
-    return {
-        id: pkg.id,
-        name: pkg.name,
-        slug: pkg.slug,
-        subtitle: pkg.subtitle,
-        originalPrice: pkg.originalPrice,
-        heroImage: pkg.heroImage,
+            return {
+                id: pkg.id,
+                name: pkg.name,
+                slug: pkg.slug,
+                subtitle: pkg.subtitle,
+                originalPrice: pkg.originalPrice,
+                heroImage: pkg.heroImage,
 
-        hasOffer: Boolean(activeOffer),
-        offer: activeOffer,
+                hasOffer: Boolean(activeOffer),
+                offer: activeOffer,
 
-        hasEarlyBird: Boolean(earlyBirdOffer),
-        earlyBird: earlyBirdOffer,
-    };
-});
+                hasEarlyBird: Boolean(earlyBirdOffer),
+                earlyBird: earlyBirdOffer,
+            };
+        });
 
         return NextResponse.json(
             {

@@ -215,7 +215,7 @@ if (!destination) {
         {destination?.packages.length > 0 &&
 
           <BestPackageByDestination
-            location={destination?.name}
+            location={destination?.slug}
             packages={destination?.packages}
           />
         }

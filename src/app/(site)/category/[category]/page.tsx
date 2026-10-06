@@ -23,7 +23,7 @@ import Memories from "@/components/Memories";
 import WhyVisit from "@/components/WhyVisit";
 import TravelStories from "@/components/homePage/TravelStories";
 import TravelersReviews from "@/components/Reviews";
-
+import { Spinner } from "@/components/ui/spinner";
 import { use, useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 
@@ -64,6 +64,8 @@ interface CategoryPackage {
     id: string;
     name: string;
     slug: string;
+    hasOffer?:boolean
+    offer?:any,
     heroImage: {
         url: string;
         publicId: string;
@@ -882,7 +884,7 @@ export default function CategoryPage({
 
     const [loading, setLoading] = useState(true);
 
-    const heroData =   categoryHeroData[category.toLowerCase()];
+    const heroData = categoryHeroData[category.toLowerCase()];
 
     const categoryName =
         category.charAt(0).toUpperCase() +
@@ -945,19 +947,18 @@ export default function CategoryPage({
     return (
         <main className="flex w-full flex-col items-center justify-between gap-12 bg-white">
 
-       
-                <CategoryHeroSection
-                    data={heroData}
-                />
-         
+
+            <CategoryHeroSection
+                data={heroData}
+            />
+
 
             <section className="mx-auto flex w-[91%] flex-col gap-12">
 
                 {loading ? (
                     <div className="py-16 text-center">
-                        <p className="text-gray-500">
-                            Loading packages...
-                        </p>
+                        <Spinner className="h-10 w-10 text-primary" />
+
                     </div>
                 ) : categoryData.length > 0 ? (
                     <div>
@@ -994,7 +995,11 @@ export default function CategoryPage({
                                             className="basis-1/2 pl-3 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
                                         >
                                             <Link
-                                                href={`/package/${pkg.destination.slug}/${pkg.slug}`}
+                                                href={
+                                                    pkg.hasOffer && pkg.offer
+                                                        ? `/offers/package/${pkg.offer.slug}`
+                                                        : `/package/${pkg.destination.slug}/${pkg.slug}`
+                                                }
                                                 className="group block"
                                             >
                                                 <div className="relative aspect-3/4 w-full overflow-hidden rounded-[16px] bg-gray-200 sm:rounded-[18px]">
@@ -1099,7 +1104,7 @@ export default function CategoryPage({
 
                 {heroData?.bestTimeToVisit && (
                     <section className="mx-auto w-full flex gap-10 mt-8">
-                        
+
                         <BestTimeToVisit
                             months={
                                 heroData

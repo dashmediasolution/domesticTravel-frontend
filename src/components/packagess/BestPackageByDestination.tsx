@@ -67,7 +67,8 @@ export function Package({
     tag,
     color,
 }: PackageProps) {
-    return (
+
+     return (
         <Card className="group relative mb-2 w-full gap-0 overflow-hidden rounded-[24px] border-0 bg-white pt-0">
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
@@ -167,10 +168,7 @@ export function BestPackageByDestination({
         return null;
     }
 
-    const destinationSlug = location
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, "-");
+   
 
     return (
         <section className="flex w-full justify-center">
@@ -239,10 +237,11 @@ export function BestPackageByDestination({
                                         "
                                         onClick={() => {
                                             if (item.hasOffer && item.offer) {
+                                               
                                                 router.push(`/offers/package/${item.offer.slug}`);
                                             } else {
                                                 router.push(
-                                                    `/package/${destinationSlug}/${item.slug}`
+                                                    `/package/${location}/${item.slug}`
                                                 );
                                             }
                                         }}

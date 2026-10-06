@@ -5,6 +5,7 @@ import BrowseByCategory from "@/components/homePage/BrowseByCategory";
 import BannerCarousel, { type Banner, } from "@/components/homePage/Carousel";
 import WhyTravelWithUs from "@/components/homePage/TravelWithUs";
 import UpcomingPackages from "@/components/homePage/UpcomingPackages";
+import ContactInquiryForm from "./ContactInquiryForm";
 import TravelStories from "@/components/homePage/TravelStories";
 import ExploreIndia from "@/components/homePage/ExploreIndia";
 import WhyChooseUs from "@/components/homePage/WhyChooseUs";
@@ -95,6 +96,7 @@ export default function Home() {
           <TravelersReviews />
         </div>
       </div>
+      <ContactInquiryForm/>
       <Memories />
     </div>
   );
