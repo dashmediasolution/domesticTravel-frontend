@@ -100,7 +100,8 @@ export default function HeroSection() {
                         headers: {
                             Accept: "application/json",
                         },
-                        cache: "force-cache",
+                                cache: "no-store",
+
                         signal: controller.signal,
                     }
                 );
