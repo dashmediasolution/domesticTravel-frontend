@@ -6,7 +6,6 @@ import {
     ArrowRight,
     CalendarDays,
     Car,
-    Clock3,
     MapPin,
     ShieldCheck,
     Users,
@@ -83,162 +82,26 @@ function getPackageRoute(
     return `/offers/package/${offer.slug}`;
 }
 
-/* ================================================== */
-/* COUNTDOWN HOOK                                     */
-/* ================================================== */
-
-function useCountdown(
-    endDate: string | null | undefined
+function formatDate(
+    date: string | null | undefined
 ) {
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
-
-    useEffect(() => {
-        if (!endDate) {
-            return;
-        }
-
-        const calculate = () => {
-            const end = new Date(endDate).getTime();
-            const now = Date.now();
-
-            const difference = end - now;
-
-            if (difference <= 0) {
-                setTimeLeft({
-                    days: 0,
-                    hours: 0,
-                    minutes: 0,
-                    seconds: 0,
-                });
-
-                return;
-            }
-
-            const totalSeconds = Math.floor(
-                difference / 1000
-            );
-
-            const days = Math.floor(
-                totalSeconds / 86400
-            );
-
-            const hours = Math.floor(
-                (totalSeconds % 86400) / 3600
-            );
-
-            const minutes = Math.floor(
-                (totalSeconds % 3600) / 60
-            );
-
-            const seconds =
-                totalSeconds % 60;
-
-            setTimeLeft({
-                days,
-                hours,
-                minutes,
-                seconds,
-            });
-        };
-
-        calculate();
-
-        const interval = setInterval(
-            calculate,
-            1000
-        );
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [endDate]);
-
-    return timeLeft;
-}
-
-/* ================================================== */
-/* COUNTDOWN ITEM                                     */
-/* ================================================== */
-
-function CountdownItem({
-    value,
-    label,
-}: {
-    value: number;
-    label: string;
-}) {
-    return (
-        <div className="flex h-[42px] w-[39px] flex-col items-center justify-center rounded-lg bg-[#FFF8DC] sm:h-[48px] sm:w-[45px] lg:h-[54px] lg:w-[50px]">
-            <span className="text-[14px] font-bold leading-none text-[#00545A] sm:text-[16px] lg:text-[18px]">
-                {String(value).padStart(2, "0")}
-            </span>
-
-            <span className="mt-1 text-[6px] font-medium text-[#5F8182] sm:text-[7px] lg:text-[8px]">
-                {label}
-            </span>
-        </div>
-    );
-}
-
-/* ================================================== */
-/* COUNTDOWN DISPLAY                                  */
-/* ================================================== */
-
-function CountdownDisplay({
-    endDate,
-}: {
-    endDate: string | null | undefined;
-}) {
-    const {
-        days,
-        hours,
-        minutes,
-        seconds,
-    } = useCountdown(endDate);
-
-    if (!endDate) {
-        return null;
+    if (!date) {
+        return "";
     }
 
-    return (
-        <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-2 sm:mt-6 lg:mt-7">
-            {/* Label */}
-            <div className="mr-1 flex items-center gap-1.5 sm:mr-2">
-                <Clock3 className="h-4 w-4 text-[#00636A] sm:h-5 sm:w-5" />
+    const parsedDate = new Date(date);
 
-                <span className="text-[11px] font-bold text-[#165E62] sm:text-[13px] lg:text-[14px]">
-                    Offer ends in
-                </span>
-            </div>
+    if (Number.isNaN(parsedDate.getTime())) {
+        return "";
+    }
 
-            {/* Countdown */}
-            <div className="flex gap-1 sm:gap-1.5">
-                <CountdownItem
-                    value={days}
-                    label="Days"
-                />
-
-                <CountdownItem
-                    value={hours}
-                    label="Hrs"
-                />
-
-                <CountdownItem
-                    value={minutes}
-                    label="Min"
-                />
-
-                <CountdownItem
-                    value={seconds}
-                    label="Sec"
-                />
-            </div>
-        </div>
+    return parsedDate.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        }
     );
 }
 
@@ -351,14 +214,33 @@ function FeaturedCard({
 
             {/* Content */}
             <div className="absolute inset-x-4 bottom-4 text-white sm:inset-x-5 sm:bottom-5 lg:inset-x-7 lg:bottom-6">
-                {/* Duration */}
+                {/* Duration + Date */}
                 <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] sm:text-[11px] lg:text-[13px]">
                     {offer.package.duration && (
                         <span className="flex items-center gap-1">
-                            <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
+                            <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-5 lg:w-5" />
 
-                            {offer.package.duration}
+                            {offer.package.duration} 
                         </span>
+                    )}
+
+                    {offer.validTill && (
+                        <>
+                            {offer.package.duration && (
+                                <span className="opacity-60">
+                                    |
+                                </span>
+                            )}
+
+                            <span className="flex items-center gap-1">
+                                <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />
+
+                                Valid till{" "}
+                                {formatDate(
+                                    offer.validTill
+                                )}
+                            </span>
+                        </>
                     )}
 
                     {offer.package.idealTrip && (
@@ -537,7 +419,7 @@ function SmallOfferCard({
             <div className="flex min-h-[68px] items-center gap-2 px-3 py-2 sm:gap-3 sm:px-4">
                 {/* Duration */}
                 {offer.package.duration && (
-                    <div className="flex shrink-0 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px]">
+                    <div className="flex shrink-0 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px] md:text-[12px]    ">
                         <CalendarDays className="h-3.5 w-3.5" />
 
                         <span>
@@ -549,8 +431,21 @@ function SmallOfferCard({
                     </div>
                 )}
 
+                {/* Offer Date */}
+                {offer.validTill && (
+                    <div className="flex shrink-0 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px] md:text-[12px]">
+                        <CalendarDays className="h-3.5 w-3.5" />
+
+                        <span>
+                            {formatDate(
+                                offer.validTill
+                            )}
+                        </span>
+                    </div>
+                )}
+
                 {/* Location */}
-                <div className="flex min-w-0 flex-1 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px]">
+                <div className="flex min-w-0 flex-1 items-center gap-1 text-[9px] text-[#165E62] sm:text-[10px] md:text-[12px]">
                     <MapPin className="h-3.5 w-3.5 shrink-0" />
 
                     <span className="truncate">
@@ -562,7 +457,7 @@ function SmallOfferCard({
 
                 {/* Price */}
                 <div className="shrink-0">
-                    <p className="text-[7px] text-[#679092] sm:text-[8px]">
+                    <p className="text-[7px] text-[#679092] sm:text-[8px] md:text-[12px]">
                         From
                     </p>
 
@@ -678,19 +573,16 @@ export default function EarlyBirdSale() {
     return (
         <section className="w-full overflow-hidden px-2 py-5 sm:px-3 lg:px-5">
             <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 sm:gap-5 lg:gap-6">
-
                 {/* ================================================== */}
                 {/* TOP SECTION                                      */}
                 {/* ================================================== */}
 
                 <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-[minmax(320px,0.55fr)_minmax(0,1.45fr)] lg:gap-5">
-
                     {/* ================================================== */}
                     {/* LEFT CONTENT                                       */}
                     {/* ================================================== */}
 
                     <div className="flex w-full flex-col items-center justify-center px-2 py-6 text-center sm:py-8 lg:px-4 lg:py-0">
-
                         {/* Labels */}
                         <div className="flex flex-wrap items-center justify-center gap-2">
                             <span className="flex h-6 items-center gap-1 rounded-full bg-primary px-2.5 text-[8px] font-bold text-white sm:h-7 sm:px-3 sm:text-[9px] lg:h-8 lg:px-3.5 lg:text-[10px]">
@@ -722,13 +614,6 @@ export default function EarlyBirdSale() {
                             Book early. Travel more.
                             Save more.
                         </p>
-
-                        {/* Countdown */}
-                        <CountdownDisplay
-                            endDate={
-                                featuredOffer.validTill
-                            }
-                        />
                     </div>
 
                     {/* ================================================== */}

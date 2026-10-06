@@ -228,14 +228,14 @@ export default function Navbar() {
             icon: <IoBusOutline className="h-5 w-5 shrink-0" />,
         },
     ];
-const destinationEmojis: Record<string, string> = {
-    goa: "🏖️",
-    uttarakhand: "🏔️",
-    rajasthan: "🏜️",
-    "himachal-pradesh": "🏔️",
-    ladakh: "🏕️",
-    "tamil-nadu": "🛕",
-};
+// const destinationEmojis: Record<string, string> = {
+//     goa: "🏖️",
+//     uttarakhand: "🏔️",
+//     rajasthan: "🏜️",
+//     "himachal-pradesh": "🏔️",
+//     ladakh: "🏕️",
+//     "tamil-nadu": "🛕",
+// };
     return (
         <>
             <nav
@@ -514,10 +514,7 @@ const destinationEmojis: Record<string, string> = {
             hover:bg-muted
         "
     >
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-2xl">
-            {destinationEmojis[item.slug] || "📍"}
-        </span>
-
+        
         <span className="text-sm font-medium">
             {item.name}
         </span>

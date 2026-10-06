@@ -8,7 +8,7 @@ import TravelStories from "@/components/homePage/TravelStories";
 import Memories from "@/components/Memories";
 import DestinationGallery from "@/components/DestinationGallery";
 import TravelersReviews from "@/components/Reviews";
-
+import EarlyBirdOfferBanner from "@/components/EarlyBirdOfferBanner";
 import InclusionsExclusions from "@/components/packagess/InclusionExclusion";
 import Itinerary from "@/components/packagess/Itinerary";
 import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
@@ -138,8 +138,7 @@ export default function PackageDestination() {
                     buttonHref="#inquiry"
                 />
             </section>
-
-            {/* ==================================================
+             {/* ==================================================
                 MOBILE + TABLET BOOKING CARD
             ================================================== */}
             <section

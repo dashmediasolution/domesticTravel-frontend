@@ -14,12 +14,17 @@ import Memories from "@/components/Memories";
  import TravelersReviews from "@/components/Reviews";
 import EarlyBirdSale from "@/components/packagess/EarlyBirdSale";
 const firstBanner: Banner[] = [
- 
-  {
-    id: 2,
-    image: "/images/banners/shimla001.png",
+ {
+    id: 1,
+    image: "/images/banners/ChristmasOFfer.png",
     title: "Discover New Destinations",
     redirectUrl: "/package/himachal-pradesh/shimla",
+  },
+  {
+    id: 2,
+    image: "/images/banners/DiwaliOffer.png",
+    title: "Discover New Destinations",
+    redirectUrl: "/package/uttar-pradesh/varanasi",
   },
   {
     id: 3,

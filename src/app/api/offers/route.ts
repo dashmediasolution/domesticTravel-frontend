@@ -13,6 +13,9 @@ export async function GET() {
                 package: {
                     isPublished: true,
                 },
+                type: {
+                    not: "EARLY_BIRD",
+                },
             },
 
             select: {
@@ -40,7 +43,7 @@ export async function GET() {
                                 url: true,
                             },
                         },
-                      
+
                     },
                 },
             },

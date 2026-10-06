@@ -16,6 +16,7 @@ import OfferCard from "@/components/OfferCard";
 import Memories from "@/components/Memories";
 import DestinationGallery from "@/components/DestinationGallery";
 import PackageHeroSection from "@/components/packagess/PackageHeroSection";
+import EarlyBirdOfferBanner from "@/components/EarlyBirdOfferBanner";
 export default function OffersPackage() {
     const pathname = usePathname();
 
@@ -52,7 +53,7 @@ export default function OffersPackage() {
                 const result =
                     await response.json();
 
-            
+
 
                 if (
                     !response.ok ||
@@ -131,8 +132,18 @@ export default function OffersPackage() {
                 buttonText="Book Now"
                 buttonHref="#inquiry"
             />
-
-
+            {
+                offer?.type === "EARLY_BIRD" &&
+                <EarlyBirdOfferBanner
+                badgeText={offer?.badgeText}
+                saveAmount={offer?.saveAmount}
+                discount={offer?.discount}
+                validTill={offer?.endDate}
+                packageName={offer?.badgeText}
+                 location={offer?.package?.location}
+                groupSize={offer?.package?.groupSize}
+                />
+            }
             {/* Package Overview */}
             {selectedPackage?.travelInformation?.activities?.length > 0 &&
                 (

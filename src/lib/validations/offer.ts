@@ -40,7 +40,7 @@ export const offerSchema = z
 
         offerPrice: z
             .number()
-            .positive("Offer price must be greater than 0"),
+             .nonnegative("Offer price cannot be negative"),
 
         startDate: z
             .string()

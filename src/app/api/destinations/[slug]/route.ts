@@ -60,37 +60,21 @@ export async function GET(
                         originalPrice: true,
                         heroImage: true,
 
-                        offers: {
-                            where: {
-                                isActive: true,
-                                startDate: {
-                                    lte: now,
-                                },
-                                endDate: {
-                                    gte: now,
-                                },
-                            },
+offers: {
+    select: {
+        id: true,
+        title: true,
+         type: true,
+  
+        endDate: true,
+        badgeText: true,
+        isActive: true,
+    },
 
-                            select: {
-                                id: true,
-                                title: true,
-                                slug: true,
-                                type: true,
-                                offerPrice: true,
-                                originalPrice: true,
-                                saveAmount: true,
-                                discount: true,
-                                startDate: true,
-                                endDate: true,
-                                badgeText: true,
-                            },
-
-                            orderBy: {
-                                createdAt: "desc",
-                            },
-
-                            take: 1,
-                        },
+    orderBy: {
+        createdAt: "desc",
+    },
+},
                     },
                 },
             },
@@ -106,22 +90,32 @@ export async function GET(
             );
         }
 
-        const packages = destination.packages.map((pkg) => {
-            const activeOffer = pkg.offers?.[0] ?? null;
+const packages = destination.packages.map((pkg) => {
+    const activeOffer =
+        pkg.offers.find(
+            (offer) => offer.type !== "EARLY_BIRD"
+        ) ?? null;
 
-            return {
-                id: pkg.id,
-                name: pkg.name,
-                slug: pkg.slug,
-                subtitle: pkg.subtitle,
-                originalPrice: pkg.originalPrice,
-                heroImage: pkg.heroImage,
+    const earlyBirdOffer =
+        pkg.offers.find(
+            (offer) => offer.type === "EARLY_BIRD"
+        ) ?? null;
 
-                hasOffer: Boolean(activeOffer),
+    return {
+        id: pkg.id,
+        name: pkg.name,
+        slug: pkg.slug,
+        subtitle: pkg.subtitle,
+        originalPrice: pkg.originalPrice,
+        heroImage: pkg.heroImage,
 
-                offer: activeOffer,
-            };
-        });
+        hasOffer: Boolean(activeOffer),
+        offer: activeOffer,
+
+        hasEarlyBird: Boolean(earlyBirdOffer),
+        earlyBird: earlyBirdOffer,
+    };
+});
 
         return NextResponse.json(
             {

@@ -117,28 +117,7 @@ export default function ExploreIndia() {
                         experiences.
                     </p>
 
-                    <Button
-                        className="
-                            mt-4
-                            h-9
-                            rounded-full
-                            bg-[#2FC2B0]
-                            px-4
-                            text-[12px]
-                            font-medium
-                            text-white
-                            shadow-none
-                            hover:bg-[#25AD9D]
-                            sm:mt-5
-                            sm:h-10
-                            sm:px-5
-                            sm:text-[14px]
-                        "
-                    >
-                        <Link href="/explore-map">
-                            Explore Map
-                        </Link>
-                    </Button>
+                
                 </div>
 
                 {/* MAP */}

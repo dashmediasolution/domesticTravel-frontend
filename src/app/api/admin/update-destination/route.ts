@@ -1,4 +1,4 @@
- import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 
@@ -38,46 +38,75 @@ type AttractionInput = {
     sortOrder?: number;
 };
 
-function normalizeImageUrl(value: string, fieldName: string) {
+function normalizeImageUrl(
+    value: string,
+    fieldName: string
+) {
     let imageUrl: URL;
 
     try {
         imageUrl = new URL(value);
     } catch {
-        throw new Error(`${fieldName} must be a valid HTTP or HTTPS URL`);
+        throw new Error(
+            `${fieldName} must be a valid HTTP or HTTPS URL`
+        );
     }
 
-    if (!["http:", "https:"].includes(imageUrl.protocol)) {
-        throw new Error(`${fieldName} must be a valid HTTP or HTTPS URL`);
+    if (
+        !["http:", "https:"].includes(
+            imageUrl.protocol
+        )
+    ) {
+        throw new Error(
+            `${fieldName} must be a valid HTTP or HTTPS URL`
+        );
     }
 
     return imageUrl.toString();
 }
 
-function parseJson(value: FormDataEntryValue | null): unknown[] {
-    if (typeof value !== "string" || !value.trim()) {
+function parseJson(
+    value: FormDataEntryValue | null
+): unknown[] {
+    if (
+        typeof value !== "string" ||
+        !value.trim()
+    ) {
         return [];
     }
 
     try {
         const parsed = JSON.parse(value);
 
-        return Array.isArray(parsed) ? parsed : [];
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
     } catch {
         return [];
     }
 }
 
-function parseBoolean(value: FormDataEntryValue | null): boolean {
+function parseBoolean(
+    value: FormDataEntryValue | null
+): boolean {
     return value === "true";
 }
 
-function validateImage(file: File, fieldName: string) {
+function validateImage(
+    file: File,
+    fieldName: string
+) {
     if (!file || file.size === 0) {
-        throw new Error(`${fieldName} is required`);
+        throw new Error(
+            `${fieldName} is required`
+        );
     }
 
-    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    if (
+        !ALLOWED_IMAGE_TYPES.includes(
+            file.type
+        )
+    ) {
         throw new Error(
             `${fieldName} must be JPG, PNG or WEBP`
         );
@@ -85,7 +114,7 @@ function validateImage(file: File, fieldName: string) {
 
     if (file.size > MAX_FILE_SIZE) {
         throw new Error(
-            `${fieldName} must be smaller than 5MB`
+            `${fieldName} must be smaller than 7MB`
         );
     }
 }
@@ -94,46 +123,19 @@ function isValidObjectId(value: string) {
     return /^[a-f\d]{24}$/i.test(value);
 }
 
-function extractCloudinaryPublicId(url: string) {
-    try {
-        const parsed = new URL(url);
-
-        const pathname = parsed.pathname;
-
-        const uploadIndex = pathname.indexOf("/upload/");
-
-        if (uploadIndex === -1) {
-            return null;
-        }
-
-        let publicId = pathname.slice(
-            uploadIndex + "/upload/".length
-        );
-
-        publicId = publicId.replace(
-            /^v\d+\//,
-            ""
-        );
-
-        publicId = publicId.replace(
-            /\.[^/.]+$/,
-            ""
-        );
-
-        return decodeURIComponent(publicId);
-    } catch {
-        return null;
-    }
-}
-
-export async function PATCH(request: NextRequest) {
+export async function PATCH(
+    request: NextRequest
+) {
     const newlyUploadedPublicIds: string[] = [];
     const oldPublicIdsToDelete: string[] = [];
 
     try {
-        const { searchParams } = new URL(request.url);
+        const { searchParams } = new URL(
+            request.url
+        );
 
-        const destinationId = searchParams.get("id");
+        const destinationId =
+            searchParams.get("id");
 
         if (
             !destinationId ||
@@ -148,6 +150,12 @@ export async function PATCH(request: NextRequest) {
                 { status: 400 }
             );
         }
+
+        /*
+         * ------------------------------------------------
+         * GET EXISTING DESTINATION
+         * ------------------------------------------------
+         */
 
         const existingDestination =
             await prisma.destination.findUnique({
@@ -167,13 +175,21 @@ export async function PATCH(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Destination not found",
+                    message:
+                        "Destination not found",
                 },
                 { status: 404 }
             );
         }
 
-        const formData = await request.formData();
+        /*
+         * ------------------------------------------------
+         * FORM DATA
+         * ------------------------------------------------
+         */
+
+        const formData =
+            await request.formData();
 
         /*
          * ------------------------------------------------
@@ -264,13 +280,15 @@ export async function PATCH(request: NextRequest) {
                 activities,
                 bestTimeToVisit,
                 whyVisit,
-                attractions: attractions.map(
-                    (attraction) => ({
-                        name: attraction.name,
-                        description:
-                            attraction.description,
-                    })
-                ),
+                attractions:
+                    attractions.map(
+                        (attraction) => ({
+                            name:
+                                attraction.name,
+                            description:
+                                attraction.description,
+                        })
+                    ),
                 metaTitle,
                 metaDescription,
                 keywords,
@@ -282,7 +300,8 @@ export async function PATCH(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Validation failed",
+                    message:
+                        "Validation failed",
                     errors:
                         validation.error.flatten(),
                 },
@@ -317,19 +336,24 @@ export async function PATCH(request: NextRequest) {
          * ------------------------------------------------
          */
 
-        if (slug !== existingDestination.slug) {
+        if (
+            slug !==
+            existingDestination.slug
+        ) {
             const slugExists =
-                await prisma.destination.findFirst({
-                    where: {
-                        slug,
-                        id: {
-                            not: destinationId,
+                await prisma.destination.findFirst(
+                    {
+                        where: {
+                            slug,
+                            id: {
+                                not: destinationId,
+                            },
                         },
-                    },
-                    select: {
-                        id: true,
-                    },
-                });
+                        select: {
+                            id: true,
+                        },
+                    }
+                );
 
             if (slugExists) {
                 return NextResponse.json(
@@ -355,6 +379,7 @@ export async function PATCH(request: NextRequest) {
 
         const heroFile =
             formData.get("heroImage");
+
         const heroImageUrl = String(
             formData.get("heroImageUrl") || ""
         ).trim();
@@ -364,35 +389,60 @@ export async function PATCH(request: NextRequest) {
             publicId: string;
         } | null = null;
 
-        if (heroFile instanceof File && heroFile.size > 0) {
-            validateImage(heroFile, "Hero image");
+        if (
+            heroFile instanceof File &&
+            heroFile.size > 0
+        ) {
+            validateImage(
+                heroFile,
+                "Hero image"
+            );
 
-            const upload = await uploadBufferToCloudinary({
-                buffer: Buffer.from(await heroFile.arrayBuffer()),
-                folder: "domesticTravel/destinations",
-            });
+            const upload =
+                await uploadBufferToCloudinary({
+                    buffer: Buffer.from(
+                        await heroFile.arrayBuffer()
+                    ),
+                    folder:
+                        "domesticTravel/destinations",
+                });
 
-            newlyUploadedPublicIds.push(upload.publicId);
+            newlyUploadedPublicIds.push(
+                upload.publicId
+            );
+
             replacementHeroImage = {
                 url: upload.url,
-                publicId: upload.publicId,
+                publicId:
+                    upload.publicId,
             };
         } else if (heroImageUrl) {
             replacementHeroImage = {
-                url: normalizeImageUrl(heroImageUrl, "Hero image URL"),
+                url: normalizeImageUrl(
+                    heroImageUrl,
+                    "Hero image URL"
+                ),
                 publicId: "",
             };
         }
 
         if (replacementHeroImage) {
             const oldHeroPublicId =
-                existingDestination.heroImage?.publicId;
+                existingDestination.heroImage
+                    ?.publicId;
 
-            if (typeof oldHeroPublicId === "string" && oldHeroPublicId) {
-                oldPublicIdsToDelete.push(oldHeroPublicId);
+            if (
+                typeof oldHeroPublicId ===
+                    "string" &&
+                oldHeroPublicId
+            ) {
+                oldPublicIdsToDelete.push(
+                    oldHeroPublicId
+                );
             }
 
-            heroImage = replacementHeroImage;
+            heroImage =
+                replacementHeroImage;
         }
 
         /*
@@ -409,7 +459,11 @@ export async function PATCH(request: NextRequest) {
             ) as GalleryImage[];
 
         for (const image of existingGallery) {
-            image.url = normalizeImageUrl(image.url, "Gallery image URL");
+            image.url =
+                normalizeImageUrl(
+                    image.url,
+                    "Gallery image URL"
+                );
         }
 
         if (
@@ -518,7 +572,8 @@ export async function PATCH(request: NextRequest) {
 
             finalGallery.push({
                 url: upload.url,
-                publicId: upload.publicId,
+                publicId:
+                    upload.publicId,
             });
         }
 
@@ -538,7 +593,9 @@ export async function PATCH(request: NextRequest) {
             >();
 
         for (const attraction of attractions) {
-            const imageKey = attraction.clientId || attraction.id;
+            const imageKey =
+                attraction.clientId ||
+                attraction.id;
 
             if (!imageKey) {
                 continue;
@@ -559,13 +616,15 @@ export async function PATCH(request: NextRequest) {
                 );
 
                 const upload =
-                    await uploadBufferToCloudinary({
-                        buffer: Buffer.from(
-                            await file.arrayBuffer()
-                        ),
-                        folder:
-                            "domesticTravel/destinations/attractions",
-                    });
+                    await uploadBufferToCloudinary(
+                        {
+                            buffer: Buffer.from(
+                                await file.arrayBuffer()
+                            ),
+                            folder:
+                                "domesticTravel/destinations/attractions",
+                        }
+                    );
 
                 newlyUploadedPublicIds.push(
                     upload.publicId
@@ -622,15 +681,24 @@ export async function PATCH(request: NextRequest) {
 
         /*
          * ------------------------------------------------
-         * DATABASE UPDATE
+         * DATABASE TRANSACTION
          * ------------------------------------------------
+         *
+         * IMPORTANT:
+         * Cloudinary uploads are NOT inside this
+         * transaction.
+         *
+         * Increased timeout because up to 30
+         * attractions may be updated/created.
          */
 
         const updatedDestination =
             await prisma.$transaction(
                 async (tx) => {
                     /*
-                     * Delete removed attractions
+                     * ----------------------------------------
+                     * DELETE REMOVED ATTRACTIONS
+                     * ----------------------------------------
                      */
 
                     if (
@@ -654,8 +722,9 @@ export async function PATCH(request: NextRequest) {
                     }
 
                     /*
-                     * Update existing attractions
-                     * and create new attractions
+                     * ----------------------------------------
+                     * UPDATE / CREATE ATTRACTIONS
+                     * ----------------------------------------
                      */
 
                     for (
@@ -668,7 +737,9 @@ export async function PATCH(request: NextRequest) {
                             attractions[index];
 
                         /*
-                         * Existing attraction
+                         * ------------------------------------
+                         * EXISTING ATTRACTION
+                         * ------------------------------------
                          */
 
                         if (
@@ -693,55 +764,88 @@ export async function PATCH(request: NextRequest) {
                             }
 
                             const imageKey =
-                                attraction.clientId || attraction.id;
-                            const upload = imageKey
-                                ? attractionImageUploads.get(imageKey)
-                                : undefined;
+                                attraction.clientId ||
+                                attraction.id;
+
+                            const upload =
+                                imageKey
+                                    ? attractionImageUploads.get(
+                                          imageKey
+                                      )
+                                    : undefined;
+
                             const imageUrl =
                                 upload?.url ??
                                 attraction.imageUrl ??
                                 existing.imageUrl;
-                            const imageChanged =
-                                imageUrl !== existing.imageUrl;
 
-                            if (imageChanged && existing.publicId) {
-                                oldPublicIdsToDelete.push(existing.publicId);
+                            const imageChanged =
+                                imageUrl !==
+                                existing.imageUrl;
+
+                            if (
+                                imageChanged &&
+                                existing.publicId
+                            ) {
+                                oldPublicIdsToDelete.push(
+                                    existing.publicId
+                                );
                             }
 
-                            await tx.attraction.update({
-                                where: {
-                                    id: attraction.id,
-                                },
-                                data: {
-                                    name: attraction.name,
-                                    description: attraction.description,
-                                    sortOrder: index,
-                                    imageUrl,
-                                    publicId: upload?.publicId ??
-                                        (imageChanged
-                                            ? attraction.publicId ?? null
-                                            : existing.publicId),
-                                },
-                            });
+                            await tx.attraction.update(
+                                {
+                                    where: {
+                                        id: attraction.id,
+                                    },
+                                    data: {
+                                        name:
+                                            attraction.name,
+
+                                        description:
+                                            attraction.description,
+
+                                        sortOrder:
+                                            index,
+
+                                        imageUrl,
+
+                                        publicId:
+                                            upload?.publicId ??
+                                            (imageChanged
+                                                ? attraction.publicId ??
+                                                  null
+                                                : existing.publicId),
+                                    },
+                                }
+                            );
 
                             continue;
                         }
 
                         /*
-                         * New attraction
+                         * ------------------------------------
+                         * NEW ATTRACTION
+                         * ------------------------------------
                          */
 
                         const imageKey =
-                            attraction.clientId || attraction.id;
-                        const upload = imageKey
-                            ? attractionImageUploads.get(imageKey)
-                            : undefined;
-                        const imageUrl = upload?.url ??
+                            attraction.clientId ||
+                            attraction.id;
+
+                        const upload =
+                            imageKey
+                                ? attractionImageUploads.get(
+                                      imageKey
+                                  )
+                                : undefined;
+
+                        const imageUrl =
+                            upload?.url ??
                             (attraction.imageUrl
                                 ? normalizeImageUrl(
-                                    attraction.imageUrl,
-                                    `Image for ${attraction.name}`
-                                )
+                                      attraction.imageUrl,
+                                      `Image for ${attraction.name}`
+                                  )
                                 : null);
 
                         if (!imageUrl) {
@@ -755,14 +859,19 @@ export async function PATCH(request: NextRequest) {
                                 data: {
                                     name:
                                         attraction.name,
+
                                     description:
                                         attraction.description,
+
                                     imageUrl,
+
                                     publicId:
                                         upload?.publicId ??
                                         attraction.publicId ??
                                         null,
+
                                     destinationId,
+
                                     sortOrder:
                                         index,
                                 },
@@ -771,7 +880,9 @@ export async function PATCH(request: NextRequest) {
                     }
 
                     /*
-                     * Update destination
+                     * ----------------------------------------
+                     * UPDATE DESTINATION
+                     * ----------------------------------------
                      */
 
                     return tx.destination.update(
@@ -779,8 +890,10 @@ export async function PATCH(request: NextRequest) {
                             where: {
                                 id: destinationId,
                             },
+
                             data: {
                                 name: data.name,
+
                                 slug: data.slug,
 
                                 subtitle:
@@ -851,12 +964,17 @@ export async function PATCH(request: NextRequest) {
 
                                 _count: {
                                     select: {
-                                        packages: true,
+                                        packages:
+                                            true,
                                     },
                                 },
                             },
                         }
                     );
+                },
+                {
+                    maxWait: 10000,
+                    timeout: 15000,
                 }
             );
 
@@ -906,8 +1024,9 @@ export async function PATCH(request: NextRequest) {
         );
 
         /*
-         * Delete newly uploaded files
-         * when database update fails.
+         * --------------------------------------------
+         * CLEAN UP NEW CLOUDINARY UPLOADS
+         * --------------------------------------------
          */
 
         await Promise.allSettled(
@@ -928,15 +1047,11 @@ export async function PATCH(request: NextRequest) {
             message.includes(
                 "required"
             ) ||
-            message.includes(
-                "URL"
-            ) ||
+            message.includes("URL") ||
             message.includes(
                 "Invalid attraction"
             ) ||
-            message.includes(
-                "Maximum"
-            );
+            message.includes("Maximum");
 
         return NextResponse.json(
             {
@@ -951,4 +1066,3 @@ export async function PATCH(request: NextRequest) {
         );
     }
 }
- 

@@ -50,7 +50,7 @@ interface ApiResponse {
 interface HeroDestination {
     id: string;
     name: string;
-    subtitle:string
+    subtitle: string
     image: string;
     background: string;
     redirect: string;
@@ -155,10 +155,10 @@ export default function HeroSection() {
                                 id: destination.id,
                                 name: destination.name,
                                 image,
-                                subtitle:destination.subtitle,
+                                subtitle: destination.subtitle,
                                 background: image,
                                 redirect: `/destinations/${slug}`,
-                                description:destination.description
+                                description: destination.description
                             };
                         });
 
@@ -263,7 +263,7 @@ export default function HeroSection() {
 
     if (loading) {
         return (
-          <HeroSectionSkeleton/>
+            <HeroSectionSkeleton />
 
         );
     }
@@ -278,14 +278,14 @@ export default function HeroSection() {
         !activeDestination
     ) {
         return (
-                <HeroSectionSkeleton/>
+            <HeroSectionSkeleton />
         );
     }
 
     /* ============================================================
        UI
     ============================================================ */
-console.log(activeDestination,"dsfsfp")
+    console.log(activeDestination, "dsfsfp")
     return (
         <section
             className="
@@ -500,9 +500,9 @@ console.log(activeDestination,"dsfsfp")
                                 lg:text-[18px]
                             "
                         >
-                            
+
                             sdsd    {activeDestination.description}
-                            
+
                         </p>
                     </motion.div>
 
@@ -736,24 +736,17 @@ console.log(activeDestination,"dsfsfp")
                                             }
                                         >
                                             <Image
-                                                src={
-                                                    destination.image
-                                                }
-                                                alt={
-                                                    destination.name
-                                                }
+                                                src={destination.image}
+                                                alt={destination.name}
                                                 fill
-                                                 
-                                                priority={
-                                                    isActive
-                                                }
+                                                priority={isActive}
                                                 sizes="235px"
                                                 className="
-                                                    object-cover
-                                                    transition-transform
-                                                    duration-700
-                                                    hover:scale-105
-                                                "
+                                                object-cover
+                                                transition-transform
+                                                duration-700
+                                                hover:scale-105
+                                            "
                                             />
                                         </Link>
 

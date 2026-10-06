@@ -41,6 +41,7 @@ export async function GET(
                 offers: {
                     where: {
                         isActive: true,
+                        
                     },
                     orderBy: {
                         endDate: "asc",
