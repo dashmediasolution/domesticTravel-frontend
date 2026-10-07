@@ -32,7 +32,7 @@ const firstBanner: Banner[] = [
     id: 3,
     image: "/images/banners/goabanner.png",
     title: "Your Next Adventure Awaits",
-    redirectUrl: "/package/goa",
+    redirectUrl: "/destinations/goa",
   },
 ];
 const secondBanner: Banner[] = [

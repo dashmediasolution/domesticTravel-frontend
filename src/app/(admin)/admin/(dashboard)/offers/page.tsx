@@ -15,7 +15,7 @@ import {
     Star,
     Trash2,
 } from "lucide-react";
-
+import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -315,7 +315,8 @@ export default function OffersPage() {
                                             <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
 
                                             <p className="mt-2 text-sm text-muted-foreground">
-                                                Loading offers...
+                                                           <Spinner className="h-10 w-10 text-primary" />
+                                               
                                             </p>
                                         </td>
                                     </tr>
@@ -541,7 +542,8 @@ export default function OffersPage() {
                             <Loader2 className="mx-auto h-6 w-6 animate-spin text-primary" />
 
                             <p className="mt-2 text-sm text-muted-foreground">
-                                Loading offers...
+                                            <Spinner className="h-10 w-10 text-primary" />
+
                             </p>
                         </div>
                     ) : offers.length === 0 ? (

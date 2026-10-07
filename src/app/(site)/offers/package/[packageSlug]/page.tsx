@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-
+import { Spinner } from "@/components/ui/spinner";
 import ThingsToDo from "@/components/ThingsToDo";
 import Itinerary from "@/components/packagess/Itinerary";
 import TravelInformation from "@/components/packagess/TravelInformation";
@@ -90,7 +90,8 @@ export default function OffersPackage() {
         return (
             <main className="flex min-h-screen items-center justify-center bg-white">
                 <div className="text-sm text-gray-500">
-                    Loading offer...
+                                <Spinner className="h-10 w-10 text-primary" />
+
                 </div>
             </main>
         );

@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma";
 
 interface RouteContext {
     params: Promise<{
-        slug: string;
+        locationSlug: string;
+        packageSlug: string;
     }>;
 }
 
@@ -12,11 +13,19 @@ export async function GET(
     { params }: RouteContext
 ) {
     try {
-        const { slug } = await params;
+        const { locationSlug, packageSlug } = await params;
 
-        console.log("PACKAGE SLUG:", slug);
+        if (!locationSlug) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Destination slug is required",
+                },
+                { status: 400 }
+            );
+        }
 
-        if (!slug) {
+        if (!packageSlug) {
             return NextResponse.json(
                 {
                     success: false,
@@ -26,9 +35,34 @@ export async function GET(
             );
         }
 
+        // Find destination first
+        const destination = await prisma.destination.findFirst({
+            where: {
+                slug: locationSlug,
+                isPublished: true,
+            },
+            select: {
+                id: true,
+                name: true,
+                slug: true,
+            },
+        });
+
+        if (!destination) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Destination not found",
+                },
+                { status: 404 }
+            );
+        }
+
+        // Find package belonging to this destination
         const packageData = await prisma.package.findFirst({
             where: {
-                slug,
+                slug: packageSlug,
+                destinationId: destination.id,
                 isPublished: true,
             },
             include: {
@@ -41,7 +75,6 @@ export async function GET(
                 offers: {
                     where: {
                         isActive: true,
-                        
                     },
                     orderBy: {
                         endDate: "asc",
@@ -54,7 +87,7 @@ export async function GET(
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Package not found",
+                    message: "Package not found for this destination",
                 },
                 { status: 404 }
             );

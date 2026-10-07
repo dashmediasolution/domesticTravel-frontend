@@ -76,7 +76,7 @@ export default function BookingCard({
     };
     return (
         <>
-            <div className="w-full max-w-[380px] overflow-hidden rounded-[16px] border border-[#e5e8d9] bg-[#fffef4] shadow-sm">
+            <div className="w-full max-w-[380px] overflow-hidden rounded-[16px] border border-[#e5e8d9]/70 bg-[#fffef4]/70 shadow-sm">
                 {/* Image */}
                 <div className="relative mx-2 mt-2 h-[180px] overflow-hidden rounded-[12px] sm:h-[190px]">
                     <Image

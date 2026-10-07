@@ -330,18 +330,7 @@ export function FeaturedDestination() {
                                                             >
                                                                 {destination.name}
                                                             </h3>
-                                                            <p
-                                                                className="
-                                                                            mt-1
-                                                                            text-center
-                                                                            text-sm
-                                                                            font-medium
-                                                                            text-white
-                                                                            sm:text-base
-                                                                        "
-                                                            >
-                                                                {destination.subtitle}
-                                                            </p>
+                                                           
                                                         </div>
 
                                                         {/* ================= HOVER PRICE ================= */}

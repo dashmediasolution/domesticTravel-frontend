@@ -177,13 +177,7 @@ export function BestPackageByDestination({
                     <h2 className="font-heading text-xl font-semibold sm:text-2xl">
                         Best Packages in {location}
                     </h2>
-
-                    <Button
-                        variant="ghost"
-                        className="text-primary"
-                    >
-                        View all
-                    </Button>
+ 
                 </div>
 
                 <div className="relative">

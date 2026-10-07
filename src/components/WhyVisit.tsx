@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Check,
     ChevronRight,
@@ -22,13 +22,40 @@ export default function WhyVisit({
     destination,
 }: WhyVisitProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [isScrollable, setIsScrollable] = useState(false);
     const [isAtEnd, setIsAtEnd] = useState(false);
+
+    useEffect(() => {
+        const checkScroll = () => {
+            const container = scrollRef.current;
+
+            if (!container) {
+                return;
+            }
+
+            const hasOverflow =
+                container.scrollHeight > container.clientHeight + 5;
+
+            setIsScrollable(hasOverflow);
+
+            setIsAtEnd(
+                container.scrollTop + container.clientHeight >=
+                    container.scrollHeight - 5
+            );
+        };
+
+        checkScroll();
+
+        window.addEventListener("resize", checkScroll);
+
+        return () => {
+            window.removeEventListener("resize", checkScroll);
+        };
+    }, [items]);
 
     if (items.length === 0) {
         return null;
     }
-
-    const showScroller = items.length > 4;
 
     const handleScroll = () => {
         const container = scrollRef.current;
@@ -54,8 +81,6 @@ export default function WhyVisit({
             top: 250,
             behavior: "smooth",
         });
-
-        setTimeout(handleScroll, 350);
     };
 
     return (
@@ -74,18 +99,20 @@ export default function WhyVisit({
                 <div
                     ref={scrollRef}
                     onScroll={handleScroll}
-                    className={`
+                    className="
                         flex
                         flex-col
                         gap-3
-                        ${showScroller ? "max-h-[330px] overflow-y-auto pr-2" : ""}
+                        md:max-h-[330px]
+                        md:overflow-y-auto
+                        md:pr-2
                         [scrollbar-width:thin]
                         [scrollbar-color:#d1d5db_transparent]
                         [&::-webkit-scrollbar]:w-1
                         [&::-webkit-scrollbar-track]:bg-transparent
                         [&::-webkit-scrollbar-thumb]:rounded-full
                         [&::-webkit-scrollbar-thumb]:bg-gray-300
-                    `}
+                    "
                 >
                     {items.map((item) => (
                         <div
@@ -109,7 +136,7 @@ export default function WhyVisit({
                     ))}
                 </div>
 
-                {showScroller && !isAtEnd && (
+                {isScrollable && !isAtEnd && (
                     <button
                         type="button"
                         onClick={scrollDown}
@@ -119,7 +146,7 @@ export default function WhyVisit({
                             bottom-2
                             right-3
                             z-10
-                            flex
+                            hidden
                             h-9
                             w-9
                             items-center
@@ -132,6 +159,7 @@ export default function WhyVisit({
                             shadow-md
                             transition-all
                             hover:bg-slate-50
+                            md:flex
                         "
                     >
                         <ChevronRight className="h-5 w-5 rotate-90" />

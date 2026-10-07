@@ -33,9 +33,11 @@ export default function PackageDestination() {
     async function getPackageBySlug() {
         try {
             setLoading(true);
+         
 
             const response = await fetch(
-                `/api/packages/${packageSlug}`,
+                `/api/packages/${locationSlug}/${packageSlug}`,
+
                 {
                     method: "GET",
                 }
@@ -53,7 +55,18 @@ export default function PackageDestination() {
                 return;
             }
 
-            setPackageData(result.data);
+            const packageData = result.data;
+            console.log(packageData, "check it")
+
+            if (packageData?.offers?.[0]?.slug) {
+                router.replace(
+                    `/offers/package/${packageData.offers[0].slug}`
+                );
+
+                return;
+            }
+
+            setPackageData(packageData);
         } catch (error) {
             console.error(
                 "Error fetching package:",
@@ -65,7 +78,6 @@ export default function PackageDestination() {
             setLoading(false);
         }
     }
-
     useEffect(() => {
         if (packageSlug) {
             getPackageBySlug();
@@ -93,7 +105,7 @@ export default function PackageDestination() {
     const handleBookNow = () => {
         router.push("#inquiry");
     };
-console.log(packageDatas,"123454321")
+    console.log(packageDatas, "123454321")
     return (
         <main className="flex w-full flex-col items-center justify-center gap-10 bg-white">
             {/* ==================================================
@@ -139,7 +151,7 @@ console.log(packageDatas,"123454321")
                     buttonHref="#inquiry"
                 />
             </section>
-             {/* ==================================================
+            {/* ==================================================
                 MOBILE + TABLET BOOKING CARD
             ================================================== */}
             <section
@@ -166,7 +178,7 @@ console.log(packageDatas,"123454321")
                         title={
                             packageDatas?.name
                         }
-                         slug={
+                        slug={
                             packageDatas?.slug
                         }
                         days={
@@ -177,9 +189,9 @@ console.log(packageDatas,"123454321")
                         nights={
                             packageDatas?.duration
                                 ? `${Math.max(
-                                      Number(packageDatas.duration) - 1,
-                                      1
-                                  )} Nights`
+                                    Number(packageDatas.duration) - 1,
+                                    1
+                                )} Nights`
                                 : "4 Nights"
                         }
                         meals="Included"
@@ -199,18 +211,17 @@ console.log(packageDatas,"123454321")
             ================================================== */}
             {packageDatas?.travelInformation?.activities?.length >
                 0 && (
-                <div className="w-[91%]">
-                    <ThingsToDo
-                        title={`Best Experiences in ${
-                            packageDatas?.name ?? ""
-                        }`}
-                        activities={
-                            packageDatas?.travelInformation
-                                ?.activities
-                        }
-                    />
-                </div>
-            )}
+                    <div className="w-[91%]">
+                        <ThingsToDo
+                            title={`Best Experiences in ${packageDatas?.name ?? ""
+                                }`}
+                            activities={
+                                packageDatas?.travelInformation
+                                    ?.activities
+                            }
+                        />
+                    </div>
+                )}
 
             {/* ==================================================
                 ITINERARY + DESKTOP BOOKING CARD
@@ -265,9 +276,9 @@ console.log(packageDatas,"123454321")
                         nights={
                             packageDatas?.duration
                                 ? `${Math.max(
-                                      Number(packageDatas.duration) - 1,
-                                      1
-                                  )} Nights`
+                                    Number(packageDatas.duration) - 1,
+                                    1
+                                )} Nights`
                                 : "4 Nights"
                         }
                         meals="Included"
@@ -285,7 +296,7 @@ console.log(packageDatas,"123454321")
             {/* ==================================================
                 GALLERY
             ================================================== */}
-            <section className="mx-auto w-[95%] px-2 pb-16 md:pt-2 lg:px-8">
+            <section className="mx-auto w-[95%] px-2 md:pb-16 md:pt-2   lg:px-8">
                 <div className="mb-5 text-3xl font-semibold">
                     {packageDatas?.name} Gallery
                 </div>
@@ -306,7 +317,7 @@ console.log(packageDatas,"123454321")
                 WHY VISIT + BEST TIME
             ================================================== */}
             <div className="mb-14 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
-                <div className="relative top-11 w-full">
+                <div className="relative top-0 md:top-11 w-full">
                     <WhyVisit
                         items={
                             packageDatas?.whyVisit ?? []
@@ -318,7 +329,7 @@ console.log(packageDatas,"123454321")
                 </div>
 
                 {packageDatas?.bestTimeToVisit && (
-                    <div className="relative top-10 md:full lg:w-[60%]">
+                    <div className="relative md:top-10 md:full lg:w-[60%]">
                         <BestTimeToVisit
                             months={
                                 packageDatas?.bestTimeToVisit
@@ -335,25 +346,25 @@ console.log(packageDatas,"123454321")
                 packageDatas?.whatToPack?.length > 0 ||
                 (packageDatas?.latitude != null &&
                     packageDatas?.longitude != null)) && (
-                <TravelInformation
-                    destination={
-                        packageDatas?.name ?? ""
-                    }
-                    latitude={
-                        packageDatas?.latitude
-                    }
-                    longitude={
-                        packageDatas?.longitude
-                    }
-                    travelInfo={
-                        packageDatas?.travelInformation ??
-                        []
-                    }
-                    packingItems={
-                        packageDatas?.whatToPack ?? []
-                    }
-                />
-            )}
+                    <TravelInformation
+                        destination={
+                            packageDatas?.name ?? ""
+                        }
+                        latitude={
+                            packageDatas?.latitude
+                        }
+                        longitude={
+                            packageDatas?.longitude
+                        }
+                        travelInfo={
+                            packageDatas?.travelInformation ??
+                            []
+                        }
+                        packingItems={
+                            packageDatas?.whatToPack ?? []
+                        }
+                    />
+                )}
 
             {/* ==================================================
                 WEATHER

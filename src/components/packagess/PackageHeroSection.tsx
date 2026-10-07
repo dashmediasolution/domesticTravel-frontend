@@ -108,7 +108,7 @@ export default function PackageHeroSection({
 
                     {/* Description */}
                     {description && (
-                        <p className="mt-1.5 max-w-[570px] text-[9px] leading-4 text-white/80 sm:mt-2 sm:text-sm sm:leading-6 md:text-lg">
+                        <p className="mt-1.5 max-w-[570px] text-[13px] leading-4 text-white/80 sm:mt-2 sm:text-sm sm:leading-6 md:text-lg">
                             {description}
                         </p>
                     )}

@@ -1200,7 +1200,9 @@ export default function CategoryPage({
                 {/* Best Time To Visit */}
 
                 {heroData?.bestTimeToVisit && (
-                    <section className="mx-auto w-full flex gap-10 mt-8">
+                    <section className="mx-auto w-full flex gap-10 mt-8 lg:flex-row flex-col">
+
+                      
 
                         <BestTimeToVisit
                             months={
@@ -1209,19 +1211,22 @@ export default function CategoryPage({
                                     .months
                             }
                         />
-
-                        {heroData?.whyVisit?.length > 0 && (
-                            <WhyVisit
-                                items={heroData.whyVisit}
-                                destination={categoryName}
-                            />
-                        )}
+                     
+                      
 
                     </section>
                 )}
 
             </section>
+            <div className="w-[93%]">
 
+  {heroData?.whyVisit?.length > 0 && (
+                            <WhyVisit
+                                items={heroData.whyVisit}
+                                destination={categoryName}
+                            />
+                        )}
+            </div>
             {/* Why Visit */}
 
             <TravelStories />

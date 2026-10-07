@@ -61,7 +61,7 @@ const destinationLinks = [
     },
     {
         label: "Goa",
-        href: "/package/goa",
+        href: "/destinations/goa",
     },
     {
         label: "Kerala",

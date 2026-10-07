@@ -192,7 +192,7 @@ export default function Itinerary({
                                         <p
                                             className="
                                                 mt-1
-                                                text-[11px]
+                                                text-[12px]
                                                 leading-[18px]
                                                 text-slate-600
                                                 sm:mt-1.5
@@ -227,7 +227,7 @@ export default function Itinerary({
                                                         min-w-0
                                                         items-start
                                                         gap-1.5
-                                                        text-[10px]
+                                                        text-[11px]
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
@@ -259,7 +259,7 @@ export default function Itinerary({
                                                         min-w-0
                                                         items-start
                                                         gap-1.5
-                                                        text-[10px]
+                                                        text-[11px]
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
@@ -292,7 +292,7 @@ export default function Itinerary({
                                                         min-w-0
                                                         items-start
                                                         gap-1.5
-                                                        text-[10px]
+                                                        text-[11px]
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
@@ -337,7 +337,7 @@ export default function Itinerary({
                                     <div className="flex items-start justify-between gap-2">
                                         <p
                                             className="
-                                                text-[11px]
+                                                text-[12px]
                                                 font-bold
                                                 text-[#00383B]
                                                 sm:text-xs
@@ -419,7 +419,7 @@ export default function Itinerary({
 
                                                 <span
                                                     className="
-                                                        text-[10px]
+                                                        text-[11px]
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
@@ -454,7 +454,7 @@ export default function Itinerary({
 
                                                 <span
                                                     className="
-                                                        text-[10px]
+                                                        text-[11px]
                                                         leading-4
                                                         text-slate-500
                                                         sm:text-[11px]
