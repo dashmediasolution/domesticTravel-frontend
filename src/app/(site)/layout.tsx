@@ -3,7 +3,9 @@ import Footer from "@/components/layout/Footer";
 import QueryFormPopup from "@/components/layout/QueryFormPopup";
 import Providers from "./providers";
 import { Toaster } from "@/components/ui/toast";
+import TravelChatbot from "@/components/TravelChatbot";
 
+// Keep your existing metadata, fonts, providers and layout.
 export default function SiteLayout({
     children,
 }: {
@@ -18,6 +20,7 @@ export default function SiteLayout({
 
                 <main className="flex-1">
                     {children}
+                    <TravelChatbot />
                 </main>
 
                 <div className="site-chrome">

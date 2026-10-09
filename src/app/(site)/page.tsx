@@ -75,9 +75,44 @@ const thirdBanner: Banner[] = [
     redirectUrl: "/package/uttarakhand/kedarnath",
   },
 ];
+const SITE_URL = "https://www.yourdomain.com";
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": `${SITE_URL}/#organization`,
+            name: "Domestic Travel",
+            url: SITE_URL,
+            logo: `${SITE_URL}/images/logo.png`,
+        },
+        {
+            "@type": "WebSite",
+            "@id": `${SITE_URL}/#website`,
+            url: SITE_URL,
+            name: "Domestic Travel",
+            publisher: {
+                "@id": `${SITE_URL}/#organization`,
+            },
+            inLanguage: "en-IN",
+        },
+    ],
+};
+
 export default function Home() {
   return (
-    <div className="flex gap-5 flex-col justify-center items-center">
+    <>
+      <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(structuredData).replace(
+                        /</g,
+                        "\\u003c"
+                    ),
+                }}
+            />
+    <div className="flex gap-5 flex-col justify-center items-center"> 
       <HeroSection />
       <SearachBar bottomPosition="3.5" />
       <FeaturedDestination />
@@ -121,6 +156,7 @@ export default function Home() {
       </div>
           <Memories />
     </div>
+    </>
   );
 }
 

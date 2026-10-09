@@ -1,421 +1,185 @@
-"use client";
+import type { Metadata } from "next";
+import PackageDestination from "@/components/packagess/PackageDestination";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Spinner } from "@/components/ui/spinner";
+type PageProps = {
+    params: Promise<{
+        locationSlug: string;
+        packageSlug: string;
+    }>;
+};
 
-import TravelStories from "@/components/homePage/TravelStories";
-import Memories from "@/components/Memories";
-import DestinationGallery from "@/components/DestinationGallery";
-import TravelersReviews from "@/components/Reviews";
-import EarlyBirdOfferBanner from "@/components/EarlyBirdOfferBanner";
-import InclusionsExclusions from "@/components/packagess/InclusionExclusion";
-import Itinerary from "@/components/packagess/Itinerary";
-import BestTimeToVisit from "@/components/packagess/BestTimeToVisit";
-import TravelInformation from "@/components/packagess/TravelInformation";
-import WeatherForecast from "@/components/WheatherForcast";
-import PackageHeroSection from "@/components/packagess/PackageHeroSection";
-import ThingsToDo from "@/components/ThingsToDo";
-import BookingCard from "@/components/packagess/BookingCard";
-import WhyVisit from "@/components/WhyVisit";
+type PackageSEO = {
+    id?: string;
+    name?: string;
+    slug?: string;
+    metaTitle?: string | null;
+    seoDescription?: string | null;
+    keywords?: string[] | string | null;
+    noIndex?: boolean;
+    heroImage?: {
+        url?: string | null;
+    } | null;
+    offers?: Array<{
+        slug?: string;
+    }>;
+};
 
-export default function PackageDestination() {
-    const pathname = usePathname();
-    const router = useRouter();
+const SITE_URL = (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://yourdomain.com").replace(/\/$/, "");
 
-    const [, locationSlug, packageSlug] = pathname
-        .split("/")
-        .filter(Boolean);
-
-    const [packageDatas, setPackageData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-
-    async function getPackageBySlug() {
-        try {
-            setLoading(true);
-         
-
-            const response = await fetch(
-                `/api/packages/${locationSlug}/${packageSlug}`,
-
-                {
-                    method: "GET",
-                }
-            );
-
-            const result = await response.json();
-
-            if (!response.ok || !result.success || !result.data) {
-                console.error(
-                    "Failed to fetch package:",
-                    result.message
-                );
-
-                setPackageData(null);
-                return;
+async function getPackage(
+    locationSlug: string,
+    packageSlug: string
+): Promise<PackageSEO | null> {
+    try {
+        const response = await fetch(
+            `${SITE_URL}/api/packages/${encodeURIComponent(locationSlug)}/${encodeURIComponent(packageSlug)}`,
+            {
+                next: {
+                    revalidate: 3600,
+                },
             }
-
-            const packageData = result.data;
-            console.log(packageData, "check it")
-
-            if (packageData?.offers?.[0]?.slug) {
-                router.replace(
-                    `/offers/package/${packageData.offers[0].slug}`
-                );
-
-                return;
-            }
-
-            setPackageData(packageData);
-        } catch (error) {
-            console.error(
-                "Error fetching package:",
-                error
-            );
-
-            setPackageData(null);
-        } finally {
-            setLoading(false);
-        }
-    }
-    useEffect(() => {
-        if (packageSlug) {
-            getPackageBySlug();
-        }
-    }, [packageSlug]);
-
-    if (loading) {
-        return (
-            <div className="flex min-h-screen w-screen items-center justify-center">
-                <Spinner className="h-10 w-10 text-primary" />
-            </div>
         );
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const result = await response.json();
+
+        if (!result.success || !result.data) {
+            return null;
+        }
+
+        return result.data as PackageSEO;
+    } catch (error) {
+        console.error("Failed to fetch package SEO:", error);
+        return null;
     }
 
-    if (!packageDatas) {
-        return (
-            <main className="flex min-h-screen items-center justify-center bg-white">
-                <p className="text-gray-500">
-                    Packages not found.
-                </p>
-            </main>
-        );
-    }
+}
 
-    const handleBookNow = () => {
-        router.push("#inquiry");
-    };
-    console.log(packageDatas, "123454321")
+function getPackageTitle(data: PackageSEO): string {
     return (
-        <main className="flex w-full flex-col items-center justify-center gap-10 bg-white">
-            {/* ==================================================
-                HERO
-            ================================================== */}
-            <section className="relative w-full">
-                <PackageHeroSection
-                    imageUrl={
-                        packageDatas?.heroImage?.url ?? ""
-                    }
-                    destination={
-                        packageDatas?.name ?? ""
-                    }
-                    id={packageDatas?.id}
-                    subtitle={
-                        packageDatas?.subtitle
-                    }
-                    description={
-                        packageDatas?.description
-                    }
-                    duration={
-                        packageDatas?.duration
-                    }
-                    idealTrip={
-                        packageDatas?.idealTrip
-                    }
-                    budget={
-                        packageDatas?.budget
-                    }
-                    location={
-                        packageDatas?.location
-                    }
-                    rating={
-                        packageDatas?.rating
-                    }
-                    reviews={
-                        packageDatas?.reviewsCount
-                    }
-                    originalPrice={
-                        packageDatas?.originalPrice
-                    }
-                    buttonText="Book Now"
-                    buttonHref="#inquiry"
-                />
-            </section>
-            {/* ==================================================
-                MOBILE + TABLET BOOKING CARD
-            ================================================== */}
-            <section
-                className="
-                    relative
-                    z-30
-                    block
-                    w-full
-                    bg-white
-                    px-3
-                    sm:px-6
-                    lg:hidden
-                "
-            >
-                <div className="mx-auto w-full max-w-2xl">
-                    <BookingCard
-                        image={
-                            packageDatas?.heroImage?.url
-                        }
-                        id={packageDatas?.id}
-                        imageAlt={
-                            packageDatas?.name
-                        }
-                        title={
-                            packageDatas?.name
-                        }
-                        slug={
-                            packageDatas?.slug
-                        }
-                        days={
-                            packageDatas?.duration
-                                ? `${packageDatas.duration} Days`
-                                : "5 Days"
-                        }
-                        nights={
-                            packageDatas?.duration
-                                ? `${Math.max(
-                                    Number(packageDatas.duration) - 1,
-                                    1
-                                )} Nights`
-                                : "4 Nights"
-                        }
-                        meals="Included"
-                        sightseeing="Tours"
-                        price={
-                            packageDatas?.offerPrice ??
-                            packageDatas?.originalPrice
-                        }
-                        buttonText="Book Now"
-                        onBookNow={handleBookNow}
-                    />
-                </div>
-            </section>
-
-            {/* ==================================================
-                THINGS TO DO
-            ================================================== */}
-            {packageDatas?.travelInformation?.activities?.length >
-                0 && (
-                    <div className="w-[91%]">
-                        <ThingsToDo
-                            title={`Best Experiences in ${packageDatas?.name ?? ""
-                                }`}
-                            activities={
-                                packageDatas?.travelInformation
-                                    ?.activities
-                            }
-                        />
-                    </div>
-                )}
-
-            {/* ==================================================
-                ITINERARY + DESKTOP BOOKING CARD
-            ================================================== */}
-            <div className="flex w-[93%] flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-                {packageDatas?.itinerary &&
-                    packageDatas.itinerary.length > 0 && (
-                        <div className="w-full lg:w-[70%]">
-                            <Itinerary
-                                title="Itinerary"
-                                subtitle=""
-                                days={
-                                    packageDatas.itinerary
-                                }
-                            />
-                        </div>
-                    )}
-
-                {/* Sticky Booking Card */}
-                <div
-                    className="
-                        hidden
-                        w-[280px]
-                        shrink-0
-                        self-start
-                        lg:sticky
-                        lg:top-24
-                        lg:block
-                        xl:w-[320px]
-                        2xl:w-[350px]
-                    "
-                >
-                    <BookingCard
-                        image={
-                            packageDatas?.heroImage?.url
-                        }
-                        imageAlt={
-                            packageDatas?.name
-                        }
-                        id={packageDatas?.id}
-                        title={
-                            packageDatas?.name
-                        }
-                        slug={
-                            packageDatas?.slug
-                        }
-                        days={
-                            packageDatas?.duration
-                                ? `${packageDatas.duration} Days`
-                                : "5 Days"
-                        }
-                        nights={
-                            packageDatas?.duration
-                                ? `${Math.max(
-                                    Number(packageDatas.duration) - 1,
-                                    1
-                                )} Nights`
-                                : "4 Nights"
-                        }
-                        meals="Included"
-                        sightseeing="Tours"
-                        price={
-                            packageDatas?.offerPrice ??
-                            packageDatas?.originalPrice
-                        }
-                        buttonText="Book Now"
-                        onBookNow={handleBookNow}
-                    />
-                </div>
-            </div>
-
-            {/* ==================================================
-                GALLERY
-            ================================================== */}
-            <section className="mx-auto w-[95%] px-2 md:pb-16 md:pt-2   lg:px-8">
-                <div className="mb-5 text-3xl font-semibold">
-                    {packageDatas?.name} Gallery
-                </div>
-
-                <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
-                    <DestinationGallery
-                        images={
-                            packageDatas?.gallery ?? []
-                        }
-                        destinationName={
-                            packageDatas?.name ?? ""
-                        }
-                    />
-                </div>
-            </section>
-
-            {/* ==================================================
-                WHY VISIT + BEST TIME
-            ================================================== */}
-            <div className="mb-14 flex w-[95%] flex-col gap-8 px-3 sm:px-5 md:px-6 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
-                <div className="relative top-0 md:top-11 w-full">
-                    <WhyVisit
-                        items={
-                            packageDatas?.whyVisit ?? []
-                        }
-                        destination={
-                            packageDatas?.name
-                        }
-                    />
-                </div>
-
-                {packageDatas?.bestTimeToVisit && (
-                    <div className="relative md:top-10 md:full lg:w-[60%]">
-                        <BestTimeToVisit
-                            months={
-                                packageDatas?.bestTimeToVisit
-                            }
-                        />
-                    </div>
-                )}
-            </div>
-
-            {/* ==================================================
-                TRAVEL INFORMATION
-            ================================================== */}
-            {(packageDatas?.travelInformation?.length > 0 ||
-                packageDatas?.whatToPack?.length > 0 ||
-                (packageDatas?.latitude != null &&
-                    packageDatas?.longitude != null)) && (
-                    <TravelInformation
-                        destination={
-                            packageDatas?.name ?? ""
-                        }
-                        latitude={
-                            packageDatas?.latitude
-                        }
-                        longitude={
-                            packageDatas?.longitude
-                        }
-                        travelInfo={
-                            packageDatas?.travelInformation ??
-                            []
-                        }
-                        packingItems={
-                            packageDatas?.whatToPack ?? []
-                        }
-                    />
-                )}
-
-            {/* ==================================================
-                WEATHER
-            ================================================== */}
-            {packageDatas?.latitude &&
-                packageDatas?.longitude && (
-                    <WeatherForecast
-                        destination={
-                            packageDatas?.name
-                        }
-                        latitude={
-                            packageDatas?.latitude
-                        }
-                        longitude={
-                            packageDatas?.longitude
-                        }
-                    />
-                )}
-
-            {/* ==================================================
-                INCLUSIONS / EXCLUSIONS
-            ================================================== */}
-            <div className="flex w-[93%] flex-col gap-12">
-                <InclusionsExclusions
-                    inclusions={
-                        packageDatas?.inclusions ?? []
-                    }
-                    exclusions={
-                        packageDatas?.exclusions ?? []
-                    }
-                    title={
-                        packageDatas?.whyVisit?.title
-                    }
-                    highlights={
-                        packageDatas?.whyVisit
-                            ?.highlights
-                    }
-                />
-
-                <TravelersReviews />
-            </div>
-
-            {/* ==================================================
-                STORIES
-            ================================================== */}
-            <TravelStories />
-
-            {/* ==================================================
-                MEMORIES
-            ================================================== */}
-            <Memories />
-        </main>
+        data.metaTitle?.trim() ||
+        data.name?.trim() ||
+        "Travel Package | Domestic Travel"
     );
+}
+
+function getPackageDescription(data: PackageSEO): string {
+    return (
+        data.seoDescription?.trim() ||
+        `Explore ${data.name || "this travel package"} and plan your next trip with Domestic Travel.`
+    );
+}
+
+function getPackageKeywords(
+    keywords: PackageSEO["keywords"]
+): string[] {
+    if (Array.isArray(keywords)) {
+        return keywords
+            .filter(
+                (keyword): keyword is string =>
+                    typeof keyword === "string" &&
+                    keyword.trim().length > 0
+            )
+            .map((keyword) => keyword.trim());
+    }
+
+    if (typeof keywords === "string") {
+        return keywords
+            .split(",")
+            .map((keyword) => keyword.trim())
+            .filter(Boolean);
+    }
+
+    return [];
+
+}
+
+export async function generateMetadata({
+    params,
+}: PageProps): Promise<Metadata> {
+    const { locationSlug, packageSlug } = await params;
+
+    const data = await getPackage(locationSlug, packageSlug);
+
+    if (!data) {
+        return {
+            title: "Package Not Found | Domestic Travel",
+            robots: {
+                index: false,
+                follow: false,
+            },
+        };
+    }
+
+    const title = getPackageTitle(data);
+    const description = getPackageDescription(data);
+    const keywords = getPackageKeywords(data.keywords);
+    const image = data.heroImage?.url;
+
+    const canonicalUrl = new URL(
+        `/package/${encodeURIComponent(locationSlug)}/${encodeURIComponent(packageSlug)}`,
+        SITE_URL
+    ).toString();
+
+    return {
+        title,
+        description,
+        ...(keywords.length > 0 ? { keywords } : {}),
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        robots: {
+            index: data.noIndex !== true,
+            follow: true,
+            googleBot: {
+                index: data.noIndex !== true,
+                follow: true,
+                "max-image-preview": "large",
+            },
+        },
+        openGraph: {
+            type: "website",
+            siteName: "Domestic Travel",
+            title,
+            description,
+            url: canonicalUrl,
+            locale: "en_IN",
+            ...(image
+                ? {
+                    images: [
+                        {
+                            url: image,
+                            alt: data.name || title,
+                        },
+                    ],
+                }
+                : {}),
+        },
+        twitter: {
+            card: image ? "summary_large_image" : "summary",
+            title,
+            description,
+            ...(image ? { images: [image] } : {}),
+        },
+    };
+
+}
+
+export default async function PackagePage({
+    params,
+}: PageProps) {
+    const { locationSlug, packageSlug } = await params;
+
+    return (
+        <PackageDestination
+            locationSlug={locationSlug}
+            packageSlug={packageSlug}
+        />
+    );
+
 }

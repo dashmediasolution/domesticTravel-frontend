@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-
+import type { Metadata } from "next";
 import StoreProvider from "@/store/provider";
 
 import {
@@ -9,6 +9,17 @@ import {
 } from "@/components/ui/sidebar";
 
 import AdminSidebar from "@/components/admin/AdminSidebar";
+export const metadata: Metadata = {
+    title: "Admin Dashboard",
+    robots: {
+        index: false,
+        follow: false,
+        googleBot: {
+            index: false,
+            follow: false,
+        },
+    },
+};
 
 export default function AdminDashboardLayout({
     children,
